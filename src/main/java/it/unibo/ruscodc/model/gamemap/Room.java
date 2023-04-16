@@ -13,7 +13,7 @@ public interface Room {
      * @return <code>True</code> if the position is part of the room,
      * <code>False</code> otherwise
      */
-    boolean isInRoom(Pair pos);
+    boolean isInRoom(Pair<Integer, Integer> pos);
 
     /**
      * Gets the monsters in the room.
