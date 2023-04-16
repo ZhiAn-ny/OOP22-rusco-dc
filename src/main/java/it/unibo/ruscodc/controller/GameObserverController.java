@@ -20,7 +20,7 @@ public interface GameObserverController {
     /**
      * 
      */
-    void computeInput(String s);
+    void computeInput(int input);
     /**
      * 
      */
