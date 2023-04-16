@@ -33,4 +33,9 @@ public interface GameController {
      * 
      */
     void start();
+
+    /**
+     *
+     */
+    void launch();
 }
