@@ -1,6 +1,6 @@
 package it.unibo.ruscodc.controller;
 
-public interface GameController {
+public interface GameObserverController {
     /**
      * 
      */
@@ -20,7 +20,7 @@ public interface GameController {
     /**
      * 
      */
-    void computeInput();
+    void computeInput(String s);
     /**
      * 
      */
