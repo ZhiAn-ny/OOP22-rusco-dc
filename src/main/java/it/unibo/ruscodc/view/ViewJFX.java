@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 
-public class ViewJFX extends Application {
+public class ViewJFX extends Application implements  GameView {
     final private String TITLE = "Junkrisers";
     final private String BASE_BG_COLOR = "#121212";
     final private String iconPath = "file:src/main/resources/racoon-head.png";
@@ -77,4 +77,13 @@ public class ViewJFX extends Application {
         gameloop.start();
     }
 
+    @Override
+    public void startView() {
+        Application.launch(ViewJFX.class);
+    }
+
+    @Override
+    public void printError(String err) {
+        System.err.println("ERROR: " + err);
+    }
 }
