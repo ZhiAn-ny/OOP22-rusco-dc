@@ -40,7 +40,6 @@ dependencies {
         "swing",
         "graphics"
     )
-
     // JavaFX: comment out if you do not need them
     for (platform in supportedPlatforms) {
         for (module in javaFXModules) {
@@ -51,5 +50,5 @@ dependencies {
 
 application {
     // Define the main class for the application
-    mainClass.set("it.unibo.fooo")
+    mainClass.set("it.unibo.ruscodc.launcher.Launcher")
 }
