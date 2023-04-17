@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -42,8 +43,16 @@ public class ViewJFX extends Application implements GameView {
         this.gameloop(this.scene, this.context);
     }
 
+    /**
+     * Sets up the view's window and the event handles.
+     *
+     * @param stage  the primary stage for this application, onto which the application scene can be set.
+     *               Applications may create other stages, if needed, but they will not be primary stages.
+     */
     private void setup(final Stage stage) {
         this.showWindow(stage);
+        this.setKeyListeners();
+        this.handleEvents(stage);
     }
 
     /**
@@ -68,6 +77,36 @@ public class ViewJFX extends Application implements GameView {
         stage.show();
     }
 
+    /**
+     * Handles the user's inputs. Every input is transmitted to the controller,
+     * which will parse and execute the commands
+     */
+    private void setKeyListeners() {
+        this.mainScene.setOnKeyPressed((KeyEvent key) -> {
+            this.controller.computeInput(key.getText());
+        });
+    }
+
+    /**
+     * Handles the system events.
+     *
+     * @param stage  the primary stage for this application, onto which the application scene can be set.
+     *               Applications may create other stages, if needed, but they will not be primary stages.
+     */
+    private void handleEvents(Stage stage) {
+        stage.setOnCloseRequest(t -> {
+            Platform.exit();
+            System.exit(0);
+        });
+    }
+
+    /**
+     * Sets up the actions done in the view's gameloop and starts it.
+     *
+     * @param scene  the primary stage for this application, onto which the application scene can be set.
+     *               Applications may create other stages, if needed, but they will not be primary stages.
+     * @param context the graphic context from the application.
+     */
     private void gameloop(int scene, GraphicsContext context) {
         AnimationTimer gameloop = new AnimationTimer() {
             public void handle(long nanotime) {
