@@ -1,25 +1,25 @@
 package it.unibo.ruscodc.model;
 
-import javafx.util.Pair;
+import it.unibo.ruscodc.utils.Pair;
 
-public abstract class Hero implements Actor{
+public abstract class Hero extends Actor {
 
     private Pair<Integer, Integer> currentPos;
-    //private Inventory heroInv = new Inventory;
+    // private final Inventory inventory;
+
+    public Hero(Pair<Integer, Integer> initialPos, Skill actorSkill) {
+        super(initialPos, actorSkill);
+        this.createHero();
+    }
 
     private final void createHero() {
-        createInv();
-        createSkills();
+        //this.createInv();
+        this.createSkills();
     }
 
     @Override
-    public Pair<Integer, Integer> getPos() {
-        return this.getPos();
-    }
-
-    @Override
-    public void act() {
-
+    public void act(int key) {
+        k
     }
 
     @Override
@@ -27,9 +27,9 @@ public abstract class Hero implements Actor{
         return null;
     }
 
-    private void createInv() {
-
-    }
+    /*private void createInv() {
+        this.
+    }*/
 
     private void createSkills() {
 
