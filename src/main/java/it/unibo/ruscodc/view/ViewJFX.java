@@ -3,6 +3,7 @@ package it.unibo.ruscodc.view;
 import it.unibo.ruscodc.controller.GameObserverController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,11 +14,10 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 
-public class ViewJFX extends Application implements  GameView {
+public class ViewJFX extends Application implements GameView {
     final private String TITLE = "Junkrisers";
     final private String BASE_BG_COLOR = "#121212";
     final private String iconPath = "file:src/main/resources/racoon-head.png";
-
 
     final private Dimension screen;
     /** Width to screen ratio. */
@@ -27,21 +27,22 @@ public class ViewJFX extends Application implements  GameView {
 
     private GraphicsContext context;
     private Scene mainScene;
+
+    private GameObserverController controller;
     /** Contains the objects to render on screen. */
     private int scene; // TODO: change data type
 
     public ViewJFX() {
-        System.out.println("view constr.");
         this.screen = Toolkit. getDefaultToolkit(). getScreenSize();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.init(primaryStage);
+        this.setup(primaryStage);
         this.gameloop(this.scene, this.context);
     }
 
-    private void init(final Stage stage) {
+    private void setup(final Stage stage) {
         this.showWindow(stage);
     }
 
@@ -79,7 +80,26 @@ public class ViewJFX extends Application implements  GameView {
 
     @Override
     public void startView() {
-        Application.launch(ViewJFX.class);
+        if (this.controller == null) throw new IllegalStateException(
+                "Error in ViewJFX: The controller has not been initialized."
+                + " Please initialize the controller before starting the view."
+        );
+
+        Platform.startup(() -> {
+            // create primary stage
+            Stage stage = new Stage();
+
+            try {
+                this.start(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void init(GameObserverController ctrl) {
+        this.controller = ctrl;
     }
 
     @Override

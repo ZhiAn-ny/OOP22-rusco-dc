@@ -23,6 +23,7 @@ public final class Launcher {
 
         // TMP:
         GameView v = new ViewJFX();
+        v.init(ctrl);
         v.startView();
 
     }
