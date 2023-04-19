@@ -1,37 +1,28 @@
 package it.unibo.ruscodc.model;
 
+import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.utils.Pair;
 
 public abstract class Hero extends Actor {
 
-    private Pair<Integer, Integer> currentPos;
-    // private final Inventory inventory;
-
-    public Hero(Pair<Integer, Integer> initialPos, Skill actorSkill) {
-        super(initialPos, actorSkill);
-        this.createHero();
-    }
-
-    private final void createHero() {
-        //this.createInv();
-        this.createSkills();
+    public Hero(Pair<Integer, Integer> initialPos) {
+        super(initialPos);
+        this.updateSKill();
     }
 
     @Override
-    public void act(int key) {
-        k
+    public void updateSKill() {
+        //Usa l'hashcode per caricare le skills dopo un level up o alla creazione
+        //TODO
     }
 
     @Override
-    public String getInfo() {
-        return null;
+    public BuilderGameCommand act(int key) {
+        BuilderGameCommand builderGameCommand = this.getSkills().getAction(key);
+        builderGameCommand.setActor(this);
+        return builderGameCommand;
     }
 
-    /*private void createInv() {
-        this.
-    }*/
+    
 
-    private void createSkills() {
-
-    }
 }

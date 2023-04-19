@@ -1,15 +1,16 @@
 package it.unibo.ruscodc.model;
 
+import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.utils.Pair;
-import it.unibo.ruscodc.utils.gamecommand.GameCommand;
 
 public abstract class Actor implements Entity {
     private Pair<Integer, Integer> currentPos;
-    private final Skill skills = new SkillImpl();
+    private final Skill skills;
+    private final String name;
 
     public Actor(Pair<Integer, Integer> initialPos) {
         this.currentPos = initialPos;
-        /*this.skills*/
+        this.skills = new SkillImpl();
     }
 
     final public Pair<Integer, Integer> getPos() {
@@ -20,6 +21,11 @@ public abstract class Actor implements Entity {
         this.currentPos = newPos;
     };
 
-    public abstract GameCommand act(int key);
+    final protected Skill getSkills() {
+        return this.skills;
+    };
+
+    public abstract BuilderGameCommand act(int key);
+    public abstract void updateSKill();
 
 }

@@ -1,30 +1,44 @@
 package it.unibo.ruscodc.model;
 
-import it.unibo.ruscodc.utils.gamecommand.GameCommand;
+import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
+import it.unibo.ruscodc.model.gamecommand.MoveDownBuilder;
+import it.unibo.ruscodc.model.gamecommand.MoveLeftBuilder;
+import it.unibo.ruscodc.model.gamecommand.MoveRightBuilder;
+import it.unibo.ruscodc.model.gamecommand.MoveUpBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SkillImpl implements Skill {
 
-    Map<Integer, GameCommand> skills = new HashMap<>();
+    final Map<Integer, BuilderGameCommand> skills = new HashMap<>();
 
-    public SkillImpl(){
-
+    public SkillImpl() {
+        //TODO Versione brute force dell'implementazione dei basic movement
+        this.setSkill(1, new MoveUpBuilder());
+        this.setSkill(2, new MoveDownBuilder());
+        this.setSkill(3, new MoveRightBuilder());
+        this.setSkill(4, new MoveLeftBuilder());
     }
 
     @Override
-    public void setSkill(int key, GameCommand action) {
-
+    public void setSkill(int key, BuilderGameCommand action) {
+        this.skills.put(key, action);
     }
-
+    
     @Override
-    public GameCommand getSkill(int key) {
-        return null;
+    public BuilderGameCommand getAction(int key) {
+        return this.skills.get(key);
     }
 
-    @Override
-    public void manageSkills(int key, GameCommand toSet) {
-
+    public void manageSkill(int key, BuilderGameCommand toSet) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'manageSkill'");
     }
+
+    public void modifySkill() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'modifySkill'");
+    }
+
 }
