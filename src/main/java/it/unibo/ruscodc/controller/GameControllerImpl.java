@@ -47,6 +47,7 @@ public class GameControllerImpl implements GameObserverController {
             }
             else {
                 actualInstant = Optional.of(actors.get(0).act(input));
+                actualInstant.get().setRoom(actualRoom);
             }
             if (actualInstant.get().isReady()) {
                 try{
