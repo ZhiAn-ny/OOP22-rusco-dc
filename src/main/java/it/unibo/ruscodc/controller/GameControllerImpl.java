@@ -4,7 +4,9 @@ import it.unibo.ruscodc.model.Actor;
 import it.unibo.ruscodc.model.GameInstant;
 import it.unibo.ruscodc.model.Monster;
 import it.unibo.ruscodc.model.Hero;
+import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
+import it.unibo.ruscodc.utils.exception.ModelException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.Optional;
 public class GameControllerImpl implements GameObserverController {
 
     List<Actor> actors = new ArrayList<Actor>();
-    Optional<GameInstant> actualInstant = Optional.empty();
+    Optional<BuilderGameCommand> actualInstant = Optional.empty();
 
     Room actualRoom;
 
@@ -41,10 +43,19 @@ public class GameControllerImpl implements GameObserverController {
     public void computeInput(int input) {
         if (actors.get(0) instanceof Hero) {
             if (actualInstant.isPresent()) {
-                //TODO
+                actualInstant.get().modify(input);
             }
             else {
-                actors.get(0).act();
+                actualInstant = Optional.of(actors.get(0).act(input));
+            }
+            if (actualInstant.get().isReady()) {
+                try{
+                    actualInstant.get().execute();
+                    actors.remove(0);
+                    manageMonsterTurn();
+                }catch (ModelException m) {
+
+                }
             }
         }
     }
@@ -79,7 +90,7 @@ public class GameControllerImpl implements GameObserverController {
     private void manageMonsterTurn(){
         initNewTurn();
         while (actors.get(0) instanceof Monster) {
-            actors.get(0).act();
+            actors.get(0).act(0);
             actors.remove(0);
             initNewTurn();
         }
