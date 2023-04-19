@@ -2,7 +2,7 @@ package it.unibo.ruscodc.model.range;
 
 import it.unibo.ruscodc.utils.Pair;
 
-public abstract class AbstractRange implements Range{
+public abstract class AbstractRange implements Range {
 
     private final Pair<Integer, Integer> actPos;
 
@@ -13,7 +13,7 @@ public abstract class AbstractRange implements Range{
     @Override
     public abstract boolean isInRange(Pair<Integer, Integer> pos);
     
-    protected Pair<Integer, Integer> getActPos(){
+    protected Pair<Integer, Integer> getActPos() {
         return actPos;
     }
 }
