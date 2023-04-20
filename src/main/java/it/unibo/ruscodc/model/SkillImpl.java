@@ -15,14 +15,14 @@ public class SkillImpl implements Skill {
 
     public SkillImpl() {
         //TODO Versione brute force dell'implementazione dei basic movement
-        this.setSkill(1, new MoveUpBuilder());
-        this.setSkill(2, new MoveDownBuilder());
-        this.setSkill(3, new MoveRightBuilder());
-        this.setSkill(4, new MoveLeftBuilder());
+        this.setAction(1, new MoveUpBuilder());
+        this.setAction(2, new MoveDownBuilder());
+        this.setAction(3, new MoveRightBuilder());
+        this.setAction(4, new MoveLeftBuilder());
     }
 
     @Override
-    public void setSkill(int key, BuilderGameCommand action) {
+    public void setAction(int key, BuilderGameCommand action) {
         this.skills.put(key, action);
     }
     
