@@ -1,12 +1,12 @@
 package it.unibo.ruscodc.controller;
 
-import it.unibo.ruscodc.model.Actor;
-import it.unibo.ruscodc.model.GameInstant;
-import it.unibo.ruscodc.model.Monster;
-import it.unibo.ruscodc.model.Hero;
+import it.unibo.ruscodc.model.*;
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
+import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
+import it.unibo.ruscodc.view.GameView;
+import it.unibo.ruscodc.view.ViewJFX;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +14,16 @@ import java.util.Optional;
 
 public class GameControllerImpl implements GameObserverController {
 
-    List<Actor> actors = new ArrayList<Actor>();
-    Optional<BuilderGameCommand> actualInstant = Optional.empty();
+    private List<Actor> actors = new ArrayList<Actor>();
+    private Hero rusco;
+    private Optional<BuilderGameCommand> actualInstant = Optional.empty();
+    private Room actualRoom;
+    private final GameView view;
 
-    Room actualRoom;
+    public GameControllerImpl(){
+        this.view = new ViewJFX();
+        Hero rusco = new DummyHero(new Pair<>(3,3), "Rusco");
+    }
 
     @Override
     public void save() {
@@ -69,12 +75,12 @@ public class GameControllerImpl implements GameObserverController {
 
     @Override
     public void init() {
-
+        this.view.init(this);
     }
 
     @Override
     public void start() {
-
+        this.view.startView();
     }
 
     @Override
@@ -84,8 +90,7 @@ public class GameControllerImpl implements GameObserverController {
 
     private void initNewTurn(){
         if (actors.isEmpty()) {
-            //TODO
-            //actors.add(new Hero());
+            actors.add(rusco);
         }
 
     }

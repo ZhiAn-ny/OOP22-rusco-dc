@@ -19,12 +19,8 @@ public final class Launcher {
     public static void main(final String[] args) {
         GameObserverController ctrl = new GameControllerImpl();
         ctrl.init();
-        //ctrl.start();
+        ctrl.start();
 
-        // TMP:
-        GameView v = new ViewJFX();
-        v.init(ctrl);
-        v.startView();
 
     }
 }
