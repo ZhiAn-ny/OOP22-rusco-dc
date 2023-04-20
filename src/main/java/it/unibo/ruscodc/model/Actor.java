@@ -8,9 +8,10 @@ public abstract class Actor implements Entity {
     private final Skill skills;
     private final String name;
 
-    public Actor(Pair<Integer, Integer> initialPos) {
+    public Actor(Pair<Integer, Integer> initialPos, String name) {
         this.currentPos = initialPos;
         this.skills = new SkillImpl();
+        this.name = name;
     }
 
     final public Pair<Integer, Integer> getPos() {

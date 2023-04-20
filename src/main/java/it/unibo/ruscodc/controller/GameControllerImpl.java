@@ -49,6 +49,7 @@ public class GameControllerImpl implements GameObserverController {
                 actualInstant = Optional.of(actors.get(0).act(input));
                 actualInstant.get().setRoom(actualRoom);
             }
+
             if (actualInstant.get().isReady()) {
                 try{
                     actualInstant.get().execute();
@@ -90,7 +91,7 @@ public class GameControllerImpl implements GameObserverController {
     }
     private void manageMonsterTurn(){
         initNewTurn();
-        while (actors.get(0) instanceof Monster) {
+        while (actors.get(0).getClass().equals(Monster.class)) {
             actors.get(0).act(0);
             actors.remove(0);
             initNewTurn();

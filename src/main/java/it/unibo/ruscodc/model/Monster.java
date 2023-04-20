@@ -2,19 +2,12 @@ package it.unibo.ruscodc.model;
 
 import javafx.util.Pair;
 
-public abstract class Monster implements Actor {
-    @Override
-    public Pair<Integer, Integer> getPos() {
-        return null;
+public abstract class Monster extends Actor {
+    
+    public Monster(it.unibo.ruscodc.utils.Pair<Integer, Integer> initialPos, String name) {
+        super(initialPos, name);
+        //TODO Auto-generated constructor stub
     }
 
-    @Override
-    public void act() {
 
-    }
-
-    @Override
-    public String getInfo() {
-        return null;
-    }
 }

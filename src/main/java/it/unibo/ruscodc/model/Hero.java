@@ -5,8 +5,8 @@ import it.unibo.ruscodc.utils.Pair;
 
 public abstract class Hero extends Actor {
 
-    public Hero(Pair<Integer, Integer> initialPos) {
-        super(initialPos);
+    public Hero(Pair<Integer, Integer> initialPos, String name) {
+        super(initialPos, name);
         this.updateSKill();
     }
 
