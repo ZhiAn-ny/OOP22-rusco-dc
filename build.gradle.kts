@@ -25,6 +25,9 @@ repositories {
 dependencies {
     // Suppressions for SpotBugs
     compileOnly("com.github.spotbugs:spotbugs-annotations:4.7.3")
+
+    implementation("com.google.code.gson:gson:2.10.1")
+
     // JUnit API and testing engine
     val jUnitVersion = "5.7.1"
     testImplementation("org.junit.jupiter:junit-jupiter-api:$jUnitVersion")
@@ -40,7 +43,6 @@ dependencies {
         "swing",
         "graphics"
     )
-
     // JavaFX: comment out if you do not need them
     for (platform in supportedPlatforms) {
         for (module in javaFXModules) {
@@ -51,5 +53,5 @@ dependencies {
 
 application {
     // Define the main class for the application
-    mainClass.set("it.unibo.fooo")
+    mainClass.set("it.unibo.ruscodc.launcher.Launcher")
 }
