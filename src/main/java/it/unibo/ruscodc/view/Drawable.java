@@ -9,7 +9,7 @@ public interface Drawable {
      *
      * @return the current position of the object.
      */
-    Pair<Integer, Integer> getPosition();
+    Pair<Integer, Integer> getOnScreenPosition();
 
     /**
      * Sets the position of the object in the game window.

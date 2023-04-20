@@ -1,13 +1,22 @@
 package it.unibo.ruscodc.model;
 
-import javafx.util.Pair;
+import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 
 public abstract class Monster extends Actor {
     
-    public Monster(it.unibo.ruscodc.utils.Pair<Integer, Integer> initialPos, String name) {
-        super(initialPos, name);
-        //TODO Auto-generated constructor stub
+    //private final Behave behave;
+
+    public Monster(String name, it.unibo.ruscodc.utils.Pair<Integer, Integer> initialPos) {
+        super(name, initialPos);
+        this.setBehave();
     }
 
+    @Override
+    public BuilderGameCommand act(int key) {
+        return null;
+    }
 
+    private void setBehave() {
+        //TODO: Imposta il Behaviour del Mostro;
+    }
 }

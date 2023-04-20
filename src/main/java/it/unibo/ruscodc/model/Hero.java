@@ -1,19 +1,17 @@
 package it.unibo.ruscodc.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.utils.Pair;
 
 public abstract class Hero extends Actor {
 
-    public Hero(Pair<Integer, Integer> initialPos, String name) {
-        super(initialPos, name);
-        this.updateSKill();
-    }
+    private final Map<Integer, BuilderGameCommand> allSkills = new HashMap<>();
 
-    @Override
-    public void updateSKill() {
-        //Usa l'hashcode per caricare le skills dopo un level up o alla creazione
-        //TODO
+    public Hero(String name, Pair<Integer, Integer> initialPos) {
+        super(name,initialPos);
     }
 
     @Override
