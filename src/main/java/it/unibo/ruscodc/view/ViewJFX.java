@@ -83,7 +83,7 @@ public class ViewJFX extends Application implements GameView {
      */
     private void setKeyListeners() {
         this.mainScene.setOnKeyPressed((KeyEvent key) -> {
-            this.controller.computeInput(key.getText());
+            this.controller.computeInput(key.hashCode());
         });
     }
 
