@@ -25,7 +25,7 @@ public abstract class AbstractJFXDrawableImpl implements Drawable {
     }
 
     @Override
-    public Pair<Integer, Integer> getPosition() {
+    public Pair<Integer, Integer> getOnScreenPosition() {
         return this.position;
     }
 
