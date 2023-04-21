@@ -11,8 +11,14 @@ public class BaseTileImpl extends AbstractJFXDrawableImpl implements Tile {
     private boolean isAccessible = true;
     private Entity content = null;
 
-    public BaseTileImpl(Pair<Integer, Integer> position) {
+    /**
+     * Creates a <code>Tile</code> at the specified position and sets its accessibility.
+     * @param position the position of the tile in the room
+     * @param accessibility whether the tile can be accessed or not by the player
+     */
+    public BaseTileImpl(Pair<Integer, Integer> position, boolean accessibility) {
         this.position = position;
+        this.isAccessible = accessibility;
     }
 
     @Override
