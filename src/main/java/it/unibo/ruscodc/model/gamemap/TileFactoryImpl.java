@@ -5,12 +5,12 @@ import it.unibo.ruscodc.utils.Pair;
 public class TileFactoryImpl implements TileFactory {
 
     @Override
-    public Tile createBaseFloorTile(Pair<Integer, Integer> pos) {
-        return new BaseTileImpl(pos, true);
+    public Tile createBaseFloorTile(int x, int y) {
+        return new BaseTileImpl(new Pair<>(x, y), true);
     }
 
     @Override
-    public Tile createBaseWallTile(Pair<Integer, Integer> pos) {
-        return new BaseTileImpl(pos, false);
+    public Tile createBaseWallTile(int x, int y) {
+        return new BaseTileImpl(new Pair<>(x, y), false);
     }
 }
