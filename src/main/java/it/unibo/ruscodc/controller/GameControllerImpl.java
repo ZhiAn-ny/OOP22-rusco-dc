@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class GameControllerImpl implements GameObserverController {
 
-    private List<Actor> actors = new ArrayList<Actor>();
+    private List<ActorAbs> actors = new ArrayList<ActorAbs>();
     private Hero rusco;
     private Optional<BuilderGameCommand> actualInstant = Optional.empty();
     private Room actualRoom;
@@ -47,12 +47,14 @@ public class GameControllerImpl implements GameObserverController {
 
     @Override
     public void computeInput(int input) {
+        
         if (actors.get(0) instanceof Hero) {
+            Hero tmp = (Hero)actors.get(0);
             if (actualInstant.isPresent()) {
                 actualInstant.get().modify(input);
             }
             else {
-                actualInstant = Optional.of(actors.get(0).act(input));
+                actualInstant = Optional.of(tmp.act(input));
                 actualInstant.get().setRoom(actualRoom);
             }
 
@@ -95,9 +97,11 @@ public class GameControllerImpl implements GameObserverController {
 
     }
     private void manageMonsterTurn(){
+        Monster tmp;
         initNewTurn();
         while (actors.get(0).getClass().equals(Monster.class)) {
-            actors.get(0).act(0);
+            tmp = (Monster)actors.get(0);
+            //tmp.behave();
             actors.remove(0);
             initNewTurn();
         }
