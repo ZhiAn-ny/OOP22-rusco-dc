@@ -4,37 +4,51 @@ import it.unibo.ruscodc.model.Actor;
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.utils.Pair;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class RectangleRoomImpl implements Room {
-    final private Pair<Integer, Integer> size;
-    private Map<Pair<Integer, Integer>, Tile> tiles = new HashMap<Pair<Integer, Integer>, Tile>();
+    private final Pair<Integer, Integer> size;
+    private final List<Tile> tiles = new ArrayList<>();
+    private final Set<Actor> monsters = new HashSet<>();
 
     public RectangleRoomImpl(int width, int height) {
         this.size = new Pair<Integer, Integer>(width, height);
+        this.addTiles();
+    }
 
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+    /**
+     * Creates the room's tiles.
+     */
+    private void addTiles() {
+        TileFactory tf = new TileFactoryImpl();
 
+        for (int i = 0; i < this.size.getX(); i++) {
+            for (int j = 0; j < this.size.getY(); j++) {
+                if (i == 0 || j == 0)
+                    this.tiles.add(tf.createBaseWallTile(i, j));
+                else
+                    this.tiles.add(tf.createBaseFloorTile(i, j));
             }
         }
     }
 
     @Override
     public boolean isInRoom(Pair<Integer, Integer> pos) {
-        return false;
+        return this.tiles.stream().anyMatch(t -> t.getPosition().equals(pos));
     }
 
     @Override
     public Set<Actor> getMonsters() {
-        return null;
+        return this.monsters;
     }
 
     @Override
     public boolean put(Pair<Integer, Integer> pos, Entity obj) {
-        return false;
+        Optional<Tile> tile = this.tiles.stream()
+                .filter(t -> t.getPosition().equals(pos))
+                .findFirst();
+        if (tile.isEmpty())
+            return false;
+        return tile.get().put(obj);
     }
 }
