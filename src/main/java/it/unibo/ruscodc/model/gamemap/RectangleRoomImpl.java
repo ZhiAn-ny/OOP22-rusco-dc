@@ -51,4 +51,15 @@ public class RectangleRoomImpl implements Room {
             return false;
         return tile.get().put(obj);
     }
+
+    @Override
+    public boolean isAccessible(Pair<Integer, Integer> pos) {
+        Optional<Tile> tile = this.tiles.stream()
+                .filter(t -> t.getPosition().equals(pos))
+                .findFirst();
+
+        if (tile.isEmpty())
+            return false;
+        return tile.get().isAccessible();
+    }
 }

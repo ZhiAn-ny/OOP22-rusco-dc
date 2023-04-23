@@ -31,4 +31,12 @@ public interface Room {
      */
     boolean put(Pair<Integer, Integer> pos, Entity obj);
 
+    /**
+     * Returns whether the specified position is accessible to an actor.
+     * @param pos the position in which move the actor
+     * @return <code>True</code> if the tile at the specified position is
+     * accessible, <code>False</code> otherwise.
+     */
+    boolean isAccessible(Pair<Integer,Integer> pos);
+
 }
