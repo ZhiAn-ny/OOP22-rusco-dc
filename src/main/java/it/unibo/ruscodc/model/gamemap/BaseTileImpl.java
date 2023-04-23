@@ -2,7 +2,6 @@ package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.utils.Pair;
-import it.unibo.ruscodc.view.AbstractJFXDrawableImpl;
 
 import java.util.Optional;
 import java.util.Random;
