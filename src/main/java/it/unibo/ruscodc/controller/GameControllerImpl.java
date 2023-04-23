@@ -1,7 +1,7 @@
 package it.unibo.ruscodc.controller;
 
 import it.unibo.ruscodc.model.*;
-import it.unibo.ruscodc.model.actors.ActorAbs;
+import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.DummyHero;
 import it.unibo.ruscodc.model.actors.Hero;
 import it.unibo.ruscodc.model.actors.Monster;

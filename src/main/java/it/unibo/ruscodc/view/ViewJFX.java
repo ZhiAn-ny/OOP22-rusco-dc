@@ -35,7 +35,7 @@ public class ViewJFX extends Application implements GameView {
 
     private GameObserverController controller;
     /** Contains the objects to render on screen. */
-    final private List<Drawable> scene;
+    final private List<Drawable<GraphicsContext>> scene;
 
     public ViewJFX() {
         this.screen = Toolkit. getDefaultToolkit(). getScreenSize();
@@ -45,7 +45,7 @@ public class ViewJFX extends Application implements GameView {
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.setup(primaryStage);
-        this.gameloop(this.scene, this.context);
+        this.gameloop(this.context);
     }
 
     /**
@@ -112,9 +112,13 @@ public class ViewJFX extends Application implements GameView {
      *               Applications may create other stages, if needed, but they will not be primary stages.
      * @param context the graphic context from the application.
      */
-    private void gameloop(List<Drawable> scene, GraphicsContext context) {
+    private void gameloop(GraphicsContext context) {
         AnimationTimer gameloop = new AnimationTimer() {
             public void handle(long nanotime) {
+                scene.clear();
+                controller.getEntityToDraw().stream().forEach(e -> {
+                    scene.add(new JFXDrawableImpl(e));
+                });
                 scene.forEach(drw -> drw.render(context));
             }
         };
@@ -147,11 +151,11 @@ public class ViewJFX extends Application implements GameView {
     }
 
 
-    public void addToScene(Collection<Drawable> objs){
+    public void addToScene(Collection<Drawable<GraphicsContext>> objs){
         this.scene.addAll(objs);
     }
 
-    public void addToScene(Drawable obj){
+    public void addToScene(Drawable<GraphicsContext> obj){
         this.scene.add(obj);
     }
 
