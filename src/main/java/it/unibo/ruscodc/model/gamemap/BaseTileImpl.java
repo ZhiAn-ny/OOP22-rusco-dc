@@ -6,7 +6,7 @@ import it.unibo.ruscodc.view.AbstractJFXDrawableImpl;
 
 import java.util.Optional;
 
-public class BaseTileImpl extends AbstractJFXDrawableImpl implements Tile {
+public class BaseTileImpl implements Tile {
     private final Pair<Integer, Integer> position;
     private boolean isAccessible = true;
     private Entity content = null;
