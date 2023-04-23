@@ -15,14 +15,14 @@ import java.util.Optional;
 public class GameControllerImpl implements GameObserverController {
 
     private List<ActorAbs> actors = new ArrayList<ActorAbs>();
-    private HeroImpl rusco;
+    private Hero rusco;
     private Optional<BuilderGameCommand> actualInstant = Optional.empty();
     private Room actualRoom;
     private final GameView view;
 
     public GameControllerImpl(){
         this.view = new ViewJFX();
-        HeroImpl rusco = new DummyHero(new Pair<>(3,3), "Rusco");
+        Hero rusco = new DummyHero(new Pair<>(3,3), "Rusco");
     }
 
     @Override
@@ -48,8 +48,8 @@ public class GameControllerImpl implements GameObserverController {
     @Override
     public void computeInput(int input) {
         
-        if (actors.get(0) instanceof HeroImpl) {
-            HeroImpl tmp = (HeroImpl)actors.get(0);
+        if (actors.get(0) instanceof Hero) {
+            Hero tmp = (Hero)actors.get(0);
             if (actualInstant.isPresent()) {
                 actualInstant.get().modify(input);
             }
@@ -105,5 +105,11 @@ public class GameControllerImpl implements GameObserverController {
             actors.remove(0);
             initNewTurn();
         }
+    }
+
+    @Override
+    public List<Entity> getEntityToDraw() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEntityToDraw'");
     }
 }
