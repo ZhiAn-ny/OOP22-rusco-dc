@@ -15,14 +15,14 @@ import java.util.Optional;
 public class GameControllerImpl implements GameObserverController {
 
     private List<ActorAbs> actors = new ArrayList<ActorAbs>();
-    private Hero rusco;
+    private HeroImpl rusco;
     private Optional<BuilderGameCommand> actualInstant = Optional.empty();
     private Room actualRoom;
     private final GameView view;
 
     public GameControllerImpl(){
         this.view = new ViewJFX();
-        Hero rusco = new DummyHero(new Pair<>(3,3), "Rusco");
+        HeroImpl rusco = new DummyHero(new Pair<>(3,3), "Rusco");
     }
 
     @Override
@@ -48,8 +48,8 @@ public class GameControllerImpl implements GameObserverController {
     @Override
     public void computeInput(int input) {
         
-        if (actors.get(0) instanceof Hero) {
-            Hero tmp = (Hero)actors.get(0);
+        if (actors.get(0) instanceof HeroImpl) {
+            HeroImpl tmp = (HeroImpl)actors.get(0);
             if (actualInstant.isPresent()) {
                 actualInstant.get().modify(input);
             }

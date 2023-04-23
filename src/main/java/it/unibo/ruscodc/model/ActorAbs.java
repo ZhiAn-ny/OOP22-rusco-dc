@@ -31,7 +31,7 @@ public abstract class ActorAbs implements Actor {
         return this.name;
     }
 
-    final public Stat geStats() {
+    final public Stat getStats() {
         return this.stats;
     }
 
