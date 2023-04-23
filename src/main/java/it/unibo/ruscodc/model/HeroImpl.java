@@ -23,8 +23,7 @@ public class HeroImpl extends ActorAbs implements Hero {
     
     @Override
     public String getPath() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPath'");
+        return "file:src/main/resources/it/unibo/ruscodc/hero_res/racoon-head.png";
     }
 
     @Override
