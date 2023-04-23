@@ -4,9 +4,29 @@ import it.unibo.ruscodc.utils.Pair;
 
 public interface Actor extends Entity {
     
+
+    /**
+     * @param newPos
+     */
     void setPos(Pair<Integer, Integer> newPos);
+    
+    /**
+     * @return
+     */
     Skill getSkills();
+    
+    /**
+     * @return
+     */
     String getName();
-    Stat geStats();
+    
+    /**
+     * @return
+     */
+    Stat getStats();
+    
+    /**
+     * 
+     */
     void load();
 }

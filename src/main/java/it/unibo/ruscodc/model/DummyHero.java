@@ -2,7 +2,7 @@ package it.unibo.ruscodc.model;
 
 import it.unibo.ruscodc.utils.Pair;
 
-public final class DummyHero extends Hero{
+public final class DummyHero extends HeroImpl{
 
     public DummyHero(Pair<Integer, Integer> initialPos, String name) {
         super(name,initialPos);
