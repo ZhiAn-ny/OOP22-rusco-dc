@@ -16,15 +16,6 @@ public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
         position = toDraw.getPos();
     }
 
-    /**
-     * Sets the object's sprite.
-     *
-     * @param path the path to the image file that will be used as sprite.
-     */
-    public void setImage(String path) {
-        this.sprite = new Image("file:" + path);
-    }
-
     @Override
     public Pair<Integer, Integer> getOnScreenPosition() {
         return this.position;
