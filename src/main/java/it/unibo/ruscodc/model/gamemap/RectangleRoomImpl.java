@@ -11,7 +11,7 @@ public class RectangleRoomImpl implements Room {
     private final List<Tile> tiles = new ArrayList<>();
     private final Set<Actor> monsters = new HashSet<>();
 
-    public RectangleRoomImpl(int width, int height) {
+    public RectangleRoomImpl(final int width, final int height) {
         this.size = new Pair<Integer, Integer>(width, height);
         this.addTiles();
     }
@@ -33,7 +33,7 @@ public class RectangleRoomImpl implements Room {
     }
 
     @Override
-    public boolean isInRoom(Pair<Integer, Integer> pos) {
+    public boolean isInRoom(final Pair<Integer, Integer> pos) {
         return this.tiles.stream().anyMatch(t -> t.getPosition().equals(pos));
     }
 
@@ -43,7 +43,7 @@ public class RectangleRoomImpl implements Room {
     }
 
     @Override
-    public boolean put(Pair<Integer, Integer> pos, Entity obj) {
+    public boolean put(final Pair<Integer, Integer> pos, final Entity obj) {
         Optional<Tile> tile = this.tiles.stream()
                 .filter(t -> t.getPosition().equals(pos))
                 .findFirst();
@@ -53,7 +53,7 @@ public class RectangleRoomImpl implements Room {
     }
 
     @Override
-    public boolean isAccessible(Pair<Integer, Integer> pos) {
+    public boolean isAccessible(final Pair<Integer, Integer> pos) {
         Optional<Tile> tile = this.tiles.stream()
                 .filter(t -> t.getPosition().equals(pos))
                 .findFirst();

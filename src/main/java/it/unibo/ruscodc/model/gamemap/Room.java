@@ -14,7 +14,7 @@ public interface Room {
      * @return <code>True</code> if the position is part of the room,
      * <code>False</code> otherwise
      */
-    boolean isInRoom(Pair<Integer, Integer> pos);
+    boolean isInRoom(final Pair<Integer, Integer> pos);
 
     /**
      * Gets the monsters in the room.
@@ -37,6 +37,6 @@ public interface Room {
      * @return <code>True</code> if the tile at the specified position is
      * accessible, <code>False</code> otherwise.
      */
-    boolean isAccessible(Pair<Integer,Integer> pos);
+    boolean isAccessible(final Pair<Integer,Integer> pos);
 
 }
