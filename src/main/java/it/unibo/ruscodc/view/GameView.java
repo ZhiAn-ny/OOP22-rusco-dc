@@ -1,6 +1,9 @@
 package it.unibo.ruscodc.view;
 
 import it.unibo.ruscodc.controller.GameObserverController;
+import it.unibo.ruscodc.model.Entity;
+
+import java.util.List;
 
 public interface GameView {
     /**
@@ -21,4 +24,10 @@ public interface GameView {
      * @param err the message to visualize as error
      */
     void printError(String err);
+
+    /**
+     *
+     * @param toDraw
+     */
+    void setEntityToDraw(List<Entity> toDraw);
 }

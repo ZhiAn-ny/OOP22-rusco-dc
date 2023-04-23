@@ -1,6 +1,7 @@
 package it.unibo.ruscodc.view;
 
 import it.unibo.ruscodc.controller.GameObserverController;
+import it.unibo.ruscodc.model.Entity;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -14,6 +15,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class ViewJFX extends Application implements GameView {
     final private String TITLE = "Junkrisers";
@@ -31,10 +35,11 @@ public class ViewJFX extends Application implements GameView {
 
     private GameObserverController controller;
     /** Contains the objects to render on screen. */
-    private int scene; // TODO: change data type
+    final private List<Drawable> scene;
 
     public ViewJFX() {
         this.screen = Toolkit. getDefaultToolkit(). getScreenSize();
+        this.scene = new ArrayList<>();
     }
 
     @Override
@@ -107,10 +112,10 @@ public class ViewJFX extends Application implements GameView {
      *               Applications may create other stages, if needed, but they will not be primary stages.
      * @param context the graphic context from the application.
      */
-    private void gameloop(int scene, GraphicsContext context) {
+    private void gameloop(List<Drawable> scene, GraphicsContext context) {
         AnimationTimer gameloop = new AnimationTimer() {
             public void handle(long nanotime) {
-                // TODO: updates view
+                scene.forEach(drw -> drw.render(context));
             }
         };
 
@@ -141,8 +146,26 @@ public class ViewJFX extends Application implements GameView {
         this.controller = ctrl;
     }
 
+
+    public void addToScene(Collection<Drawable> objs){
+        this.scene.addAll(objs);
+    }
+
+    public void addToScene(Drawable obj){
+        this.scene.add(obj);
+    }
+
+    public void clerScene(){
+        this.scene.clear();
+    }
     @Override
     public void printError(String err) {
         System.err.println("ERROR: " + err);
     }
+
+    @Override
+    public void setEntityToDraw(List<Entity> toDraw) {
+
+    }
+
 }

@@ -3,20 +3,13 @@ package it.unibo.ruscodc.view;
 import it.unibo.ruscodc.utils.Pair;
 import javafx.scene.canvas.GraphicsContext;
 
-public interface Drawable {
+public interface Drawable<X> {
 
     /**
      *
      * @return the current position of the object.
      */
     Pair<Integer, Integer> getOnScreenPosition();
-
-    /**
-     * Sets the position of the object in the game window.
-     *
-     * @param pos the new position of the object.
-     */
-    void setPosition(Pair<Integer, Integer> pos);
 
     /**
      * Sets the scale of the object on the game window.
@@ -31,6 +24,6 @@ public interface Drawable {
      *
      * @param context the graphic context in which the object will be rendered.
      */
-    void render(GraphicsContext context);
+    void render(X context);
 
 }
