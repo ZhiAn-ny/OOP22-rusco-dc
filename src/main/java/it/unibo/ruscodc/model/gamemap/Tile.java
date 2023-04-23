@@ -5,6 +5,9 @@ import it.unibo.ruscodc.utils.Pair;
 
 import java.util.Optional;
 
+/**
+ * The <code>Tile</code> interface represents a single unit of the <code>Room</code>.
+ */
 public interface Tile {
 
     /**
@@ -25,7 +28,7 @@ public interface Tile {
      * @return <code>True</code> if the <code>Entity</code> has been placed correctly,
      * <code>False</code> otherwise.
      */
-    boolean put(Entity obj);
+    boolean put(final Entity obj);
 
     /**
      * Returns an <code>Optional</code> containing the <code>Entity</code>
