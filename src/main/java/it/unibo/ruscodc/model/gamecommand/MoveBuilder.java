@@ -53,9 +53,7 @@ public abstract class MoveBuilder implements BuilderGameCommand {
     @Override
     public void execute() throws ModelException {
         Pair<Integer,Integer> newPos = computeNewPos();
-        if(where.getMonsters().stream().map(a -> a.getPos()).anyMatch(p -> p.equals(newPos)) 
-            || 
-            where.isInRoom(newPos)){
+        if(where.getMonsters().stream().map(a -> a.getPos()).anyMatch(p -> p.equals(newPos)) || where.isInRoom(newPos)){
             throw new UnreacheblePos("The position " + newPos.toString() + " " + ERR);
         }
         actActor.setPos(newPos);

@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class GameControllerImpl implements GameObserverController {
 
-    private List<ActorAbs> actors = new ArrayList<ActorAbs>();
+    private List<Actor> actors = new ArrayList<Actor>();
     private Hero rusco;
     private Optional<BuilderGameCommand> actualInstant = Optional.empty();
     private Room actualRoom;
