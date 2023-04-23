@@ -1,5 +1,6 @@
-package it.unibo.ruscodc.model;
+package it.unibo.ruscodc.model.actors;
 
+import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.utils.Pair;
 
 public interface Actor extends Entity {

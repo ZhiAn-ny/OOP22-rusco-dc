@@ -1,8 +1,8 @@
-package it.unibo.ruscodc.model;
+package it.unibo.ruscodc.model.actors;
 
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 
-public interface Hero {
+public interface Hero extends Actor {
     
     /**
      * @return

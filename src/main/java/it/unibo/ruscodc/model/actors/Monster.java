@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model;
+package it.unibo.ruscodc.model.actors;
 
 public abstract class Monster extends ActorAbs {
     

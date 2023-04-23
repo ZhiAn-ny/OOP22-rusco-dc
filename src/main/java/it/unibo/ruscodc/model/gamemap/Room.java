@@ -1,8 +1,8 @@
 package it.unibo.ruscodc.model.gamemap;
 
 
-import it.unibo.ruscodc.model.Actor;
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.util.Set;

@@ -1,8 +1,8 @@
-package it.unibo.ruscodc.model;
+package it.unibo.ruscodc.model.actors;
 
 import java.util.Map;
 
-import it.unibo.ruscodc.model.StatImpl.StatName;
+import it.unibo.ruscodc.model.actors.StatImpl.StatName;
 import it.unibo.ruscodc.utils.Pair;
 
 public interface Stat {

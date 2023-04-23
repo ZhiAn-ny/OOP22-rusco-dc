@@ -1,6 +1,10 @@
 package it.unibo.ruscodc.controller;
 
 import it.unibo.ruscodc.model.*;
+import it.unibo.ruscodc.model.actors.ActorAbs;
+import it.unibo.ruscodc.model.actors.DummyHero;
+import it.unibo.ruscodc.model.actors.Hero;
+import it.unibo.ruscodc.model.actors.Monster;
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.Pair;

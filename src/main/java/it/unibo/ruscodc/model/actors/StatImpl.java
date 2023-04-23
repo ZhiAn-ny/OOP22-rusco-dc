@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model;
+package it.unibo.ruscodc.model.actors;
 
 import java.util.HashMap;
 import java.util.Map;
