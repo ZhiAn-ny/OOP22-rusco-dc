@@ -64,7 +64,7 @@ public class GameControllerImpl implements GameObserverController {
                     actors.remove(0);
                     manageMonsterTurn();
                 }catch (ModelException m) {
-
+                    
                 }
             }
         }
