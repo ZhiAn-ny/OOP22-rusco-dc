@@ -1,5 +1,9 @@
 package it.unibo.ruscodc.controller;
 
+import java.util.List;
+
+import it.unibo.ruscodc.model.Entity;
+
 public interface GameObserverController {
     /**
      * 
@@ -33,9 +37,12 @@ public interface GameObserverController {
      * 
      */
     void start();
-
     /**
      *
      */
     void launch();
+    /**
+     * 
+     */
+    List<Entity> getEntityToDraw();
 }
