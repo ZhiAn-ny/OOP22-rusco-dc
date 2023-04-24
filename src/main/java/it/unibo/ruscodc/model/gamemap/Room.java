@@ -6,6 +6,7 @@ import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,6 +28,18 @@ public interface Room {
      * @return a set representing the monsters in the room
      */
     Set<Actor> getMonsters();
+
+    /**
+     * Returns the objects in the room.
+     * @return a set representing the objects in the room
+     */
+    Set<Entity> getObjectsInRoom();
+
+    /**
+     * Returns the <code>Room</code>'s tiles as <code>Entity</code>.
+     * @return a list of <code>Entity</code> representing the room's tiles
+     */
+    List<Entity> getTilesAsEntity();
 
     /**
      * Places and entity on the specified position on the map.

@@ -43,7 +43,7 @@ public class RectangleRoomImpl implements Room {
      * Inserts a random number of doors in the room.
      */
     private void addDoors() {
-
+        // TODO:
     }
 
     @Override
@@ -54,6 +54,26 @@ public class RectangleRoomImpl implements Room {
     @Override
     public Set<Actor> getMonsters() {
         return this.monsters;
+    }
+
+    @Override
+    public Set<Entity> getObjectsInRoom() {
+        Set<Entity> objs = new HashSet<>();
+        this.tiles.forEach(tile -> {
+            if (tile.get().isPresent())
+                objs.add(tile.get().get());
+        });
+        return objs;
+    }
+
+    @Override
+    public List<Entity> getTilesAsEntity() {
+        List<Entity> asEntity = new ArrayList<>();
+        this.tiles.forEach(tile -> {
+            if (tile instanceof Entity)
+                asEntity.add((Entity) tile);
+        });
+        return asEntity;
     }
 
     @Override
