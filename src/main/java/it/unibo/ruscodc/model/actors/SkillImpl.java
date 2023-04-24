@@ -41,4 +41,9 @@ public class SkillImpl implements Skill {
         throw new UnsupportedOperationException("Unimplemented method 'modifySkill'");
     }
 
+    @Override
+    public Map<Integer, BuilderGameCommand> getSkills() {
+        return Map.copyOf(this.skills);
+    }
+
 }
