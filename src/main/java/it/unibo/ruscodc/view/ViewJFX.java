@@ -2,6 +2,7 @@ package it.unibo.ruscodc.view;
 
 import it.unibo.ruscodc.controller.GameObserverController;
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.utils.GameControl;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -9,15 +10,20 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+
 import java.awt.*;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import static javafx.scene.input.KeyCode.*;
 
 public class ViewJFX extends Application implements GameView {
     final private String TITLE = "Junkrisers";
@@ -88,8 +94,30 @@ public class ViewJFX extends Application implements GameView {
      */
     private void setKeyListeners() {
         this.mainScene.setOnKeyPressed((KeyEvent key) -> {
-            this.controller.computeInput(key.hashCode());
+            System.out.println(key.getCode());
+            this.controller.computeInput(this.getInput(key));
         });
+    }
+
+    private GameControl getInput(KeyEvent e){
+        return switch (e.getCode()) {
+            case W -> GameControl.MOVEUP;
+            case A -> GameControl.MOVELEFT;
+            case S -> GameControl.MOVEDOWN;
+            case D -> GameControl.MOVERIGHT;
+            case I -> GameControl.INVENTORY;
+            case P -> GameControl.PAUSE;
+            case ESCAPE -> GameControl.CANCEL;
+            case ENTER -> GameControl.CONFIRM;
+            case F -> GameControl.INTERACT;
+            case DIGIT1 -> GameControl.BASEATTACK;
+            case DIGIT2 -> GameControl.ATTACK1;
+            case DIGIT3 -> GameControl.ATTACK2;
+            case DIGIT4 -> GameControl.ATTACK3;
+            case DIGIT5 -> GameControl.ATTACK4;
+            case DIGIT6 -> GameControl.USEQUICK;
+            default -> GameControl.DONOTHING;
+        };
     }
 
     /**
@@ -108,18 +136,16 @@ public class ViewJFX extends Application implements GameView {
     /**
      * Sets up the actions done in the view's gameloop and starts it.
      *
-     * @param scene  the primary stage for this application, onto which the application scene can be set.
-     *               Applications may create other stages, if needed, but they will not be primary stages.
      * @param context the graphic context from the application.
      */
     private void gameloop(GraphicsContext context) {
         AnimationTimer gameloop = new AnimationTimer() {
-            public void handle(long nanotime) {
-                scene.clear();
+           public void handle(long nanotime) {
+               /* scene.clear();
                 controller.getEntityToDraw().stream().forEach(e -> {
                     scene.add(new JFXDrawableImpl(e));
                 });
-                scene.forEach(drw -> drw.render(context));
+                scene.forEach(drw -> drw.render(context));*/
             }
         };
 

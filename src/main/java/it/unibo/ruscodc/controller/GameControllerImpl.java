@@ -7,11 +7,11 @@ import it.unibo.ruscodc.model.actors.Hero;
 import it.unibo.ruscodc.model.actors.Monster;
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
+import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.view.GameView;
 import it.unibo.ruscodc.view.ViewJFX;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,8 +50,8 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     @Override
-    public void computeInput(int input) {
-        
+    public void computeInput(GameControl input) {
+        /*
         if (actors.get(0) instanceof Hero) {
             Hero tmp = (Hero)actors.get(0);
             if (actualInstant.isPresent()) {
@@ -72,6 +72,7 @@ public class GameControllerImpl implements GameObserverController {
                 }
             }
         }
+         */
     }
 
     @Override
@@ -115,5 +116,8 @@ public class GameControllerImpl implements GameObserverController {
     public List<Entity> getEntityToDraw() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getEntityToDraw'");
+    }
+
+    public void inputConverter(){
     }
 }
