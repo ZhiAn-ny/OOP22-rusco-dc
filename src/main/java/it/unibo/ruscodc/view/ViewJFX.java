@@ -159,7 +159,7 @@ public class ViewJFX extends Application implements GameView {
         this.scene.add(obj);
     }
 
-    public void clerScene(){
+    public void clearScene(){
         this.scene.clear();
     }
     @Override
