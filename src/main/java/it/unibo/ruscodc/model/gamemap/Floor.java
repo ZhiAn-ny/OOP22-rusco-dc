@@ -1,7 +1,10 @@
 package it.unibo.ruscodc.model.gamemap;
 
-import it.unibo.ruscodc.view.Drawable;
 
+/**
+ * The <code>Floor</code> interface represent the base concept of level in the game.
+ * Each <code>Floor</code> is composed by multiple instance of <code>Room</code> interconnected between each other.
+ */
 public interface Floor {
 
     /**
