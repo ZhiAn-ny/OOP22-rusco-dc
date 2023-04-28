@@ -6,24 +6,21 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
-    private final Image sprite;
+    private Image sprite;
     private final Pair<Integer, Integer> position;
     private double rotation = 0;
     private double size = 1;
 
+    private final static int SCALE = 100;
     public JFXDrawableImpl(Entity toDraw){
-        sprite = new Image("file:" + toDraw.getPath());
-        position = toDraw.getPos();
+        sprite = new Image(toDraw.getPath());
+        Pair<Integer, Integer> tmp = toDraw.getPos();
+        position = new Pair<>(tmp.getX()*SCALE, tmp.getY()*SCALE); //TODO
     }
 
     @Override
     public Pair<Integer, Integer> getOnScreenPosition() {
         return this.position;
-    }
-
-    @Override
-    public void setSize(double size) {
-        this.size = size;
     }
 
     @Override
@@ -37,5 +34,16 @@ public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
 
     }
 
+    @Override
+    public void setSize(double size) {
+        this.size = size;
+        this.applySize(50);
+    }
+
+    private void applySize(double screeUnit) {
+        this.sprite = new Image(this.sprite.getUrl(),
+                screeUnit * this.size, screeUnit * this.size,
+                true, false);
+    }
 
 }

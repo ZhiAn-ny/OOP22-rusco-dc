@@ -2,6 +2,7 @@ package it.unibo.ruscodc.view;
 
 import it.unibo.ruscodc.controller.GameObserverController;
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.gamemap.Tile;
 import it.unibo.ruscodc.utils.GameControl;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -10,20 +11,15 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-
 import java.awt.*;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import static javafx.scene.input.KeyCode.*;
+import java.lang.ClassLoader;
 
 public class ViewJFX extends Application implements GameView {
     final private String TITLE = "Junkrisers";
@@ -44,7 +40,7 @@ public class ViewJFX extends Application implements GameView {
     final private List<Drawable<GraphicsContext>> scene;
 
     public ViewJFX() {
-        this.screen = Toolkit. getDefaultToolkit(). getScreenSize();
+        this.screen = Toolkit.getDefaultToolkit().getScreenSize();
         this.scene = new ArrayList<>();
     }
 
@@ -77,7 +73,11 @@ public class ViewJFX extends Application implements GameView {
         Canvas canvas = new Canvas(this.screen.getWidth() * this.wtsRatio,
                 this.screen.getHeight() * this.htsRatio);
         this.context = canvas.getGraphicsContext2D();
+        Canvas canvas2 = new Canvas(this.screen.getWidth() * this.wtsRatio,
+                this.screen.getHeight() * this.htsRatio);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
         root.setCenter(canvas);
+        root.setCenter(canvas2);
 
         this.mainScene = new Scene(root);
         this.mainScene.setFill(Color.web(this.BASE_BG_COLOR));
@@ -141,12 +141,15 @@ public class ViewJFX extends Application implements GameView {
     private void gameloop(GraphicsContext context) {
         AnimationTimer gameloop = new AnimationTimer() {
            public void handle(long nanotime) {
-               /* scene.clear();
-                controller.getEntityToDraw().stream().forEach(e -> {
-                    scene.add(new JFXDrawableImpl(e));
-                });
-                scene.forEach(drw -> drw.render(context));*/
-            }
+               scene.forEach(drw -> drw.render(context));
+               String tmp = "file:src/main/resources/it/unibo/ruscodc/hero_res/rusco"+"racoon-head.png";
+               Image image = null;
+               try (var path = ClassLoader.getSystemResourceAsStream("hero_res/rusco/racoon-head.png");) {
+                   image = new Image(path);
+               } catch (Exception e) {
+
+               }
+           }
         };
 
         gameloop.start();
@@ -195,6 +198,13 @@ public class ViewJFX extends Application implements GameView {
 
     @Override
     public void setEntityToDraw(List<Entity> toDraw) {
+        scene.clear();
+        toDraw.stream().map(e-> {
+            Drawable<GraphicsContext> drw = new JFXDrawableImpl(e);
+            if (e instanceof Tile)
+                drw.setSize(1.5);
+            return drw;
+        }).forEach(d->scene.add(d));
 
     }
 

@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 
 import it.unibo.ruscodc.model.actors.StatImpl.StatName;
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
+import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 
 public class HeroImpl extends ActorAbs implements Hero {
@@ -27,7 +28,7 @@ public class HeroImpl extends ActorAbs implements Hero {
     
     @Override
     public String getPath() {
-        return PATH + this.name;
+        return "file:src/main/resources/it/unibo/ruscodc/hero_res/rusco/racoon-head.png";
     }
 
     @Override
@@ -74,14 +75,14 @@ public class HeroImpl extends ActorAbs implements Hero {
 			e.printStackTrace();
 		}
         
-        Map<Integer,BuilderGameCommand> tmp = gson.fromJson(scannedline.toString(), Skill.class).getSkills();
+        Map<GameControl,BuilderGameCommand> tmp = gson.fromJson(scannedline.toString(), Skill.class).getSkills();
         
-        for (Map.Entry<Integer,BuilderGameCommand> entry : tmp.entrySet()) {
+        for (Map.Entry<GameControl,BuilderGameCommand> entry : tmp.entrySet()) {
             this.skills.setAction(entry.getKey(), entry.getValue());
         }
     }
 
-    public BuilderGameCommand act(int key) {
+    public BuilderGameCommand act(GameControl key) {
         BuilderGameCommand builderGameCommand = this.getSkills().getAction(key);
         builderGameCommand.setActor(this);
         return builderGameCommand;

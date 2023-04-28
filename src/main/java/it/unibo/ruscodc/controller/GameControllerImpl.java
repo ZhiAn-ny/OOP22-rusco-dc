@@ -2,13 +2,11 @@ package it.unibo.ruscodc.controller;
 
 import it.unibo.ruscodc.model.*;
 import it.unibo.ruscodc.model.actors.Actor;
-import it.unibo.ruscodc.model.actors.DummyHero;
 import it.unibo.ruscodc.model.actors.Hero;
 import it.unibo.ruscodc.model.actors.Monster;
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
-import it.unibo.ruscodc.model.gamemap.Room;
+import it.unibo.ruscodc.model.gamecommand.MoveBuilder;
 import it.unibo.ruscodc.utils.GameControl;
-import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.view.GameView;
 import it.unibo.ruscodc.view.ViewJFX;
@@ -18,15 +16,15 @@ import java.util.Optional;
 
 public class GameControllerImpl implements GameObserverController {
 
-    private List<Actor> actors = new ArrayList<Actor>();
-    private Hero rusco;
+    private List<Actor> initiative = new ArrayList<>();
     private Optional<BuilderGameCommand> actualInstant = Optional.empty();
-    private Room actualRoom;
     private final GameView view;
+    private final GameModel model;
 
     public GameControllerImpl(){
         this.view = new ViewJFX();
-        Hero rusco = new DummyHero(new Pair<>(3,3), "Rusco");
+        this.model = new GameModelImpl();
+
     }
 
     @Override
@@ -51,28 +49,38 @@ public class GameControllerImpl implements GameObserverController {
 
     @Override
     public void computeInput(GameControl input) {
-        /*
-        if (actors.get(0) instanceof Hero) {
-            Hero tmp = (Hero)actors.get(0);
+        if (initiative.get(0) instanceof Hero) {
+            Hero tmp = (Hero)initiative.get(0);
             if (actualInstant.isPresent()) {
-                actualInstant.get().modify(input);
+               // actualInstant.get().modify(input); TODO
             }
             else {
                 actualInstant = Optional.of(tmp.act(input));
-                actualInstant.get().setRoom(actualRoom);
+                actualInstant.get().setRoom(this.model.getCurrentRoom());
             }
 
             if (actualInstant.get().isReady()) {
                 try{
                     actualInstant.get().execute();
-                    actors.remove(0);
+                    actualInstant = Optional.empty();
+
+                    view.setEntityToDraw(entityToUpload());
+                    initiative.remove(0);
                     manageMonsterTurn();
                 }catch (ModelException m) {
-                    
+                    if(actualInstant.get() instanceof MoveBuilder) {
+                        actualInstant = Optional.empty();
+                    }
                 }
             }
         }
-         */
+
+    }
+
+    private List<Entity> entityToUpload(){
+        List<Entity> tmp = model.getCurrentRoom().getTilesAsEntity();
+        tmp.add((Entity) initiative.get(0));
+        return tmp;
     }
 
     @Override
@@ -88,6 +96,9 @@ public class GameControllerImpl implements GameObserverController {
     @Override
     public void start() {
         this.view.startView();
+        initNewTurn();
+        view.setEntityToDraw(entityToUpload());
+        manageMonsterTurn();
     }
 
     @Override
@@ -96,28 +107,20 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     private void initNewTurn(){
-        if (actors.isEmpty()) {
-            actors.add(rusco);
+        if (initiative.isEmpty()) {
+            initiative.addAll(model.getActorByInitative());
         }
 
     }
     private void manageMonsterTurn(){
         Monster tmp;
         initNewTurn();
-        while (actors.get(0).getClass().equals(Monster.class)) {
-            tmp = (Monster)actors.get(0);
+        while (initiative.get(0) instanceof Monster) {
+            tmp = (Monster) initiative.get(0);
             //tmp.behave();
-            actors.remove(0);
+            initiative.remove(0);
             initNewTurn();
         }
     }
 
-    @Override
-    public List<Entity> getEntityToDraw() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEntityToDraw'");
-    }
-
-    public void inputConverter(){
-    }
 }
