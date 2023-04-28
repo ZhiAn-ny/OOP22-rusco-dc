@@ -6,6 +6,9 @@ import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.utils.exception.UnreacheblePos;
 
+/**
+ * 
+ */
 public abstract class MoveBuilder implements BuilderGameCommand {
 
     private final static String ERR = "is already occupied or is out of the room";
@@ -14,14 +17,14 @@ public abstract class MoveBuilder implements BuilderGameCommand {
 
     @Override
     public void setActor(Actor from) {
-        if(actActor == null){
+        if(this.actActor == null){
             this.actActor = from;
         }
     }
 
     @Override
     public void setRoom(Room where) {
-        if(where == null){
+        if(this.where == null){
             this.where = where;
         }
     }
@@ -34,7 +37,7 @@ public abstract class MoveBuilder implements BuilderGameCommand {
     @Override
     public void execute() throws ModelException {
         Pair<Integer,Integer> newPos = computeNewPos();
-        if(where.getMonsters().stream().map(a -> a.getPos()).anyMatch(p -> p.equals(newPos)) || where.isInRoom(newPos)){
+        if(where.getMonsters().stream().map(a -> a.getPos()).anyMatch(p -> p.equals(newPos)) || !where.isInRoom(newPos)){
             throw new UnreacheblePos("The position " + newPos.toString() + " " + ERR);
         }
         actActor.setPos(newPos);

@@ -11,15 +11,22 @@ import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.utils.exception.NotInRange;
 
+/**
+ * Class that wrap an AttackCommand
+ * 
+ */
 public class EffectBuilder implements HandlebleGameCommand, BuilderGameCommand{
 
-    private final static String R_ERR = "The target is too far";
+    /*
+    SkillType
+    List<Actor>
+    Skill
+    */
 
-    //SkillType
+    private final static String R_ERR = "The target is too far";
+    
     private Actor from;
     private Room where;
-    //-List~Actor~
-    //-Skill
     private boolean isReady = false;
     private final Range range;
     private final Range splash;
