@@ -1,10 +1,18 @@
 package it.unibo.ruscodc.model.effect;
 
 import it.unibo.ruscodc.model.actors.Actor;
-import it.unibo.ruscodc.utils.exception.ModelException;
 
+/**
+ * Interface for wrapping a type of action (basically an attack) that start from an actor and afflict another actor.
+ * For now, it is an functional interface
+ */
 public interface Effect {
 
-    void applyEffect(Actor from, Actor to) throws ModelException;
+    /**
+     * Apply a specific effect.
+     * @param from actor from get some info
+     * @param to actor to apply the effect
+     */
+    void applyEffect(Actor from, Actor to);
 
 }
