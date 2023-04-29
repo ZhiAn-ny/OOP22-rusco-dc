@@ -15,7 +15,7 @@ import it.unibo.ruscodc.utils.exception.NotInRange;
  * Class that wrap an AttackCommand
  * 
  */
-public class EffectBuilder implements HandlebleGameCommand, BuilderGameCommand{
+public class PlayerBuilder implements HandlebleGameCommand, BuilderGameCommand{
 
     /*
     SkillType
@@ -33,7 +33,7 @@ public class EffectBuilder implements HandlebleGameCommand, BuilderGameCommand{
     private final Effect actionToPerform;
     private Pair<Integer, Integer> cursePos;
 
-    public EffectBuilder(Range range, Range splash, Effect action){
+    public PlayerBuilder(Range range, Range splash, Effect action) {
         this.range = range;
         this.splash = splash;
         this.actionToPerform = action;

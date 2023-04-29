@@ -17,9 +17,10 @@ public interface HandlebleGameCommand extends GameCommand {
      * <li>abort the command</li>
      * <li>execute the command</li>
      * </ul>
+     * 
      * @param input that modify the command
      */
-    void modify(int input); //TODO int diventerrà GameController
+    void modify(int input); //TODO int diventerrà GameController, in questo branch ancora ingnoto
 
     /**
      * Help to understand where can move the begin of the wrapped effect.
