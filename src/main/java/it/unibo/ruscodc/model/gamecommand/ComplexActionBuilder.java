@@ -1,6 +1,8 @@
 package it.unibo.ruscodc.model.gamecommand;
 
+import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.effect.Effect;
+import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.range.Range;
 
 /**
@@ -10,7 +12,7 @@ import it.unibo.ruscodc.model.range.Range;
  * this object create a builder that will take all next input usefull to manage who attack and
  * check if the attack is legal
  */
-public class ComplexActionBuilder extends BuilderGameCommandImpl {
+public class ComplexActionBuilder extends BuilderGameCommandImpl implements ComplexObserver {
     private final Range r;
     private final Range s;
     private final Effect eff;
@@ -35,6 +37,7 @@ public class ComplexActionBuilder extends BuilderGameCommandImpl {
         this.s = splash;
         this.eff = eff;
     }
+
 
     /**
      * Help to check some thing for all build methods.
@@ -66,6 +69,17 @@ public class ComplexActionBuilder extends BuilderGameCommandImpl {
     public IAGameCommand buildForIA() {
         globalChecks();
         throw new UnsupportedOperationException("Unimplemented method 'buildForIA'");
+    }
+
+    
+    @Override
+    public Room getOriginalRoom() {
+        return this.getRoom();
+    }
+
+    @Override
+    public Actor getOriginalActor() {
+        return this.getActor();
     }
 
 

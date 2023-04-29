@@ -23,6 +23,12 @@ public interface HandlebleGameCommand extends GameCommand {
     void modify(int input); //TODO int diventerrà GameController, in questo branch ancora ingnoto
 
     /**
+     * Set into this builder a reference to the previous class for getting some infos.
+     * @param observer the builder that build the command-object
+     */
+    void setObserver(ComplexObserver observer);
+
+    /**
      * Help to understand where can move the begin of the wrapped effect.
      * @return an Iterator of some {@code}Entity{@code} that compose this area
      */

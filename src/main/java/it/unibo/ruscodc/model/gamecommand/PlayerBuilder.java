@@ -5,7 +5,6 @@ import java.util.Iterator;
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.effect.Effect;
-import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.range.Range;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
@@ -21,17 +20,16 @@ public class PlayerBuilder implements HandlebleGameCommand {
     List<Actor>
     Skill
     */
-
     private static final String R_ERR = "The target is too far";
-    private Actor from;
-    private Room where;
-    private boolean isReady = false;
+    private ComplexObserver observer;
     private final Range range;
     private final Range splash;
     private final Effect actionToPerform;
     private Pair<Integer, Integer> cursePos;
+    private boolean isReady = false;
 
     /**
+     * Defines some parts of the command, characterizing it.
      * @param range define where the attack begin is legal
      * @param splash define where the effect is applied
      * @param action define what effect is to apply
@@ -40,8 +38,17 @@ public class PlayerBuilder implements HandlebleGameCommand {
         this.range = range;
         this.splash = splash;
         this.actionToPerform = action;
-        //TODO: inizializzare una posizione per il cursore (magari mirata)
-        //TODO: piccolo problema... non vedo la stanza nè l'attore!
+        //TODO - inizializzare una posizione per il cursore (magari mirata)
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void setObserver(final ComplexObserver observer) {
+        if (this.observer == null) {
+            this.observer = observer;
+        }
     }
 
     /**
@@ -49,7 +56,7 @@ public class PlayerBuilder implements HandlebleGameCommand {
      */
     @Override
     public void modify(final int input) {
-        //TODO: aspetto il cambio da input a GameCommand
+        //TODO - aspetto il cambio da input a GameCommand
         throw new UnsupportedOperationException("Unimplemented method 'modify'");
     }
 
@@ -58,7 +65,7 @@ public class PlayerBuilder implements HandlebleGameCommand {
      */
     @Override
     public Iterator<Entity> getRange() {
-        return range.getRange(from.getPos());
+        return range.getRange(observer.getOriginalActor().getPos());
     }
 
     /**
@@ -106,7 +113,12 @@ public class PlayerBuilder implements HandlebleGameCommand {
      */
     @Override
     public void execute() throws ModelException {
-        if (!range.isInRange(from.getPos(), cursePos)) {
+        if (this.observer == null) {
+            throw new UnsupportedOperationException("Bad costruction of this object");
+        }
+        //Room r = observer.getOriginalRoom();
+        Actor a = observer.getOriginalActor();
+        if (!range.isInRange(a.getPos(), cursePos)) {
             throw new NotInRange(R_ERR);
         }
         //TODO - implement application of effect
