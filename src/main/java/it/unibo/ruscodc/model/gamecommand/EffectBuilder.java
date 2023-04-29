@@ -98,6 +98,7 @@ public class EffectBuilder implements HandlebleGameCommand, BuilderGameCommand{
 
     @Override
     public void execute() throws ModelException {
+        
         if(!range.isInRange(from.getPos(), cursePos)){
             throw new NotInRange(R_ERR);
         }

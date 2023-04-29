@@ -5,6 +5,7 @@ import java.util.Iterator;
 import it.unibo.ruscodc.model.Entity;
 
 /**
+ * Defines a set of method usefull to manage manually a specific situation
  * With this class the player can manage a specific situation. 
  */
 public interface HandlebleGameCommand extends GameCommand {
@@ -18,22 +19,22 @@ public interface HandlebleGameCommand extends GameCommand {
      * </ul>
      * @param input that modify the command
      */
-    void modify(int input);
+    void modify(int input); //TODO int diventerrà GameController
 
     /**
-     * Help the player to understand where can move the begin of it's action.
+     * Help to understand where can move the begin of the wrapped effect.
      * @return an Iterator of some {@code}Entity{@code} that compose this area
      */
     Iterator<Entity> getRange();
 
     /**
-     * Help the player to understand the space's region where its effect take effect.
+     * Help to understand the space's region where the wrapped effect take effect.
      * @return an Iterator of some {@code}Entity{@code} that compose this area
      */
     Iterator<Entity> getSplash();
 
     /**
-     * Help the player to understand the point where it's effect begin.
+     * Help to understand the point where the wrapped effect begin.
      * @return the {@code}Entity{@code} that rappresent this point
      */
     Entity getCursePos();

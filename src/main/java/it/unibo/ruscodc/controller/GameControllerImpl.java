@@ -55,7 +55,7 @@ public class GameControllerImpl implements GameObserverController {
         if (actors.get(0) instanceof Hero) {
             Hero tmp = (Hero)actors.get(0);
             if (actualInstant.isPresent()) {
-                actualInstant.get().modify(input);
+                //actualInstant.get().modify(input);
             }
             else {
                 actualInstant = Optional.of(tmp.act(input));
