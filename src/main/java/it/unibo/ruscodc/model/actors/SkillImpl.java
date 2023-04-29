@@ -15,10 +15,10 @@ public class SkillImpl implements Skill {
 
     public SkillImpl() {
         //TODO Versione brute force dell'implementazione dei basic movement
-        this.setAction(1, new MoveUpBuilder());
-        this.setAction(2, new MoveDownBuilder());
-        this.setAction(3, new MoveRightBuilder());
-        this.setAction(4, new MoveLeftBuilder());
+        //this.setAction(1, new MoveUpBuilder());
+        //this.setAction(2, new MoveDownBuilder());
+        //this.setAction(3, new MoveRightBuilder());
+        //this.setAction(4, new MoveLeftBuilder());
     }
 
     @Override

@@ -9,14 +9,14 @@ import it.unibo.ruscodc.model.gamemap.Room;
  * @see Skill 
  * @see Actor
  */
-public interface BuilderGameCommand extends GameCommand {
+public interface BuilderGameCommand {
     /**
      * Set into builder-command who summon this command.
      * Once setted, other call to this method will be ineffective
      * This method is indispensable to the future execution of the command
-     * @param from the actor that summon this command
+     * @param by the actor that summon this command
      */
-    void setActor(Actor from);
+    void setActor(Actor by);
 
     /**
      * Set into builder-command who summon this command.

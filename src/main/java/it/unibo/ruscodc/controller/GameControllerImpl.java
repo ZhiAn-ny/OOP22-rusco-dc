@@ -53,24 +53,24 @@ public class GameControllerImpl implements GameObserverController {
     public void computeInput(int input) {
         
         if (actors.get(0) instanceof Hero) {
-            Hero tmp = (Hero)actors.get(0);
-            if (actualInstant.isPresent()) {
-                //actualInstant.get().modify(input);
-            }
-            else {
-                actualInstant = Optional.of(tmp.act(input));
-                actualInstant.get().setRoom(actualRoom);
-            }
+            // Hero tmp = (Hero)actors.get(0);
+            // if (actualInstant.isPresent()) {
+            //     //actualInstant.get().modify(input);
+            // }
+            // else {
+            //     actualInstant = Optional.of(tmp.act(input));
+            //     actualInstant.get().setRoom(actualRoom);
+            // }
 
-            if (actualInstant.get().isReady()) {
-                try{
-                    actualInstant.get().execute();
-                    actors.remove(0);
-                    manageMonsterTurn();
-                }catch (ModelException m) {
+            // if (actualInstant.get().isReady()) {
+            //     try{
+            //         actualInstant.get().execute();
+            //         actors.remove(0);
+            //         manageMonsterTurn();
+            //     }catch (ModelException m) {
                     
-                }
-            }
+            //     }
+            //}
         }
     }
 
