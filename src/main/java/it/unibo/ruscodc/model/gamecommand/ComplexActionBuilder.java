@@ -71,7 +71,6 @@ public class ComplexActionBuilder extends BuilderGameCommandImpl implements Comp
         throw new UnsupportedOperationException("Unimplemented method 'buildForIA'");
     }
 
-    
     @Override
     public Room getOriginalRoom() {
         return this.getRoom();

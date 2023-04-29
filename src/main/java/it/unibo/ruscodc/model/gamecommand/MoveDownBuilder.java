@@ -9,7 +9,7 @@ public final class MoveDownBuilder extends MoveBuilder {
 
     @Override
     protected Pair<Integer, Integer> computeNewPos() {
-        Pair<Integer, Integer> actPos = this.getActor().getPos();
+        final Pair<Integer, Integer> actPos = this.getActor().getPos();
         return new Pair<Integer, Integer>(actPos.getX() + 1, actPos.getY());
     }
 }

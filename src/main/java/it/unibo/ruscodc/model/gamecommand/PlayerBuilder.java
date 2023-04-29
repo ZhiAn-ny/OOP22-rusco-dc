@@ -117,7 +117,7 @@ public class PlayerBuilder implements HandlebleGameCommand {
             throw new UnsupportedOperationException("Bad costruction of this object");
         }
         //Room r = observer.getOriginalRoom();
-        Actor a = observer.getOriginalActor();
+        final Actor a = observer.getOriginalActor();
         if (!range.isInRange(a.getPos(), cursePos)) {
             throw new NotInRange(R_ERR);
         }
