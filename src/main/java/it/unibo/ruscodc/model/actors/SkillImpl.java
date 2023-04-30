@@ -5,29 +5,30 @@ import it.unibo.ruscodc.model.gamecommand.MoveDownBuilder;
 import it.unibo.ruscodc.model.gamecommand.MoveLeftBuilder;
 import it.unibo.ruscodc.model.gamecommand.MoveRightBuilder;
 import it.unibo.ruscodc.model.gamecommand.MoveUpBuilder;
+import it.unibo.ruscodc.utils.GameControl;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SkillImpl implements Skill {
 
-    final Map<Integer, BuilderGameCommand> skills = new HashMap<>();
+    final Map<GameControl, BuilderGameCommand> skills = new HashMap<>();
 
     public SkillImpl() {
         //TODO Versione brute force dell'implementazione dei basic movement
-        //this.setAction(1, new MoveUpBuilder());
-        //this.setAction(2, new MoveDownBuilder());
-        //this.setAction(3, new MoveRightBuilder());
-        //this.setAction(4, new MoveLeftBuilder());
+        this.setAction(GameControl.MOVEUP, new MoveUpBuilder());
+        this.setAction(GameControl.MOVEDOWN, new MoveDownBuilder());
+        this.setAction(GameControl.MOVERIGHT, new MoveRightBuilder());
+        this.setAction(GameControl.MOVELEFT, new MoveLeftBuilder());
     }
 
     @Override
-    public void setAction(int key, BuilderGameCommand action) {
+    public void setAction(GameControl key, BuilderGameCommand action) {
         this.skills.put(key, action);
     }
     
     @Override
-    public BuilderGameCommand getAction(int key) {
+    public BuilderGameCommand getAction(GameControl key) {
         return this.skills.get(key);
     }
 
@@ -39,6 +40,11 @@ public class SkillImpl implements Skill {
     public void modifySkill() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'modifySkill'");
+    }
+
+    @Override
+    public Map<GameControl, BuilderGameCommand> getSkills() {
+        return Map.copyOf(this.skills);
     }
 
 }

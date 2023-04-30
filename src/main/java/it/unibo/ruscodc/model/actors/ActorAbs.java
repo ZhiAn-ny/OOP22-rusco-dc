@@ -6,10 +6,10 @@ import it.unibo.ruscodc.utils.Pair;
  * 
  */
 public abstract class ActorAbs implements Actor {
-    private final String name;
+    protected final String name;
     private Pair<Integer, Integer> currentPos;
-    private final Skill skills;
-    private final Stat stats;
+    protected final Skill skills;
+    protected final Stat stats;
 
     /**
      * @param name
@@ -56,13 +56,6 @@ public abstract class ActorAbs implements Actor {
     final public Stat getStats() {
         return this.stats;
     }
-
-    /**
-     * 
-     */
-    final public void updateSKill() {
-        //TODO: Aggiorna le skill con quelle specifiche del Mosto o dell'Eroe 
-    };
 
     /**
      * @return foo

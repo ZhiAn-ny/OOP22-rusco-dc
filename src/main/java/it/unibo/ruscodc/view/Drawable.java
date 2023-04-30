@@ -1,7 +1,6 @@
 package it.unibo.ruscodc.view;
 
 import it.unibo.ruscodc.utils.Pair;
-import javafx.scene.canvas.GraphicsContext;
 
 public interface Drawable<X> {
 

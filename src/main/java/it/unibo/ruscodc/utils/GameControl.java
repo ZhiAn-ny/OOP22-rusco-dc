@@ -1,0 +1,73 @@
+package it.unibo.ruscodc.utils;
+
+/**
+ * Enum that contains the actions that the player can do.
+ */
+public enum GameControl {
+
+    /**
+     * Down direction.
+     */
+    MOVEDOWN,
+    /**
+     * Up direction.
+     */
+    MOVEUP,
+    /**
+     * Left direction.
+     */
+    MOVELEFT,
+    /**
+     * Right direction.
+     */
+    MOVERIGHT,
+    /**
+     * Inventory with the objects of user.
+     */
+    INVENTORY,
+    /**
+     * Pause game.
+     */
+    PAUSE,
+    /**
+     * Cancel the choose of user.
+     */
+    CANCEL,
+    /**
+     * Confirm the choose of user.
+     */
+    CONFIRM,
+    /**
+     * Interact with objects.
+     */
+    INTERACT,
+    /**
+     * Base attck.
+     */
+    BASEATTACK,
+    /**
+     * Special attack 1.
+     */
+    ATTACK1,
+    /**
+     * Special attack 2.
+     */
+    ATTACK2,
+    /**
+     * Special attack 3.
+     */
+    ATTACK3,
+    /**
+     * Special attack 4.
+     */
+    ATTACK4,
+    /**
+     * you can use the consumable item right away.
+     */
+    USEQUICK,
+    /**
+     * Do nothing.
+     */
+    DONOTHING;
+
+}

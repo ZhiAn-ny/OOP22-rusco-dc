@@ -31,12 +31,13 @@ public class StatImpl implements Stat{
     }
     
     @Override
+    public void setStat(StatName toSet, Pair<Integer, Integer> val) {
+        this.stats.put(toSet, val);
+    }
+    
+    @Override
     public Map<StatName, Pair<Integer, Integer>> getStats() {
-        return null;
+        return Map.copyOf(this.stats);
     }
 
-
-
-
-    
 }

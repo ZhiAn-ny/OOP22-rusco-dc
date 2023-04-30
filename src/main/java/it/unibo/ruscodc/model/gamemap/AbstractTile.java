@@ -4,11 +4,13 @@ import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.util.Optional;
-import java.util.Random;
 
-public class BaseTileImpl implements Tile, Entity {
+/**
+ * The <code>BaseFloorTileImpl</code> creates a base implementation of a tile
+ */
+public abstract class AbstractTile implements Tile, Entity {
     private final Pair<Integer, Integer> position;
-    private boolean isAccessible = true;
+    private boolean isAccessible;
     private Entity content = null;
 
     /**
@@ -16,7 +18,7 @@ public class BaseTileImpl implements Tile, Entity {
      * @param position the position of the tile in the room
      * @param accessibility whether the tile can be accessed or not by the player
      */
-    public BaseTileImpl(final Pair<Integer, Integer> position, final boolean accessibility) {
+    public AbstractTile(final Pair<Integer, Integer> position, final boolean accessibility) {
         this.position = position;
         this.isAccessible = accessibility;
     }
@@ -53,26 +55,8 @@ public class BaseTileImpl implements Tile, Entity {
     }
 
     @Override
-    public String getInfo() {
-        Random rnd = new Random();
-        return switch (rnd.nextInt(0, 5)) {
-            case 0 -> "This floor is so dirty!";
-            case 1 -> "Nothing to see here.";
-            case 2 -> "Dust bunnies where are you?";
-            case 3 -> "I wonder where the best trash is...";
-            case 4 -> "No banana peels here! The path is clear!";
-            default -> "Just some tiles...";
-        };
-    }
-
-    @Override
-    public String getPath() {
-        // TODO: add image resource
-        return "file:src/main/resources/it/unibo/ruscodc";
-    }
-
-    @Override
     public Pair<Integer, Integer> getPos() {
         return this.position;
     }
+
 }
