@@ -21,7 +21,8 @@ public interface GameObserverController {
      */
     void resume();
     /**
-     * It is a function that save the game automatically.
+     * Enable/disable the automatic save of the game.
+     * If it is enable, every time the player change __ the file that save the game will override with a new save
      */
     void changeAutomaticSave();
 
@@ -42,10 +43,6 @@ public interface GameObserverController {
      * Start the view and the game.
      */
     void start();
-    /**
-     * It is used to start the game.
-     */
-    void launch();
 
 
 

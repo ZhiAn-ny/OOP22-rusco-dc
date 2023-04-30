@@ -25,7 +25,6 @@ import java.util.Optional;
  * This class receives the input of the user through the view.
  * Send this to the Model for to execute a specific action based on input.
  * In the end upload the view with the changes made.
- *
  */
 public class GameControllerImpl implements GameObserverController {
 
@@ -35,12 +34,11 @@ public class GameControllerImpl implements GameObserverController {
     private final GameModel model;
 
     /**
-     * class constructor.
+     * Create the controller of the game
      */
     public GameControllerImpl() {
         this.view = new ViewJFX();
         this.model = new GameModelImpl();
-
     }
 
     @Override
@@ -53,11 +51,16 @@ public class GameControllerImpl implements GameObserverController {
 
     }
 
+    /**
+     * 
+     */
     @Override
     public void resume() {
-
     }
 
+    /**
+     * 
+     */
     @Override
     public void changeAutomaticSave() {
 
@@ -122,14 +125,16 @@ public class GameControllerImpl implements GameObserverController {
         }
     }
 
-
+    /**
+     * 
+     */
     @Override
     public void quit() {
-
+        System.exit(0);
     }
 
     /**
-     * Initializes view with the controller "to connect them".
+     * 
      */
     @Override
     public void init() {
@@ -137,7 +142,7 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     /**
-     * Start the view of application and manges the turn of Actor.
+     * 
      */
     @Override
     public void start() {
@@ -147,20 +152,12 @@ public class GameControllerImpl implements GameObserverController {
         manageMonsterTurn();
     }
 
-    /**
-     * todo
-     */
-    @Override
-    public void launch() {
-        manageMonsterTurn();
-    }
-
     private void initNewTurn() {
         if (initiative.isEmpty()) {
             initiative.addAll(model.getActorByInitative());
         }
-
     }
+
     private void manageMonsterTurn() {
         Monster tmpMonster;
         initNewTurn();
