@@ -17,7 +17,7 @@ public class WallTileImpl extends AbstractTile {
      *
      * @param position      the position of the tile in the room
      */
-    public WallTileImpl(Pair<Integer, Integer> position, WallType side) {
+    public WallTileImpl(final Pair<Integer, Integer> position, final WallType side) {
         super(position, false);
         this.side = side;
     }

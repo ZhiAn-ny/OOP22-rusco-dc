@@ -26,24 +26,40 @@ public class TileFactoryImpl implements TileFactory {
      * @return the type of wall to create
      */
     private WallType getWallType(final int x, final int y, final Pair<Integer, Integer> size) {
-        if (y == 0) return this.getTopWallType(x, size);
-        if (y == size.getY()) return this.getBottomWallType(x, size);
+        if (y == 0) {
+            return this.getTopWallType(x, size);
+        }
+        if (y == size.getY()) {
+            return this.getBottomWallType(x, size);
+        }
 
-        if (x == 0) return WallType.LEFT;
-        if (x == size.getX()) return WallType.RIGHT;
+        if (x == 0) {
+            return WallType.LEFT;
+        }
+        if (x == size.getX()) {
+            return WallType.RIGHT;
+        }
 
         return WallType.UNDEFINED;
     }
 
     private WallType getTopWallType(final int x, final Pair<Integer, Integer> size) {
-        if (x == 0) return WallType.TOP_LEFT;
-        if (x == size.getX()) return WallType.TOP_RIGHT;
+        if (x == 0) {
+            return WallType.TOP_LEFT;
+        }
+        if (x == size.getX()) {
+            return WallType.TOP_RIGHT;
+        }
         return WallType.TOP;
     }
 
     private WallType getBottomWallType(final int x, final Pair<Integer, Integer> size) {
-        if (x == 0) return WallType.BOTTOM_LEFT;
-        if (x == size.getX()) return WallType.BOTTOM_RIGHT;
+        if (x == 0) {
+            return WallType.BOTTOM_LEFT;
+        }
+        if (x == size.getX()) {
+            return WallType.BOTTOM_RIGHT;
+        }
         return WallType.BOTTOM;
     }
 

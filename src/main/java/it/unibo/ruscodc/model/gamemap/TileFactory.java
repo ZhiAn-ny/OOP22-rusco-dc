@@ -9,7 +9,7 @@ public interface TileFactory {
 
      * @return the new <code>Tile</code>
      */
-    Tile createBaseFloorTile(final int x, final int y);
+    Tile createBaseFloorTile(int x, int y);
 
     /**
      * Creates a new <code>Tile</code> representing a wall at the specified position.
@@ -18,6 +18,6 @@ public interface TileFactory {
      * @param size the size of the room
      * @return the new <code>Tile</code>
      */
-    Tile createBaseWallTile(final int x, final int y, final Pair<Integer, Integer> size);
+    Tile createBaseWallTile(int x, int y, Pair<Integer, Integer> size);
 
 }

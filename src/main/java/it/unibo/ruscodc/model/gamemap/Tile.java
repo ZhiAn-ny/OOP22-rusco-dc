@@ -28,7 +28,7 @@ public interface Tile {
      * @return <code>True</code> if the <code>Entity</code> has been placed correctly,
      * <code>False</code> otherwise.
      */
-    boolean put(final Entity obj);
+    boolean put(Entity obj);
 
     /**
      * Returns an <code>Optional</code> containing the <code>Entity</code>

@@ -4,6 +4,10 @@ import it.unibo.ruscodc.utils.Pair;
 
 import java.util.Random;
 
+/**
+ * The <code>FloorTileImpl</code> class represents the basic implementation of
+ * the concept of floor.
+ */
 public class FloorTileImpl extends AbstractTile {
 
     /**
@@ -18,7 +22,7 @@ public class FloorTileImpl extends AbstractTile {
 
     @Override
     public String getInfo() {
-        Random rnd = new Random();
+        final Random rnd = new Random();
         return switch (rnd.nextInt(0, 5)) {
             case 0 -> "This floor is so dirty!";
             case 1 -> "Nothing to see here.";
