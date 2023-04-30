@@ -1,5 +1,4 @@
 package it.unibo.ruscodc.view;
-
 import it.unibo.ruscodc.controller.GameObserverController;
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.gamemap.Tile;
@@ -73,11 +72,8 @@ public class ViewJFX extends Application implements GameView {
         Canvas canvas = new Canvas(this.screen.getWidth() * this.wtsRatio,
                 this.screen.getHeight() * this.htsRatio);
         this.context = canvas.getGraphicsContext2D();
-        Canvas canvas2 = new Canvas(this.screen.getWidth() * this.wtsRatio,
-                this.screen.getHeight() * this.htsRatio);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         root.setCenter(canvas);
-        root.setCenter(canvas2);
 
         this.mainScene = new Scene(root);
         this.mainScene.setFill(Color.web(this.BASE_BG_COLOR));
@@ -204,7 +200,7 @@ public class ViewJFX extends Application implements GameView {
             if (e instanceof Tile)
                 drw.setSize(1.5);
             return drw;
-        }).forEach(d->scene.add(d));
+        }).forEach(d -> scene.add(d));
 
     }
 
