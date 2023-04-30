@@ -14,7 +14,7 @@ import it.unibo.ruscodc.utils.Pair;
  * </ul>
  * 
  */
-public final class RowRange extends DecoratedRange{
+public final class RowRange extends DecoratedRange {
 
     /**
      * Summon this tipe of range.
