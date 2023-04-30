@@ -7,7 +7,11 @@ import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.Hero;
 import it.unibo.ruscodc.model.actors.Monster;
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
+import it.unibo.ruscodc.model.gamecommand.ComplexActionBuilder;
+import it.unibo.ruscodc.model.gamecommand.GameCommand;
+import it.unibo.ruscodc.model.gamecommand.HandlebleGameCommand;
 import it.unibo.ruscodc.model.gamecommand.MoveBuilder;
+import it.unibo.ruscodc.model.gamecommand.QuickActionBuilder;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.view.GameView;
@@ -26,7 +30,7 @@ import java.util.Optional;
 public class GameControllerImpl implements GameObserverController {
 
     private List<Actor> initiative = new ArrayList<>();
-    private Optional<BuilderGameCommand> actualInstant = Optional.empty();
+    private Optional<HandlebleGameCommand> playerSituation = Optional.empty();
     private final GameView view;
     private final GameModel model;
 
@@ -65,6 +69,19 @@ public class GameControllerImpl implements GameObserverController {
         return tmp;
     }
 
+    private boolean executeCommand(GameCommand toExec){
+        final boolean ready = toExec.isReady();
+        if (ready) {
+            try {
+                toExec.execute();
+                playerSituation = Optional.empty();
+                initiative.remove(0);
+            } catch (ModelException e) {
+                // TODO - gestire eccezioni model
+            }
+        }
+        return ready;
+    }
 
     /**
      * Compute the input of user and execute a specific action according to it.
@@ -72,31 +89,38 @@ public class GameControllerImpl implements GameObserverController {
      */
     @Override
     public void computeInput(final GameControl input) {
+
         if (initiative.get(0) instanceof Hero) {
-            Hero tmp = (Hero) initiative.get(0);
-            if (actualInstant.isPresent()) {
-               // actualInstant.get().modify(input);
+            
+            Hero tmpActor = (Hero) initiative.get(0);
+            HandlebleGameCommand tmpCommand;
+
+            if (playerSituation.isPresent()) {
+                
+                tmpCommand = playerSituation.get();
+                tmpCommand.modify(input);
+                    // TODO - magari fare quanto sotto se effettivamente ha apportato una modifica al builder dei comandi
+                    // TODO - (insomma, far restituire a modify un boolean)
+                if (!executeCommand(tmpCommand)) {
+                    // TODO - aggiornare la view qui!
+                }
+
             } else {
-                actualInstant = Optional.of(tmp.act(input));
-                actualInstant.get().setRoom(this.model.getCurrentRoom());
-            }
 
-            if (actualInstant.get().isReady()) {
-                try {
-                    actualInstant.get().execute();
-                    actualInstant = Optional.empty();
+                BuilderGameCommand wrapper = tmpActor.act(input);
+                wrapper.setActor(tmpActor);
+                wrapper.setRoom(model.getCurrentRoom());
+                
+                if (wrapper instanceof QuickActionBuilder) {
+                    QuickActionBuilder quick = (QuickActionBuilder) wrapper;
+                    executeCommand(quick);
 
-                    view.setEntityToDraw(entityToUpload());
-                    initiative.remove(0);
-                    manageMonsterTurn();
-                } catch (ModelException m) {
-                    if (actualInstant.get() instanceof MoveBuilder) {
-                        actualInstant = Optional.empty();
-                    }
+                } else {
+                    ComplexActionBuilder complex = (ComplexActionBuilder) wrapper;
+                    playerSituation = Optional.of(complex.buildForPlayer());
                 }
             }
         }
-
     }
 
 
@@ -139,12 +163,13 @@ public class GameControllerImpl implements GameObserverController {
 
     }
     private void manageMonsterTurn() {
-        Monster tmp;
+        Monster tmpMonster;
         initNewTurn();
         while (initiative.get(0) instanceof Monster) {
-            tmp = (Monster) initiative.get(0);
+            tmpMonster = (Monster) initiative.get(0);
             //tmp.behave();
-            initiative.remove(0);
+            // TODO - post implementazione mostro
+            //initiative.remove(0);
             initNewTurn();
         }
     }

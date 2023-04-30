@@ -3,6 +3,7 @@ package it.unibo.ruscodc.model.gamecommand;
 import java.util.Iterator;
 
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.utils.GameControl;
 
 /**
  * Defines a set of method usefull to manage manually a specific situation
@@ -20,7 +21,7 @@ public interface HandlebleGameCommand extends GameCommand {
      * 
      * @param input that modify the command
      */
-    void modify(int input); //TODO int diventerrà GameController, in questo branch ancora ingnoto
+    void modify(GameControl input); 
 
     /**
      * Set into this builder a reference to the previous class for getting some infos.

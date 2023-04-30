@@ -6,6 +6,7 @@ import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.effect.Effect;
 import it.unibo.ruscodc.model.range.Range;
+import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.utils.exception.NotInRange;
@@ -55,7 +56,7 @@ public class PlayerBuilder implements HandlebleGameCommand {
      * 
      */
     @Override
-    public void modify(final int input) {
+    public void modify(final GameControl input) {
         //TODO - aspetto il cambio da input a GameCommand
         throw new UnsupportedOperationException("Unimplemented method 'modify'");
     }
