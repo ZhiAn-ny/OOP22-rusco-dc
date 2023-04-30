@@ -2,67 +2,38 @@ package it.unibo.ruscodc.model.gamecommand;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamemap.Room;
-import it.unibo.ruscodc.model.range.Range;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.utils.exception.UnreacheblePos;
 
-public abstract class MoveBuilder implements BuilderGameCommand {
+/**
+ * Class that check the movement of a specific Actor in a specific Room.
+ * Classes that extends this class must only define what will be the new position of the Actor
+ */
+public abstract class MoveBuilder extends QuickActionBuilder {
 
-    private final static String ERR = "is already occupied or is out of the room";
-    private Actor actActor = null;
-    private Room where;
+    private static final String ERR = "The position ";
+    private static final String ERR2 = " is already occupied or is out of the room";
 
-    public MoveBuilder(){
-
-    }
-
-    @Override
-    public void setActor(Actor from) {
-        if(actActor == null){
-            this.actActor = from;
-        }
-    }
-
-    @Override
-    public void setRoom(Room where) {
-        if(where == null){
-            this.where = where;
-        }
-    }
-
-    @Override
-    public boolean isReady() {
-        return true;
-    }
-
-    @Override
-    public void modify(int input) {
-    }
-
-    @Override
-    public Range getRange() {
-        return null;
-    }
-
-    @Override
-    public Pair<Integer, Integer> getCursePos() {
-        return null;
-    }
-
+    /**
+     * 
+     */
     @Override
     public void execute() throws ModelException {
-        Pair<Integer,Integer> newPos = computeNewPos();
-        if(where.getMonsters().stream().map(a -> a.getPos()).anyMatch(p -> p.equals(newPos)) || where.isInRoom(newPos)){
-            throw new UnreacheblePos("The position " + newPos.toString() + " " + ERR);
+        final Room where = this.getRoom();
+        final Actor actActor = this.getActor();
+        final Pair<Integer, Integer> newPos = this.computeNewPos();
+        if (where.getMonsters().stream().map(a -> a.getPos()).anyMatch(p -> p.equals(newPos)) 
+            || !where.isInRoom(newPos)) {
+            throw new UnreacheblePos(ERR + newPos.toString() + ERR2);
         }
         actActor.setPos(newPos);
     }
 
-    protected Pair<Integer, Integer> getActPos(){
-        return actActor.getPos();
-    }
-
+    /**
+     * Compute the new position.
+     * This work must be defined in other dedicated classes.
+     * @return the new position, to be checked
+     */
     protected abstract Pair<Integer, Integer> computeNewPos();
-    
 }

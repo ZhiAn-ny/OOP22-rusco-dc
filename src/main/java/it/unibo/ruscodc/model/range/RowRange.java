@@ -1,18 +1,46 @@
 package it.unibo.ruscodc.model.range;
 
+import java.util.Iterator;
+
+import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.utils.Pair;
 
-public final class RowRange extends AbstractRange{
+/**
+ * Specific a Range with a line shape.
+ * For now, this line is
+ * <ul>
+ * <li>infinite</li>
+ * <li>ortogonal</li>
+ * </ul>
+ * 
+ */
+public final class RowRange extends DecoratedRange {
 
-    public RowRange(Pair<Integer, Integer> actPos) {
-        super(actPos);
+    /**
+     * Summon this tipe of range.
+     * @param start the range to decorate
+     */
+    public RowRange(final Range start) {
+        super(start);
     }
 
+    /**
+     * 
+     */
     @Override
-    public boolean isInRange(Pair<Integer, Integer> pos) {
-        Pair<Integer, Integer> actPos = getActPos();
-        return actPos.getX() == pos.getX() || actPos.getY() == actPos.getY()
-            || Math.abs(actPos.getX() - pos.getX()) == Math.abs(actPos.getY() - pos.getY());
+    public boolean isInRange(final Pair<Integer, Integer> by, final Pair<Integer, Integer> toCheck) {
+        return getMyRange().isInRange(by, toCheck) 
+            || 
+            by.getX().equals(toCheck.getX())  || by.getY().equals(toCheck.getY())
+            || Math.abs(by.getX() - toCheck.getX()) == Math.abs(by.getY() - toCheck.getY());
     }
-    
+
+    /**
+     * 
+     */
+    @Override
+    public Iterator<Entity> getRange(final Pair<Integer, Integer> by) {
+        return null; //TODO - finishImpl
+    }
+
 }

@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 
 import it.unibo.ruscodc.model.actors.StatImpl.StatName;
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
+import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
@@ -42,7 +43,7 @@ public class HeroImpl extends ActorAbs implements Hero {
      */
     @Override
     public String getPath() {
-        return PATH + this.name;
+        return "file:src/main/resources/it/unibo/ruscodc/hero_res/rusco/racoon-head.png";
     }
 
     /**

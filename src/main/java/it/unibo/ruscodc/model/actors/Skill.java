@@ -3,6 +3,7 @@ package it.unibo.ruscodc.model.actors;
 import java.util.Map;
 
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
+import it.unibo.ruscodc.utils.GameControl;
 
 /**
  * Interface of the Skill used by Actors.
