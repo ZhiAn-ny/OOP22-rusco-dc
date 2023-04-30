@@ -15,12 +15,12 @@ public interface Range {
      * @param toCheck the position that can be "in range" as not
      * @return if toCheck is into the Range
      */
-    boolean isInRange(Pair<Integer, Integer> by, Pair<Integer, Integer> toCheck);
+    boolean isInRange(final Pair<Integer, Integer> by, final Pair<Integer, Integer> toCheck);
 
     /**
      * Compute and return a set of {@code}Entity{@code} that all together rappresent the Range.
      * @param by the position where Range start
      * @return an iterator of this things
      */
-    Iterator<Entity> getRange(Pair<Integer, Integer> by);
+    Iterator<Entity> getRange(final Pair<Integer, Integer> by);
 }
