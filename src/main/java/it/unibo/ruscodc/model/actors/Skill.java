@@ -4,8 +4,25 @@ import java.util.Map;
 
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 
+/**
+ * Interface of the Skill used by Actors.
+ */
 public interface Skill {
+
+    /**
+     * @param key
+     * @param action
+     */
     void setAction(int key, BuilderGameCommand action);
+
+    /**
+     * @param key
+     * @return the Builder from the correct input
+     */
     BuilderGameCommand getAction(int key);
-    Map<Integer,BuilderGameCommand> getSkills();
+
+    /**
+     * @return the Map of <Key,Action>
+     */
+    Map<Integer, BuilderGameCommand> getSkills();
 }

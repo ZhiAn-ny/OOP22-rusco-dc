@@ -2,11 +2,13 @@ package it.unibo.ruscodc.model.actors;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import it.unibo.ruscodc.utils.Pair;
 
-public class StatImpl implements Stat{
-    
+/**
+ * A class used to manage the Stats of an Actor
+ */
+public class StatImpl implements Stat {
+
     public enum StatName {
         HP,
         AP,
