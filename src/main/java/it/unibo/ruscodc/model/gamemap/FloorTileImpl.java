@@ -31,7 +31,7 @@ public class FloorTileImpl extends AbstractTile {
 
     @Override
     public String getPath() {
-        return "file:src/main/resources/it/unibo/ruscodc/map_res/FloorTile.jpg";
+        return "file:src/main/resources/it/unibo/ruscodc/map_res/FloorTile";
     }
 
 }

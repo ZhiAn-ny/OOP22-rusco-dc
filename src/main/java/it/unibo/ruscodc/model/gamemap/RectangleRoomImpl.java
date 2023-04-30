@@ -18,7 +18,7 @@ public class RectangleRoomImpl implements Room {
     private final Map<Direction, Optional<Room>> connectedRooms = new HashMap<>();
 
     public RectangleRoomImpl(final int width, final int height) {
-        this.size = new Pair<Integer, Integer>(width, height);
+        this.size = new Pair<Integer, Integer>(width+1, height+1);
         this.addTiles();
         this.addDoors();
     }
@@ -29,10 +29,10 @@ public class RectangleRoomImpl implements Room {
     private void addTiles() {
         TileFactory tf = new TileFactoryImpl();
 
-        for (int i = 0; i < this.size.getX(); i++) {
-            for (int j = 0; j < this.size.getY(); j++) {
-                if (i == 0 || j == 0)
-                    this.tiles.add(tf.createBaseWallTile(i, j));
+        for (int i = 0; i <= this.size.getX(); i++) {
+            for (int j = 0; j <= this.size.getY(); j++) {
+                if (i == 0 || j == 0 || i == this.size.getX() || j == this.size.getY())
+                    this.tiles.add(tf.createBaseWallTile(i,j, this.size));
                 else
                     this.tiles.add(tf.createBaseFloorTile(i, j));
             }

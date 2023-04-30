@@ -23,7 +23,7 @@ import java.lang.ClassLoader;
 
 public class ViewJFX extends Application implements GameView {
     final private String TITLE = "Junkrisers";
-    final private String BASE_BG_COLOR = "#121212";
+    final private String BASE_BG_COLOR = "#ababab";
     final private String iconPath = "file:src/main/resources/it/unibo/ruscodc/hero_res/racoon-head.png";
 
     final private Dimension screen;
@@ -73,11 +73,7 @@ public class ViewJFX extends Application implements GameView {
         Canvas canvas = new Canvas(this.screen.getWidth() * this.wtsRatio,
                 this.screen.getHeight() * this.htsRatio);
         this.context = canvas.getGraphicsContext2D();
-        Canvas canvas2 = new Canvas(this.screen.getWidth() * this.wtsRatio,
-                this.screen.getHeight() * this.htsRatio);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
         root.setCenter(canvas);
-        root.setCenter(canvas2);
 
         this.mainScene = new Scene(root);
         this.mainScene.setFill(Color.web(this.BASE_BG_COLOR));
@@ -142,13 +138,7 @@ public class ViewJFX extends Application implements GameView {
         AnimationTimer gameloop = new AnimationTimer() {
            public void handle(long nanotime) {
                scene.forEach(drw -> drw.render(context));
-               String tmp = "file:src/main/resources/it/unibo/ruscodc/hero_res/rusco"+"racoon-head.png";
-               Image image = null;
-               try (var path = ClassLoader.getSystemResourceAsStream("hero_res/rusco/racoon-head.png");) {
-                   image = new Image(path);
-               } catch (Exception e) {
 
-               }
            }
         };
 
@@ -202,7 +192,7 @@ public class ViewJFX extends Application implements GameView {
         toDraw.stream().map(e-> {
             Drawable<GraphicsContext> drw = new JFXDrawableImpl(e);
             if (e instanceof Tile)
-                drw.setSize(1.5);
+                drw.setSize(1.5); // TODO: set 1 screen unit
             return drw;
         }).forEach(d->scene.add(d));
 

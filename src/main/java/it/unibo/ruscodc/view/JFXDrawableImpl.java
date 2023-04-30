@@ -13,7 +13,7 @@ public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
 
     private final static int SCALE = 100;
     public JFXDrawableImpl(Entity toDraw){
-        sprite = new Image(toDraw.getPath());
+        sprite = new Image(toDraw.getPath() + "/Sprite.png");
         Pair<Integer, Integer> tmp = toDraw.getPos();
         position = new Pair<>(tmp.getX()*SCALE, tmp.getY()*SCALE); //TODO
     }
