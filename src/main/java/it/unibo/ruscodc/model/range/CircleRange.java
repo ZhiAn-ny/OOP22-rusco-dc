@@ -46,9 +46,9 @@ public class CircleRange extends DecoratedRange {
      */
     @Override
     public Iterator<Entity> getRange(final Pair<Integer, Integer> by) {
-        int xB = by.getX();
-        int yB = by.getY();
-        Stream<Entity> tmp = Stream
+        final int xB = by.getX();
+        final int yB = by.getY();
+        final Stream<Entity> tmp = Stream
             .iterate(xB - size, i -> i <= xB + size, j -> j + 1)
             .flatMap(x -> Stream
                 .iterate(yB - size, i -> i <= yB + size, j -> j + 1)
@@ -71,7 +71,7 @@ public class CircleRange extends DecoratedRange {
                     return p;
                 }
             });
-        Iterator<Entity> tmp2 = getMyRange().getRange(by);
+        final Iterator<Entity> tmp2 = getMyRange().getRange(by);
         return Stream.concat(tmp, Stream.iterate(tmp2.next(), i -> tmp2.hasNext(), j -> tmp2.next())).iterator();
     }
 

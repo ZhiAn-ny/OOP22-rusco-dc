@@ -22,7 +22,7 @@ public abstract class MoveBuilder extends QuickActionBuilder {
     public void execute() throws ModelException {
         final Room where = this.getRoom();
         final Actor actActor = this.getActor();
-        final Pair<Integer, Integer> newPos = computeNewPos();
+        final Pair<Integer, Integer> newPos = this.computeNewPos();
         if (where.getMonsters().stream().map(a -> a.getPos()).anyMatch(p -> p.equals(newPos)) 
             || !where.isInRoom(newPos)) {
             throw new UnreacheblePos(ERR + newPos.toString() + ERR2);

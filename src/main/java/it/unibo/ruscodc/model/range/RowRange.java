@@ -31,7 +31,7 @@ public final class RowRange extends DecoratedRange {
     public boolean isInRange(final Pair<Integer, Integer> by, final Pair<Integer, Integer> toCheck) {
         return getMyRange().isInRange(by, toCheck) 
             || 
-            by.getX() == toCheck.getX() || by.getY() == toCheck.getY()
+            by.getX().equals(toCheck.getX())  || by.getY().equals(toCheck.getY())
             || Math.abs(by.getX() - toCheck.getX()) == Math.abs(by.getY() - toCheck.getY());
     }
 

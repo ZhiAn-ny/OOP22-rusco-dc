@@ -24,7 +24,7 @@ public abstract class SingleAbs implements Range {
      */
     @Override
     public Iterator<Entity> getRange(final Pair<Integer, Integer> by) {
-        List<Entity> tmp = List.of(new Entity() {
+        final List<Entity> tmp = List.of(new Entity() {
 
             @Override
             public String getInfo() {
