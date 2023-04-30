@@ -69,7 +69,7 @@ public class GameControllerImpl implements GameObserverController {
         return tmp;
     }
 
-    private boolean executeCommand(GameCommand toExec){
+    private boolean executeCommand(GameCommand toExec) {
         final boolean ready = toExec.isReady();
         if (ready) {
             try {
@@ -98,17 +98,16 @@ public class GameControllerImpl implements GameObserverController {
             if (playerSituation.isPresent()) {
                 
                 tmpCommand = playerSituation.get();
-                tmpCommand.modify(input);
-                    // TODO - magari fare quanto sotto se effettivamente ha apportato una modifica al builder dei comandi
-                    // TODO - (insomma, far restituire a modify un boolean)
-                if (!executeCommand(tmpCommand)) {
-                    // TODO - aggiornare la view qui!
+                if (tmpCommand.modify(input)) {
+                    if (!executeCommand(tmpCommand)) {
+                        // TODO - aggiornare la view qui!
+                    }
                 }
 
             } else {
 
                 BuilderGameCommand wrapper = tmpActor.act(input);
-                wrapper.setActor(tmpActor);
+                //wrapper.setActor(tmpActor);
                 wrapper.setRoom(model.getCurrentRoom());
                 
                 if (wrapper instanceof QuickActionBuilder) {
@@ -167,7 +166,7 @@ public class GameControllerImpl implements GameObserverController {
         initNewTurn();
         while (initiative.get(0) instanceof Monster) {
             tmpMonster = (Monster) initiative.get(0);
-            //tmp.behave();
+            executeCommand(tmpMonster.behave(model.getCurrentRoom()));
             // TODO - post implementazione mostro
             //initiative.remove(0);
             initNewTurn();

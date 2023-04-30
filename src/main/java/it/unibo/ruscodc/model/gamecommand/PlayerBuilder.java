@@ -56,7 +56,7 @@ public class PlayerBuilder implements HandlebleGameCommand {
      * 
      */
     @Override
-    public void modify(final GameControl input) {
+    public boolean modify(final GameControl input) {
         //TODO - aspetto il cambio da input a GameCommand
         throw new UnsupportedOperationException("Unimplemented method 'modify'");
     }

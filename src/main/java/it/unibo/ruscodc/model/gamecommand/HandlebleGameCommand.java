@@ -20,8 +20,9 @@ public interface HandlebleGameCommand extends GameCommand {
      * </ul>
      * 
      * @param input that modify the command
+     * @return true if input have effectly change the builder state, false otherwise
      */
-    void modify(GameControl input); 
+    boolean modify(GameControl input); 
 
     /**
      * Set into this builder a reference to the previous class for getting some infos.
