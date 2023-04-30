@@ -1,44 +1,18 @@
 package it.unibo.ruscodc.model.range;
 
-import java.util.Iterator;
-import java.util.List;
+/**
+ * Specific the range resources and infos.
+ */
+public final class SingleRange extends SingleAbs {
 
-import it.unibo.ruscodc.model.Entity;
-import it.unibo.ruscodc.utils.Pair;
-
-public final class SingleRange implements Range{
-    private final static String PATH = "";
     @Override
-    public boolean isInRange(Pair<Integer, Integer> by, Pair<Integer, Integer> toCheck) {
-        return by.equals(toCheck);
+    protected String getSpecificPath() {
+        return "file:src/main/resources/it/unibo/ruscodc/range_res/range";
     }
 
     @Override
-    public Iterator<Entity> getRange(Pair<Integer, Integer> by) {
-        List<Entity> tmp = List.of(new Entity() {
-
-            @Override
-            public String getInfo() {
-                return "Range attack";
-            }
-
-            @Override
-            public String getPath() {
-                return PATH;
-            }
-
-            @Override
-            public Pair<Integer, Integer> getPos() {
-                return by;
-            }
-            
-        });
-        return tmp.iterator();
-        
+    protected String getSpecificInfo() {
+        return "Range attack: here you can move the cursor";
     }
-
-    protected String getPathRes(){
-        return PATH;
-    } 
 
 }
