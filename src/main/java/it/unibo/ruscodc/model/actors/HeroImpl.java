@@ -94,9 +94,9 @@ public class HeroImpl extends ActorAbs implements Hero {
             e.printStackTrace();
         }
 
-        Map<Integer, BuilderGameCommand> tmp = gson.fromJson(scannedline.toString(), Skill.class).getSkills();
+        Map<GameControl, BuilderGameCommand> tmp = gson.fromJson(scannedline.toString(), Skill.class).getSkills();
 
-        for (Map.Entry<Integer, BuilderGameCommand> entry : tmp.entrySet()) {
+        for (Map.Entry<GameControl, BuilderGameCommand> entry : tmp.entrySet()) {
             this.skills.setAction(entry.getKey(), entry.getValue());
         }
     }
@@ -106,7 +106,7 @@ public class HeroImpl extends ActorAbs implements Hero {
      * @param key the input value of the key pressed
      * @return a Builder of GameCommand of the respective key
      */
-    public BuilderGameCommand act(final int key) {
+    public BuilderGameCommand act(final GameControl key) {
         BuilderGameCommand builderGameCommand = this.getSkills().getAction(key);
         builderGameCommand.setActor(this);
         return builderGameCommand;

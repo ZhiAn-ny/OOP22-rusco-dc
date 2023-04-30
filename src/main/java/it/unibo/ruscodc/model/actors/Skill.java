@@ -14,16 +14,16 @@ public interface Skill {
      * @param key
      * @param action
      */
-    void setAction(int key, BuilderGameCommand action);
+    void setAction(GameControl key, BuilderGameCommand action);
 
     /**
      * @param key
      * @return the Builder from the correct input
      */
-    BuilderGameCommand getAction(int key);
+    BuilderGameCommand getAction(GameControl key);
 
     /**
      * @return the Map of <Key,Action>
      */
-    Map<Integer, BuilderGameCommand> getSkills();
+    Map<GameControl, BuilderGameCommand> getSkills();
 }
