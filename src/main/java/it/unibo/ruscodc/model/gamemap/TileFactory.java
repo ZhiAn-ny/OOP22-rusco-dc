@@ -2,6 +2,10 @@ package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.utils.Pair;
 
+/**
+ * The <code>TileFactory</code> interfaces provides useful methods to create
+ * different types of <code>Tile</code>
+ */
 public interface TileFactory {
 
     /**

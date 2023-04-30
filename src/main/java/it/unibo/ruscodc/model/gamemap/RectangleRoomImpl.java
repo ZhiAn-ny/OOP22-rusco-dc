@@ -6,6 +6,7 @@ import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * The <code>RectangleRoomImpl</code> class creates a basic implementation of the interface <code>Room</code>.
@@ -17,10 +18,25 @@ public class RectangleRoomImpl implements Room {
     private final Set<Actor> monsters = new HashSet<>();
     private final Map<Direction, Optional<Room>> connectedRooms = new HashMap<>();
 
-    public RectangleRoomImpl(final int width, final int height) {
+    /**
+     *
+     * @param width the width of the room
+     * @param height the height of the room
+     * @param doors the number of door to add
+     */
+    public RectangleRoomImpl(final int width, final int height, final int doors) {
         this.size = new Pair<>(width + 1, height + 1);
         this.addTiles();
-        this.addDoors();
+        this.addDoors(doors);
+    }
+
+    /**
+     *
+     * @param width the width of the room
+     * @param height the height of the room
+     */
+    public RectangleRoomImpl(final int width, final int height) {
+        this(width, height, new Random().nextInt(4));
     }
 
     /**
@@ -42,8 +58,44 @@ public class RectangleRoomImpl implements Room {
     /**
      * Inserts a random number of doors in the room.
      */
-    private void addDoors() {
-        // TODO:
+    private void addDoors(final int doors) {
+        final Random rnd = new Random();
+        int i = 0;
+
+        while (i <= doors) {
+            Direction dir = Direction.values()[rnd.nextInt(Direction.values().length)];
+            Predicate<Tile> isOnRoomSide = this.getTilesOnSideFilter(dir);
+            List<Tile> onSide = this.tiles.stream()
+                    .filter(isOnRoomSide)
+                    .filter(this.isNotCorner())
+                    .toList();
+
+            if (onSide.stream().anyMatch(tile -> !(tile instanceof WallTileImpl))) {
+                continue; // Already placed a door on this side
+            }
+            final Pair<Integer, Integer> pos = onSide.get(rnd.nextInt(onSide.size()))
+                    .getPosition();
+            this.tiles.removeIf(tile -> tile.getPosition().equals(pos));
+            this.tiles.add(new FloorTileImpl(pos, true));
+            i = i + 1;
+        }
+    }
+
+    private Predicate<Tile> getTilesOnSideFilter(final Direction dir) {
+        return switch (dir) {
+            case UP -> (Tile t) -> t.getPosition().getY() == 0;
+            case LEFT -> (Tile t) -> t.getPosition().getX() == 0;
+            case DOWN -> (Tile t) -> t.getPosition().getY().equals(this.size.getY());
+            case RIGHT -> (Tile t) -> t.getPosition().getX().equals(this.size.getX());
+            default -> (Tile t) -> false;
+        };
+    }
+
+    private Predicate<Tile> isNotCorner() {
+        return (Tile t) -> !(t.getPosition().equals(new Pair<>(0 ,0))
+                || t.getPosition().equals(this.size)
+                || t.getPosition().equals(new Pair<>(this.size.getX() ,0))
+                || t.getPosition().equals(new Pair<>(0 ,this.size.getY())));
     }
 
     @Override
