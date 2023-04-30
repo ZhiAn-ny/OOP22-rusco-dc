@@ -1,10 +1,10 @@
 package it.unibo.ruscodc.model.actors;
 
-public abstract class Monster extends ActorAbs {
-    
-    //private final Behave behave;
+import java.lang.module.ModuleDescriptor.Builder;
 
-    public Monster(String name, it.unibo.ruscodc.utils.Pair<Integer, Integer> initialPos) {
-        super(name, initialPos);
-    }
+import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
+
+public abstract interface Monster extends Actor {
+    
+    BuilderGameCommand behave();
 }
