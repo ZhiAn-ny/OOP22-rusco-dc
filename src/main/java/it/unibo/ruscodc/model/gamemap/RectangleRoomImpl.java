@@ -70,7 +70,7 @@ public class RectangleRoomImpl implements Room {
                     .filter(this.isNotCorner())
                     .toList();
 
-            if (onSide.stream().anyMatch(tile -> !(tile instanceof WallTileImpl))) {
+            if (onSide.size() == 0 || onSide.stream().anyMatch(tile -> !(tile instanceof WallTileImpl))) {
                 continue; // Already placed a door on this side
             }
             final Pair<Integer, Integer> pos = onSide.get(rnd.nextInt(onSide.size()))
