@@ -1,5 +1,6 @@
-package it.unibo.ruscodc.model.actors;
+package it.unibo.ruscodc.model.actors.hero;
 
+import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.utils.GameControl;
 

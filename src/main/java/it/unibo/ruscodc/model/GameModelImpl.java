@@ -2,7 +2,7 @@ package it.unibo.ruscodc.model;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.DummyHero;
-import it.unibo.ruscodc.model.actors.Hero;
+import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.FloorImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
