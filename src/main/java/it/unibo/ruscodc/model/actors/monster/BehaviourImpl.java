@@ -7,6 +7,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.model.gamecommand.IAGameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.GameControl;
@@ -19,13 +20,13 @@ public class BehaviourImpl implements Behaviour{
 
     public BehaviourImpl(final MovementBehave movementBehave, final CombactBehave combatBehave) {
         this.movementBehave = movementBehave;
-        this.combatBehave = combatBehave;
+        this.combactBehave = combatBehave;
     }
 
     @Override
     public GameControl makeDecision(final Room room, final List<Actor> actors, final Monster monster) {
         Optional<GameControl> control = Optional.empty();
-        control = combatBehave.choseAttack(
+        control = combactBehave.choseAttack(
                     room,
                     actors,
                     monster
@@ -34,7 +35,7 @@ public class BehaviourImpl implements Behaviour{
                         .entrySet()
                         .stream()
                         .filter(a -> a.getValue().isBuildable())
-                        .collect(Collectors.toMap(a -> a.getKey(), a -> a.getValue(), null, () -> new HashMap<>()))
+                        .collect(Collectors.toMap(a -> a.getKey(), a -> a.getValue(), (a,b) -> a, () -> new HashMap<GameControl, BuilderGameCommand>()))
                 );
             
         if (control.isPresent()) {

@@ -6,14 +6,13 @@ import java.util.Optional;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
-import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.GameControl;
 
 public class CombactBehaveImpl implements CombactBehave {
 
     @Override
-    public Optional<GameControl> choseAttack(Room room, List<Actor> actors, Map<GameCommand, BuilderGameCommand> skills) {
+    public Optional<GameControl> choseAttack(Room room, List<Actor> actors, Map<GameControl, BuilderGameCommand> skills) {
         return null;
 
     }
