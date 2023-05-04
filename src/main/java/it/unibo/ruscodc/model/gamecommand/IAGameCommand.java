@@ -1,5 +1,7 @@
 package it.unibo.ruscodc.model.gamecommand;
 
+import it.unibo.ruscodc.model.range.Range;
+
 /**
  * Defines a set of method usefull to manage automatically a specific situation.
  * With this class the game can manage mobs
@@ -11,4 +13,6 @@ public interface IAGameCommand {
      */
     void setObserver(ComplexObserver observer);
     //TODO-è ancora da pensare
+
+    Range getRange();
 }
