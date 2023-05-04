@@ -59,7 +59,9 @@ public class ComplexActionBuilder extends BuilderGameCommandImpl implements Comp
         if (r == null || s == null || eff == null) {
             throw new IllegalStateException();
         }
-        return new PlayerBuilder(r, s, eff);
+        HandlebleGameCommand tmp = new PlayerBuilder(r, s, eff);
+        tmp.setObserver(this);
+        return tmp;
     }
 
     /**
@@ -70,7 +72,12 @@ public class ComplexActionBuilder extends BuilderGameCommandImpl implements Comp
     @Override
     public IAGameCommand buildForIA() {
         globalChecks();
-        throw new UnsupportedOperationException("Unimplemented method 'buildForIA'");
+        if (r == null || s == null || eff == null) {
+            throw new IllegalStateException();
+        }
+        IAGameCommand tmp = new IABuilder(r, s, eff);
+        tmp.setObserver(this);
+        return tmp;
     }
 
     /**
