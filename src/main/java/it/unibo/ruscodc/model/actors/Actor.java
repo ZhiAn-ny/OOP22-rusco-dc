@@ -16,7 +16,7 @@ public interface Actor extends Entity {
     /**
      * @return the Skill of the Actor.
      */
-    Skill getSkills();
+    Skill getFieldSkill();
 
     /**
      * @return the Name of the Actor.

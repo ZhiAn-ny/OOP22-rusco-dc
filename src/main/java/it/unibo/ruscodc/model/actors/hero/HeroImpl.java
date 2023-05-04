@@ -111,7 +111,7 @@ public class HeroImpl extends ActorAbs implements Hero {
      * @return a Builder of GameCommand of the respective key
      */
     public BuilderGameCommand act(final GameControl key) {
-        BuilderGameCommand builderGameCommand = this.getSkills().getAction(key);
+        BuilderGameCommand builderGameCommand = this.getFieldSkill().getAction(key);
         builderGameCommand.setActor(this);
         return builderGameCommand;
     }

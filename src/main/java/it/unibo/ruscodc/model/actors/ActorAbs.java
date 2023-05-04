@@ -39,7 +39,7 @@ public abstract class ActorAbs implements Actor {
     /**
      * @return foo
      */
-    final public Skill getSkills() {
+    final public Skill getFieldSkill() {
         return this.skills;
     };
 
