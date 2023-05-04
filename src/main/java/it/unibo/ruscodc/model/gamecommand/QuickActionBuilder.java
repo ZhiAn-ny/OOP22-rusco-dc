@@ -17,6 +17,33 @@ public abstract class QuickActionBuilder extends BuilderGameCommandImpl implemen
         return true;
     }
 
+    /**
+     * 
+     */
+    @Override
+    public boolean isBuildable() {
+        return false;
+    }
+    /**
+     * 
+     */
+    @Override
+    public HandlebleGameCommand buildForPlayer() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buildForPlayer'");
+    }
+    /**
+     * 
+     */
+    @Override
+    public IAGameCommand buildForIA() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buildForIA'");
+    }
+    /**
+     * 
+     */
     @Override
     public abstract void execute() throws ModelException;
+
 }

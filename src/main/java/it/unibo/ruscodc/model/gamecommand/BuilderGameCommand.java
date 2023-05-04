@@ -25,4 +25,20 @@ public interface BuilderGameCommand {
      * @param where the room where this action is executing
      */
     void setRoom(Room where);
+    /**
+     * 
+     * @return
+     */
+    boolean isBuildable();
+    /**
+     * 
+     * @return
+     */
+    HandlebleGameCommand buildForPlayer();
+    /**
+     * 
+     * @return
+     */
+    IAGameCommand buildForIA();
+
 }
