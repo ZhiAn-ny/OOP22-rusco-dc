@@ -11,6 +11,7 @@ import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.model.gamecommand.IAGameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.GameControl;
+import it.unibo.ruscodc.utils.Pair;
 
 public class BehaviourImpl implements Behaviour{
 
@@ -34,8 +35,16 @@ public class BehaviourImpl implements Behaviour{
                         .getSkills()
                         .entrySet()
                         .stream()
+                        .peek(a -> a.getValue().setActor(monster))
+                        .peek(a -> a.getValue().setRoom(room))
                         .filter(a -> a.getValue().isBuildable())
-                        .collect(Collectors.toMap(a -> a.getKey(), a -> a.getValue(), (a,b) -> a, () -> new HashMap<GameControl, BuilderGameCommand>()))
+                        .map(a -> new Pair<>(a.getKey(), a.getValue().buildForIA()))
+                        .filter(a -> actors
+                            .stream()
+                            .filter(b -> a.getY().getRange().isInRange(monster.getPos(), b.getPos()))
+                            .findFirst().isPresent()
+                        )
+                        .collect(Collectors.toMap(a -> a.getX(), a -> a.getY(), (a,b) -> a, () -> new HashMap<>()))
                 );
             
         if (control.isPresent()) {
