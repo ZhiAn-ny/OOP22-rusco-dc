@@ -22,5 +22,10 @@ public class IABuilder implements IAGameCommand{
             this.observer = observer;
         }
     }
+
+    @Override
+    public Range getRange() {
+        return this.range;
+    }
     
 }
