@@ -7,6 +7,7 @@ import it.unibo.ruscodc.utils.Pair;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * The <code>RectangleRoomImpl</code> class creates a basic implementation of the interface <code>Room</code>.
@@ -110,24 +111,17 @@ public class RectangleRoomImpl implements Room {
 
     @Override
     public Set<Entity> getObjectsInRoom() {
-        final Set<Entity> objs = new HashSet<>();
-        this.tiles.forEach(tile -> {
-            if (tile.get().isPresent()) {
-                objs.add(tile.get().get());
-            }
-        });
-        return objs;
+        return this.tiles.stream()
+                .filter(tile -> tile.get().isPresent())
+                .map(tile -> tile.get().orElseThrow())
+                .collect(Collectors.toSet());
     }
 
     @Override
     public List<Entity> getTilesAsEntity() {
-        final List<Entity> asEntity = new ArrayList<>();
-        this.tiles.forEach(tile -> {
-            if (tile instanceof Entity) {
-                asEntity.add((Entity) tile);
-            }
-        });
-        return asEntity;
+        return this.tiles.stream()
+                .filter(tile -> tile instanceof Entity)
+                .map(tile -> (Entity) tile).toList();
     }
 
     @Override
