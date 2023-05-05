@@ -4,26 +4,27 @@ import java.util.Iterator;
 import java.util.List;
 
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
  * This class implement the concept of "collapsed area".
- * So the begin of the range is the range itself.
+ * So "the begin of the range" is the range itself.
  */
 public abstract class SingleAbs implements Range {
     /**
      * 
      */
     @Override
-    public boolean isInRange(final Pair<Integer, Integer> by, final Pair<Integer, Integer> toCheck) {
-        return by.equals(toCheck);
+    public boolean isInRange(final Pair<Integer, Integer> by, final Pair<Integer, Integer> toCheck, final Room where) {
+        return by.equals(toCheck) && where.isAccessible(toCheck);
     }
 
     /**
      * 
      */
     @Override
-    public Iterator<Entity> getRange(final Pair<Integer, Integer> by) {
+    public Iterator<Entity> getRange(final Pair<Integer, Integer> by, final Room where) {
         final List<Entity> tmp = List.of(new Entity() {
 
             @Override
@@ -41,6 +42,7 @@ public abstract class SingleAbs implements Range {
                 return by;
             }
         });
+        tmp.removeIf(e -> !where.isAccessible(e.getPos()));
         return tmp.iterator();
     }
 
