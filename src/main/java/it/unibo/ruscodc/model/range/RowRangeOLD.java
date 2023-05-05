@@ -14,13 +14,13 @@ import it.unibo.ruscodc.utils.Pair;
  * </ul>
  * 
  */
-public final class RowRange extends DecoratedRange {
+public final class RowRangeOLD extends DecoratedRange {
 
     /**
      * Summon this tipe of range.
      * @param start the range to decorate
      */
-    public RowRange(final Range start) {
+    public RowRangeOLD(final Range start) {
         super(start);
     }
 

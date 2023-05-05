@@ -9,7 +9,7 @@ import it.unibo.ruscodc.utils.Pair;
 /**
  * Specific a Range with a circle shape.
  */
-public class CircleRange extends DecoratedRange {
+public class CircleRangeoOLD extends DecoratedRange {
 
     private final int size;
 
@@ -18,7 +18,7 @@ public class CircleRange extends DecoratedRange {
      * @param start the decorated range
      * @param size the radius of the circle
      */
-    public CircleRange(final Range start, final int size) {
+    public CircleRangeoOLD(final Range start, final int size) {
         super(start);
         this.size = size;
     }

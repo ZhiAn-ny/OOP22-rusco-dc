@@ -58,7 +58,7 @@ public abstract class DecoratedRange implements Range {
      */
     @Override
     public boolean isInRange(final Pair<Integer, Integer> by, final Pair<Integer, Integer> toCheck, final Room where){
-
+        commute(where);
     }
     
 
