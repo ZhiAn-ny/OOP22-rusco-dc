@@ -10,12 +10,17 @@ public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
     private final Pair<Integer, Integer> position;
     private double rotation = 0;
     private double size = 1;
+    private double screenUnit;
 
-    private final static int SCALE = 100;
-    public JFXDrawableImpl(Entity toDraw){
-        sprite = new Image(toDraw.getPath() + "/Sprite.png");
-        Pair<Integer, Integer> tmp = toDraw.getPos();
-        position = new Pair<>(tmp.getX()*SCALE, tmp.getY()*SCALE); //TODO
+    public JFXDrawableImpl(Entity toDraw, double screenUnit){
+        int offset = 2;
+        this.screenUnit = screenUnit;
+        this.sprite = new Image(toDraw.getPath() + "/Sprite.png");
+        Pair<Integer, Integer> logicPosition = toDraw.getPos();
+        this.position = new Pair<Integer, Integer>(
+                Math.toIntExact((logicPosition.getX() + offset) * Math.round(this.screenUnit)),
+                Math.toIntExact((logicPosition.getY() + offset) * Math.round(this.screenUnit))
+        );
     }
 
     @Override
@@ -37,13 +42,17 @@ public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
     @Override
     public void setSize(double size) {
         this.size = size;
-        this.applySize(50);
+        this.applySize();
+
     }
 
-    private void applySize(double screeUnit) {
-        this.sprite = new Image(this.sprite.getUrl(),
-                screeUnit * this.size, screeUnit * this.size,
-                true, false);
+    private void applySize() {
+        this.sprite = new Image(
+            this.sprite.getUrl(),
+            this.screenUnit * this.size,
+            this.screenUnit * this.size,
+            true, false
+        );
     }
 
 }
