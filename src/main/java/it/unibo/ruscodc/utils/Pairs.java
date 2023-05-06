@@ -3,9 +3,7 @@ package it.unibo.ruscodc.utils;
 
 import java.util.List;
 import java.util.Set;
-import java.util.function.BiFunction;
 import java.util.stream.Stream;
-import it.unibo.ruscodc.utils.MyIterator;
 
 /**
  * A "libary" to compute some geometric shapes, or more generally to perform some algotirms on Pair class.
@@ -70,6 +68,7 @@ public class Pairs {
      * Given two points, compute all delta of all points that are between these two points.
      * This result should be applied on a point to obtain a "half line" with A -> B direction.
      * Therefore this method creates infinite pairs of values which, applied to a point A, create the respective half-line A-B.
+     * This line is a PPLine
      * @param A the point where the ideally "half line" start.
      * @param B the point where the ideally "half line" pass.
      * @return this infinite pairs, wrapped into a Stream.
@@ -89,14 +88,17 @@ public class Pairs {
                 : new Pair<Integer, Integer>((int) Math.round(myAngCoeff * i), i));
     }
 
+
+
+
     /**
-     * This method apply a pre-computed "delta line" (maybe see "computeInfPPLineDelta") to a point.
+     * This method apply a pre-computed "line of delta" to a point.
      * So this method return the "half line" wrapped into deltaLine applied on the specified point.
-     * @param deltaLine the line of delta.
+     * @param deltaLine the line of delta. (it can be limited or unlimited)
      * @param where the point where appliy deltaLine.
      * @return the effective half-line.
      */
-    private static Stream<Pair<Integer, Integer>> applyInfLineDelta(final Stream<Pair<Integer, Integer>> deltaLine, final Pair<Integer, Integer> where){
+    public static Stream<Pair<Integer, Integer>> applyInfLineDelta(final Stream<Pair<Integer, Integer>> deltaLine, final Pair<Integer, Integer> where){
         return deltaLine.map(p -> new Pair<>(p.getX() + where.getX(), p.getY() + where.getY()));
     }
 
@@ -127,9 +129,9 @@ public class Pairs {
 
     /**
      * Given two points, compute all delta of all points that are between these two points.
-     * But also add some other point, to make a PPLine a BoldLine
      * This result should be applied on a point to obtain a "half line" with A -> B direction.
      * Therefore this method creates infinite pairs of values which, applied to a point A, create the respective half-line A-B.
+     * This method is based on {@code}computeInfPPLineDelta{@code} method, but when the coordinate with the smallest offset changes, a point is added to the PPLineDelta to make it BoldLineDelta
      * @param A the point where the ideally "half line" start.
      * @param B the point where the ideally "half line" pass.
      * @return this infinite pairs, wrapped into a Stream.
@@ -190,7 +192,7 @@ public class Pairs {
      * @param B the point where the line stop
      * @return the Stream that wrap this line
      */
-    public static Stream<Pair<Integer, Integer>> computeCubbyLine(final Pair<Integer, Integer> A, final Pair<Integer, Integer> B){
+    public static Stream<Pair<Integer, Integer>> computeBoldLine(final Pair<Integer, Integer> A, final Pair<Integer, Integer> B){
         return computeInfBoldLine(A,B)
             .limit(computeBiggerDelta(A, B) + computeLowerDelta(A, B) + 1);
     }
@@ -230,17 +232,17 @@ public class Pairs {
         final int toSkip = radius - 1 <= 1 ? 1 : radius - 1;
         final Pair<Integer, Integer> B = computeInfPPLine(A, BB).skip(toSkip).findFirst().get();
         final Pair<Integer, Integer> C = computeInfPPLine(A, CC).skip(toSkip).findFirst().get();
-        final Pair<Integer, Integer> D = computeCubbyLine(A, to).skip(radius).findFirst().get();
+        final Pair<Integer, Integer> D = computeBoldLine(A, to).skip(radius).findFirst().get();
         System.out.println(B + " + " + C);
-        Stream<Pair<Integer, Integer>> BD = computeCubbyLine(D, B);
-        Stream<Pair<Integer, Integer>> DC = computeCubbyLine(D, C);
+        Stream<Pair<Integer, Integer>> BD = computeBoldLine(D, B);
+        Stream<Pair<Integer, Integer>> DC = computeBoldLine(D, C);
         Stream<Pair<Integer, Integer>> CFR = Stream.concat(BD, DC).distinct();
       
         Set<Pair<Integer, Integer>> extremes = Set.of(B,C);
        
         return CFR.map(p -> extremes.contains(p) 
             ? computePPLine(A, p) 
-            : computeCubbyLine(A, p));
+            : computeBoldLine(A, p));
     }
 
     /**
@@ -264,8 +266,16 @@ public class Pairs {
                 .distinct()
                 .peek(p -> System.out.println(p));
         
-        return CFR.map(p -> computeCubbyLine(center, p));
+        return CFR.map(p -> computeBoldLine(center, p));
     }
+
+
+
+
+
+
+
+
 
     /**
      * Compute a point that is "delta" distant by "oldPair", on a specified axis
@@ -320,4 +330,15 @@ public class Pairs {
         return computeSingleDelta(oldPair, +1, false);
     }
 
+    /**
+     * Mirrors a point using as a line the one orthogonal to the line connecting the two past points
+     * @param center the start point
+     * @param toMirror the point to mirror
+     * @return the mirrored point
+     */
+    public static Pair<Integer, Integer> mirror(final Pair<Integer, Integer> center, final Pair<Integer, Integer> toMirror){
+        final int deltaRows = center.getX() - toMirror.getX();
+        final int deltaCols = center.getY() - toMirror.getY();
+        return new Pair<>(center.getX() - deltaRows, center.getY() - deltaCols);
+    }
 }

@@ -66,7 +66,7 @@ public class PlayerBuilder implements HandlebleGameCommand {
      */
     @Override
     public Iterator<Entity> getRange() {
-        return range.getRange(observer.getOriginalActor().getPos());
+        return range.getRange(observer.getOriginalActor().getPos(),observer.getOriginalRoom());
     }
 
     /**
@@ -74,7 +74,7 @@ public class PlayerBuilder implements HandlebleGameCommand {
      */
     @Override
     public Iterator<Entity> getSplash() {
-        return splash.getRange(cursePos);
+        return splash.getRange(cursePos,observer.getOriginalRoom());
     }
 
     /**
@@ -119,7 +119,7 @@ public class PlayerBuilder implements HandlebleGameCommand {
         }
         //Room r = observer.getOriginalRoom();
         final Actor a = observer.getOriginalActor();
-        if (!range.isInRange(a.getPos(), cursePos)) {
+        if (!range.isInRange(a.getPos(), cursePos, observer.getOriginalRoom())) {
             throw new NotInRange(R_ERR);
         }
         //TODO - implement application of effect
