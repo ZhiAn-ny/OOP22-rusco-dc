@@ -39,7 +39,6 @@ public class PlayerBuilder implements HandlebleGameCommand {
         this.range = range;
         this.splash = splash;
         this.actionToPerform = action;
-        //TODO - inizializzare una posizione per il cursore (magari mirata)
     }
 
     /**
@@ -49,6 +48,8 @@ public class PlayerBuilder implements HandlebleGameCommand {
     public void setObserver(final ComplexObserver observer) {
         if (this.observer == null) {
             this.observer = observer;
+            this.cursePos = observer.getOriginalActor().getPos();
+            //TODO - inizializzare una posizione per il cursore (magari mirata)
         }
     }
 
@@ -66,7 +67,7 @@ public class PlayerBuilder implements HandlebleGameCommand {
      */
     @Override
     public Iterator<Entity> getRange() {
-        return range.getRange(observer.getOriginalActor().getPos(),observer.getOriginalRoom());
+        return range.getRange(observer.getOriginalActor().getPos(), cursePos, observer.getOriginalRoom());
     }
 
     /**
@@ -74,7 +75,7 @@ public class PlayerBuilder implements HandlebleGameCommand {
      */
     @Override
     public Iterator<Entity> getSplash() {
-        return splash.getRange(cursePos,observer.getOriginalRoom());
+        return splash.getRange(observer.getOriginalActor().getPos(), cursePos, observer.getOriginalRoom());
     }
 
     /**
@@ -119,9 +120,10 @@ public class PlayerBuilder implements HandlebleGameCommand {
         }
         //Room r = observer.getOriginalRoom();
         final Actor a = observer.getOriginalActor();
-        if (!range.isInRange(a.getPos(), cursePos, observer.getOriginalRoom())) {
-            throw new NotInRange(R_ERR);
-        }
+        
+        // if (!range.isInRange(a.getPos(), cursePos, observer.getOriginalRoom())) {
+        //     throw new NotInRange(R_ERR);
+        // }
         //TODO - implement application of effect
     }
 

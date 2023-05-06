@@ -3,43 +3,33 @@ package it.unibo.ruscodc.model.range;
 import java.util.Iterator;
 
 import it.unibo.ruscodc.model.Entity;
-import it.unibo.ruscodc.utils.Pair;
 
 /**
- * Specific a Range with a line shape.
- * For now, this line is
- * <ul>
- * <li>infinite</li>
- * <li>ortogonal</li>
- * </ul>
- * 
+ * @deprecated, or better, not usable
  */
-public final class RowRangeOLD extends DecoratedRange {
+public final class RowRangeOLD{
 
     /**
-     * Summon this tipe of range.
-     * @param start the range to decorate
+     * @deprecated, or better, not usable
      */
-    public RowRangeOLD(final Range start) {
-        super(start);
-    }
+    /*public RowRangeOLD(final Range start) {
+    }*/
 
     /**
-     * 
+     * @deprecated, or better, not usable
      */
-    @Override
-    public boolean isInRange(final Pair<Integer, Integer> by, final Pair<Integer, Integer> toCheck) {
-        return getMyRange().isInRange(by, toCheck) 
+    public boolean isInRange() {
+        return false;
+        /*getMyRange().isInRange(by, toCheck) 
             || 
             by.getX().equals(toCheck.getX())  || by.getY().equals(toCheck.getY())
-            || Math.abs(by.getX() - toCheck.getX()) == Math.abs(by.getY() - toCheck.getY());
+            || Math.abs(by.getX() - toCheck.getX()) == Math.abs(by.getY() - toCheck.getY());*/
     }
 
     /**
-     * 
+     * @deprecated, or better, not usable
      */
-    @Override
-    public Iterator<Entity> getRange(final Pair<Integer, Integer> by) {
+    public Iterator<Entity> getRange() {
         return null; //TODO - finishImpl
     }
 

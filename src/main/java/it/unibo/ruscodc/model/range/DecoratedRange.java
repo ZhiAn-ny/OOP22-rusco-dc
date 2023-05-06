@@ -53,7 +53,7 @@ public abstract class DecoratedRange implements Range {
     }
 
     private void checkIfCommute(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Room where) {
-        if (!to.equals(lastTo) || !by.equals(lastBy)){
+        if (!to.equals(lastTo) || !by.equals(lastBy)) {
             this.commute(by, to, where);
         }
         lastBy = by;
