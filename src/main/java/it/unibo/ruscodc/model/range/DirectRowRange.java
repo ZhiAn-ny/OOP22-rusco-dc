@@ -8,9 +8,9 @@ import it.unibo.ruscodc.utils.Pairs;
 /**
  * Specific a Range with a line shape.
  **/
-public class SingleRowRange extends DecoratedRange{
+public class DirectRowRange extends DecoratedRange{
 
-    public SingleRowRange(Range start) {
+    public DirectRowRange(final Range start) {
         super(start);
     }
 

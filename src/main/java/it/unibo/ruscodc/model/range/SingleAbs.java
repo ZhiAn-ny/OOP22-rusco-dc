@@ -12,6 +12,10 @@ import it.unibo.ruscodc.utils.Pair;
  * So "the begin of the range" is the range itself.
  */
 public abstract class SingleAbs implements Range {
+
+    protected SingleAbs(){
+    }
+
     /**
      * 
      */

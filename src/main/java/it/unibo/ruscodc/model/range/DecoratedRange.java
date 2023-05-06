@@ -27,7 +27,7 @@ public abstract class DecoratedRange implements Range {
      * Save the last decorated Range.
      * @param start the Range object to decorate with the new class
      */
-    public DecoratedRange(final Range start) {
+    protected DecoratedRange(final Range start) {
         this.basicRange = start;
     }
 
@@ -82,6 +82,11 @@ public abstract class DecoratedRange implements Range {
         return Stream.concat(otherRange, thisRange).iterator();
     }
 
+    /**
+     * Utility function to conver a simple Pair<Integer, Integer> into a printable Entity
+     * @param toConvert the position to convert
+     * @return the relative entity
+     */
     private Entity byPosToEntity(final Pair<Integer, Integer> toConvert) {
         return new Entity() {
 
@@ -105,5 +110,11 @@ public abstract class DecoratedRange implements Range {
         };
     }
 
+    /**
+     * Let other class define their natural shape
+     * @param from the begin of the shape
+     * @param to the end of the shape
+     * @return a stream of line that toghether make the shape
+     */
     protected abstract Stream<Stream<Pair<Integer, Integer>>> uploadShapeDelta(final Pair<Integer, Integer> from, final Pair<Integer, Integer> to);
 }
