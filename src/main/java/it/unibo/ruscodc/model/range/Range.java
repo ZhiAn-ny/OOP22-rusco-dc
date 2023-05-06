@@ -24,7 +24,7 @@ public interface Range {
     /**
      * Compute and return a set of {@code}Entity{@code} that all together rappresent the Range.
      * @param by the position where Range start
-     * @param end the position where Range could end
+     * @param to the position where Range could end
      * @param where the room that could modify the naturally shape of the wrapped Area
      * @return an iterator of this things
      */

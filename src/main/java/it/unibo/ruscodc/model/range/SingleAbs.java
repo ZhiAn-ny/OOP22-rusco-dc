@@ -13,14 +13,21 @@ import it.unibo.ruscodc.utils.Pair;
  */
 public abstract class SingleAbs implements Range {
 
-    protected SingleAbs(){
+    /**
+     * Client must not create directly this type of object
+     */
+    protected SingleAbs() {
     }
 
     /**
      * 
      */
     @Override
-    public boolean isInRange(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Pair<Integer, Integer> toCheck, Room where) {
+    public boolean isInRange(
+            final Pair<Integer, Integer> by, 
+            final Pair<Integer, Integer> to, 
+            final Pair<Integer, Integer> toCheck, 
+            final Room where) {
         return by.equals(toCheck) && where.isAccessible(toCheck);
     }
 
@@ -28,7 +35,7 @@ public abstract class SingleAbs implements Range {
      * 
      */
     @Override
-    public Iterator<Entity> getRange(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, Room where) {
+    public Iterator<Entity> getRange(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Room where) {
         final List<Entity> tmp = List.of(new Entity() {
 
             @Override
