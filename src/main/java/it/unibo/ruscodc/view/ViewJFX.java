@@ -14,10 +14,12 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ViewJFX extends Application implements GameView {
     final private String TITLE = "Junkrisers";
@@ -37,11 +39,11 @@ public class ViewJFX extends Application implements GameView {
 
     private GameObserverController controller;
     /** Contains the objects to render on screen. */
-    final private List<Drawable<GraphicsContext>> scene;
+    final private CopyOnWriteArrayList<Drawable<GraphicsContext>> scene;
 
     public ViewJFX() {
         this.screen = Toolkit.getDefaultToolkit().getScreenSize();
-        this.scene = new ArrayList<>();
+        this.scene = new CopyOnWriteArrayList<Drawable<GraphicsContext>>();
         this.maxRoomSize = 20;
     }
 
@@ -140,6 +142,8 @@ public class ViewJFX extends Application implements GameView {
         ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> {
             // System.out.println("Height: " + stage.getHeight() + " Width: " + stage.getWidth());
             this.setScreenUnit(stage);
+            this.scene.forEach(d -> d.updateScreenUnit(this.screenUnit));
+            this.context.clearRect(0, 0, stage.getWidth(), stage.getHeight());
         };
         stage.widthProperty().addListener(stageSizeListener);
         stage.heightProperty().addListener(stageSizeListener);

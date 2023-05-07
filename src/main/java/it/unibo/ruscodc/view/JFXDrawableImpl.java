@@ -7,13 +7,13 @@ import javafx.scene.image.Image;
 
 public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
     private Image sprite;
-    private final Pair<Integer, Integer> position;
+    private Pair<Integer, Integer> position;
     private double rotation = 0;
     private double size = 1;
     private double screenUnit;
 
     public JFXDrawableImpl(Entity toDraw, double screenUnit){
-        int offset = 2;
+        int offset = 2; // TODO: change according to room size
         this.screenUnit = screenUnit;
         this.sprite = new Image(toDraw.getPath() + "/Sprite.png");
         Pair<Integer, Integer> logicPosition = toDraw.getPos();
@@ -37,6 +37,18 @@ public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
         context.drawImage(this.sprite, 0, 0);
         context.restore();
 
+    }
+
+    @Override
+    public void updateScreenUnit(double screenUnit) {
+        double logicPosX = Math.round(this.position.getX() / this.screenUnit);
+        double logicPosY = Math.round(this.position.getY() / this.screenUnit);
+        this.screenUnit = screenUnit;
+        this.applySize();
+        this.position = new Pair<Integer, Integer>(
+                Math.toIntExact(Math.round(logicPosX * this.screenUnit)),
+                Math.toIntExact(Math.round(logicPosY * this.screenUnit))
+        );
     }
 
     @Override

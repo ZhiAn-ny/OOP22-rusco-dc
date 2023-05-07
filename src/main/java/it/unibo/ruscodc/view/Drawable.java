@@ -25,4 +25,9 @@ public interface Drawable<X> {
      */
     void render(X context);
 
+    /**
+     * Updates the screen unit used to scale the sprite of the <code>Drawable</code> object.
+     * @param screenUnit the new unit
+     */
+    void updateScreenUnit(double screenUnit);
 }
