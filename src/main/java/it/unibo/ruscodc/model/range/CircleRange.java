@@ -17,7 +17,7 @@ public class CircleRange extends DecoratedRange {
      * @param start the decorated range
      * @param radius the radius of the circle
      */
-    public CircleRange(final Range start, final int radius) {
+    public CircleRange(final int radius, final Range start) {
         super(start);
         this.radius = radius;
     }

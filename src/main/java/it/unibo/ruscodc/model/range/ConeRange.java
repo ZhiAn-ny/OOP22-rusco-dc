@@ -17,7 +17,7 @@ public class ConeRange extends DecoratedRange {
      * @param start the last Range to decorate
      * @param radius the lenght of the radius of the cone
      */
-    public ConeRange(final Range start, final int radius) {
+    public ConeRange(final int radius, final Range start) {
         super(start);
         this.radius = radius;
     }
