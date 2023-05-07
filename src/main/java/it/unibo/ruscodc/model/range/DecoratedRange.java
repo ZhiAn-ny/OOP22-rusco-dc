@@ -19,9 +19,9 @@ public abstract class DecoratedRange implements Range {
     private final Range basicRange;
 
     //private Stream<Stream<Pair<Integer, Integer>>> shapeDelta;
-    private Set<Pair<Integer, Integer>> effectiveShape = null;
-    private Pair<Integer, Integer> lastBy = null;
-    private Pair<Integer, Integer> lastTo = null;
+    private Set<Pair<Integer, Integer>> effectiveShape;
+    private Pair<Integer, Integer> lastBy;
+    private Pair<Integer, Integer> lastTo;
 
     /**
      * Save the last decorated Range.
@@ -65,7 +65,11 @@ public abstract class DecoratedRange implements Range {
      * 
      */
     @Override
-    public boolean isInRange(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Pair<Integer, Integer> toCheck, final Room where) {
+    public boolean isInRange(
+            final Pair<Integer, Integer> by,
+            final Pair<Integer, Integer> to, 
+            final Pair<Integer, Integer> toCheck, 
+            final Room where) {
         this.checkIfCommute(by, to, where);
         return effectiveShape.contains(toCheck) || basicRange.isInRange(by, to, toCheck, where);
     }
@@ -76,14 +80,14 @@ public abstract class DecoratedRange implements Range {
     @Override
     public Iterator<Entity> getRange(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Room where) {
         checkIfCommute(by, to, where);
-        Stream<Entity> thisRange = this.effectiveShape.stream().map(p -> byPosToEntity(p));
+        final Stream<Entity> thisRange = this.effectiveShape.stream().map(p -> byPosToEntity(p));
         final Iterator<Entity> tmp = this.basicRange.getRange(by, to, where);
-        Stream<Entity> otherRange = Stream.generate(() -> tmp.next()).takeWhile(e -> tmp.hasNext());
+        final Stream<Entity> otherRange = Stream.generate(() -> tmp.next()).takeWhile(e -> tmp.hasNext());
         return Stream.concat(otherRange, thisRange).iterator();
     }
 
     /**
-     * Utility function to conver a simple Pair<Integer, Integer> into a printable Entity
+     * Utility function to conver a simple Pair<Integer, Integer> into a printable Entity.
      * @param toConvert the position to convert
      * @return the relative entity
      */
@@ -106,15 +110,16 @@ public abstract class DecoratedRange implements Range {
             public Pair<Integer, Integer> getPos() {
                 return toConvert;
             }
-            
         };
     }
 
     /**
-     * Let other class define their natural shape
+     * Let other class define their natural shape.
      * @param from the begin of the shape
      * @param to the end of the shape
      * @return a stream of line that toghether make the shape
      */
-    protected abstract Stream<Stream<Pair<Integer, Integer>>> uploadShapeDelta(final Pair<Integer, Integer> from, final Pair<Integer, Integer> to);
+    protected abstract Stream<Stream<Pair<Integer, Integer>>> uploadShapeDelta(
+        Pair<Integer, Integer> from, 
+        Pair<Integer, Integer> to);
 }

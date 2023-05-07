@@ -18,7 +18,7 @@ public class SingleSplash extends SingleAbs {
      */
     @Override
     protected String getSpecificInfo() {
-        return "Splash attack: here you can move the cursor";
+        return "Splash attack: here you effect could be deadly!";
     }
 
 }

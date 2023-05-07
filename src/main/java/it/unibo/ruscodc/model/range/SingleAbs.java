@@ -14,7 +14,7 @@ import it.unibo.ruscodc.utils.Pair;
 public abstract class SingleAbs implements Range {
 
     /**
-     * Client must not create directly this type of object
+     * Client must not create directly this type of object.
      */
     protected SingleAbs() {
     }
@@ -35,7 +35,10 @@ public abstract class SingleAbs implements Range {
      * 
      */
     @Override
-    public Iterator<Entity> getRange(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Room where) {
+    public Iterator<Entity> getRange(
+            final Pair<Integer, Integer> by, 
+            final Pair<Integer, Integer> to, 
+            final Room where) {
         final List<Entity> tmp = List.of(new Entity() {
 
             @Override

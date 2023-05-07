@@ -10,23 +10,25 @@ import it.unibo.ruscodc.utils.Pairs;
  */
 public class CircleRange extends DecoratedRange {
 
-    final int radius;
+    private final int radius;
 
      /**
      * Add a cicle shape to the previous range.
      * @param start the decorated range
-     * @param size the radius of the circle
+     * @param radius the radius of the circle
      */
     public CircleRange(final Range start, final int radius) {
         super(start);
         this.radius = radius;
     }
 
+    /**
+     * 
+     */
     @Override
-    protected Stream<Stream<Pair<Integer, Integer>>> uploadShapeDelta(Pair<Integer, Integer> from,
-            Pair<Integer, Integer> to) {
+    protected Stream<Stream<Pair<Integer, Integer>>> uploadShapeDelta(
+            final Pair<Integer, Integer> from,
+            final Pair<Integer, Integer> to) {
         return Pairs.computeCircle(from, radius);
     }
-
-    
 }
