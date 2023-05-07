@@ -37,7 +37,8 @@ public class RectangleRoomImpl implements Room {
      * @param height the height of the room
      */
     public RectangleRoomImpl(final int width, final int height) {
-        this(width, height, new Random().nextInt(4));
+        // Where 4 is the maximum number of doors and 1 is the minimum
+        this(width, height, new Random().nextInt(4) + 1);
     }
 
     /**
@@ -57,13 +58,14 @@ public class RectangleRoomImpl implements Room {
     }
 
     /**
-     * Inserts a random number of doors in the room.
+     * Inserts doors on a random side of the room.
+     * @param doors the number of doors to add.
      */
     private void addDoors(final int doors) {
         final Random rnd = new Random();
         int i = 0;
 
-        while (i <= doors) {
+        while (i < doors) {
             Direction dir = Direction.values()[rnd.nextInt(Direction.values().length)];
             Predicate<Tile> isOnRoomSide = this.getTilesOnSideFilter(dir);
             List<Tile> onSide = this.tiles.stream()
@@ -78,6 +80,7 @@ public class RectangleRoomImpl implements Room {
                     .getPosition();
             this.tiles.removeIf(tile -> tile.getPosition().equals(pos));
             this.tiles.add(new FloorTileImpl(pos, true));
+            this.connectedRooms.put(dir, Optional.empty());
             i = i + 1;
         }
     }
@@ -165,6 +168,17 @@ public class RectangleRoomImpl implements Room {
 
         other.addConnectedRoom(dir.getOpposite(), this);
         return true;
+    }
+
+    @Override
+    public void addDoor() {
+        if (this.connectedRooms.size() == 4) return;
+        this.addDoors(1);
+    }
+
+    @Override
+    public Pair<Integer, Integer> getSize() {
+        return this.size;
     }
 
 }

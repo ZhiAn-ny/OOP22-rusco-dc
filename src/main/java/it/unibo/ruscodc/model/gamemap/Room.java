@@ -74,4 +74,15 @@ public interface Room {
      * <code>False</code> otherwise.
      */
     boolean addConnectedRoom(final Direction dir, final Room other);
+
+    /**
+     * Adds a single door to the room.
+     */
+    void addDoor();
+
+    /**
+     * Returns the size of the <code>Room</code>.
+     * @return a <code>Pair</code> containing the width and the height of the room.
+     */
+    Pair<Integer, Integer> getSize();
 }
