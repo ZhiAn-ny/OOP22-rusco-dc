@@ -5,20 +5,14 @@ package it.unibo.ruscodc.model.range;
  */
 public final class SingleRange extends SingleAbs {
 
-    /**
-     * 
-     */
-    @Override
-    protected String getSpecificPath() {
-        return "file:src/main/resources/it/unibo/ruscodc/range_res/range";
-    }
+    private static final String PATH = "file:src/main/resources/it/unibo/ruscodc/range_res/range";
+    private static final String INFO = "Range attack: here you can move the cursor";
 
     /**
-     * 
+     * Create a range Range, so a Range where the Actor can see targets and choose who attack.
      */
-    @Override
-    protected String getSpecificInfo() {
-        return "Range attack: here you can move the cursor";
+    public SingleRange() {
+        super(PATH, INFO);
     }
 
 }

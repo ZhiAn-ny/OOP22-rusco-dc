@@ -1,5 +1,6 @@
 package it.unibo.ruscodc.model.range;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ public abstract class DecoratedRange implements Range {
     private final Range basicRange;
 
     //private Stream<Stream<Pair<Integer, Integer>>> shapeDelta;
-    private Set<Pair<Integer, Integer>> effectiveShape;
+    private final Set<Pair<Integer, Integer>> effectiveShape = new HashSet<>();
     private Pair<Integer, Integer> lastBy;
     private Pair<Integer, Integer> lastTo;
 
@@ -32,14 +33,6 @@ public abstract class DecoratedRange implements Range {
     }
 
     /**
-     * To know the sprite to draw.
-     * @return the path sprite, coded into String format
-     */  //TODO - WARNING
-    protected String getPathRes() {
-        return null;
-    }
-
-    /**
      * 
      * @param origin
      * @param direction
@@ -47,9 +40,10 @@ public abstract class DecoratedRange implements Range {
      * //TODO - protected perchè potrebbe cambiare, essere overriddato da altre classi
      */
     protected void commute(final Pair<Integer, Integer> origin, final Pair<Integer, Integer> direction, final Room where) {
-        effectiveShape = uploadShapeDelta(origin, direction).map(s -> Pairs.applyInfLineDelta(s, origin))
+        effectiveShape.clear();
+        effectiveShape.addAll(uploadShapeDelta(origin, direction).map(s -> Pairs.applyInfLineDelta(s, origin))
             .flatMap(s -> s.takeWhile(p -> !where.isAccessible(p)))
-            .collect(Collectors.toSet());
+            .collect(Collectors.toSet()));
     }
 
     private void checkIfCommute(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Room where) {
@@ -59,7 +53,6 @@ public abstract class DecoratedRange implements Range {
         lastBy = by;
         lastTo = to;
     }
-
 
     /**
      * 
@@ -78,32 +71,47 @@ public abstract class DecoratedRange implements Range {
      * 
      */
     @Override
-    public Iterator<Entity> getRange(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Room where) {
-        checkIfCommute(by, to, where);
-        final Stream<Entity> thisRange = this.effectiveShape.stream().map(p -> byPosToEntity(p));
+    public Iterator<Entity> getRange(
+            final Pair<Integer, Integer> by, 
+            final Pair<Integer, Integer> to, 
+            final Room where) {
         final Iterator<Entity> tmp = this.basicRange.getRange(by, to, where);
-        final Stream<Entity> otherRange = Stream.generate(() -> tmp.next()).takeWhile(e -> tmp.hasNext());
+        if (!tmp.hasNext()) {
+            return tmp;
+        }
+
+        final Entity res = tmp.next();
+        final Stream<Entity> otherRange = Stream.concat(
+            Stream.of(res), 
+            Stream.generate(() -> tmp.next()).takeWhile(e -> tmp.hasNext()));
+
+        checkIfCommute(by, to, where);
+
+        final Stream<Entity> thisRange = this.effectiveShape.stream().map(p -> byPosToEntity(p, res));
+
         return Stream.concat(otherRange, thisRange).iterator();
     }
 
     /**
      * Utility function to conver a simple Pair<Integer, Integer> into a printable Entity.
      * @param toConvert the position to convert
+     * @param res an Entity to get other info
      * @return the relative entity
      */
-    private Entity byPosToEntity(final Pair<Integer, Integer> toConvert) {
+    private Entity byPosToEntity(
+            final Pair<Integer, Integer> toConvert,
+            final Entity res) {
+
         return new Entity() {
 
             @Override
             public String getInfo() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getInfo'");
+                return res.getInfo();
             }
 
             @Override
             public String getPath() {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'getPath'");
+                return res.getPath();
             }
 
             @Override
