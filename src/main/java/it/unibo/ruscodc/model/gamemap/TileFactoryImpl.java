@@ -1,5 +1,6 @@
 package it.unibo.ruscodc.model.gamemap;
 
+import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
@@ -16,6 +17,11 @@ public class TileFactoryImpl implements TileFactory {
     @Override
     public Tile createBaseWallTile(final int x, final int y, final Pair<Integer, Integer> size) {
         return new WallTileImpl(new Pair<>(x, y), this.getWallType(x, y, size));
+    }
+
+    @Override
+    public Tile createBaseFloorTile(int x, int y, Direction side) {
+        return new DoorTileImpl(new Pair<>(x, y), side);
     }
 
     /**

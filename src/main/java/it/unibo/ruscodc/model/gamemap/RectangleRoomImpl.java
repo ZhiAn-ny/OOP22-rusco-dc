@@ -79,7 +79,7 @@ public class RectangleRoomImpl implements Room {
             final Pair<Integer, Integer> pos = onSide.get(rnd.nextInt(onSide.size()))
                     .getPosition();
             this.tiles.removeIf(tile -> tile.getPosition().equals(pos));
-            this.tiles.add(new FloorTileImpl(pos, true));
+            this.tiles.add(new DoorTileImpl(pos, dir));
             this.connectedRooms.put(dir, Optional.empty());
             i = i + 1;
         }
