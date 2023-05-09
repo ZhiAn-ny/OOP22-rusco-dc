@@ -163,7 +163,7 @@ public class GameControllerImpl implements GameObserverController {
         initNewTurn();
         while (initiative.get(0) instanceof Monster) {
             tmpMonster = (Monster) initiative.get(0);
-            executeCommand(tmpMonster.behave(model.getCurrentRoom()));
+            //executeCommand(tmpMonster.behave(model.getCurrentRoom()));
             // TODO - post implementazione mostro
             //initiative.remove(0);
             initNewTurn();

@@ -2,7 +2,7 @@ package it.unibo.ruscodc.view;
 
 import it.unibo.ruscodc.utils.Pair;
 
-public interface Drawable<X> {
+public interface OldDrawable<X> {
 
     /**
      *
