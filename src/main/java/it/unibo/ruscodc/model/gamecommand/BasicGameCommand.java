@@ -9,7 +9,7 @@ import it.unibo.ruscodc.model.gamemap.Room;
  * @see Skill 
  * @see Actor
  */
-public interface BuilderGameCommand {
+public interface BasicGameCommand {
     /**
      * Set into builder-command who summon this command.
      * Once setted, other call to this method will be ineffective
@@ -25,20 +25,5 @@ public interface BuilderGameCommand {
      * @param where the room where this action is executing
      */
     void setRoom(Room where);
-    /**
-     * 
-     * @return
-     */
-    boolean isBuildable();
-    /**
-     * 
-     * @return
-     */
-    HandlebleGameCommand buildForPlayer();
-    /**
-     * 
-     * @return
-     */
-    IAGameCommand buildForIA();
 
 }

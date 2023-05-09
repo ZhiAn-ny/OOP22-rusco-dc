@@ -6,7 +6,7 @@ import it.unibo.ruscodc.model.GameModelImpl;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.monster.Monster;
-import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
+import it.unibo.ruscodc.model.gamecommand.BasicGameCommand;
 import it.unibo.ruscodc.model.gamecommand.ComplexActionBuilder;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamecommand.HandlebleGameCommand;
@@ -109,7 +109,7 @@ public class GameControllerImpl implements GameObserverController {
 
             } else {
 
-                BuilderGameCommand wrapper = tmpActor.act(input);
+                BasicGameCommand wrapper = tmpActor.act(input);
                 //wrapper.setActor(tmpActor);
                 wrapper.setRoom(model.getCurrentRoom());
                 
