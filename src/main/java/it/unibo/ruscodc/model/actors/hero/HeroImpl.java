@@ -12,7 +12,7 @@ import it.unibo.ruscodc.model.actors.Skill;
 import it.unibo.ruscodc.model.actors.Stat;
 import it.unibo.ruscodc.model.actors.StatImpl;
 import it.unibo.ruscodc.model.actors.StatImpl.StatName;
-import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
+import it.unibo.ruscodc.model.gamecommand.BasicGameCommand;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 
@@ -98,9 +98,9 @@ public class HeroImpl extends ActorAbs implements Hero {
             e.printStackTrace();
         }
 
-        Map<GameControl, BuilderGameCommand> tmp = gson.fromJson(scannedline.toString(), Skill.class).getSkills();
+        Map<GameControl, BasicGameCommand> tmp = gson.fromJson(scannedline.toString(), Skill.class).getSkills();
 
-        for (Map.Entry<GameControl, BuilderGameCommand> entry : tmp.entrySet()) {
+        for (Map.Entry<GameControl, BasicGameCommand> entry : tmp.entrySet()) {
             this.skills.setAction(entry.getKey(), entry.getValue());
         }
     }
@@ -110,8 +110,8 @@ public class HeroImpl extends ActorAbs implements Hero {
      * @param key the input value of the key pressed
      * @return a Builder of GameCommand of the respective key
      */
-    public BuilderGameCommand act(final GameControl key) {
-        BuilderGameCommand builderGameCommand = this.getFieldSkill().getAction(key);
+    public BasicGameCommand act(final GameControl key) {
+        BasicGameCommand builderGameCommand = this.getFieldSkill().getAction(key);
         builderGameCommand.setActor(this);
         return builderGameCommand;
     }
