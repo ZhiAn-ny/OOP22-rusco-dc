@@ -15,7 +15,7 @@ import it.unibo.ruscodc.utils.exception.NotInRange;
 /**
  * Class that wrap an AttackCommand.
  */
-public class PlayerAttackBuilder extends BasicGameCommandImpl implements HandlebleGameCommand {
+public class PlayerAttackBuilder extends NoIACommand {
 
     /*
     SkillType

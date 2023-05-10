@@ -12,7 +12,10 @@ import it.unibo.ruscodc.utils.exception.ModelException;
  * action that tipically can do without any type of control (neither by player or IA).
  * So logically the wrapped command can be executed
  */ //TODO-a gradle non piace l'andata a capo
-public abstract class QuickActionBuilder extends BasicGameCommandImpl implements HandlebleGameCommand, IAGameCommand  {
+public abstract class QuickActionBuilder extends BasicGameCommand  {
+
+    protected QuickActionBuilder() {
+    }
 
     /**
      * 
@@ -28,24 +31,36 @@ public abstract class QuickActionBuilder extends BasicGameCommandImpl implements
     @Override
     public abstract void execute() throws ModelException;
 
+    /**
+     * 
+     */
     @Override
     public Pair<Integer, Integer> getActorPos() {
-        throw new UnsupportedOperationException("Unimplemented method 'getActorPos'");
+        throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 
+    /**
+     * 
+     */
     @Override
     public void setCursePos(Pair<Integer, Integer> newPos) {
-        throw new UnsupportedOperationException("Unimplemented method 'setCursePos'");
+        throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 
+    /**
+     * 
+     */
     @Override
     public boolean modify(GameControl input) {
-        throw new UnsupportedOperationException("Unimplemented method 'modify'");
+        throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 
+    /**
+     * 
+     */
     @Override
     public Iterator<Entity> getEntities() {
-        throw new UnsupportedOperationException("Unimplemented method 'getEntities'");
+        throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 
 }

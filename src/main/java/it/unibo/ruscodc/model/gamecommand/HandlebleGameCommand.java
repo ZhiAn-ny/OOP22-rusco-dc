@@ -9,7 +9,7 @@ import it.unibo.ruscodc.utils.GameControl;
  * Defines a set of method usefull to manage manually a specific situation
  * With this class the player can manage a specific situation. 
  */
-public interface HandlebleGameCommand extends GameCommand {
+public interface HandlebleGameCommand {
     /**
      * Modify the internal state of the builder, after getting an input.
      * For example, with this method, the player can:
