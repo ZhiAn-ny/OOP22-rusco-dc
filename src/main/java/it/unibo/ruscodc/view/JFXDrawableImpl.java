@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
  * This class implement Drawable.
  * It serves for draw a map and actor to pass at the view which will print all.
  */
-public class JFXDrawableImpl implements OldDrawable<GraphicsContext>  {
+public class JFXDrawableImpl implements Drawable<GraphicsContext> {
     private Image sprite;
     private final Pair<Integer, Integer> position;
     private double rotation = 0;

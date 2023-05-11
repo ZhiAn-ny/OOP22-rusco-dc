@@ -11,7 +11,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -37,7 +36,7 @@ public class ViewJFX extends Application implements GameView {
 
     private GameObserverController controller;
     /** Contains the objects to render on screen. */
-    final private List<OldDrawable<GraphicsContext>> scene;
+    final private List<Drawable<GraphicsContext>> scene;
 
     public ViewJFX() {
         this.screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -177,11 +176,11 @@ public class ViewJFX extends Application implements GameView {
     }
 
 
-    public void addToScene(Collection<OldDrawable<GraphicsContext>> objs){
+    public void addToScene(Collection<Drawable<GraphicsContext>> objs){
         this.scene.addAll(objs);
     }
 
-    public void addToScene(OldDrawable<GraphicsContext> obj){
+    public void addToScene(Drawable<GraphicsContext> obj){
         this.scene.add(obj);
     }
 
@@ -197,7 +196,7 @@ public class ViewJFX extends Application implements GameView {
     public void setEntityToDraw(List<Entity> toDraw) {
         scene.clear();
         toDraw.stream().map(e-> {
-            OldDrawable<GraphicsContext> drw = new JFXDrawableImpl(e);
+            Drawable<GraphicsContext> drw = new JFXDrawableImpl(e);
             if (e instanceof Tile)
                 drw.setSize(1.5);
             return drw;
