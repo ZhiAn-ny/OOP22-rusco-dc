@@ -1,6 +1,7 @@
 package it.unibo.ruscodc.model.actors;
 
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.actors.StatImpl.StatName;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
@@ -8,28 +9,17 @@ import it.unibo.ruscodc.utils.Pair;
  */
 public interface Actor extends Entity {
 
+    String getName();
+
+    int getStatInfo(StatName statName);
+
     /**
      * @param newPos
      */
     void setPos(Pair<Integer, Integer> newPos);
 
-    /**
-     * @return the Skill of the Actor.
-     */
-    Skill getFieldSkill();
+    void modifyStat(StatName statName, int value);
 
-    /**
-     * @return the Name of the Actor.
-     */
-    String getName();
-
-    /**
-     * @return the Stats of the Actor.
-     */
-    Stat getStats();
-
-    /**
-     * a method used to load the other features of the Actor.
-     */
-    void load();
+    boolean isAlive();
+    
 }

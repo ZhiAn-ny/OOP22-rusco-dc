@@ -36,10 +36,15 @@ public class StatImpl implements Stat {
     public void setStat(StatName toSet, Pair<Integer, Integer> val) {
         this.stats.put(toSet, val);
     }
-    
+
     @Override
-    public Map<StatName, Pair<Integer, Integer>> getStats() {
-        return Map.copyOf(this.stats);
+    public int getStatActual(StatName statName) {
+        return this.stats.get(statName).getX();
+    }
+
+    @Override
+    public int getStatMax(StatName statName) {
+        return this.stats.get(statName).getY();
     }
 
 }

@@ -1,5 +1,6 @@
 package it.unibo.ruscodc.model.actors;
 
+import it.unibo.ruscodc.model.actors.StatImpl.StatName;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
@@ -9,63 +10,56 @@ public abstract class ActorAbs implements Actor {
     protected final String name;
     private Pair<Integer, Integer> currentPos;
     protected final Skill skills;
-    protected final Stat stats;
-
-    /**
-     * @param name
-     * @param initialPos
-     */
-    public ActorAbs(final String name, final Pair<Integer, Integer> initialPos) {
+    
+    public ActorAbs(String name, Pair<Integer, Integer> currentPos, Skill skills, Stat stats) {
         this.name = name;
-        this.currentPos = initialPos;
-        this.skills = new SkillImpl();
-        this.stats = new StatImpl();
+        this.currentPos = currentPos;
+        this.skills = skills;
+        this.stats = stats;
     }
 
-    /**
-     * @return foo
-     */
-    final public Pair<Integer, Integer> getPos() {
-        return this.currentPos;
-    };
+    protected final Stat stats;
 
-    /**
-     * @param newPos foo
-     */
-    final public void setPos(final Pair<Integer, Integer> newPos) {
-        this.currentPos = newPos;
-    };
+    @Override
+    public String getID() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-    /**
-     * @return foo
-     */
-    final public Skill getFieldSkill() {
-        return this.skills;
-    };
-
-    /**
-     * @return foo
-     */
-    final public String getName() {
+    @Override
+    public String getName() {
         return this.name;
     }
 
-    /**
-     * @return foo
-     */
-    final public Stat getStats() {
-        return this.stats;
+    @Override
+    public String getPath() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
-    /**
-     * @return foo
-     */
-    final public void load() {
-        loadSkills();
-        loadStats();
+    @Override
+    public Pair<Integer, Integer> getPos() {
+        return this.currentPos;
     }
 
-    public abstract void loadStats();
-    public abstract void loadSkills();
+    @Override
+    public void setPos(Pair<Integer, Integer> newPos) {
+        this.currentPos = newPos;
+    }
 
+    @Override
+    public int getStatInfo(StatName statName) {
+        return this.stats.getStatActual(statName);
+    }
+
+    @Override
+    public void modifyStat(StatName statName, int value) {
+        int current = this.stats.getStatActual(statName);
+        this.stats.setStatActualValue(statName, current + value);
+    }
+
+    @Override
+    public boolean isAlive() {
+        return this.stats.getStatActual(StatName.HP) > 0;
+    }
 }

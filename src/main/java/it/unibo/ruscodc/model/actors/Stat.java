@@ -1,6 +1,5 @@
 package it.unibo.ruscodc.model.actors;
 
-import java.util.Map;
 import it.unibo.ruscodc.model.actors.StatImpl.StatName;
 import it.unibo.ruscodc.utils.Pair;
 
@@ -27,9 +26,8 @@ public interface Stat {
      */
     void setStat(StatName toSet, Pair<Integer, Integer> val);
 
-    /**
-     * @return the Map of all the Stats
-     */
-    Map<StatName, Pair<Integer, Integer>> getStats();
+    int getStatActual(StatName statName);
+
+    int getStatMax(StatName statName);
 
 }
