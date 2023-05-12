@@ -1,5 +1,10 @@
 package it.unibo.ruscodc.model.gamecommand;
 
+import java.util.Iterator;
+
+import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.utils.GameControl;
+import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
 
 /**
@@ -7,7 +12,10 @@ import it.unibo.ruscodc.utils.exception.ModelException;
  * action that tipically can do without any type of control (neither by player or IA).
  * So logically the wrapped command can be executed
  */ //TODO-a gradle non piace l'andata a capo
-public abstract class QuickActionBuilder extends BuilderGameCommandImpl implements GameCommand {
+public abstract class QuickActionBuilder extends BasicGameCommand  {
+
+    protected QuickActionBuilder() {
+    }
 
     /**
      * 
@@ -21,29 +29,38 @@ public abstract class QuickActionBuilder extends BuilderGameCommandImpl implemen
      * 
      */
     @Override
-    public boolean isBuildable() {
-        return false;
-    }
-    /**
-     * 
-     */
-    @Override
-    public HandlebleGameCommand buildForPlayer() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buildForPlayer'");
-    }
-    /**
-     * 
-     */
-    @Override
-    public IAGameCommand buildForIA() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buildForIA'");
-    }
-    /**
-     * 
-     */
-    @Override
     public abstract void execute() throws ModelException;
+
+    /**
+     * 
+     */
+    @Override
+    public Pair<Integer, Integer> getActorPos() {
+        throw new UnsupportedOperationException(this.getGlobalErrMess());
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void setCursePos(Pair<Integer, Integer> newPos) {
+        throw new UnsupportedOperationException(this.getGlobalErrMess());
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public boolean modify(GameControl input) {
+        throw new UnsupportedOperationException(this.getGlobalErrMess());
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public Iterator<Entity> getEntities() {
+        throw new UnsupportedOperationException(this.getGlobalErrMess());
+    }
 
 }

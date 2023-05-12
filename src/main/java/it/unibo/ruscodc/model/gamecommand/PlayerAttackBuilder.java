@@ -1,6 +1,7 @@
 package it.unibo.ruscodc.model.gamecommand;
 
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
@@ -14,7 +15,7 @@ import it.unibo.ruscodc.utils.exception.NotInRange;
 /**
  * Class that wrap an AttackCommand.
  */
-public class PlayerBuilder implements HandlebleGameCommand {
+public class PlayerAttackBuilder extends NoIACommand {
 
     /*
     SkillType
@@ -22,7 +23,6 @@ public class PlayerBuilder implements HandlebleGameCommand {
     Skill
     */
     private static final String R_ERR = "The target is too far";
-    private ComplexObserver observer;
     private final Range range;
     private final Range splash;
     private final Effect actionToPerform;
@@ -35,7 +35,7 @@ public class PlayerBuilder implements HandlebleGameCommand {
      * @param splash define where the effect is applied
      * @param action define what effect is to apply
      */
-    public PlayerBuilder(final Range range, final Range splash, final Effect action) {
+    public PlayerAttackBuilder(final Range range, final Range splash, final Effect action) {
         this.range = range;
         this.splash = splash;
         this.actionToPerform = action;
@@ -46,42 +46,32 @@ public class PlayerBuilder implements HandlebleGameCommand {
      * 
      */
     @Override
-    public void setObserver(final ComplexObserver observer) {
-        if (this.observer == null) {
-            this.observer = observer;
-        }
-    }
-
-    /**
-     * 
-     */
-    @Override
     public boolean modify(final GameControl input) {
-        //TODO - aspetto il cambio da input a GameCommand
-        throw new UnsupportedOperationException("Unimplemented method 'modify'");
+        return false;
     }
 
     /**
-     * 
+     * Get information about "range" to print to view.
+     * @return an {@code}Iterator{@code} that iterate on this infos
      */
-    @Override
-    public Iterator<Entity> getRange() {
-        return range.getRange(observer.getOriginalActor().getPos());
+    private Iterator<Entity> getRange() {
+        return range.getRange(cursePos);
     }
 
     /**
-     * 
+     * Get information about "splash" to print to view.
+     * @return an {@code}Iterator{@code} that iterate on this infos
+     *  or {@value}null{@value} if the range is not valid (helps the player understand the correctness of the attack)
      */
-    @Override
-    public Iterator<Entity> getSplash() {
+    private Iterator<Entity> getSplash() {
         return splash.getRange(cursePos);
     }
 
     /**
-     * 
+     * Compute the {@code}Entity{@code} that wrap for the view the cursor position
+     * @return the cursor position, abstracted into an Entity
      */
-    @Override
-    public Entity getCursePos() {
+    private Entity getCurseAsEntity() {
         return new Entity() {
 
             @Override
@@ -113,13 +103,26 @@ public class PlayerBuilder implements HandlebleGameCommand {
      * 
      */
     @Override
+    public Iterator<Entity> getEntities() {
+        Iterator<Entity> splashRange = this.getSplash();
+        Iterator<Entity> rangeRange = this.getRange();
+        return Stream.concat(
+            Stream.concat(
+                Stream.iterate(splashRange.next(), i -> splashRange.hasNext(), i -> splashRange.next()), 
+                Stream.iterate(rangeRange.next(), i -> rangeRange.hasNext(), i -> rangeRange.next())),
+            Stream.of(
+                getCurseAsEntity()
+            )
+            ).iterator();
+    }
+
+    /**
+     * 
+     */
+    @Override
     public void execute() throws ModelException {
-        if (this.observer == null) {
-            throw new UnsupportedOperationException("Bad costruction of this object");
-        }
-        //Room r = observer.getOriginalRoom();
-        final Actor a = observer.getOriginalActor();
-        if (!range.isInRange(a.getPos(), cursePos)) {
+        final Actor from = this.getActor();
+        if (!range.isInRange(from.getPos(), cursePos)) {
             throw new NotInRange(R_ERR);
         }
         //TODO - implement application of effect

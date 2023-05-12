@@ -3,30 +3,25 @@ package it.unibo.ruscodc.model.gamecommand;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamemap.Room;
 
-/**
- * This class provide to the implementation of {@code}BuilderGameCommand{@code} interface,
- * expecially because they do the same thing for many class.
- */ //TODO gradle da un errore di andata a capo, ma altrimenti è illeggibile da console...
-public abstract class BuilderGameCommandImpl implements BuilderGameCommand {
+public abstract class BasicGameCommand implements GameCommand {
+
+    private final static String GLOBAL_ERR_MESS = "Cannot execute this method on this object";
 
     private Actor actActor;
     private Room where;
 
-    /**
-     * 
-     */
+    protected BasicGameCommand(){
+    }
+
     @Override
-    public void setActor(final Actor by) {
+    public void setActor(Actor by) {
         if (this.actActor == null) {
             actActor = by;
         }
     }
 
-    /**
-     * 
-     */
     @Override
-    public void setRoom(final Room where) {
+    public void setRoom(Room where) {
         if (this.where == null) {
             this.where = where;
         }
@@ -47,4 +42,9 @@ public abstract class BuilderGameCommandImpl implements BuilderGameCommand {
     protected Room getRoom() {
         return this.where;
     }
+    
+    protected String getGlobalErrMess() {
+        return GLOBAL_ERR_MESS;
+    }
+    
 }

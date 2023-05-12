@@ -1,21 +1,22 @@
 package it.unibo.ruscodc.model.gamecommand;
 
-import it.unibo.ruscodc.model.range.Range;
+import it.unibo.ruscodc.utils.Pair;
 
 /**
  * Defines a set of method usefull to manage automatically a specific situation.
  * With this class the game can manage mobs
  */
 public interface IAGameCommand {
+
     /**
-     * Set into this builder a reference to the previous class for getting some infos.
-     * @param observer the builder that build the command-object
+     * //TODO - da rifinire con il Behaviour. 
+     * @return
      */
-    void setObserver(ComplexObserver observer);
+    Pair<Integer, Integer> getActorPos();
+
     /**
-     * Return the range where the IA can set the start of the action
-     * @return attack's range
+     * //TODO - da rifinire con il Behaviour.
+     * @param newPos
      */
-    Range getRange();
-    //TODO-è ancora da pensare
+    void setCursePos(Pair<Integer, Integer> newPos);
 }

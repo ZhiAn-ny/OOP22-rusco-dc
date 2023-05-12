@@ -2,7 +2,7 @@ package it.unibo.ruscodc.model.actors;
 
 import java.util.Map;
 
-import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
+import it.unibo.ruscodc.model.gamecommand.BasicGameCommand;
 import it.unibo.ruscodc.utils.GameControl;
 
 /**
@@ -14,16 +14,16 @@ public interface Skill {
      * @param key
      * @param action
      */
-    void setAction(GameControl key, BuilderGameCommand action);
+    void setAction(GameControl key, BasicGameCommand action);
 
     /**
      * @param key
      * @return the Builder from the correct input
      */
-    BuilderGameCommand getAction(GameControl key);
+    BasicGameCommand getAction(GameControl key);
 
     /**
      * @return the Map of <Key,Action>
      */
-    Map<GameControl, BuilderGameCommand> getSkills();
+    Map<GameControl, BasicGameCommand> getSkills();
 }

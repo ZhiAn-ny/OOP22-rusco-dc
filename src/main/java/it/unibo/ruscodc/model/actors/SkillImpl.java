@@ -1,6 +1,6 @@
 package it.unibo.ruscodc.model.actors;
 
-import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
+import it.unibo.ruscodc.model.gamecommand.BasicGameCommand;
 import it.unibo.ruscodc.model.gamecommand.MoveDownBuilder;
 import it.unibo.ruscodc.model.gamecommand.MoveLeftBuilder;
 import it.unibo.ruscodc.model.gamecommand.MoveRightBuilder;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class SkillImpl implements Skill {
 
-    final Map<GameControl, BuilderGameCommand> skills = new HashMap<>();
+    final Map<GameControl, BasicGameCommand> skills = new HashMap<>();
 
     public enum SkillType {
         ATK,
@@ -30,16 +30,16 @@ public class SkillImpl implements Skill {
     }
 
     @Override
-    public void setAction(GameControl key, BuilderGameCommand action) {
+    public void setAction(GameControl key, BasicGameCommand action) {
         this.skills.put(key, action);
     }
     
     @Override
-    public BuilderGameCommand getAction(GameControl key) {
+    public BasicGameCommand getAction(GameControl key) {
         return this.skills.get(key);
     }
 
-    public void manageSkill(int key, BuilderGameCommand toSet) {
+    public void manageSkill(int key, BasicGameCommand toSet) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'manageSkill'");
     }
@@ -50,7 +50,7 @@ public class SkillImpl implements Skill {
     }
 
     @Override
-    public Map<GameControl, BuilderGameCommand> getSkills() {
+    public Map<GameControl, BasicGameCommand> getSkills() {
         return Map.copyOf(this.skills);
     }
 
