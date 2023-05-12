@@ -35,4 +35,14 @@ public interface GameModel {
      */
     Room getCurrentRoom();
 
+    /**
+     * change the actual room saved into floor
+     */
+    void changeRoom();
+
+    /**
+     * change the entire floor 
+     */
+    void changeFloor();
+
 }

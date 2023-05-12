@@ -4,8 +4,8 @@ import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.GameModel;
 import it.unibo.ruscodc.model.GameModelImpl;
 import it.unibo.ruscodc.model.actors.Actor;
-import it.unibo.ruscodc.model.actors.Hero;
-import it.unibo.ruscodc.model.actors.Monster;
+import it.unibo.ruscodc.model.actors.hero.Hero;
+import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.model.gamecommand.ComplexActionBuilder;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
@@ -67,7 +67,7 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     private List<Entity> entityToUpload() {
-        List<Entity> tmp = model.getCurrentRoom().getTilesAsEntity();
+        List<Entity> tmp = new ArrayList<>(model.getCurrentRoom().getTilesAsEntity());
         tmp.add((Entity) initiative.get(0));
         return tmp;
     }
@@ -86,7 +86,7 @@ public class GameControllerImpl implements GameObserverController {
         return ready;
     }
 
-    /**
+        /**
      * Compute the input of user and execute a specific action according to it.
      * @param input input of the user
      */
@@ -107,23 +107,21 @@ public class GameControllerImpl implements GameObserverController {
                     }
                 }
 
-            } else {
+            } //else {
 
-                BuilderGameCommand wrapper = tmpActor.act(input);
-                //wrapper.setActor(tmpActor);
-                wrapper.setRoom(model.getCurrentRoom());
+            //     BuilderGameCommand wrapper = tmpActor.act(input);
+            //     //wrapper.setActor(tmpActor);
+            //     wrapper.setRoom(model.getCurrentRoom());
                 
-                if (wrapper instanceof QuickActionBuilder) {
-                    QuickActionBuilder quick = (QuickActionBuilder) wrapper;
-                    executeCommand(quick);
+            //     if (wrapper instanceof QuickActionBuilder) {
+            //         QuickActionBuilder quick = (QuickActionBuilder) wrapper;
+            //         executeCommand(quick);
 
-                } else {
-                    ComplexActionBuilder complex = (ComplexActionBuilder) wrapper;
-                    HandlebleGameCommand h = complex.buildForPlayer();
-                    h.setObserver(complex);
-                    playerSituation = Optional.of(h);
-                }
-            }
+            //     } else {
+            //         ComplexActionBuilder complex = (ComplexActionBuilder) wrapper;
+            //         playerSituation = Optional.of(complex.buildForPlayer());
+            //     }
+            //}
         }
     }
 
@@ -150,7 +148,14 @@ public class GameControllerImpl implements GameObserverController {
     public void start() {
         this.view.startView();
         initNewTurn();
-        view.setEntityToDraw(entityToUpload());
+        while (!this.view.isReady()) {
+            try {
+                Thread.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        this.view.setEntityToDraw(entityToUpload());
         manageMonsterTurn();
     }
 

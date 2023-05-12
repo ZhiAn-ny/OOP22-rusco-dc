@@ -7,7 +7,7 @@ import it.unibo.ruscodc.model.gamemap.Room;
  * This class provide to the implementation of {@code}BuilderGameCommand{@code} interface,
  * expecially because they do the same thing for many class.
  */ //TODO gradle da un errore di andata a capo, ma altrimenti è illeggibile da console...
-public class BuilderGameCommandImpl implements BuilderGameCommand {
+public abstract class BuilderGameCommandImpl implements BuilderGameCommand {
 
     private Actor actActor;
     private Room where;

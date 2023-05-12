@@ -1,11 +1,11 @@
 package it.unibo.ruscodc.view;
 import it.unibo.ruscodc.controller.GameObserverController;
 import it.unibo.ruscodc.model.Entity;
-import it.unibo.ruscodc.model.gamemap.Tile;
 import it.unibo.ruscodc.utils.GameControl;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,16 +13,16 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.lang.ClassLoader;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ViewJFX extends Application implements GameView {
     final private String TITLE = "Junkrisers";
-    final private String BASE_BG_COLOR = "#121212";
+    final private String BASE_BG_COLOR = "#4e533d";
     final private String iconPath = "file:src/main/resources/it/unibo/ruscodc/hero_res/racoon-head.png";
 
     final private Dimension screen;
@@ -30,22 +30,26 @@ public class ViewJFX extends Application implements GameView {
     final private double wtsRatio = 3 / 5.0;
     /** Height to screen ratio. */
     final private double htsRatio = 4 / 5.0;
+    private double screenUnit;
+    private final int maxRoomSize; // TODO: prendere dal controller/model(?)
 
     private GraphicsContext context;
     private Scene mainScene;
 
     private GameObserverController controller;
     /** Contains the objects to render on screen. */
-    final private List<Drawable<GraphicsContext>> scene;
+    final private CopyOnWriteArrayList<Drawable<GraphicsContext>> scene;
 
     public ViewJFX() {
         this.screen = Toolkit.getDefaultToolkit().getScreenSize();
-        this.scene = new ArrayList<>();
+        this.scene = new CopyOnWriteArrayList<Drawable<GraphicsContext>>();
+        this.maxRoomSize = 20;
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.setup(primaryStage);
+
         this.gameloop(this.context);
     }
 
@@ -72,7 +76,7 @@ public class ViewJFX extends Application implements GameView {
         Canvas canvas = new Canvas(this.screen.getWidth() * this.wtsRatio,
                 this.screen.getHeight() * this.htsRatio);
         this.context = canvas.getGraphicsContext2D();
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+
         root.setCenter(canvas);
 
         this.mainScene = new Scene(root);
@@ -82,6 +86,7 @@ public class ViewJFX extends Application implements GameView {
         stage.setTitle(this.TITLE);
         stage.setScene(this.mainScene);
         stage.show();
+        this.setScreenUnit(stage);
     }
 
     /**
@@ -93,6 +98,12 @@ public class ViewJFX extends Application implements GameView {
             System.out.println(key.getCode());
             this.controller.computeInput(this.getInput(key));
         });
+    }
+
+    private void setScreenUnit(Stage stage) {
+        int offset = 4;
+        double minDim = Math.min(stage.getWidth(), stage.getHeight());
+        this.screenUnit = minDim / (this.maxRoomSize + offset);
     }
 
     private GameControl getInput(KeyEvent e){
@@ -127,6 +138,15 @@ public class ViewJFX extends Application implements GameView {
             Platform.exit();
             System.exit(0);
         });
+
+        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> {
+            // System.out.println("Height: " + stage.getHeight() + " Width: " + stage.getWidth());
+            this.setScreenUnit(stage);
+            this.scene.forEach(d -> d.updateScreenUnit(this.screenUnit));
+            this.context.clearRect(0, 0, stage.getWidth(), stage.getHeight());
+        };
+        stage.widthProperty().addListener(stageSizeListener);
+        stage.heightProperty().addListener(stageSizeListener);
     }
 
     /**
@@ -138,13 +158,6 @@ public class ViewJFX extends Application implements GameView {
         AnimationTimer gameloop = new AnimationTimer() {
            public void handle(long nanotime) {
                scene.forEach(drw -> drw.render(context));
-               String tmp = "file:src/main/resources/it/unibo/ruscodc/hero_res/rusco"+"racoon-head.png";
-               Image image = null;
-               try (var path = ClassLoader.getSystemResourceAsStream("hero_res/rusco/racoon-head.png");) {
-                   image = new Image(path);
-               } catch (Exception e) {
-
-               }
            }
         };
 
@@ -175,18 +188,11 @@ public class ViewJFX extends Application implements GameView {
         this.controller = ctrl;
     }
 
-
-    public void addToScene(Collection<Drawable<GraphicsContext>> objs){
-        this.scene.addAll(objs);
+    @Override
+    public boolean isReady() {
+        return this.screenUnit > 0;
     }
 
-    public void addToScene(Drawable<GraphicsContext> obj){
-        this.scene.add(obj);
-    }
-
-    public void clearScene(){
-        this.scene.clear();
-    }
     @Override
     public void printError(String err) {
         System.err.println("ERROR: " + err);
@@ -196,11 +202,11 @@ public class ViewJFX extends Application implements GameView {
     public void setEntityToDraw(List<Entity> toDraw) {
         scene.clear();
         toDraw.stream().map(e-> {
-            Drawable<GraphicsContext> drw = new JFXDrawableImpl(e);
-            if (e instanceof Tile)
-                drw.setSize(1.5);
+            Drawable<GraphicsContext> drw = new JFXDrawableImpl(e, this.screenUnit);
+            drw.setSize(1);
             return drw;
-        }).forEach(d -> scene.add(d));
+        }).forEach(scene::add);
+
 
     }
 

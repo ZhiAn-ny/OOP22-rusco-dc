@@ -2,7 +2,7 @@ package it.unibo.ruscodc.model;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.DummyHero;
-import it.unibo.ruscodc.model.actors.Hero;
+import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.FloorImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
@@ -66,5 +66,17 @@ public class GameModelImpl implements GameModel {
     @Override
     public Room getCurrentRoom() {
         return this.floor.getCurrentRoom();
+    }
+
+    @Override
+    public void changeRoom() {
+        // TODO Anny
+        throw new UnsupportedOperationException("Unimplemented method 'changeRoom'");
+    }
+
+    @Override
+    public void changeFloor() {
+        // TODO Anny
+        throw new UnsupportedOperationException("Unimplemented method 'changeFloor'");
     }
 }

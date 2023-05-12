@@ -11,20 +11,24 @@ import javafx.scene.image.Image;
  */
 public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
     private Image sprite;
-    private final Pair<Integer, Integer> position;
+    private Pair<Integer, Integer> position;
     private double rotation = 0;
     private double size = 1;
-
-    private final static int SCALE = 100;
+    private double screenUnit;
 
     /**
      * Class constructor.
      * @param toDraw is a entity need to draw in the view
      */
-    public JFXDrawableImpl(final Entity toDraw) {
-        sprite = new Image(toDraw.getPath());
-        Pair<Integer, Integer> tmp = toDraw.getPos();
-        position = new Pair<>(tmp.getX() * SCALE, tmp.getY() * SCALE); //TODO
+    public JFXDrawableImpl(Entity toDraw, double screenUnit){
+        int offset = 2; // TODO: change according to room size
+        this.screenUnit = screenUnit;
+        this.sprite = new Image(toDraw.getPath() + "/Sprite.png");
+        Pair<Integer, Integer> logicPosition = toDraw.getPos();
+        this.position = new Pair<Integer, Integer>(
+                Math.toIntExact((logicPosition.getX() + offset) * Math.round(this.screenUnit)),
+                Math.toIntExact((logicPosition.getY() + offset) * Math.round(this.screenUnit))
+        );
     }
 
     /**
@@ -56,15 +60,31 @@ public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
      * @param size the scale to apply to the object.
      */
     @Override
-    public void setSize(final double size) {
-        this.size = size;
-        this.applySize(50);
+    public void updateScreenUnit(double screenUnit) {
+        double logicPosX = Math.round(this.position.getX() / this.screenUnit);
+        double logicPosY = Math.round(this.position.getY() / this.screenUnit);
+        this.screenUnit = screenUnit;
+        this.applySize();
+        this.position = new Pair<Integer, Integer>(
+                Math.toIntExact(Math.round(logicPosX * this.screenUnit)),
+                Math.toIntExact(Math.round(logicPosY * this.screenUnit))
+        );
     }
 
-    private void applySize(final double screeUnit) {
-        this.sprite = new Image(this.sprite.getUrl(),
-                screeUnit * this.size, screeUnit * this.size,
-                true, false);
+    @Override
+    public void setSize(final double size) {
+        this.size = size;
+        this.applySize();
+
+    }
+
+    private void applySize() {
+        this.sprite = new Image(
+            this.sprite.getUrl(),
+            this.screenUnit * this.size,
+            this.screenUnit * this.size,
+            true, false
+        );
     }
 
 }

@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model.actors;
+package it.unibo.ruscodc.model.actors.monster;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 import com.google.gson.Gson;
 
+import it.unibo.ruscodc.model.actors.ActorAbs;
+import it.unibo.ruscodc.model.actors.Skill;
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
