@@ -67,4 +67,16 @@ public class GameModelImpl implements GameModel {
     public Room getCurrentRoom() {
         return this.floor.getCurrentRoom();
     }
+
+    @Override
+    public void changeRoom() {
+        // TODO Anny
+        throw new UnsupportedOperationException("Unimplemented method 'changeRoom'");
+    }
+
+    @Override
+    public void changeFloor() {
+        // TODO Anny
+        throw new UnsupportedOperationException("Unimplemented method 'changeFloor'");
+    }
 }

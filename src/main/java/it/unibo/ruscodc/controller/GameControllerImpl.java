@@ -67,7 +67,7 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     private List<Entity> entityToUpload() {
-        List<Entity> tmp = model.getCurrentRoom().getTilesAsEntity();
+        List<Entity> tmp = new ArrayList<>(model.getCurrentRoom().getTilesAsEntity());
         tmp.add((Entity) initiative.get(0));
         return tmp;
     }
@@ -86,7 +86,7 @@ public class GameControllerImpl implements GameObserverController {
         return ready;
     }
 
-    /**
+        /**
      * Compute the input of user and execute a specific action according to it.
      * @param input input of the user
      */
@@ -107,12 +107,22 @@ public class GameControllerImpl implements GameObserverController {
                     }
                 }
 
-            } else {
+            } //else {
 
-    private List<Entity> entityToUpload(){
-        List<Entity> tmp = new ArrayList<>(this.model.getCurrentRoom().getTilesAsEntity());
-        tmp.add((Entity) initiative.get(0));
-        return tmp;
+            //     BuilderGameCommand wrapper = tmpActor.act(input);
+            //     //wrapper.setActor(tmpActor);
+            //     wrapper.setRoom(model.getCurrentRoom());
+                
+            //     if (wrapper instanceof QuickActionBuilder) {
+            //         QuickActionBuilder quick = (QuickActionBuilder) wrapper;
+            //         executeCommand(quick);
+
+            //     } else {
+            //         ComplexActionBuilder complex = (ComplexActionBuilder) wrapper;
+            //         playerSituation = Optional.of(complex.buildForPlayer());
+            //     }
+            //}
+        }
     }
 
     /**
@@ -160,7 +170,7 @@ public class GameControllerImpl implements GameObserverController {
         initNewTurn();
         while (initiative.get(0) instanceof Monster) {
             tmpMonster = (Monster) initiative.get(0);
-            executeCommand(tmpMonster.behave(model.getCurrentRoom()));
+            //executeCommand(tmpMonster.behave(model.getCurrentRoom()));
             // TODO - post implementazione mostro
             //initiative.remove(0);
             initNewTurn();
