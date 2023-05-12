@@ -5,6 +5,10 @@ import it.unibo.ruscodc.utils.Pair;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+/**
+ * This class implement Drawable.
+ * It serves for draw a map and actor to pass at the view which will print all.
+ */
 public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
     private Image sprite;
     private Pair<Integer, Integer> position;
@@ -12,6 +16,10 @@ public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
     private double size = 1;
     private double screenUnit;
 
+    /**
+     * Class constructor.
+     * @param toDraw is a entity need to draw in the view
+     */
     public JFXDrawableImpl(Entity toDraw, double screenUnit){
         int offset = 2; // TODO: change according to room size
         this.screenUnit = screenUnit;
@@ -23,22 +31,34 @@ public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
         );
     }
 
+    /**
+     * Return the coordinates of position.
+     * @return the position
+     */
     @Override
     public Pair<Integer, Integer> getOnScreenPosition() {
         return this.position;
     }
 
+    /**
+     * Set the view with the position.
+     * @param context the graphic context in which the object will be rendered.
+     */
     @Override
-    public void render(GraphicsContext context) {
+    public void render(final GraphicsContext context) {
         context.save();
         context.translate(this.position.getX(), this.position.getY());
         context.rotate(this.rotation);
-        context.translate(-this.sprite.getWidth()/2, -this.sprite.getHeight()/2);
+        context.translate(-this.sprite.getWidth() / 2, -this.sprite.getHeight() / 2);
         context.drawImage(this.sprite, 0, 0);
         context.restore();
 
     }
 
+    /**
+     *  Set the size of view.
+     * @param size the scale to apply to the object.
+     */
     @Override
     public void updateScreenUnit(double screenUnit) {
         double logicPosX = Math.round(this.position.getX() / this.screenUnit);
@@ -52,7 +72,7 @@ public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
     }
 
     @Override
-    public void setSize(double size) {
+    public void setSize(final double size) {
         this.size = size;
         this.applySize();
 

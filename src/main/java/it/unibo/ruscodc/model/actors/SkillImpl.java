@@ -14,6 +14,13 @@ public class SkillImpl implements Skill {
 
     final Map<GameControl, BuilderGameCommand> skills = new HashMap<>();
 
+    public enum SkillType {
+        ATK,
+        AIMEDATK,
+        SELF,
+        MOVE;
+    }
+
     public SkillImpl() {
         //TODO Versione brute force dell'implementazione dei basic movement
         this.setAction(GameControl.MOVEUP, new MoveUpBuilder());

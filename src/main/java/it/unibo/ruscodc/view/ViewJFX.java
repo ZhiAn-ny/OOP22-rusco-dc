@@ -1,5 +1,4 @@
 package it.unibo.ruscodc.view;
-
 import it.unibo.ruscodc.controller.GameObserverController;
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.utils.GameControl;
@@ -77,6 +76,7 @@ public class ViewJFX extends Application implements GameView {
         Canvas canvas = new Canvas(this.screen.getWidth() * this.wtsRatio,
                 this.screen.getHeight() * this.htsRatio);
         this.context = canvas.getGraphicsContext2D();
+
         root.setCenter(canvas);
 
         this.mainScene = new Scene(root);
@@ -206,6 +206,7 @@ public class ViewJFX extends Application implements GameView {
             drw.setSize(1);
             return drw;
         }).forEach(scene::add);
+
 
     }
 

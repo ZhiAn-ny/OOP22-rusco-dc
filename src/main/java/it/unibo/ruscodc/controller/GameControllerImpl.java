@@ -1,11 +1,17 @@
 package it.unibo.ruscodc.controller;
 
-import it.unibo.ruscodc.model.*;
+import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.GameModel;
+import it.unibo.ruscodc.model.GameModelImpl;
 import it.unibo.ruscodc.model.actors.Actor;
-import it.unibo.ruscodc.model.actors.Hero;
-import it.unibo.ruscodc.model.actors.Monster;
+import it.unibo.ruscodc.model.actors.hero.Hero;
+import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
+import it.unibo.ruscodc.model.gamecommand.ComplexActionBuilder;
+import it.unibo.ruscodc.model.gamecommand.GameCommand;
+import it.unibo.ruscodc.model.gamecommand.HandlebleGameCommand;
 import it.unibo.ruscodc.model.gamecommand.MoveBuilder;
+import it.unibo.ruscodc.model.gamecommand.QuickActionBuilder;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.view.GameView;
@@ -14,17 +20,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class GameControllerImpl.
+ * This class receives the input of the user through the view.
+ * Send this to the Model for to execute a specific action based on input.
+ * In the end upload the view with the changes made.
+ */
 public class GameControllerImpl implements GameObserverController {
 
     private List<Actor> initiative = new ArrayList<>();
-    private Optional<BuilderGameCommand> actualInstant = Optional.empty();
+    private Optional<HandlebleGameCommand> playerSituation = Optional.empty();
     private final GameView view;
     private final GameModel model;
 
-    public GameControllerImpl(){
+    /**
+     * Create the controller of the game
+     */
+    public GameControllerImpl() {
         this.view = new ViewJFX();
         this.model = new GameModelImpl();
-
     }
 
     @Override
@@ -37,45 +51,63 @@ public class GameControllerImpl implements GameObserverController {
 
     }
 
+    /**
+     * 
+     */
     @Override
     public void resume() {
-
     }
 
+    /**
+     * 
+     */
     @Override
     public void changeAutomaticSave() {
 
     }
 
-    @Override
-    public void computeInput(GameControl input) {
-        if (initiative.get(0) instanceof Hero) {
-            Hero tmp = (Hero)initiative.get(0);
-            if (actualInstant.isPresent()) {
-               // actualInstant.get().modify(input); TODO
-            }
-            else {
-                actualInstant = Optional.of(tmp.act(input));
-                actualInstant.get().setRoom(this.model.getCurrentRoom());
-            }
+    private List<Entity> entityToUpload() {
+        List<Entity> tmp = model.getCurrentRoom().getTilesAsEntity();
+        tmp.add((Entity) initiative.get(0));
+        return tmp;
+    }
 
-            if (actualInstant.get().isReady()) {
-                try{
-                    actualInstant.get().execute();
-                    actualInstant = Optional.empty();
-
-                    view.setEntityToDraw(entityToUpload());
-                    initiative.remove(0);
-                    manageMonsterTurn();
-                }catch (ModelException m) {
-                    if(actualInstant.get() instanceof MoveBuilder) {
-                        actualInstant = Optional.empty();
-                    }
-                }
+    private boolean executeCommand(GameCommand toExec) {
+        final boolean ready = toExec.isReady();
+        if (ready) {
+            try {
+                toExec.execute();
+                playerSituation = Optional.empty();
+                initiative.remove(0);
+            } catch (ModelException e) {
+                // TODO - gestire eccezioni model
             }
         }
-
+        return ready;
     }
+
+    /**
+     * Compute the input of user and execute a specific action according to it.
+     * @param input input of the user
+     */
+    @Override
+    public void computeInput(final GameControl input) {
+
+        if (initiative.get(0) instanceof Hero) {
+            
+            Hero tmpActor = (Hero) initiative.get(0);
+            HandlebleGameCommand tmpCommand;
+
+            if (playerSituation.isPresent()) {
+                
+                tmpCommand = playerSituation.get();
+                if (tmpCommand.modify(input)) {
+                    if (!executeCommand(tmpCommand)) {
+                        // TODO - aggiornare la view qui!
+                    }
+                }
+
+            } else {
 
     private List<Entity> entityToUpload(){
         List<Entity> tmp = new ArrayList<>(this.model.getCurrentRoom().getTilesAsEntity());
@@ -83,16 +115,25 @@ public class GameControllerImpl implements GameObserverController {
         return tmp;
     }
 
+    /**
+     * 
+     */
     @Override
     public void quit() {
-
+        System.exit(0);
     }
 
+    /**
+     * 
+     */
     @Override
     public void init() {
         this.view.init(this);
     }
 
+    /**
+     * 
+     */
     @Override
     public void start() {
         this.view.startView();
@@ -108,24 +149,20 @@ public class GameControllerImpl implements GameObserverController {
         manageMonsterTurn();
     }
 
-    @Override
-    public void launch(){
-        manageMonsterTurn();
-    }
-
-    private void initNewTurn(){
+    private void initNewTurn() {
         if (initiative.isEmpty()) {
             initiative.addAll(model.getActorByInitative());
         }
-
     }
-    private void manageMonsterTurn(){
-        Monster tmp;
+
+    private void manageMonsterTurn() {
+        Monster tmpMonster;
         initNewTurn();
         while (initiative.get(0) instanceof Monster) {
-            tmp = (Monster) initiative.get(0);
-            //tmp.behave();
-            initiative.remove(0);
+            tmpMonster = (Monster) initiative.get(0);
+            executeCommand(tmpMonster.behave(model.getCurrentRoom()));
+            // TODO - post implementazione mostro
+            //initiative.remove(0);
             initNewTurn();
         }
     }
