@@ -17,7 +17,11 @@ public interface GameView {
      */
     void init(GameObserverController ctrl);
 
-    //void uptade();
+    /**
+     *
+     * @return whether the view has already been initialized or not
+     */
+    boolean isReady();
 
     /**
      * Prints a message on the errors stream.

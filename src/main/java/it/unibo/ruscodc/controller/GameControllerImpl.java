@@ -109,20 +109,10 @@ public class GameControllerImpl implements GameObserverController {
 
             } else {
 
-                BuilderGameCommand wrapper = tmpActor.act(input);
-                //wrapper.setActor(tmpActor);
-                wrapper.setRoom(model.getCurrentRoom());
-                
-                if (wrapper instanceof QuickActionBuilder) {
-                    QuickActionBuilder quick = (QuickActionBuilder) wrapper;
-                    executeCommand(quick);
-
-                } else {
-                    ComplexActionBuilder complex = (ComplexActionBuilder) wrapper;
-                    playerSituation = Optional.of(complex.buildForPlayer());
-                }
-            }
-        }
+    private List<Entity> entityToUpload(){
+        List<Entity> tmp = new ArrayList<>(this.model.getCurrentRoom().getTilesAsEntity());
+        tmp.add((Entity) initiative.get(0));
+        return tmp;
     }
 
     /**
@@ -148,7 +138,14 @@ public class GameControllerImpl implements GameObserverController {
     public void start() {
         this.view.startView();
         initNewTurn();
-        view.setEntityToDraw(entityToUpload());
+        while (!this.view.isReady()) {
+            try {
+                Thread.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        this.view.setEntityToDraw(entityToUpload());
         manageMonsterTurn();
     }
 

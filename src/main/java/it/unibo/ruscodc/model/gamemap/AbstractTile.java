@@ -10,8 +10,8 @@ import java.util.Optional;
  */
 public abstract class AbstractTile implements Tile, Entity {
     private final Pair<Integer, Integer> position;
-    private boolean isAccessible;
-    private Entity content = null;
+    private final boolean isAccessible;
+    private Entity content;
 
     /**
      * Creates a <code>Tile</code> at the specified position and sets its accessibility.
@@ -35,9 +35,9 @@ public abstract class AbstractTile implements Tile, Entity {
 
     @Override
     public boolean put(final Entity obj) {
-        if (this.content != null)
+        if (this.content != null) {
             return false;
-
+        }
         this.content = obj;
         return true;
     }
@@ -49,7 +49,7 @@ public abstract class AbstractTile implements Tile, Entity {
 
     @Override
     public Optional<Entity> empty() {
-        Optional<Entity> content = this.get();
+        final Optional<Entity> content = this.get();
         this.content = null;
         return content;
     }
