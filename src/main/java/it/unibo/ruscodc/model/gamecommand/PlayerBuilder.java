@@ -5,7 +5,10 @@ import java.util.Iterator;
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.effect.Effect;
+import it.unibo.ruscodc.model.range.CircleRange;
+import it.unibo.ruscodc.model.range.DirectRowRange;
 import it.unibo.ruscodc.model.range.Range;
+import it.unibo.ruscodc.model.range.SingleRange;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
@@ -39,7 +42,6 @@ public class PlayerBuilder implements HandlebleGameCommand {
         this.range = range;
         this.splash = splash;
         this.actionToPerform = action;
-        //TODO - inizializzare una posizione per il cursore (magari mirata)
     }
 
     /**
@@ -49,6 +51,8 @@ public class PlayerBuilder implements HandlebleGameCommand {
     public void setObserver(final ComplexObserver observer) {
         if (this.observer == null) {
             this.observer = observer;
+            this.cursePos = observer.getOriginalActor().getPos();
+            //TODO - inizializzare una posizione per il cursore (magari mirata)
         }
     }
 
@@ -66,7 +70,7 @@ public class PlayerBuilder implements HandlebleGameCommand {
      */
     @Override
     public Iterator<Entity> getRange() {
-        return range.getRange(observer.getOriginalActor().getPos());
+        return range.getRange(observer.getOriginalActor().getPos(), cursePos, observer.getOriginalRoom());
     }
 
     /**
@@ -74,7 +78,7 @@ public class PlayerBuilder implements HandlebleGameCommand {
      */
     @Override
     public Iterator<Entity> getSplash() {
-        return splash.getRange(cursePos);
+        return splash.getRange(observer.getOriginalActor().getPos(), cursePos, observer.getOriginalRoom());
     }
 
     /**
@@ -119,9 +123,10 @@ public class PlayerBuilder implements HandlebleGameCommand {
         }
         //Room r = observer.getOriginalRoom();
         final Actor a = observer.getOriginalActor();
-        if (!range.isInRange(a.getPos(), cursePos)) {
-            throw new NotInRange(R_ERR);
-        }
+        
+        // if (!range.isInRange(a.getPos(), cursePos, observer.getOriginalRoom())) {
+        //     throw new NotInRange(R_ERR);
+        // }
         //TODO - implement application of effect
     }
 
