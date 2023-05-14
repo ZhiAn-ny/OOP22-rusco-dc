@@ -11,7 +11,7 @@ public interface RoomFactory {
 
     /**
      * Creates a randomly generated <code>Room</code>.
-     * @return
+     * @return a randomly generated room
      */
     Room randomRoom();
 
@@ -20,4 +20,11 @@ public interface RoomFactory {
      * @return a randomly generated rectangle room
      */
     Room rectangleRoom(int width, int height);
+
+    /**
+     * Creates a randomly generated <code>Room</code> containing the stairs to
+     * the next level.
+     * @return a randomly generated room to the next level
+     */
+    Room stairsRoom();
 }

@@ -1,5 +1,7 @@
 package it.unibo.ruscodc.model.gamemap;
 
+import it.unibo.ruscodc.utils.Direction;
+
 import java.util.Random;
 
 public class RoomFactoryImpl implements RoomFactory {
@@ -25,6 +27,13 @@ public class RoomFactoryImpl implements RoomFactory {
     @Override
     public Room rectangleRoom(final int width, final int height) {
         return new RectangleRoomImpl(width, height);
+    }
+
+    @Override
+    public Room stairsRoom() {
+        Room base = this.randomRoom();
+        //base.addStairs(Direction.UNDEFINED);
+        return base;
     }
 
 }

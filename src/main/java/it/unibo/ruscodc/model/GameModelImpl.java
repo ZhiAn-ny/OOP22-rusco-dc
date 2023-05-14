@@ -6,6 +6,7 @@ import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.FloorImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
+import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * This class process the input received that will help the view to print all.
  */
 public class GameModelImpl implements GameModel {
+    private int nFloorsExplored;
     private Floor floor;
     private final Hero hero;
 
@@ -21,6 +23,7 @@ public class GameModelImpl implements GameModel {
      */
     public GameModelImpl() {
         this.floor = new FloorImpl();
+        this.nFloorsExplored = 1;
         this.hero = new DummyHero(new Pair<>(3, 3), "Rusco");
     }
 
@@ -69,14 +72,13 @@ public class GameModelImpl implements GameModel {
     }
 
     @Override
-    public void changeRoom() {
-        // TODO Anny
-        throw new UnsupportedOperationException("Unimplemented method 'changeRoom'");
+    public void changeRoom(final Direction dir) {
+        this.floor.goToRoom(dir);
     }
 
     @Override
     public void changeFloor() {
-        // TODO Anny
-        throw new UnsupportedOperationException("Unimplemented method 'changeFloor'");
+        this.nFloorsExplored = this.nFloorsExplored + 1;
+        this.floor = new FloorImpl();
     }
 }
