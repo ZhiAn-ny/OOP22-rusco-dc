@@ -6,11 +6,7 @@ import it.unibo.ruscodc.model.GameModelImpl;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.monster.Monster;
-import it.unibo.ruscodc.model.gamecommand.BasicGameCommand;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
-import it.unibo.ruscodc.model.gamecommand.HandlebleGameCommand;
-import it.unibo.ruscodc.model.gamecommand.MoveBuilder;
-import it.unibo.ruscodc.model.gamecommand.QuickActionBuilder;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.view.GameView;
@@ -28,7 +24,7 @@ import java.util.Optional;
 public class GameControllerImpl implements GameObserverController {
 
     private List<Actor> initiative = new ArrayList<>();
-    private Optional<HandlebleGameCommand> playerSituation = Optional.empty();
+    private Optional<GameCommand> playerSituation = Optional.empty();
     private final GameView view;
     private final GameModel model;
 
@@ -91,7 +87,7 @@ public class GameControllerImpl implements GameObserverController {
 
         if (initiative.get(0) instanceof Hero) {
             Hero tmpActor = (Hero) initiative.get(0);
-            HandlebleGameCommand tmpCommand;
+            GameCommand tmpCommand;
 
             if (playerSituation.isPresent()) {
                 tmpCommand = playerSituation.get();
@@ -103,7 +99,7 @@ public class GameControllerImpl implements GameObserverController {
 
 
             } else {
-                HandlebleGameCommand wrapper = tmpActor.act(input); //TODO - passare la stanza all'attore, così che può metterla nel builder
+                GameCommand wrapper = tmpActor.act(input); //TODO - passare la stanza all'attore, così che può metterla nel builder
                 wrapper.setRoom(model.getCurrentRoom());
                 
                 if (wrapper.isReady()) {

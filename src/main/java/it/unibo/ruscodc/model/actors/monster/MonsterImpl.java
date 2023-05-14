@@ -8,7 +8,7 @@ import it.unibo.ruscodc.utils.Pair;
 
 public class MonsterImpl extends ActorAbs implements Monster{
 
-    private final Behaviour behaviour = new BehaviourImpl(new MovementBehaveImpl, new combactBehaveImpl);
+    private final Behaviour behaviour = new BehaviourImpl(new MovementBehaveImpl(), new CombactBehaveImpl());
 
     public MonsterImpl(String name, Pair<Integer, Integer> currentPos, Skill skills, Stat stats) {
         super(name, currentPos, skills, stats);

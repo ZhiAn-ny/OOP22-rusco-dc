@@ -1,18 +1,8 @@
 package it.unibo.ruscodc.model.actors.hero;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Map;
-import java.util.Scanner;
-
-import com.google.gson.Gson;
-
 import it.unibo.ruscodc.model.actors.ActorAbs;
 import it.unibo.ruscodc.model.actors.Skill;
-import it.unibo.ruscodc.model.actors.SkillImpl;
 import it.unibo.ruscodc.model.actors.Stat;
-import it.unibo.ruscodc.model.actors.StatImpl;
-import it.unibo.ruscodc.model.actors.StatImpl.StatName;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
@@ -31,7 +21,7 @@ public class HeroImpl extends ActorAbs implements Hero {
     @Override
     public GameCommand act(GameControl key) {
         GameCommand command = this.skills.getAction(key);
-        command.setActor();
+        command.setActor(this);
         return command;
     }
     
