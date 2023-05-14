@@ -57,7 +57,7 @@ public class PlayerAttackBuilder extends NoIACommand {
      * @return an {@code}Iterator{@code} that iterate on this infos
      */
     private Iterator<Entity> getRange() {
-        return range.getRange(cursePos);
+        return range.getRange(this.getActorPos(), cursePos, this.getRoom());
     }
 
     /**
@@ -66,7 +66,7 @@ public class PlayerAttackBuilder extends NoIACommand {
      *  or {@value}null{@value} if the range is not valid (helps the player understand the correctness of the attack)
      */
     private Iterator<Entity> getSplash() {
-        return splash.getRange(cursePos);
+        return splash.getRange(this.getActorPos(), cursePos, this.getRoom());
     }
 
     /**
@@ -124,7 +124,7 @@ public class PlayerAttackBuilder extends NoIACommand {
     @Override
     public void execute() throws ModelException {
         final Actor from = this.getActor();
-        if (!range.isInRange(from.getPos(), cursePos)) {
+        if (!range.isInRange(from.getPos(), cursePos, cursePos, this.getRoom())) {
             throw new NotInRange(R_ERR);
         }
         //TODO - implement application of effect

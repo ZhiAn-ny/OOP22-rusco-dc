@@ -1,6 +1,5 @@
 package it.unibo.ruscodc.model.actors;
 
-import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamecommand.MoveDownBuilder;
 import it.unibo.ruscodc.model.gamecommand.MoveLeftBuilder;
