@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 
 import it.unibo.ruscodc.model.actors.ActorAbs;
 import it.unibo.ruscodc.model.actors.Skill;
-import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
+import it.unibo.ruscodc.model.gamecommand.BasicGameCommand;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 
@@ -32,7 +32,7 @@ public class MonsterImpl extends ActorAbs implements Monster{
     }
 
     @Override
-    public BuilderGameCommand behave() {
+    public BasicGameCommand behave() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'behave'");
     }
@@ -54,9 +54,9 @@ public class MonsterImpl extends ActorAbs implements Monster{
             e.printStackTrace();
         }
 
-        Map<GameControl, BuilderGameCommand> tmp = gson.fromJson(scannedline.toString(), Skill.class).getSkills();
+        Map<GameControl, BasicGameCommand> tmp = gson.fromJson(scannedline.toString(), Skill.class).getSkills();
 
-        for (Map.Entry<GameControl, BuilderGameCommand> entry : tmp.entrySet()) {
+        for (Map.Entry<GameControl, BasicGameCommand> entry : tmp.entrySet()) {
             this.skills.setAction(entry.getKey(), entry.getValue());
         }
     }
@@ -78,9 +78,9 @@ public class MonsterImpl extends ActorAbs implements Monster{
             e.printStackTrace();
         }
 
-        Map<GameControl, BuilderGameCommand> tmp = gson.fromJson(scannedline.toString(), Skill.class).getSkills();
+        Map<GameControl, BasicGameCommand> tmp = gson.fromJson(scannedline.toString(), Skill.class).getSkills();
 
-        for (Map.Entry<GameControl, BuilderGameCommand> entry : tmp.entrySet()) {
+        for (Map.Entry<GameControl, BasicGameCommand> entry : tmp.entrySet()) {
             this.skills.setAction(entry.getKey(), entry.getValue());
         }
     }

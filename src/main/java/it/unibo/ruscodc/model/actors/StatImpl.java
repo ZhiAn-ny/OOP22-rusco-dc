@@ -19,6 +19,8 @@ public class StatImpl implements Stat {
     }
     
     private final Map<StatName, Pair<Integer, Integer>> stats = new HashMap<>();
+
+    //TODO: Constructor default
     
     @Override
     public void setStatActualValue(StatName toSet, int actualValue) {

@@ -7,7 +7,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import it.unibo.ruscodc.model.actors.Actor;
-import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
+import it.unibo.ruscodc.model.gamecommand.BasicGameCommand;
 import it.unibo.ruscodc.model.gamecommand.IAGameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.GameControl;

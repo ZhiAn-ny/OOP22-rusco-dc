@@ -6,8 +6,7 @@ import it.unibo.ruscodc.model.GameModelImpl;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.monster.Monster;
-import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
-import it.unibo.ruscodc.model.gamecommand.ComplexActionBuilder;
+import it.unibo.ruscodc.model.gamecommand.BasicGameCommand;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamecommand.HandlebleGameCommand;
 import it.unibo.ruscodc.model.gamecommand.MoveBuilder;
@@ -43,12 +42,10 @@ public class GameControllerImpl implements GameObserverController {
 
     @Override
     public void save() {
-
     }
 
     @Override
     public void pause() {
-
     }
 
     /**
@@ -63,7 +60,6 @@ public class GameControllerImpl implements GameObserverController {
      */
     @Override
     public void changeAutomaticSave() {
-
     }
 
     private List<Entity> entityToUpload() {
@@ -94,12 +90,10 @@ public class GameControllerImpl implements GameObserverController {
     public void computeInput(final GameControl input) {
 
         if (initiative.get(0) instanceof Hero) {
-            
             Hero tmpActor = (Hero) initiative.get(0);
             HandlebleGameCommand tmpCommand;
 
             if (playerSituation.isPresent()) {
-                
                 tmpCommand = playerSituation.get();
                 if (tmpCommand.modify(input)) {
                     if (!executeCommand(tmpCommand)) {
@@ -107,21 +101,17 @@ public class GameControllerImpl implements GameObserverController {
                     }
                 }
 
-            } //else {
 
-            //     BuilderGameCommand wrapper = tmpActor.act(input);
-            //     //wrapper.setActor(tmpActor);
-            //     wrapper.setRoom(model.getCurrentRoom());
+            } else {
+                HandlebleGameCommand wrapper = tmpActor.act(input); //TODO - passare la stanza all'attore, così che può metterla nel builder
+                wrapper.setRoom(model.getCurrentRoom());
                 
-            //     if (wrapper instanceof QuickActionBuilder) {
-            //         QuickActionBuilder quick = (QuickActionBuilder) wrapper;
-            //         executeCommand(quick);
-
-            //     } else {
-            //         ComplexActionBuilder complex = (ComplexActionBuilder) wrapper;
-            //         playerSituation = Optional.of(complex.buildForPlayer());
-            //     }
-            //}
+                if (wrapper.isReady()) {
+                    executeCommand(wrapper);
+                } else {
+                    playerSituation = Optional.of(wrapper);
+                }
+            }
         }
     }
 
