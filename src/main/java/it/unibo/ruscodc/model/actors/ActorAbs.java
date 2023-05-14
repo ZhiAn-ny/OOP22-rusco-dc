@@ -59,6 +59,11 @@ public abstract class ActorAbs implements Actor {
     }
 
     @Override
+    public Skill getSkills() {
+        return this.skills;
+    }
+
+    @Override
     public boolean isAlive() {
         return this.stats.getStatActual(StatName.HP) > 0;
     }

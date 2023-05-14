@@ -20,6 +20,8 @@ public interface Actor extends Entity {
 
     void modifyStat(StatName statName, int value);
 
+    Skill getSkills();
+
     boolean isAlive();
     
 }
