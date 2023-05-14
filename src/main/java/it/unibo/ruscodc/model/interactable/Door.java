@@ -32,6 +32,6 @@ public class Door extends InteractableAbs {
 
     @Override
     public GameCommand interact() {
-        return new ChangeRoom();
+        return new ChangeRoom(getPos());
     }
 }

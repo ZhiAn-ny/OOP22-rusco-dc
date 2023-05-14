@@ -8,7 +8,10 @@ import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.utils.GameControl;
+import it.unibo.ruscodc.utils.exception.ChangeFloorException;
+import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
+import it.unibo.ruscodc.utils.exception.Undo;
 import it.unibo.ruscodc.view.GameView;
 import it.unibo.ruscodc.view.ViewJFX;
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class GameControllerImpl implements GameObserverController {
     private Optional<GameCommand> playerSituation = Optional.empty();
     private final GameView view;
     private final GameModel model;
+    private boolean automaticSave = false;
 
     /**
      * Create the controller of the game
@@ -64,6 +68,20 @@ public class GameControllerImpl implements GameObserverController {
         return tmp;
     }
 
+    private void changeFloor() {
+        model.changeFloor();
+        initNewTurn();
+        if (automaticSave){
+            save();
+        }
+    }
+
+    private void changeRoom(final ChangeRoomException r) {
+        //model.changeRoom(r.getDoorPos()); //TODO - da Direction a Pos
+        initNewTurn();
+    }
+
+
     private boolean executeCommand(GameCommand toExec) {
         final boolean ready = toExec.isReady();
         if (ready) {
@@ -71,6 +89,10 @@ public class GameControllerImpl implements GameObserverController {
                 toExec.execute();
                 playerSituation = Optional.empty();
                 initiative.remove(0);
+            } catch (ChangeFloorException f){
+                changeFloor();
+            } catch (ChangeRoomException r) {
+                changeRoom(r);
             } catch (ModelException e) {
                 // TODO - gestire eccezioni model
             }
