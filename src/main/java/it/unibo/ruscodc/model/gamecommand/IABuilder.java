@@ -2,10 +2,11 @@ package it.unibo.ruscodc.model.gamecommand;
 
 import it.unibo.ruscodc.model.effect.Effect;
 import it.unibo.ruscodc.model.range.Range;
+import it.unibo.ruscodc.utils.Pair;
+import it.unibo.ruscodc.utils.exception.ModelException;
 
-public class IABuilder implements IAGameCommand{
+public class IABuilder extends NoPlayerCommand {
 
-    private ComplexObserver observer;
     private final Range range;
     private final Range splash;
     private final Effect actionToPerform;
@@ -16,16 +17,28 @@ public class IABuilder implements IAGameCommand{
         this.actionToPerform = eff;
     }
 
+    /**
+     * 
+     */
     @Override
-    public void setObserver(ComplexObserver observer) {
-        if (this.observer == null){
-            this.observer = observer;
-        }
+    public Pair<Integer, Integer> getActorPos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getActorPos'");
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void setCursePos(Pair<Integer, Integer> newPos) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setCursePos'");
     }
 
     @Override
-    public Range getRange() {
-        return this.range;
+    public void execute() throws ModelException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'execute'");
     }
     
 }

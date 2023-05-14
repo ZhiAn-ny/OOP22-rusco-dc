@@ -78,7 +78,7 @@ public interface Room {
     /**
      * Adds a single door to the room.
      */
-    void addDoor();
+    void addDoor(Direction dir);
 
     /**
      * Returns the size of the <code>Room</code>.

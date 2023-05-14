@@ -13,7 +13,6 @@ import it.unibo.ruscodc.model.actors.SkillImpl;
 import it.unibo.ruscodc.model.actors.Stat;
 import it.unibo.ruscodc.model.actors.StatImpl;
 import it.unibo.ruscodc.model.actors.StatImpl.StatName;
-import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;

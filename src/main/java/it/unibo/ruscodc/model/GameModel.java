@@ -2,6 +2,7 @@ package it.unibo.ruscodc.model;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamemap.Room;
+import it.unibo.ruscodc.utils.Direction;
 
 import java.util.List;
 
@@ -36,12 +37,13 @@ public interface GameModel {
     Room getCurrentRoom();
 
     /**
-     * change the actual room saved into floor
+     * Change the current room.
+     * @param dir the direction in which the player is moving.
      */
-    void changeRoom();
+    void changeRoom(Direction dir);
 
     /**
-     * change the entire floor 
+     * Change the entire floor allowing the player into the next level.
      */
     void changeFloor();
 

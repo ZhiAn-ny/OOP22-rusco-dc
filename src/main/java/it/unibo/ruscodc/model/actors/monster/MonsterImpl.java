@@ -3,7 +3,6 @@ package it.unibo.ruscodc.model.actors.monster;
 import it.unibo.ruscodc.model.actors.ActorAbs;
 import it.unibo.ruscodc.model.actors.Skill;
 import it.unibo.ruscodc.model.actors.Stat;
-import it.unibo.ruscodc.model.gamecommand.BuilderGameCommand;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.utils.Pair;
 

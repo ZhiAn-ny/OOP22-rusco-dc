@@ -16,6 +16,12 @@ public abstract class MoveBuilder extends QuickActionBuilder {
     private static final String ERR2 = " is already occupied or is out of the room";
 
     /**
+     * Client must not create directly this object
+     */
+    protected MoveBuilder(){
+    }
+
+    /**
      * 
      */
     @Override

@@ -29,15 +29,8 @@ public class WallTileImpl extends AbstractTile {
     }
 
     @Override
-    public String getInfo() {
-        Random rnd = new Random();
-        return switch (rnd.nextInt(0, 5)) {
-            case 0 -> "Someone has written \"You stink!\" on the wall..." +
-                    " I guess living here can have that effect on people...";
-            case 1 -> "Nothing to see here.";
-            case 3 -> "I wonder where the best trash is...";
-            default -> "It's just a wall...";
-        };
+    public String getID() {
+        return "wall";
     }
 
     @Override
