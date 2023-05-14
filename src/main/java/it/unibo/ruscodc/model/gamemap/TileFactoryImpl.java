@@ -19,10 +19,6 @@ public class TileFactoryImpl implements TileFactory {
         return new WallTileImpl(new Pair<>(x, y), this.getWallType(x, y, size));
     }
 
-    @Override
-    public Tile createBaseFloorTile(int x, int y, Direction side) {
-        return new DoorTileImpl(new Pair<>(x, y), side);
-    }
 
     /**
      * Calculates the type of the room on which the wall will be placed.

@@ -18,7 +18,7 @@ public class FloorImpl implements Floor {
 
     public FloorImpl() {
         this.currentRoom = this.roomFactory.squareRoom(ENTRANCE_SIZE);
-        this.currentRoom.addDoor(Direction.UNDEFINED);
+        //this.currentRoom.addDoor(Direction.UNDEFINED); // TODO:
         this.rooms.add(this.currentRoom);
     }
 
