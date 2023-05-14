@@ -51,7 +51,7 @@ final class RangeTest {
      */
     @Test
     private void areEnemyInRange() { //NOPMD - this is a method of Test class, it must be private without other method use it!
-        final long counted = enemyPos.stream().filter(ep -> range1.isInRange(heroPos, cursePos, ep, r)).count();
+        final long counted = enemyPos.stream().filter(ep -> !range1.isInRange(heroPos, cursePos, ep, r)).count();
         assertEquals(3, counted, "FAILED");
     }
 

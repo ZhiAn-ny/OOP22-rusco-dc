@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model.gamecommand;
+package it.unibo.ruscodc.model.gamecommand.quickcommand;
 
 import it.unibo.ruscodc.utils.Pair;
 

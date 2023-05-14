@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model.gamecommand;
+package it.unibo.ruscodc.model.gamecommand.iacommand;
 
 import it.unibo.ruscodc.model.effect.Effect;
 import it.unibo.ruscodc.model.range.Range;

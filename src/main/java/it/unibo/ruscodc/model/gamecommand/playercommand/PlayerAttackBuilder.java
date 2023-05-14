@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model.gamecommand;
+package it.unibo.ruscodc.model.gamecommand.playercommand;
 
 import java.util.Iterator;
 import java.util.stream.Stream;

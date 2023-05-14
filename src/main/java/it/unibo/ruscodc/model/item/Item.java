@@ -1,7 +1,7 @@
 package it.unibo.ruscodc.model.item;
 
 import it.unibo.ruscodc.model.actors.Actor;
-import it.unibo.ruscodc.model.gamecommand.QuickActionBuilder;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.QuickActionBuilder;
 
 public interface Item {
     String getName();

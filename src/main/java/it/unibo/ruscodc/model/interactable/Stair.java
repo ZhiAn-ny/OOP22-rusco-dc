@@ -1,7 +1,7 @@
 package it.unibo.ruscodc.model.interactable;
 
-import it.unibo.ruscodc.model.gamecommand.ChangeFloor;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.ChangeFloor;
 import it.unibo.ruscodc.utils.Pair;
 
 public class Stair extends InteractableAbs{

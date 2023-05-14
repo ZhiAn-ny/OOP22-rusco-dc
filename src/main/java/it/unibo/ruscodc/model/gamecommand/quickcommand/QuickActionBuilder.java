@@ -1,8 +1,9 @@
-package it.unibo.ruscodc.model.gamecommand;
+package it.unibo.ruscodc.model.gamecommand.quickcommand;
 
 import java.util.Iterator;
 
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.gamecommand.BasicGameCommand;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;

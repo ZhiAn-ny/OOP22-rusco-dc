@@ -1,10 +1,10 @@
 package it.unibo.ruscodc.model.actors;
 
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
-import it.unibo.ruscodc.model.gamecommand.MoveDownBuilder;
-import it.unibo.ruscodc.model.gamecommand.MoveLeftBuilder;
-import it.unibo.ruscodc.model.gamecommand.MoveRightBuilder;
-import it.unibo.ruscodc.model.gamecommand.MoveUpBuilder;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveDownBuilder;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveLeftBuilder;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveRightBuilder;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveUpBuilder;
 import it.unibo.ruscodc.utils.GameControl;
 
 import java.util.HashMap;
