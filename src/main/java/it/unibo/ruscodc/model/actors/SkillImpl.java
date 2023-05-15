@@ -28,7 +28,6 @@ public class SkillImpl implements Skill {
         this.setAction(GameControl.MOVELEFT, new MoveLeftBuilder());
     }
 
-    @Override
     public void setAction(GameControl key, GameCommand action) {
         this.skills.put(key, action);
     }

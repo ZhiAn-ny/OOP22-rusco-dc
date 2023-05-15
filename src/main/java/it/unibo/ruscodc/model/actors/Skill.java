@@ -10,14 +10,10 @@ public interface Skill {
 
     /**
      * @param key
-     * @param action
-     */
-    void setAction(GameControl key, GameCommand action);
-
-    /**
-     * @param key
      * @return the Builder from the correct input
      */
     GameCommand getAction(GameControl key);
+
+    void setAction(GameControl key, GameCommand action);
 
 }

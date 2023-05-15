@@ -5,13 +5,13 @@ import it.unibo.ruscodc.model.range.Range;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
 
-public class IABuilder extends NoPlayerCommand {
+public class IAAttack extends NoPlayerCommand {
 
     private final Range range;
     private final Range splash;
     private final Effect actionToPerform;
 
-    public IABuilder(Range r, Range s, Effect eff) {
+    public IAAttack(Range r, Range s, Effect eff) {
         this.range = r;
         this.splash = s;
         this.actionToPerform = eff;

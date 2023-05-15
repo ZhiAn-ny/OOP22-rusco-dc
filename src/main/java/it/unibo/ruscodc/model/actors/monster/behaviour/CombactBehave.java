@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model.actors.monster;
+package it.unibo.ruscodc.model.actors.monster.behaviour;
 
 import java.util.Optional;
 

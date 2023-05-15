@@ -1,23 +1,28 @@
 package it.unibo.ruscodc.model.actors.monster;
 
+import java.util.List;
+
+import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.ActorAbs;
 import it.unibo.ruscodc.model.actors.Skill;
 import it.unibo.ruscodc.model.actors.Stat;
+import it.unibo.ruscodc.model.actors.monster.behaviour.Behaviour;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
+import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.Pair;
 
 public class MonsterImpl extends ActorAbs implements Monster{
 
-    private final Behaviour behaviour = new BehaviourImpl(new MovementBehaveImpl(), new CombactBehaveImpl());
+    private final Behaviour behaviour;
 
-    public MonsterImpl(String name, Pair<Integer, Integer> currentPos, Skill skills, Stat stats) {
+    public MonsterImpl(String name, Pair<Integer, Integer> currentPos, Skill skills, Stat stats, Behaviour behaviour) {
         super(name, currentPos, skills, stats);
-        //TODO Auto-generated constructor stub
+        this.behaviour = behaviour;
     }
 
     @Override
-    public GameCommand behave() {
-        
+    public GameCommand behave(Room room, List<Actor> actors) {
+        return this.behaviour.makeDecision(this, room, actors);
     }
 
 }
