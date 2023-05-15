@@ -6,7 +6,7 @@ import it.unibo.ruscodc.utils.Pair;
 
 import java.util.Set;
 
-public class PickableItem extends InteractableAbs {
+public abstract class PickableItem extends InteractableAbs {
 
     private final Set<Item> loot;
     public PickableItem(Set<Item> itemSet, Pair<Integer, Integer> pos){
@@ -21,9 +21,7 @@ public class PickableItem extends InteractableAbs {
     }
 
     @Override
-    public String getPath() {
-        return null;
-    }
+    public abstract String getPath();
 
     @Override
     public String getName() {
