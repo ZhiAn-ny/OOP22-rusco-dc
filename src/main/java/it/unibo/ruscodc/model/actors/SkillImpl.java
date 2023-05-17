@@ -1,10 +1,10 @@
 package it.unibo.ruscodc.model.actors;
 
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
-import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveDownBuilder;
-import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveLeftBuilder;
-import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveRightBuilder;
-import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveUpBuilder;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveDownCommand;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveLeftCommand;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveRightCommand;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveUpCommand;
 import it.unibo.ruscodc.utils.GameControl;
 
 import java.util.HashMap;
@@ -22,10 +22,10 @@ public class SkillImpl implements Skill {
     }
 
     public SkillImpl() {
-        this.setAction(GameControl.MOVEUP, new MoveUpBuilder());
-        this.setAction(GameControl.MOVEDOWN, new MoveDownBuilder());
-        this.setAction(GameControl.MOVERIGHT, new MoveRightBuilder());
-        this.setAction(GameControl.MOVELEFT, new MoveLeftBuilder());
+        this.setAction(GameControl.MOVEUP, new MoveUpCommand());
+        this.setAction(GameControl.MOVEDOWN, new MoveDownCommand());
+        this.setAction(GameControl.MOVERIGHT, new MoveRightCommand());
+        this.setAction(GameControl.MOVELEFT, new MoveLeftCommand());
     }
 
     public void setAction(GameControl key, GameCommand action) {
