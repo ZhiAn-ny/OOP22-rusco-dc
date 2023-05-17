@@ -9,16 +9,14 @@ import java.util.Set;
 public abstract class PickableItem extends InteractableAbs {
 
     private final Set<Item> loot;
+
     public PickableItem(Set<Item> itemSet, Pair<Integer, Integer> pos){
         super(pos);
         this.loot = itemSet;
     }
 
-
     @Override
-    public String getInfo() {
-        return null;
-    }
+    public abstract String getInfo();
 
     @Override
     public abstract String getPath();

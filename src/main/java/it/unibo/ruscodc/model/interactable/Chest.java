@@ -10,9 +10,14 @@ public class Chest extends PickableItem{
         super(itemSet, pos);
     }
 
+    @Override
+    public String getInfo() {
+        return null;
+    }
+
 
     @Override
     public String getPath() {
-        return null;
+        return "file:src/main/resources/it/unibo/ruscodc/pickable_item/chest";
     }
 }
