@@ -1,9 +1,9 @@
 package it.unibo.ruscodc.model.gamecommand.playercommand;
 
-import it.unibo.ruscodc.model.gamecommand.ComplexActionBuilder;
+import it.unibo.ruscodc.model.gamecommand.ComplexActionAbs;
 import it.unibo.ruscodc.utils.Pair;
 
-public abstract class NoIACommand extends ComplexActionBuilder {
+public abstract class NoIACommand extends ComplexActionAbs {
 
     /**
      * 

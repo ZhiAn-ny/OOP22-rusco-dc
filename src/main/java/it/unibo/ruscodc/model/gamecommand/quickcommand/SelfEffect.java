@@ -5,7 +5,7 @@ import it.unibo.ruscodc.utils.exception.ModelException;
 /**
  * Class that wrap other type of QuickAction action, tipically wrapped into Effect interface.
  */
-public class SelfEffect extends QuickActionBuilder {
+public class SelfEffect extends QuickActionAbs {
 
     /**
      * 

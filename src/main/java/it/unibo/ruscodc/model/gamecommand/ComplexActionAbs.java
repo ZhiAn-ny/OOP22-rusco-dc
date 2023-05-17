@@ -1,7 +1,7 @@
 package it.unibo.ruscodc.model.gamecommand;
 
 
-public abstract class ComplexActionBuilder extends BasicGameCommand {
+public abstract class ComplexActionAbs extends BasicGameCommand {
 
     /**
      * 

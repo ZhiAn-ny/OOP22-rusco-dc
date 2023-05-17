@@ -10,7 +10,7 @@ import it.unibo.ruscodc.utils.exception.UnreacheblePos;
  * Class that check the movement of a specific Actor in a specific Room.
  * Classes that extends this class must only define what will be the new position of the Actor
  */
-public abstract class MoveBuilder extends QuickActionBuilder {
+public abstract class MoveBuilder extends QuickActionAbs {
 
     private static final String ERR = "The position ";
     private static final String ERR2 = " is already occupied or is out of the room";

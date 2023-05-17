@@ -18,7 +18,7 @@ import it.unibo.ruscodc.utils.exception.NotInRange;
 /**
  * Class that wrap an AttackCommand.
  */
-public class PlayerAttackBuilder extends NoIACommand {
+public class PlayerAttack extends NoIACommand {
 
     /*
     SkillType
@@ -38,7 +38,7 @@ public class PlayerAttackBuilder extends NoIACommand {
      * @param splash define where the effect is applied
      * @param action define what effect is to apply
      */
-    public PlayerAttackBuilder(final Range range, final Range splash, final Effect action) {
+    public PlayerAttack(final Range range, final Range splash, final Effect action) {
         this.range = range;
         this.splash = splash;
         this.actionToPerform = action;

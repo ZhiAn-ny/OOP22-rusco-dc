@@ -13,9 +13,9 @@ import it.unibo.ruscodc.utils.exception.ModelException;
  * action that tipically can do without any type of control (neither by player or IA).
  * So logically the wrapped command can be executed
  */ //TODO-a gradle non piace l'andata a capo
-public abstract class QuickActionBuilder extends BasicGameCommand  {
+public abstract class QuickActionAbs extends BasicGameCommand  {
 
-    protected QuickActionBuilder() {
+    protected QuickActionAbs() {
     }
 
     /**
