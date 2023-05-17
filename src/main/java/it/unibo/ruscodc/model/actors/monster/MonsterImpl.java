@@ -4,9 +4,9 @@ import java.util.List;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.ActorAbs;
-import it.unibo.ruscodc.model.actors.Skill;
-import it.unibo.ruscodc.model.actors.Stat;
 import it.unibo.ruscodc.model.actors.monster.behaviour.Behaviour;
+import it.unibo.ruscodc.model.actors.skill.Skill;
+import it.unibo.ruscodc.model.actors.stat.Stat;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.Pair;

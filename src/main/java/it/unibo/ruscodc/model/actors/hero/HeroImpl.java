@@ -1,8 +1,8 @@
 package it.unibo.ruscodc.model.actors.hero;
 
 import it.unibo.ruscodc.model.actors.ActorAbs;
-import it.unibo.ruscodc.model.actors.Skill;
-import it.unibo.ruscodc.model.actors.Stat;
+import it.unibo.ruscodc.model.actors.skill.Skill;
+import it.unibo.ruscodc.model.actors.stat.Stat;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;

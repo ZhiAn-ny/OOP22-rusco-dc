@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model.actors;
+package it.unibo.ruscodc.model.actors.skill;
 
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.utils.GameControl;

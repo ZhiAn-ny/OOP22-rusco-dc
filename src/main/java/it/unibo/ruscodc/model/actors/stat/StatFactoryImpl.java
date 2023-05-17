@@ -1,6 +1,6 @@
-package it.unibo.ruscodc.model.actors;
+package it.unibo.ruscodc.model.actors.stat;
 
-import it.unibo.ruscodc.model.actors.StatImpl.StatName;
+import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.utils.Pair;
 
 public class StatFactoryImpl implements StatFactory {

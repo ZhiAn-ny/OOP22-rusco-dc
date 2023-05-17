@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
-import it.unibo.ruscodc.model.actors.StatImpl.StatName;
+import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.effect.AttackEffect;
 import it.unibo.ruscodc.model.effect.Effect;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;

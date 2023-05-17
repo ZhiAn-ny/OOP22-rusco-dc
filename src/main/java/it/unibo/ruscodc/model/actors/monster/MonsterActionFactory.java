@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model.actors;
+package it.unibo.ruscodc.model.actors.monster;
 
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 
