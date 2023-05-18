@@ -5,14 +5,8 @@ import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
-import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.effect.Effect;
-import it.unibo.ruscodc.model.gamecommand.GameCommand;
-import it.unibo.ruscodc.model.range.CircleRange;
-import it.unibo.ruscodc.model.range.DirectRowRange;
 import it.unibo.ruscodc.model.range.Range;
-import it.unibo.ruscodc.model.range.SingleRange;
-import it.unibo.ruscodc.model.range.SingleSplash;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
@@ -97,11 +91,6 @@ public class PlayerAttack extends NoIACommand {
         return new Entity() {
 
             @Override
-            public String getInfo() {
-                return "Let's do something that starts here";
-            }
-
-            @Override
             public String getPath() {
                 return "";
             }
@@ -110,6 +99,12 @@ public class PlayerAttack extends NoIACommand {
             public Pair<Integer, Integer> getPos() {
                 return cursePos;
             }
+
+            @Override
+            public String getID() {
+                return null;
+            }
+            
         };
     }
 

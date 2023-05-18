@@ -105,8 +105,8 @@ public abstract class DecoratedRange implements Range {
         return new Entity() {
 
             @Override
-            public String getInfo() {
-                return res.getInfo();
+            public String getID() {
+                return res.getID();
             }
 
             @Override
@@ -118,6 +118,8 @@ public abstract class DecoratedRange implements Range {
             public Pair<Integer, Integer> getPos() {
                 return toConvert;
             }
+
+           
         };
     }
 

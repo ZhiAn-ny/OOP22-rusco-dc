@@ -24,7 +24,7 @@ public class Chest extends PickableItem{
      *
      */
     @Override
-    public String getInfo() {
+    public String getID() {
         return null;
     }
 

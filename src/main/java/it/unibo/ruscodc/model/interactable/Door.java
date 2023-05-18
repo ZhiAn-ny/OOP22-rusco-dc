@@ -27,7 +27,7 @@ public class Door extends InteractableAbs {
      *
      */
     @Override
-    public String getInfo() {
+    public String getID() {
         return null;
     }
 

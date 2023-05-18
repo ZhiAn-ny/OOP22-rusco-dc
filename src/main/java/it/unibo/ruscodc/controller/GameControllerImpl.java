@@ -99,7 +99,7 @@ public class GameControllerImpl implements GameObserverController {
         return ready;
     }
 
-        /**
+    /**
      * Compute the input of user and execute a specific action according to it.
      * @param input input of the user
      */
@@ -112,12 +112,12 @@ public class GameControllerImpl implements GameObserverController {
 
             if (playerSituation.isPresent()) {
                 tmpCommand = playerSituation.get();
+                
                 if (tmpCommand.modify(input)) {
                     if (!executeCommand(tmpCommand)) {
                         // TODO - aggiornare la view qui!
                     }
                 }
-
 
             } else {
                 GameCommand wrapper = tmpActor.act(input); //TODO - passare la stanza all'attore, così che può metterla nel builder

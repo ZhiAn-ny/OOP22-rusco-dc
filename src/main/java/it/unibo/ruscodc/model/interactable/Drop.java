@@ -23,7 +23,7 @@ public class Drop extends PickableItem{
      *
      */
     @Override
-    public String getInfo() {
+    public String getID() {
         return null;
     }
 

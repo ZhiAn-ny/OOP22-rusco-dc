@@ -51,7 +51,7 @@ public class SingleAbs implements Range {
         final Entity begin = new Entity() {
 
             @Override
-            public String getInfo() {
+            public String getID() {
                 return info;
             }
 
@@ -64,6 +64,7 @@ public class SingleAbs implements Range {
             public Pair<Integer, Integer> getPos() {
                 return by;
             }
+
         };
 
         return Stream.of(begin).filter(e -> !where.isAccessible(e.getPos())).iterator();

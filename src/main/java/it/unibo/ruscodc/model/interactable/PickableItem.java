@@ -29,7 +29,7 @@ public abstract class PickableItem extends InteractableAbs {
      * @return
      */
     @Override
-    public abstract String getInfo();
+    public abstract String getID();
 
     /**
      *

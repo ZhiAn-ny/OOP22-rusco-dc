@@ -12,7 +12,7 @@ public class CircleRange extends DecoratedRange {
 
     private final int radius;
 
-     /**
+    /**
      * Add a cicle shape to the previous range.
      * @param start the decorated range
      * @param radius the radius of the circle
