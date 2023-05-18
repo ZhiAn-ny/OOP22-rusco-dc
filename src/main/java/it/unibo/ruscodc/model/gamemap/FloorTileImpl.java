@@ -21,16 +21,8 @@ public class FloorTileImpl extends AbstractTile {
     }
 
     @Override
-    public String getInfo() {
-        final Random rnd = new Random();
-        return switch (rnd.nextInt(0, 5)) {
-            case 0 -> "This floor is so dirty!";
-            case 1 -> "Nothing to see here.";
-            case 2 -> "Dust bunnies where are you?";
-            case 3 -> "I wonder where the best trash is...";
-            case 4 -> "No banana peels here! The path is clear!";
-            default -> "Just some tiles...";
-        };
+    public String getID() {
+        return "floor";
     }
 
     @Override

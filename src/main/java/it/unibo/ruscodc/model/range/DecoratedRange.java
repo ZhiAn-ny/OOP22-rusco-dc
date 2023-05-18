@@ -1,9 +1,15 @@
 package it.unibo.ruscodc.model.range;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.Pair;
+import it.unibo.ruscodc.utils.Pairs;
 
 /**
  * Common implementation for many tipe of range.
@@ -13,39 +19,115 @@ public abstract class DecoratedRange implements Range {
 
     private final Range basicRange;
 
+    //private Stream<Stream<Pair<Integer, Integer>>> shapeDelta;
+    private final Set<Pair<Integer, Integer>> effectiveShape = new HashSet<>();
+    private Pair<Integer, Integer> lastBy;
+    private Pair<Integer, Integer> lastTo;
+
     /**
      * Save the last decorated Range.
      * @param start the Range object to decorate with the new class
      */
-    public DecoratedRange(final Range start) {
+    protected DecoratedRange(final Range start) {
         this.basicRange = start;
     }
 
     /**
-     * For classes that implement Range method, is usefull know the previous Range state.
-     * @return the last decorated Range
+     * 
+     * @param origin
+     * @param direction
+     * @param where
+     * //TODO - protected perchè potrebbe cambiare, essere overriddato da altre classi
      */
-    protected Range getMyRange() {
-        return basicRange;
+    protected void commute(final Pair<Integer, Integer> origin, final Pair<Integer, Integer> direction, final Room where) {
+        effectiveShape.clear();
+        effectiveShape.addAll(uploadShapeDelta(origin, direction).map(s -> Pairs.applyInfLineDelta(s, origin))
+            .flatMap(s -> s.takeWhile(p -> !where.isAccessible(p)))
+            .collect(Collectors.toSet()));
     }
 
-    /**
-     * To know the sprite to draw.
-     * @return the path sprite, coded into String format
-     */
-    protected String getPathRes() {
-        return this.basicRange.getRange(new Pair<>(0, 0)).next().getPath();
+    private void checkIfCommute(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Room where) {
+        if (!to.equals(lastTo) || !by.equals(lastBy)) {
+            this.commute(by, to, where);
+        }
+        lastBy = by;
+        lastTo = to;
     }
 
     /**
      * 
      */
     @Override
-    public abstract boolean isInRange(Pair<Integer, Integer> by, Pair<Integer, Integer> toCheck);
+    public boolean isInRange(
+            final Pair<Integer, Integer> by,
+            final Pair<Integer, Integer> to, 
+            final Pair<Integer, Integer> toCheck, 
+            final Room where) {
+        this.checkIfCommute(by, to, where);
+        return effectiveShape.contains(toCheck) || basicRange.isInRange(by, to, toCheck, where);
+    }
 
     /**
      * 
      */
     @Override
-    public abstract Iterator<Entity> getRange(Pair<Integer, Integer> by);
+    public Iterator<Entity> getRange(
+            final Pair<Integer, Integer> by, 
+            final Pair<Integer, Integer> to, 
+            final Room where) {
+        final Iterator<Entity> tmp = this.basicRange.getRange(by, to, where);
+        if (!tmp.hasNext()) {
+            return tmp;
+        }
+
+        final Entity res = tmp.next();
+        final Stream<Entity> otherRange = Stream.concat(
+            Stream.of(res), 
+            Stream.generate(() -> tmp.next()).takeWhile(e -> tmp.hasNext()));
+
+        checkIfCommute(by, to, where);
+
+        final Stream<Entity> thisRange = this.effectiveShape.stream().map(p -> byPosToEntity(p, res));
+
+        return Stream.concat(otherRange, thisRange).iterator();
+    }
+
+    /**
+     * Utility function to conver a simple Pair<Integer, Integer> into a printable Entity.
+     * @param toConvert the position to convert
+     * @param res an Entity to get other info
+     * @return the relative entity
+     */
+    private Entity byPosToEntity(
+            final Pair<Integer, Integer> toConvert,
+            final Entity res) {
+
+        return new Entity() {
+
+            @Override
+            public String getInfo() {
+                return res.getInfo();
+            }
+
+            @Override
+            public String getPath() {
+                return res.getPath();
+            }
+
+            @Override
+            public Pair<Integer, Integer> getPos() {
+                return toConvert;
+            }
+        };
+    }
+
+    /**
+     * Let other class define their natural shape.
+     * @param from the begin of the shape
+     * @param to the end of the shape
+     * @return a stream of line that toghether make the shape
+     */
+    protected abstract Stream<Stream<Pair<Integer, Integer>>> uploadShapeDelta(
+        Pair<Integer, Integer> from, 
+        Pair<Integer, Integer> to);
 }

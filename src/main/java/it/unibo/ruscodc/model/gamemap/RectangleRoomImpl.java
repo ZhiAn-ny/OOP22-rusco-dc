@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
  * The created <code>Room</code> will have a rectangular shape and could have multiple door leading to other rooms.
  */
 public class RectangleRoomImpl implements Room {
+    private final int maxDoorsNum = 4;
     private final Pair<Integer, Integer> size;
     private final List<Tile> tiles = new ArrayList<>();
     private final Set<Actor> monsters = new HashSet<>();
@@ -67,32 +68,9 @@ public class RectangleRoomImpl implements Room {
 
         while (i < doors) {
             Direction dir = Direction.values()[rnd.nextInt(Direction.values().length)];
-            Predicate<Tile> isOnRoomSide = this.getTilesOnSideFilter(dir);
-            List<Tile> onSide = this.tiles.stream()
-                    .filter(isOnRoomSide)
-                    .filter(this.isNotCorner())
-                    .toList();
-
-            if (onSide.size() == 0 || onSide.stream().anyMatch(tile -> !(tile instanceof WallTileImpl))) {
-                continue; // Already placed a door on this side
-            }
-            final Pair<Integer, Integer> pos = onSide.get(rnd.nextInt(onSide.size()))
-                    .getPosition();
-            this.tiles.removeIf(tile -> tile.getPosition().equals(pos));
-            this.tiles.add(new DoorTileImpl(pos, dir));
-            this.connectedRooms.put(dir, Optional.empty());
+            this.addDoor(dir);
             i = i + 1;
         }
-    }
-
-    private Predicate<Tile> getTilesOnSideFilter(final Direction dir) {
-        return switch (dir) {
-            case UP -> (Tile t) -> t.getPosition().getY() == 0;
-            case LEFT -> (Tile t) -> t.getPosition().getX() == 0;
-            case DOWN -> (Tile t) -> t.getPosition().getY().equals(this.size.getY());
-            case RIGHT -> (Tile t) -> t.getPosition().getX().equals(this.size.getX());
-            default -> (Tile t) -> false;
-        };
     }
 
     private Predicate<Tile> isNotCorner() {
@@ -171,9 +149,18 @@ public class RectangleRoomImpl implements Room {
     }
 
     @Override
-    public void addDoor() {
-        if (this.connectedRooms.size() == 4) return;
-        this.addDoors(1);
+    public void addDoor(final Direction dir) {
+        final Random rnd = new Random();
+        if (this.connectedRooms.size() == this.maxDoorsNum) return;
+
+        List<Tile> onSide = this.tiles.stream()
+                .filter(tile -> tile instanceof  WallTileImpl)
+                .filter(this.isNotCorner())
+                .toList();
+
+        final Tile tile = onSide.get(rnd.nextInt(onSide.size()));
+        // tile.put() // TODO: add Door
+        this.connectedRooms.put(dir, Optional.empty());
     }
 
     @Override

@@ -1,7 +1,7 @@
 package it.unibo.ruscodc.model.interactable;
 
-import it.unibo.ruscodc.model.gamecommand.ChangeRoom;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.ChangeRoom;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
@@ -52,6 +52,6 @@ public class Door extends InteractableAbs {
      */
     @Override
     public GameCommand interact() {
-        return new ChangeRoom();
+        return new ChangeRoom(getPos());
     }
 }

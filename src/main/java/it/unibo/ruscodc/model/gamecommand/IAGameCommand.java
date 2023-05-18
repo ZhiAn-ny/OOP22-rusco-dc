@@ -1,5 +1,6 @@
 package it.unibo.ruscodc.model.gamecommand;
 
+import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
@@ -14,9 +15,17 @@ public interface IAGameCommand {
      */
     Pair<Integer, Integer> getActorPos();
 
+    boolean isTargetInRange(Actor target);
+
     /**
      * //TODO - da rifinire con il Behaviour.
      * @param newPos
      */
     void setCursePos(Pair<Integer, Integer> newPos);
+
+    /**
+     * 
+     * @return
+     */
+    int getAPCost();
 }
