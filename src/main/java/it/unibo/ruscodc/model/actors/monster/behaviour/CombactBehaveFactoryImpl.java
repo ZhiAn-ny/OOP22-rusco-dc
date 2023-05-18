@@ -16,22 +16,23 @@ public class CombactBehaveFactoryImpl implements CombactBehaveFactory {
 
     @Override
     public CombactBehave Melee() {
-        return new CombactBehave() {
+        return null;
+        // new CombactBehave() {
 
-            @Override
-            public Optional<GameCommand> choseAttack(Monster monster, Room room, List<Actor> actors) {
-                Set<GameCommand> possibleActions = new HashSet<>();
-                Skill skills = monster.getSkills();
-                for ( GameControl gameControl : GameControl.values()) {
-                    possibleActions.add(skills.getAction(gameControl));
-                }
+        //     @Override
+        //     public Optional<GameCommand> choseAttack(Monster monster, Room room, List<Actor> actors) {
+        //         Set<GameCommand> possibleActions = new HashSet<>();
+        //         Skill skills = monster.getSkills();
+        //         for ( GameControl gameControl : GameControl.values()) {
+        //             possibleActions.add(skills.getAction(gameControl));
+        //         }
                 
-                Optional<GameCommand> action =
-                    possibleActions.stream()
-                        .filter(a -> a.)
-            }
+        //         Optional<GameCommand> action =
+        //             possibleActions.stream()
+        //                 .filter(a -> a.)
+        //     }
             
-        };
+        // };
     }
     
 }

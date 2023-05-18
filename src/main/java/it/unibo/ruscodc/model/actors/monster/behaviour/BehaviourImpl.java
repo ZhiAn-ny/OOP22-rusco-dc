@@ -24,7 +24,7 @@ public class BehaviourImpl implements Behaviour{
     @Override
     public GameCommand makeDecision(Monster monster, Room room, List<Actor> actors) {
 
-        Optional<GameCommand> action = this.combactBehave.choseAttack(monster, room, monster.getSkills());
+        Optional<GameCommand> action = null; // this.combactBehave.choseAttack(monster, room, monster.getSkills());
         if (action.isPresent()) {
             return this.optimizeComplexAction(action.get(), monster, room, actors);
         }
