@@ -16,9 +16,9 @@ public abstract class MoveCommand extends QuickActionAbs {
     private static final String ERR2 = " is already occupied or is out of the room";
 
     /**
-     * Client must not create directly this object
+     * Client must not create directly this object.
      */
-    protected MoveCommand(){
+    protected MoveCommand() {
     }
 
     /**

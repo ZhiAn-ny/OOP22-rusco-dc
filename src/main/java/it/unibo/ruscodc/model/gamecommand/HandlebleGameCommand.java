@@ -25,7 +25,7 @@ public interface HandlebleGameCommand {
     boolean modify(GameControl input); 
 
     /**
-     * An iterable collection of thing to be printed, updated at the actual moment
+     * An iterable collection of thing to be printed, updated at the actual moment.
      * @return an Iterator of some {@code}Entity{@code}
      */
     Iterator<Entity> getEntities();

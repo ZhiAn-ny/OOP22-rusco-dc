@@ -3,6 +3,18 @@ package it.unibo.ruscodc.model.gamecommand;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamemap.Room;
 
+/**
+ * Initial implementation of GameCommand.
+ * Generally each type of command must know at least two information:
+ * <ul>
+ * <li> who launch the command </li>
+ * <li> where the command was launched </li>
+ * </ul>
+ * 
+ * but these two information are unkonwed when the command-object is created.
+ * So, to avoid DRY, i'll provide an basic implementation for all game command:
+ * a class that implement two one-use setter, that set these two informations
+ */
 public abstract class BasicGameCommand implements GameCommand {
 
     private final static String GLOBAL_ERR_MESS = "Cannot execute this method on this object";
