@@ -24,7 +24,7 @@ public class InventoryImpl implements Inventory {
         this.bag = new ArrayList<>();
         this.equipement = new HashMap<>();
         for (Slot slot : Slot.values()) {
-            this.equipement.put(slot, new DefaultEquipement());
+            //this.equipement.put(slot, new DefaultEquipement());
         }
     }
 

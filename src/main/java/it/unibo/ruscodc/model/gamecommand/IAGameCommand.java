@@ -15,6 +15,11 @@ public interface IAGameCommand {
      */
     Pair<Integer, Integer> getActorPos();
 
+    /**
+     * 
+     * @param target
+     * @return
+     */
     boolean isTargetInRange(Actor target);
 
     /**

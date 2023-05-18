@@ -1,7 +1,6 @@
 package it.unibo.ruscodc.model.effect;
 
 import it.unibo.ruscodc.model.actors.Actor;
-import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 
 public abstract class EffectAbs implements Effect {
 
@@ -18,6 +17,5 @@ public abstract class EffectAbs implements Effect {
 
     @Override
     public abstract void applyEffect(Actor from, Actor to);
-  
     
 }
