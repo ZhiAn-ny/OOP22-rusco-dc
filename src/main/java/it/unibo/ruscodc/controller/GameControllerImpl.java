@@ -11,7 +11,6 @@ import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.exception.ChangeFloorException;
 import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
-import it.unibo.ruscodc.utils.exception.Undo;
 import it.unibo.ruscodc.view.GameView;
 import it.unibo.ruscodc.view.ViewJFX;
 import java.util.ArrayList;

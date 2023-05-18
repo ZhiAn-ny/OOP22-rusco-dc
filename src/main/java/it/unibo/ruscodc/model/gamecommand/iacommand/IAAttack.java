@@ -1,5 +1,6 @@
 package it.unibo.ruscodc.model.gamecommand.iacommand;
 
+import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.effect.Effect;
 import it.unibo.ruscodc.model.range.Range;
 import it.unibo.ruscodc.utils.Pair;
@@ -39,6 +40,16 @@ public class IAAttack extends NoPlayerCommand {
     public void execute() throws ModelException {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'execute'");
+    }
+
+    @Override
+    public boolean isTargetInRange(Actor target) {
+        return this.range.isInRange(this.getActor().getPos(), target.getPos(), target.getPos(), this.getRoom());
+    }
+
+    @Override
+    public int getAPCost() {
+        return actionToPerform.getAPcost();
     }
     
 }
