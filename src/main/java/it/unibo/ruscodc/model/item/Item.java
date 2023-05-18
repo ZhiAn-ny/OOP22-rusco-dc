@@ -7,5 +7,5 @@ public interface Item {
     String getName();
     String getPath();
     boolean isWearable();
-    DropObject drop(Actor actor);
+ //   DropObject drop(Actor actor);
 }
