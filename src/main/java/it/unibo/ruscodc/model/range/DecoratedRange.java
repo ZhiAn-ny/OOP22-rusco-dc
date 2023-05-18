@@ -119,7 +119,6 @@ public abstract class DecoratedRange implements Range {
                 return toConvert;
             }
 
-           
         };
     }
 
