@@ -1,6 +1,5 @@
 package it.unibo.ruscodc.model.gamemap;
 
-import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
@@ -11,7 +10,8 @@ public interface TileFactory {
 
     /**
      * Creates a new <code>Tile</code> representing the floor at the specified position.
-
+     * @param x the x-axis coordinate at which the <code>Tile</code> will be placed
+     * @param y the y-axis coordinate at which the <code>Tile</code> will be placed
      * @return the new <code>Tile</code>
      */
     Tile createBaseFloorTile(int x, int y);

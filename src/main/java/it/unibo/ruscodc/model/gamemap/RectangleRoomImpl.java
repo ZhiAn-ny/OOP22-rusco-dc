@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  * The created <code>Room</code> will have a rectangular shape and could have multiple door leading to other rooms.
  */
 public class RectangleRoomImpl implements Room {
-    private final int maxDoorsNum = 4;
+    private static final int MAX_DOORS_NUM = 4;
     private final Pair<Integer, Integer> size;
     private final List<Tile> tiles = new ArrayList<>();
     private final Set<Actor> monsters = new HashSet<>();
@@ -24,22 +24,10 @@ public class RectangleRoomImpl implements Room {
      *
      * @param width the width of the room
      * @param height the height of the room
-     * @param doors the number of door to add
-     */
-    public RectangleRoomImpl(final int width, final int height, final int doors) {
-        this.size = new Pair<>(width + 1, height + 1);
-        this.addTiles();
-        this.addDoors(doors);
-    }
-
-    /**
-     *
-     * @param width the width of the room
-     * @param height the height of the room
      */
     public RectangleRoomImpl(final int width, final int height) {
-        // Where 4 is the maximum number of doors and 1 is the minimum
-        this(width, height, new Random().nextInt(4) + 1);
+        this.size = new Pair<>(width + 1, height + 1);
+        this.addTiles();
     }
 
     /**
@@ -50,7 +38,7 @@ public class RectangleRoomImpl implements Room {
         for (int i = 0; i <= this.size.getX(); i++) {
             for (int j = 0; j <= this.size.getY(); j++) {
                 if (i == 0 || j == 0 || i == this.size.getX() || j == this.size.getY()) {
-                    this.tiles.add(tf.createBaseWallTile(i,j, this.size));
+                    this.tiles.add(tf.createBaseWallTile(i, j, this.size));
                 } else {
                     this.tiles.add(tf.createBaseFloorTile(i, j));
                 }
@@ -58,38 +46,26 @@ public class RectangleRoomImpl implements Room {
         }
     }
 
-    /**
-     * Inserts doors on a random side of the room.
-     * @param doors the number of doors to add.
-     */
-    private void addDoors(final int doors) {
-        final Random rnd = new Random();
-        int i = 0;
-
-        while (i < doors) {
-            Direction dir = Direction.values()[rnd.nextInt(Direction.values().length)];
-            this.addDoor(dir);
-            i = i + 1;
-        }
-    }
-
     private Predicate<Tile> isNotCorner() {
-        return (Tile t) -> !(t.getPosition().equals(new Pair<>(0 ,0))
+        return (Tile t) -> !(t.getPosition().equals(new Pair<>(0, 0))
                 || t.getPosition().equals(this.size)
-                || t.getPosition().equals(new Pair<>(this.size.getX() ,0))
-                || t.getPosition().equals(new Pair<>(0 ,this.size.getY())));
+                || t.getPosition().equals(new Pair<>(this.size.getX(), 0))
+                || t.getPosition().equals(new Pair<>(0, this.size.getY())));
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isInRoom(final Pair<Integer, Integer> pos) {
         return this.tiles.stream().anyMatch(t -> t.getPosition().equals(pos));
     }
 
+    /** {@inheritDoc} */
     @Override
     public Set<Actor> getMonsters() {
         return this.monsters;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Set<Entity> getObjectsInRoom() {
         return this.tiles.stream()
@@ -98,6 +74,7 @@ public class RectangleRoomImpl implements Room {
                 .collect(Collectors.toSet());
     }
 
+    /** {@inheritDoc} */
     @Override
     public List<Entity> getTilesAsEntity() {
         return this.tiles.stream()
@@ -105,6 +82,7 @@ public class RectangleRoomImpl implements Room {
                 .map(tile -> (Entity) tile).toList();
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean put(final Pair<Integer, Integer> pos, final Entity obj) {
         final Optional<Tile> tile = this.tiles.stream()
@@ -116,6 +94,7 @@ public class RectangleRoomImpl implements Room {
         return tile.get().put(obj);
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isAccessible(final Pair<Integer, Integer> pos) {
         final Optional<Tile> tile = this.tiles.stream()
@@ -128,11 +107,13 @@ public class RectangleRoomImpl implements Room {
         return tile.get().isAccessible();
     }
 
+    /** {@inheritDoc} */
     @Override
     public Optional<Room> getConnectedRoom(final Direction dir) {
         return this.connectedRooms.get(dir);
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean addConnectedRoom(final Direction dir, final Room other) {
         if (!this.connectedRooms.containsKey(dir)) {
@@ -148,21 +129,25 @@ public class RectangleRoomImpl implements Room {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void addDoor(final Direction dir) {
+        if (this.connectedRooms.size() == MAX_DOORS_NUM) {
+            return;
+        }
         final Random rnd = new Random();
-        if (this.connectedRooms.size() == this.maxDoorsNum) return;
 
-        List<Tile> onSide = this.tiles.stream()
+        final List<Tile> onSide = this.tiles.stream()
                 .filter(tile -> tile instanceof  WallTileImpl)
                 .filter(this.isNotCorner())
                 .toList();
 
         final Tile tile = onSide.get(rnd.nextInt(onSide.size()));
-        // tile.put() // TODO: add Door
+        // tile.put() // TODO: add Door item
         this.connectedRooms.put(dir, Optional.empty());
     }
 
+    /** {@inheritDoc} */
     @Override
     public Pair<Integer, Integer> getSize() {
         return this.size;

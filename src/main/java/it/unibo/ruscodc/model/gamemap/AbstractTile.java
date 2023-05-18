@@ -6,7 +6,7 @@ import it.unibo.ruscodc.utils.Pair;
 import java.util.Optional;
 
 /**
- * The <code>BaseFloorTileImpl</code> creates a base implementation of a tile
+ * The <code>BaseFloorTileImpl</code> creates a base implementation of a tile.
  */
 public abstract class AbstractTile implements Tile, Entity {
     private final Pair<Integer, Integer> position;

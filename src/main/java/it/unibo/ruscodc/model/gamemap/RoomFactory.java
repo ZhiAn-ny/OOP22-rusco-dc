@@ -1,5 +1,9 @@
 package it.unibo.ruscodc.model.gamemap;
 
+/**
+ * The <code>RoomFactory</code> interface can be used to generate different
+ * types of rooms in the game.
+ */
 public interface RoomFactory {
 
     /**
@@ -17,6 +21,8 @@ public interface RoomFactory {
 
     /**
      * Creates a randomly generated <code>Room</code> in the shape of a rectangle.
+     * @param width the width of the <code>Room</code>
+     * @param height the height of the <code>Room</code>
      * @return a randomly generated rectangle room
      */
     Room rectangleRoom(int width, int height);

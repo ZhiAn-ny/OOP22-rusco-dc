@@ -56,7 +56,7 @@ public interface Room {
      * @return <code>True</code> if the tile at the specified position is
      * accessible, <code>False</code> otherwise.
      */
-    boolean isAccessible(Pair<Integer,Integer> pos);
+    boolean isAccessible(Pair<Integer, Integer> pos);
 
     /**
      * Returns the room connected to the current one on the specified side.
@@ -64,7 +64,7 @@ public interface Room {
      * @return an <code>Optional</code> containing the connected room if any,
      * otherwise returns an empty <code>Optional</code>
      */
-    Optional<Room> getConnectedRoom(final Direction dir);
+    Optional<Room> getConnectedRoom(Direction dir);
 
     /**
      * Connects two rooms between each other.
@@ -73,10 +73,11 @@ public interface Room {
      * @return <code>True</code> if the two rooms have been connected correctly,
      * <code>False</code> otherwise.
      */
-    boolean addConnectedRoom(final Direction dir, final Room other);
+    boolean addConnectedRoom(Direction dir, Room other);
 
     /**
      * Adds a single door to the room.
+     * @param dir the side of the <code>Room</code> on which the door will be added
      */
     void addDoor(Direction dir);
 

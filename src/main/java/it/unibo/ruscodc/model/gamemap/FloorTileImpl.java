@@ -2,7 +2,6 @@ package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.utils.Pair;
 
-import java.util.Random;
 
 /**
  * The <code>FloorTileImpl</code> class represents the basic implementation of
@@ -16,15 +15,17 @@ public class FloorTileImpl extends AbstractTile {
      * @param position      the position of the tile in the room
      * @param accessibility whether the tile can be accessed or not by the player
      */
-    public FloorTileImpl(Pair<Integer, Integer> position, boolean accessibility) {
+    public FloorTileImpl(final Pair<Integer, Integer> position, final boolean accessibility) {
         super(position, accessibility);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getID() {
         return "floor";
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getPath() {
         return "file:src/main/resources/it/unibo/ruscodc/map_res/FloorTile";
