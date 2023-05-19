@@ -1,5 +1,7 @@
 package it.unibo.ruscodc.model.actors.hero;
 
+import java.util.Optional;
+
 import it.unibo.ruscodc.model.actors.ActorAbs;
 import it.unibo.ruscodc.model.actors.skill.Skill;
 import it.unibo.ruscodc.model.actors.stat.Stat;
@@ -19,9 +21,13 @@ public class HeroImpl extends ActorAbs implements Hero {
     }
 
     @Override
-    public GameCommand act(GameControl key) {
-        GameCommand command = this.skills.getAction(key);
-        command.setActor(this);
+    public Optional<GameCommand> act(GameControl key) {
+        Optional<GameCommand> command = this.skills.getAction(key);
+        if (command.isEmpty()) {
+            return Optional.empty();
+        }
+
+        command.get().setActor(this);
         return command;
     }
     

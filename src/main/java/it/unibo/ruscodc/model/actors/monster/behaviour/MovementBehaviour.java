@@ -8,6 +8,6 @@ import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
 
-public interface MovementBehave {
-    Optional<GameCommand> choseMove(Monster monster, List<Actor> actors, Room room);
+public interface MovementBehaviour {
+    Optional<GameCommand> chooseMove(Monster monster, List<Actor> actors, Room room);
 }

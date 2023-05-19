@@ -11,31 +11,31 @@ import it.unibo.ruscodc.utils.GameControl;
 
 public class BehaviourImpl implements Behaviour{
 
-    private final MovementBehave movementBehave;
-    private final CombactBehave combactBehave;
+    private final MovementBehaviour movementBehaviour;
+    private final CombactBehaviour combactBehaviour;
 
 
-    public BehaviourImpl(final MovementBehave movementBehave, final CombactBehave combatBehave) {
-        this.movementBehave = movementBehave;
-        this.combactBehave = combatBehave;
+    public BehaviourImpl(final MovementBehaviour movementBehaviour, final CombactBehaviour combatBehaviour) {
+        this.movementBehaviour = movementBehaviour;
+        this.combactBehaviour = combatBehaviour;
     }
 
 
     @Override
     public GameCommand makeDecision(Monster monster, Room room, List<Actor> actors) {
 
-        Optional<GameCommand> action = null; // this.combactBehave.choseAttack(monster, room, monster.getSkills());
+        Optional<GameCommand> action = this.combactBehaviour.choseAttack(monster, room, actors);
         if (action.isPresent()) {
             return this.optimizeComplexAction(action.get(), monster, room, actors);
         }
 
-        action = this.movementBehave.choseMove(monster, actors, room);
+        action = this.movementBehaviour.chooseMove(monster, actors, room);
         
         if (action.isPresent()) {
             return action.get();
         }
 
-        return monster.getSkills().getAction(GameControl.DONOTHING);
+        return monster.getSkills().getAction(GameControl.DONOTHING).get();
     }
 
     //TODO: Modifica
