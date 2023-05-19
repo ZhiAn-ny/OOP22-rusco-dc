@@ -265,9 +265,28 @@ public final class Pairs {
     }
 
     /**
-     * Compute a circle as a set of all the line that start in center and finish on one of the circumference points.
+     * Help method that compute areas to fill their area, following the logic to fill all the area
+     * with line that start to the center and finish to one of the perimetre of the area.
+     * @param hotSpots the set of point that identifies area's 
+     * @param center the center of the area
+     * @return the Stream that wrap all there line, that are also Stream
+     */
+    private static Stream<Stream<Pair<Integer, Integer>>> fillArea(
+            final List<Pair<Integer, Integer>> hotSpots, 
+            final Pair<Integer, Integer> center) {
+        final Stream<Pair<Integer, Integer>> cfr = Stream.iterate(0, i -> i < hotSpots.size(), i -> i + 1)
+        .flatMap(i -> i != (hotSpots.size() - 1)
+            ? computePPLine(hotSpots.get(i), hotSpots.get(i + 1)) 
+            : computePPLine(hotSpots.get(i), hotSpots.get(0)))
+            .distinct();
+        return cfr.map(p -> computeBoldLine(center, p));
+    }
+
+    /**
+     * Compute a circle as a set of all the line 
+     * that start in center and finish on one of the circumference points.
      * @param center the center of the circle
-     * @param radius this radius
+     * @param radius their radius
      * @return the Stream that wrap all there line, that are also Stream
      */
     public static Stream<Stream<Pair<Integer, Integer>>> computeCircle(final Pair<Integer, Integer> center, final int radius) {
@@ -276,17 +295,26 @@ public final class Pairs {
         final Pair<Integer, Integer> b = computeSingleDelta(center, +radius, false);
         final Pair<Integer, Integer> d = computeSingleDelta(center, -radius, false);
 
-        final List<Pair<Integer, Integer>> hotSpots = List.of(a, b, c, d);
-
-        final Stream<Pair<Integer, Integer>> cfr = Stream.iterate(0, i -> i < hotSpots.size(), i -> i + 1)
-            .flatMap(i -> i != (hotSpots.size() - 1)
-                ? computePPLine(hotSpots.get(i), hotSpots.get(i + 1)) 
-                : computePPLine(hotSpots.get(i), hotSpots.get(0)))
-                .distinct();
-        return cfr.map(p -> computeBoldLine(center, p));
+        return fillArea(List.of(a, b, c, d), center);
     }
 
+    /**
+     * Compute a square as a set of all the line that start in center and finish on one of points of square's perimetre.
+     * @param center the center of the square
+     * @param offset the ortogonal distance between the center of the square and their sides
+     * @return the Stream that wrap all there line, that are also Stream
+     */
+    public static Stream<Stream<Pair<Integer, Integer>>> computeSquare(final Pair<Integer, Integer> center, final int offset) {
+        final Pair<Integer, Integer> dx = computeSingleDelta(center, +offset, false);
+        final Pair<Integer, Integer> sx = computeSingleDelta(center, -offset, false);
 
+        final Pair<Integer, Integer> a = computeSingleDelta(sx, -offset, true);
+        final Pair<Integer, Integer> b = computeSingleDelta(dx, -offset, true);
+        final Pair<Integer, Integer> c = computeSingleDelta(dx, +offset, true);
+        final Pair<Integer, Integer> d = computeSingleDelta(sx, +offset, true);
+
+        return fillArea(List.of(a, b, c, d), center);
+    }
 
 
 
