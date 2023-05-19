@@ -94,6 +94,16 @@ public class RectangleRoomImpl implements Room {
         return tile.get().put(obj);
     }
 
+    @Override
+    public Optional<Tile> get(Pair<Integer, Integer> pos) {
+        if (this.isInRoom(pos)) {
+            return this.tiles.stream()
+                    .filter(tile -> tile.getPosition().equals(pos))
+                    .findFirst();
+        }
+        return Optional.empty();
+    }
+
     /** {@inheritDoc} */
     @Override
     public boolean isAccessible(final Pair<Integer, Integer> pos) {

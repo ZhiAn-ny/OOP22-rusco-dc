@@ -1,6 +1,7 @@
 package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.effect.SingleTargetEffect;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.util.Optional;
@@ -21,6 +22,18 @@ public interface Tile {
      * @return <code>True</code> if the tile is accessible to the player.
      */
     boolean isAccessible();
+
+    /**
+     * Returns whether the <code>Tile</code> is a trap or not.
+     * @return <code>True</code> if the <code>Tile</code> is a trap, <code>False</code> otherwise
+     */
+    boolean isTrap();
+
+    /**
+     * Returns the effect produced by stepping on the <code>Tile</code>.
+     * @return a <code>SingleTargetEffect</code> representing the effect
+     */
+    SingleTargetEffect getEffect();
 
     /**
      * Places an <code>Entity</code> on the tile.

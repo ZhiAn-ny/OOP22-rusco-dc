@@ -1,6 +1,8 @@
 package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.effect.SingleTargetEffect;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.util.Optional;
@@ -34,6 +36,11 @@ public abstract class AbstractTile implements Tile, Entity {
     }
 
     @Override
+    public boolean isTrap() {
+        return false;
+    }
+
+    @Override
     public boolean put(final Entity obj) {
         if (this.content != null) {
             return false;
@@ -52,6 +59,11 @@ public abstract class AbstractTile implements Tile, Entity {
         final Optional<Entity> content = this.get();
         this.content = null;
         return content;
+    }
+
+    @Override
+    public SingleTargetEffect getEffect() {
+        return (Actor a) -> { };
     }
 
     @Override

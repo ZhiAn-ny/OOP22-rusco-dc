@@ -51,6 +51,13 @@ public interface Room {
     boolean put(Pair<Integer, Integer> pos, Entity obj);
 
     /**
+     * Returns the <code>Tile</code> at the specified position.
+     * @param pos the position of the <code>Tile</code> to retrieve
+     * @return an <code>Optional</code> containing the tile at said position or an empty <code>Optional</code> if the position is out of the room
+     */
+    Optional<Tile> get(Pair<Integer, Integer> pos);
+
+    /**
      * Returns whether the specified position is accessible to an actor.
      * @param pos the position in which move the actor
      * @return <code>True</code> if the tile at the specified position is
