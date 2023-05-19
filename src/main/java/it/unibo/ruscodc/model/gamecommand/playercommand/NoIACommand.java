@@ -18,7 +18,7 @@ public abstract class NoIACommand extends ComplexActionAbs {
      * 
      */
     @Override
-    public void setCursePos(Pair<Integer, Integer> newPos) {
+    public void setCursorPos(Pair<Integer, Integer> newPos) {
         throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 

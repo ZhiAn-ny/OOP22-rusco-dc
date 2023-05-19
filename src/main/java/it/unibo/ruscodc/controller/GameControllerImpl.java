@@ -131,7 +131,11 @@ public class GameControllerImpl implements GameObserverController {
                 }
 
             } else {
-                tmpCommand = tmpActor.act(input); //TODO - ponderare se aggiungere qui la room...
+                Optional<GameCommand> res = tmpActor.act(input); //TODO - ponderare se aggiungere qui la room...
+                if (res.isEmpty()){
+                    return;
+                }
+                tmpCommand = res.get(); 
                 tmpCommand.setRoom(model.getCurrentRoom());
                 
                 if (tmpCommand.isReady()) {

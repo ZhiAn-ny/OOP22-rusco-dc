@@ -31,7 +31,7 @@ public class IAAttack extends NoPlayerCommand {
      * 
      */
     @Override
-    public void setCursePos(Pair<Integer, Integer> newPos) {
+    public void setCursorPos(Pair<Integer, Integer> newPos) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setCursePos'");
     }
