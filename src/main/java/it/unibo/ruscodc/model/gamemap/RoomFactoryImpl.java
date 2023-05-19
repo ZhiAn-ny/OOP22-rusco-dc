@@ -31,7 +31,7 @@ public class RoomFactoryImpl implements RoomFactory {
                 this.rectangleRoom(this.rnd.nextInt(MAX_ROOM_SIZE), this.rnd.nextInt(MAX_ROOM_SIZE));
     }
 
-    private void addMonsters(Room base) {
+    private void addMonsters(final Room base) {
         final Random rnd = new Random();
         final int monstersNum = rnd.nextInt(MAX_MONSTERS_NUM);
         int i = 0;
@@ -40,6 +40,7 @@ public class RoomFactoryImpl implements RoomFactory {
                     rnd.nextInt(base.getSize().getX()),
                     rnd.nextInt(base.getSize().getY())
             );
+            // TODO: change to random
             Monster monster = this.monsterGen.makeMeleeRat("m" + i, pos);
             if (base.addMonster(monster)) {
                 i = i + 1;

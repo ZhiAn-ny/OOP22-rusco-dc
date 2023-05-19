@@ -63,7 +63,7 @@ public class RectangleRoomImpl implements Room {
 
     /** {@inheritDoc} */
     @Override
-    public boolean addMonster(Monster monster) {
+    public boolean addMonster(final Monster monster) {
         List<Pair<Integer, Integer>> positions = this.monsters.stream().map(Entity::getPos).toList();
         if (positions.contains(monster.getPos())) {
             return false;
