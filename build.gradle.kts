@@ -52,8 +52,6 @@ dependencies {
 }
 
 application {
-    // Define the main module for the application
-    mainModule.set("it.unibo.ruscodc.launcher")
     // Define the main class for the application
     mainClass.set("it.unibo.ruscodc.launcher.Launcher")
 }

@@ -2,6 +2,7 @@ package it.unibo.ruscodc.model;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
+import it.unibo.ruscodc.model.actors.hero.HeroImpl;
 import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.FloorImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
@@ -22,7 +23,7 @@ public class GameModelImpl implements GameModel {
     public GameModelImpl() {
         this.floor = new FloorImpl();
         this.nFloorsExplored = 1;
-        this.hero = null; 
+        this.hero = new HeroImpl(null, null, null, null);
     }
 
     private List<Actor> getParty() {
