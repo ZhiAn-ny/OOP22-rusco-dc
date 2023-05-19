@@ -1,5 +1,10 @@
 package it.unibo.ruscodc.model.gamemap;
 
+import it.unibo.ruscodc.model.actors.monster.Monster;
+import it.unibo.ruscodc.model.actors.monster.MonsterGenerator;
+import it.unibo.ruscodc.model.actors.monster.MonsterGeneratorImpl;
+import it.unibo.ruscodc.utils.Pair;
+
 import java.util.Random;
 
 /**
@@ -9,13 +14,37 @@ import java.util.Random;
 public class RoomFactoryImpl implements RoomFactory {
     private final Random rnd = new Random();
     private static final int MAX_ROOM_SIZE = 20;
+    private static final int MAX_MONSTERS_NUM = 10;
+    private final MonsterGenerator monsterGen = new MonsterGeneratorImpl();
 
     /** {@inheritDoc} */
     @Override
     public Room randomRoom() {
+        final Room room = this.getRandomShapeRoom();
+        this.addMonsters(room);
+        return room;
+    }
+
+    private Room getRandomShapeRoom() {
         return (this.rnd.nextInt() % 2 == 0) ?
                 this.squareRoom(this.rnd.nextInt(MAX_ROOM_SIZE)) :
                 this.rectangleRoom(this.rnd.nextInt(MAX_ROOM_SIZE), this.rnd.nextInt(MAX_ROOM_SIZE));
+    }
+
+    private void addMonsters(Room base) {
+        final Random rnd = new Random();
+        final int monstersNum = rnd.nextInt(MAX_MONSTERS_NUM);
+        int i = 0;
+        while (i < monstersNum) {
+            Pair<Integer, Integer> pos = new Pair<>(
+                    rnd.nextInt(base.getSize().getX()),
+                    rnd.nextInt(base.getSize().getY())
+            );
+            Monster monster = this.monsterGen.makeMeleeRat("m" + i, pos);
+            if (base.addMonster(monster)) {
+                i = i + 1;
+            }
+        }
     }
 
     /** {@inheritDoc} */

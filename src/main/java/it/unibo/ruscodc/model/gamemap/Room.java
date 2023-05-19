@@ -3,6 +3,7 @@ package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
@@ -25,10 +26,17 @@ public interface Room {
     boolean isInRoom(Pair<Integer, Integer> pos);
 
     /**
+     * Adds a monster to the room.
+     * @param monster the monster to add
+     * @return <code>true</code> is the monster has been added to the <code>Room</code>, <code>false</code> otherwise.
+     */
+    boolean addMonster(Monster monster);
+
+    /**
      * Gets the monsters in the room.
      * @return a set representing the monsters in the room
      */
-    Set<Actor> getMonsters();
+    Set<Monster> getMonsters();
 
     /**
      * Returns the objects in the room.

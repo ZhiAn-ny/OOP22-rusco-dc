@@ -2,6 +2,7 @@ package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
@@ -18,7 +19,7 @@ public class RectangleRoomImpl implements Room {
     private static final int MAX_DOORS_NUM = 4;
     private final Pair<Integer, Integer> size;
     private final List<Tile> tiles = new ArrayList<>();
-    private final Set<Actor> monsters = new HashSet<>();
+    private final Set<Monster> monsters = new HashSet<>();
     private final Map<Direction, Optional<Room>> connectedRooms = new HashMap<>();
 
     /**
@@ -62,7 +63,27 @@ public class RectangleRoomImpl implements Room {
 
     /** {@inheritDoc} */
     @Override
-    public Set<Actor> getMonsters() {
+    public boolean addMonster(Monster monster) {
+        List<Pair<Integer, Integer>> positions = this.monsters.stream().map(Entity::getPos).toList();
+        if (positions.contains(monster.getPos())) {
+            return false;
+        }
+
+        int minFreeTiles = 5;
+        int freeTiles = (int) this.tiles.stream()
+                .filter(tile -> tile.get().isEmpty())
+                .count();
+        if (positions.size() >= (freeTiles - minFreeTiles)) {
+            return false;
+        }
+
+        this.monsters.add(monster);
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Set<Monster> getMonsters() {
         return this.monsters;
     }
 
