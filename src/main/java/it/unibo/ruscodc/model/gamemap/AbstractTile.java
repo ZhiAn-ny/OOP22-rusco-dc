@@ -3,6 +3,7 @@ package it.unibo.ruscodc.model.gamemap;
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.effect.SingleTargetEffect;
+import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.util.Optional;
@@ -13,7 +14,7 @@ import java.util.Optional;
 public abstract class AbstractTile implements Tile, Entity {
     private final Pair<Integer, Integer> position;
     private final boolean isAccessible;
-    private Entity content;
+    private Interactable content;
 
     /**
      * Creates a <code>Tile</code> at the specified position and sets its accessibility.
@@ -41,7 +42,7 @@ public abstract class AbstractTile implements Tile, Entity {
     }
 
     @Override
-    public boolean put(final Entity obj) {
+    public boolean put(final Interactable obj) {
         if (this.content != null) {
             return false;
         }
@@ -50,13 +51,13 @@ public abstract class AbstractTile implements Tile, Entity {
     }
 
     @Override
-    public Optional<Entity> get() {
+    public Optional<Interactable> get() {
         return Optional.ofNullable(this.content);
     }
 
     @Override
-    public Optional<Entity> empty() {
-        final Optional<Entity> content = this.get();
+    public Optional<Interactable> empty() {
+        final Optional<Interactable> content = this.get();
         this.content = null;
         return content;
     }

@@ -1,6 +1,7 @@
 package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Pair;
 
 
@@ -24,7 +25,7 @@ public class WallTileImpl extends AbstractTile {
 
     /** {@inheritDoc} */
     @Override
-    public boolean put(final Entity obj) {
+    public boolean put(final Interactable obj) {
         // You cannot put an object in the wall!
         return false;
     }

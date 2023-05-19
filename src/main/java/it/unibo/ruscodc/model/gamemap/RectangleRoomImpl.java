@@ -2,6 +2,7 @@ package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
@@ -67,7 +68,7 @@ public class RectangleRoomImpl implements Room {
 
     /** {@inheritDoc} */
     @Override
-    public Set<Entity> getObjectsInRoom() {
+    public Set<Interactable> getObjectsInRoom() {
         return this.tiles.stream()
                 .filter(tile -> tile.get().isPresent())
                 .map(tile -> tile.get().orElseThrow())
@@ -84,7 +85,7 @@ public class RectangleRoomImpl implements Room {
 
     /** {@inheritDoc} */
     @Override
-    public boolean put(final Pair<Integer, Integer> pos, final Entity obj) {
+    public boolean put(final Pair<Integer, Integer> pos, final Interactable obj) {
         final Optional<Tile> tile = this.tiles.stream()
                 .filter(t -> t.getPosition().equals(pos))
                 .findFirst();
