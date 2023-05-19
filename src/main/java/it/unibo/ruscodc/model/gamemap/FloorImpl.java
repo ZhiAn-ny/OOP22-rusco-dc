@@ -59,7 +59,8 @@ public class FloorImpl implements Floor {
         final int left = MAX_ROOMS_NUMBER - this.getNRoomExplored();
         final int prob = new Random().nextInt(0, left + 1);
         if (prob == 0) {
-            return this.roomFactory.stairsRoom();
+            // TODO:
+            //return this.roomFactory.stairsRoom();
         }
         return this.roomFactory.randomRoom();
     }

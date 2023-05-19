@@ -40,7 +40,7 @@ public class RectangleRoomImpl implements Room {
                 if (i == 0 || j == 0 || i == this.size.getX() || j == this.size.getY()) {
                     this.tiles.add(tf.createBaseWallTile(i, j, this.size));
                 } else {
-                    this.tiles.add(tf.createBaseFloorTile(i, j));
+                    this.tiles.add(tf.createRandomFloorTile(i, j));
                 }
             }
         }
@@ -132,9 +132,7 @@ public class RectangleRoomImpl implements Room {
         if (this.connectedRooms.get(dir).isPresent()) {
             return false;
         }
-
         this.connectedRooms.put(dir, Optional.of(other));
-
         other.addConnectedRoom(dir.getOpposite(), this);
         return true;
     }

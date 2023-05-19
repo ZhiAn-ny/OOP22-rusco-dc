@@ -8,16 +8,19 @@ import it.unibo.ruscodc.model.gamecommand.quickcommand.DoNothing;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Pair;
 
+import java.util.Random;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * The <code>FloorTrapTileImpl</code> class represents a special <code>Tile</code>
  * containing a trap placed on the floor.
+ * By default, the trap can be triggered multiple times, producing 5 points
+ * of damage each time and can be disabled with a simple interaction.
  */
 public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
     private int damage = 5;
     private boolean isReady = true;
+    private int disableSuccessRate = 100;
     private Consumer<FloorTrapTileImpl> postTriggered = (self) -> { };
 
     /**
@@ -29,15 +32,23 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
     }
 
     /**
-     *
-     * @param pos the position at which place the <code>Tile</code>
-     * @param damage the damage inflicted by the trap
+     * Sets the trap's damage. The damage is set to 5 by default.
+     * @param dmg the damage that the trap will inflict to the player.
      */
-    public FloorTrapTileImpl(final Pair<Integer, Integer> pos, final int damage) {
-        super(pos, true);
-        this.damage = damage;
+    public void setDamage(final int dmg) {
+        this.damage = dmg;
     }
 
+    /**
+     * Sets the success rate for the interaction with the trap.
+     * The interaction can be used to disable the trap.
+     * @param successRate the new success rate
+     */
+    public void setDisableSuccessRate(final int successRate) {
+        this.disableSuccessRate = successRate;
+    }
+
+    /** {@inheritDoc} */
     @Override
     public boolean isTrap() {
         return true;
@@ -45,12 +56,13 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
 
     /**
      * Set what happens after the trap has been triggered.
-     * @param post
+     * @param post a <code>Consumer</code> taking the current <code>FloorTrapTileImpl</code> as object consumed
      */
-    public void setPostTriggered(Consumer<FloorTrapTileImpl> post) {
+    public void setPostTriggered(final Consumer<FloorTrapTileImpl> post) {
         this.postTriggered = post;
     }
 
+    /** {@inheritDoc} */
     @Override
     public SingleTargetEffect getEffect() {
         return (Actor target) -> {
@@ -61,14 +73,21 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
         };
     }
 
+    /** {@inheritDoc} */
     @Override
     public String getName() {
         return "It's a trap!";
     }
 
+    /**
+     * Disables the trap.
+     * @return a <code>DoNothing</code> command.
+     */
     @Override
     public GameCommand interact() {
-        this.isReady = false;
+        if (new Random().nextInt(100) < this.disableSuccessRate) {
+            this.isReady = false;
+        }
         return new DoNothing();
     }
 }
