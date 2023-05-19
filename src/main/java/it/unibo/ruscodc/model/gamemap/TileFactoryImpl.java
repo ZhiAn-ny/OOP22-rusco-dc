@@ -2,16 +2,51 @@ package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.utils.Pair;
 
+import java.util.Random;
+
 /**
  * The <code>TileFactoryImpl</code> class implements the <code>TileFactory</code>
  * interface and can be used to create different types of <code>Tile</code>.
  */
 public class TileFactoryImpl implements TileFactory {
+    private static final int MAX_TRAP_DMG = 10;
+    private static final int TRAP_PROBABILITY = 5;
+
+    /** {@inheritDoc} */
+    @Override
+    public Tile createSingleUseFloorTrap(final int x, final int y) {
+        FloorTrapTileImpl base = new FloorTrapTileImpl(new Pair<>(x, y));
+        base.setPostTriggered(FloorTrapTileImpl::interact);
+        base.setDamage(new Random().nextInt(1, MAX_TRAP_DMG + 1));
+        return base;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Tile createFloorTrap(final int x, final int y) {
+        FloorTrapTileImpl base = new FloorTrapTileImpl(new Pair<>(x, y));
+        base.setDamage(new Random().nextInt(1, MAX_TRAP_DMG + 1));
+        return base;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Tile createRandomFloorTrap(final int x, final int y) {
+        return (new Random().nextInt() % 2) == 0 ?
+                this.createSingleUseFloorTrap(x, y) : this.createFloorTrap(x, y);
+    }
 
     /** {@inheritDoc} */
     @Override
     public Tile createBaseFloorTile(final int x, final int y) {
         return new FloorTileImpl(new Pair<>(x, y), true);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Tile createRandomFloorTile(final int x, final int y) {
+        return new Random().nextInt(100) < TRAP_PROBABILITY ?
+                this.createRandomFloorTrap(x, y) : this.createBaseFloorTile(x, y);
     }
 
     /** {@inheritDoc} */

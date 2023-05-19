@@ -3,6 +3,7 @@ package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
@@ -33,7 +34,7 @@ public interface Room {
      * Returns the objects in the room.
      * @return a set representing the objects in the room
      */
-    Set<Entity> getObjectsInRoom();
+    Set<Interactable> getObjectsInRoom();
 
     /**
      * Returns the <code>Room</code>'s tiles as <code>Entity</code>.
@@ -48,7 +49,14 @@ public interface Room {
      * @return <code>True</code> if the entity has been placed correctly,
      * <code>False</code> otherwise.
      */
-    boolean put(Pair<Integer, Integer> pos, Entity obj);
+    boolean put(Pair<Integer, Integer> pos, Interactable obj);
+
+    /**
+     * Returns the <code>Tile</code> at the specified position.
+     * @param pos the position of the <code>Tile</code> to retrieve
+     * @return an <code>Optional</code> containing the tile at said position or an empty <code>Optional</code> if the position is out of the room
+     */
+    Optional<Tile> get(Pair<Integer, Integer> pos);
 
     /**
      * Returns whether the specified position is accessible to an actor.

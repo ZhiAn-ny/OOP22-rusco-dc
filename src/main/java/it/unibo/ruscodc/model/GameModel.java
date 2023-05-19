@@ -3,6 +3,7 @@ package it.unibo.ruscodc.model;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.Direction;
+import it.unibo.ruscodc.utils.Pair;
 
 import java.util.List;
 
@@ -38,9 +39,9 @@ public interface GameModel {
 
     /**
      * Change the current room.
-     * @param dir the direction in which the player is moving.
+     * @param pos the coordinates of the passage
      */
-    void changeRoom(Direction dir);
+    void changeRoom(Pair<Integer, Integer> pos);
 
     /**
      * Change the entire floor allowing the player into the next level.
