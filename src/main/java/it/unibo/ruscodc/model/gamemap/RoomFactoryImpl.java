@@ -13,6 +13,7 @@ import java.util.Random;
  */
 public class RoomFactoryImpl implements RoomFactory {
     private final Random rnd = new Random();
+    private static final int MIN_ROOM_SIZE = 3;
     private static final int MAX_ROOM_SIZE = 20;
     private static final int MAX_MONSTERS_NUM = 10;
     private final MonsterGenerator monsterGen = new MonsterGeneratorImpl();
@@ -27,8 +28,8 @@ public class RoomFactoryImpl implements RoomFactory {
 
     private Room getRandomShapeRoom() {
         return (this.rnd.nextInt() % 2 == 0) ?
-                this.squareRoom(this.rnd.nextInt(MAX_ROOM_SIZE)) :
-                this.rectangleRoom(this.rnd.nextInt(MAX_ROOM_SIZE), this.rnd.nextInt(MAX_ROOM_SIZE));
+                this.squareRoom(this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE)) :
+                this.rectangleRoom(this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE), this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE));
     }
 
     private void addMonsters(final Room base) {

@@ -11,6 +11,7 @@ import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +42,9 @@ public class GameModelImpl implements GameModel {
      */
     @Override
     public List<Actor> getActorByInitative() {
-        return List.of(hero);
+        List<Actor> list = new ArrayList<>();
+        list.add(hero);
+        return list;
     }
 
     /**
@@ -85,9 +88,9 @@ public class GameModelImpl implements GameModel {
             this.floor.goToRoom(Direction.LEFT);
         } else if (pos.getY() == 0) {
             this.floor.goToRoom(Direction.UP);
-        } else if (pos.getY().equals(current.getSize().getY())) {
+        } else if (pos.getY().equals(current.getSize().getY() + 1)) {
             this.floor.goToRoom(Direction.DOWN);
-        } else if (pos.getX().equals(current.getSize().getX())) {
+        } else if (pos.getX().equals(current.getSize().getX() + 1)) {
             this.floor.goToRoom(Direction.RIGHT);
         }
     }

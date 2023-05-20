@@ -1,12 +1,12 @@
 package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.model.Entity;
-import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
+import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -20,7 +20,7 @@ public class RectangleRoomImpl implements Room {
     private final Pair<Integer, Integer> size;
     private final List<Tile> tiles = new ArrayList<>();
     private final Set<Monster> monsters = new HashSet<>();
-    private final Map<Direction, Optional<Room>> connectedRooms = new HashMap<>();
+    private final Map<Direction, Room> connectedRooms = new HashMap<>();
 
     /**
      *
@@ -28,6 +28,11 @@ public class RectangleRoomImpl implements Room {
      * @param height the height of the room
      */
     public RectangleRoomImpl(final int width, final int height) {
+        if (width < 3 || height < 3) {
+            throw new InvalidParameterException();
+        }
+        // +1 is added to allow the creation of the walls, it will be removed
+        // accessing the variable with its getter.
         this.size = new Pair<>(width + 1, height + 1);
         this.addTiles();
     }
@@ -142,7 +147,7 @@ public class RectangleRoomImpl implements Room {
     /** {@inheritDoc} */
     @Override
     public Optional<Room> getConnectedRoom(final Direction dir) {
-        return this.connectedRooms.get(dir);
+        return Optional.ofNullable(this.connectedRooms.get(dir));
     }
 
     /** {@inheritDoc} */
@@ -151,10 +156,10 @@ public class RectangleRoomImpl implements Room {
         if (!this.connectedRooms.containsKey(dir)) {
             return false;
         }
-        if (this.connectedRooms.get(dir).isPresent()) {
+        if (this.connectedRooms.get(dir) == null) {
             return false;
         }
-        this.connectedRooms.put(dir, Optional.of(other));
+        this.connectedRooms.put(dir, other);
         other.addConnectedRoom(dir.getOpposite(), this);
         return true;
     }
@@ -174,13 +179,13 @@ public class RectangleRoomImpl implements Room {
 
         final Tile tile = onSide.get(rnd.nextInt(onSide.size()));
         // tile.put() // TODO: add Door item
-        this.connectedRooms.put(dir, Optional.empty());
+        this.connectedRooms.put(dir, null);
     }
 
     /** {@inheritDoc} */
     @Override
     public Pair<Integer, Integer> getSize() {
-        return this.size;
+        return new Pair<>(this.size.getX() - 1, this.size.getY() - 1);
     }
 
 }

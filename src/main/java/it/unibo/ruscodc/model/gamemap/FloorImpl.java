@@ -40,14 +40,19 @@ public class FloorImpl implements Floor {
     /** {@inheritDoc} */
     @Override
     public void goToRoom(final Direction dir) {
+        if (dir == Direction.UNDEFINED) {
+            return;
+        }
+
         if (this.currentRoom.getConnectedRoom(dir).isPresent()) {
             this.currentRoom = this.currentRoom.getConnectedRoom(dir).get();
             return;
         }
 
         final Room next = this.getNextRoom();
-        this.rooms.add(next);
-        this.currentRoom.addConnectedRoom(dir, next);
+        if (this.currentRoom.addConnectedRoom(dir, next)) {
+            this.rooms.add(next);
+        }
     }
 
     private Room getNextRoom() {

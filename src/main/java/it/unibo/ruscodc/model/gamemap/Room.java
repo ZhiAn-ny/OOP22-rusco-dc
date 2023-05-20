@@ -98,7 +98,7 @@ public interface Room {
     void addDoor(Direction dir);
 
     /**
-     * Returns the size of the <code>Room</code>.
+     * Returns the inner size of the <code>Room</code>.
      * @return a <code>Pair</code> containing the width and the height of the room.
      */
     Pair<Integer, Integer> getSize();
