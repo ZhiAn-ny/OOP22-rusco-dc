@@ -8,6 +8,7 @@ import it.unibo.ruscodc.model.gamecommand.quickcommand.DoNothing;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Pair;
 
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
 
@@ -41,10 +42,14 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
 
     /**
      * Sets the success rate for the interaction with the trap.
-     * The interaction can be used to disable the trap.
-     * @param successRate the new success rate
+     * The interaction can be used to disable the trap. The success rate is set
+     * to 100 by default.
+     * @param successRate the new success rate, must be integer between 1 and 100
      */
     public void setDisableSuccessRate(final int successRate) {
+        if (successRate < 1 || successRate > 100) {
+            return;
+        }
         this.disableSuccessRate = successRate;
     }
 
@@ -89,5 +94,23 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
             this.isReady = false;
         }
         return new DoNothing();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Optional<Interactable> get() {
+        return Optional.of(this);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public Optional<Interactable> empty() {
+        return this.get();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean put(Interactable obj) {
+        return false;
     }
 }
