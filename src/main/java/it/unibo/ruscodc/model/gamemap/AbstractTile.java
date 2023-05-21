@@ -22,6 +22,9 @@ public abstract class AbstractTile implements Tile, Entity {
      * @param accessibility whether the tile can be accessed or not by the player
      */
     public AbstractTile(final Pair<Integer, Integer> position, final boolean accessibility) {
+        if (position == null) {
+            throw new IllegalArgumentException("Position cannot be null!");
+        }
         this.position = position;
         this.isAccessible = accessibility;
     }
@@ -43,7 +46,7 @@ public abstract class AbstractTile implements Tile, Entity {
 
     @Override
     public boolean put(final Interactable obj) {
-        if (this.content != null) {
+        if (this.content != null || obj instanceof Tile) {
             return false;
         }
         this.content = obj;

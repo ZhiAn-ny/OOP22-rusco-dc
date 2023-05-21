@@ -4,9 +4,6 @@ import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.HeroImpl;
 import it.unibo.ruscodc.model.actors.monster.MonsterActionFactory;
 import it.unibo.ruscodc.model.actors.monster.MonsterActionFactoryImpl;
-import it.unibo.ruscodc.model.actors.monster.MonsterGeneratorImpl;
-import it.unibo.ruscodc.model.actors.monster.MonsterImpl;
-import it.unibo.ruscodc.model.actors.monster.behaviour.BehaviourImpl;
 import it.unibo.ruscodc.model.actors.skill.Skill;
 import it.unibo.ruscodc.model.actors.skill.SkillImpl;
 import it.unibo.ruscodc.model.actors.stat.StatFactory;
@@ -16,7 +13,6 @@ import it.unibo.ruscodc.model.interactable.Chest;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -24,12 +20,11 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class FloorTileImplTest {
-    private Actor getActor(Pair<Integer, Integer> pos) {
+    private Actor getActor(final Pair<Integer, Integer> pos) {
         final StatFactory stats = new StatFactoryImpl();
-        final MonsterActionFactory MAFactory = new MonsterActionFactoryImpl();
-        Skill skills = new SkillImpl();
-        skills.setAction(GameControl.ATTACK1, MAFactory.basicMeleeAttack());
-        skills.setAction(GameControl.ATTACK2, MAFactory.heavyMeleeAttack());
+        final MonsterActionFactory monstActFactory = new MonsterActionFactoryImpl();
+        final Skill skills = new SkillImpl();
+        skills.setAction(GameControl.ATTACK1, monstActFactory.basicMeleeAttack());
         return new HeroImpl("testHero", pos, skills, stats.ratStat());
     }
 
@@ -45,71 +40,116 @@ class FloorTileImplTest {
     @Test
     void testConstructor() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
-        FloorTileImpl floorTile = new FloorTileImpl(pos, true);
+        final FloorTileImpl floorTile = new FloorTileImpl(pos, true);
 
         assertEquals(pos, floorTile.getPos());
-        assertTrue(floorTile.isAccessible());
         assertFalse(floorTile.isTrap());
-
+        assertFalse(floorTile.get().isPresent());
         assertEquals("floor", floorTile.getID());
         assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/FloorTile", floorTile.getPath());
-
-        floorTile = new FloorTileImpl(pos, false);
-        assertFalse(floorTile.isAccessible());
-        assertFalse(floorTile.isTrap());
     }
 
     /**
-     * Tests object placement and displacement.
-     * Methods under test:
-     *
-     * <ul>
-     *   <li>{@link FloorTileImpl#put(Interactable)}
-     *   <li>{@link FloorTileImpl#get()}
-     *   <li>{@link FloorTileImpl#empty()}
-     * </ul>
+     * Methods under test: {@link FloorTileImpl#FloorTileImpl(Pair, boolean)}
      */
     @Test
-    void testObjectPlacement() {
+    void testConstructorNullPosition() {
+        assertThrows(IllegalArgumentException.class, () -> new FloorTileImpl(null, true));
+    }
+
+    /**
+     * Method under test: {@link FloorTileImpl#put(Interactable)}
+     */
+    @Test
+    void testPutEmptyTile() {
+        final Pair<Integer, Integer> pos = new Pair<>(2, 3);
+        final FloorTileImpl accessibleFloor = new FloorTileImpl(pos, true);
+        final FloorTileImpl inaccessibleFloor = new FloorTileImpl(pos, false);
+
+        assertTrue(accessibleFloor.put(new Chest(Set.of(), pos)));
+        assertTrue(inaccessibleFloor.put(new Chest(Set.of(), pos)));
+    }
+
+    /**
+     * Method under test: {@link FloorTileImpl#put(Interactable)}
+     */
+    @Test
+    void testPutTileInTile() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final FloorTileImpl floorTile = new FloorTileImpl(pos, true);
-        final Interactable obj = new Chest(Set.of(), pos);
 
-        assertFalse(floorTile.get().isPresent());
-        assertFalse(floorTile.empty().isPresent());
+        assertFalse(floorTile.put(new FloorTrapTileImpl(pos)));
+    }
 
-        assertTrue(floorTile.put(obj));
+    /**
+     * Method under test: {@link FloorTileImpl#put(Interactable)}
+     */
+    @Test
+    void testPutOccupiedTile() {
+        final Pair<Integer, Integer> pos = new Pair<>(2, 3);
+        final FloorTileImpl floorTile = new FloorTileImpl(pos, true);
+
+        floorTile.put(new Chest(Set.of(), pos));
+        assertFalse(floorTile.put(new Chest(Set.of(), pos)));
+    }
+
+    /**
+     * Method under test: {@link FloorTileImpl#get()}
+     */
+    @Test
+    void testGetOccupiedTile() {
+        final Pair<Integer, Integer> pos = new Pair<>(2, 3);
+        final FloorTileImpl floorTile = new FloorTileImpl(pos, true);
+
+        floorTile.put(new Chest(Set.of(), pos));
         assertTrue(floorTile.get().isPresent());
-        assertTrue(floorTile.empty().isPresent());
+    }
+
+    /**
+     * Method under test: {@link FloorTileImpl#get()}
+     */
+    @Test
+    void testGetEmptyTile() {
+        final Pair<Integer, Integer> pos = new Pair<>(2, 3);
+        final FloorTileImpl floorTile = new FloorTileImpl(pos, true);
 
         assertFalse(floorTile.get().isPresent());
+    }
+
+    /**
+     * Method under test: {@link FloorTileImpl#get()}
+     */
+    @Test
+    void testGetAfterEmpty() {
+        final Pair<Integer, Integer> pos = new Pair<>(2, 3);
+        final FloorTileImpl floorTile = new FloorTileImpl(pos, true);
+
+        floorTile.put(new Chest(Set.of(), pos));
+        floorTile.empty();
+        assertFalse(floorTile.get().isPresent());
+    }
+
+    /**
+     * Method under test: {@link FloorTileImpl#get()}
+     */
+    @Test
+    void testEmptyEmptyTile() {
+        final Pair<Integer, Integer> pos = new Pair<>(2, 3);
+        final FloorTileImpl floorTile = new FloorTileImpl(pos, true);
+
         assertFalse(floorTile.empty().isPresent());
     }
 
     /**
-     * Tests object placement over occupied Tile.
-     * Methods under test:
-     *
-     * <ul>
-     *   <li>{@link FloorTileImpl#put(Interactable)}
-     *   <li>{@link FloorTileImpl#get()}
-     *   <li>{@link FloorTileImpl#empty()}
-     * </ul>
+     * Method under test: {@link FloorTileImpl#get()}
      */
     @Test
-    void testObjectPlacement2() {
+    void testEmptyOccupiedTile() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final FloorTileImpl floorTile = new FloorTileImpl(pos, true);
-        final Interactable obj = new Chest(Set.of(), pos);
 
-        assertTrue(floorTile.put(obj));
-        assertTrue(floorTile.get().isPresent());
-
-        assertFalse(floorTile.put(obj));
-        assertTrue(floorTile.get().isPresent());
-
+        floorTile.put(new Chest(Set.of(), pos));
         assertTrue(floorTile.empty().isPresent());
-        assertTrue(floorTile.put(obj));
     }
 
     /**
@@ -120,9 +160,9 @@ class FloorTileImplTest {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final FloorTileImpl floorTile = new FloorTileImpl(pos, true);
         final Actor actor = this.getActor(pos);
+        final int hp = actor.getStatInfo(StatImpl.StatName.HP);
 
         // A normal floor tile should not produce damage
-        int hp = actor.getStatInfo(StatImpl.StatName.HP);
         floorTile.getEffect().applyEffect(actor);
         assertEquals(hp, actor.getStatInfo(StatImpl.StatName.HP));
     }

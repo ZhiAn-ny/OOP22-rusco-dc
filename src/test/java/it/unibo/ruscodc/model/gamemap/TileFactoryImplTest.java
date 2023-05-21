@@ -14,13 +14,15 @@ import it.unibo.ruscodc.utils.Pair;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.security.InvalidParameterException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TileFactoryImplTest {
-    private Actor getActor(Pair<Integer, Integer> pos) {
+    private Actor getActor(final Pair<Integer, Integer> pos) {
         final StatFactory stats = new StatFactoryImpl();
         final MonsterActionFactory MAFactory = new MonsterActionFactoryImpl();
-        Skill skills = new SkillImpl();
+        final Skill skills = new SkillImpl();
         skills.setAction(GameControl.ATTACK1, MAFactory.basicMeleeAttack());
         skills.setAction(GameControl.ATTACK2, MAFactory.heavyMeleeAttack());
         return new HeroImpl("testHero", pos, skills, stats.ratStat());
@@ -33,16 +35,16 @@ class TileFactoryImplTest {
     void testCreateSingleUseFloorTrap() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final Tile singleUseFloorTrap = (new TileFactoryImpl()).createSingleUseFloorTrap(2, 3);
-        assertTrue(singleUseFloorTrap.isTrap());
         final Actor actor = this.getActor(pos);
-
         int hp = actor.getStatInfo(StatImpl.StatName.HP);
+
+        assertTrue(singleUseFloorTrap.isTrap());
         singleUseFloorTrap.getEffect().applyEffect(actor);
         assertTrue(hp > actor.getStatInfo(StatImpl.StatName.HP));
 
         hp = actor.getStatInfo(StatImpl.StatName.HP);
         singleUseFloorTrap.getEffect().applyEffect(actor);
-        assertFalse(hp > actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp, actor.getStatInfo(StatImpl.StatName.HP));
     }
 
     /**
@@ -51,17 +53,15 @@ class TileFactoryImplTest {
     @Test
     void testCreateFloorTrap() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
-        final Tile floorTrap = (new TileFactoryImpl()).createSingleUseFloorTrap(2, 3);
-        assertTrue(floorTrap.isTrap());
+        final Tile floorTrap = new TileFactoryImpl().createFloorTrap(2, 3);
         final Actor actor = this.getActor(pos);
 
-        int hp = actor.getStatInfo(StatImpl.StatName.HP);
-        floorTrap.getEffect().applyEffect(actor);
-        assertTrue(hp > actor.getStatInfo(StatImpl.StatName.HP));
-
-        hp = actor.getStatInfo(StatImpl.StatName.HP);
-        floorTrap.getEffect().applyEffect(actor);
-        assertEquals(hp, actor.getStatInfo(StatImpl.StatName.HP));
+        assertTrue(floorTrap.isTrap());
+        for (int i = 0; i < 3; i++) {
+            final int hp = actor.getStatInfo(StatImpl.StatName.HP);
+            floorTrap.getEffect().applyEffect(actor);
+            assertTrue(hp > actor.getStatInfo(StatImpl.StatName.HP));
+        }
     }
 
     /**
@@ -69,7 +69,7 @@ class TileFactoryImplTest {
      */
     @Test
     void testCreateBaseFloorTile() {
-        final Tile floorTile = (new TileFactoryImpl()).createBaseFloorTile(2, 3);
+        final Tile floorTile = new TileFactoryImpl().createBaseFloorTile(2, 3);
         assertFalse(floorTile.isTrap());
         assertTrue(floorTile.isAccessible());
     }
@@ -79,7 +79,7 @@ class TileFactoryImplTest {
      */
     @Test
     void testCreateRandomFloorTile() {
-        Tile randomFloor = (new TileFactoryImpl()).createRandomFloorTile(2, 3);
+        final Tile randomFloor = new TileFactoryImpl().createRandomFloorTile(2, 3);
         assertTrue(randomFloor.isAccessible());
     }
 
@@ -87,7 +87,7 @@ class TileFactoryImplTest {
      * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
      */
     @Test
-    void testCreateBaseWallTile() {
+    void testCreateBaseWallTileTopWall() {
         final TileFactoryImpl tf = new TileFactoryImpl();
         final Pair<Integer, Integer> roomSize = new Pair<>(3, 3);
 
@@ -112,7 +112,7 @@ class TileFactoryImplTest {
      * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
      */
     @Test
-    void testCreateBaseWallTile2() {
+    void testCreateBaseWallTileBottomWall() {
         final TileFactoryImpl tf = new TileFactoryImpl();
         final Pair<Integer, Integer> roomSize = new Pair<>(3, 3);
 
@@ -137,7 +137,7 @@ class TileFactoryImplTest {
      * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
      */
     @Test
-    void testCreateBaseWallTile3() {
+    void testCreateBaseWallTileLeftWall() {
         final TileFactoryImpl tf = new TileFactoryImpl();
         final Pair<Integer, Integer> roomSize = new Pair<>(3, 3);
 
@@ -162,7 +162,7 @@ class TileFactoryImplTest {
      * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
      */
     @Test
-    void testCreateBaseWallTile4() {
+    void testCreateBaseWallTileRightWall() {
         final TileFactoryImpl tf = new TileFactoryImpl();
         final Pair<Integer, Integer> roomSize = new Pair<>(3, 3);
 
@@ -187,24 +187,11 @@ class TileFactoryImplTest {
      * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
      */
     @Test
-    void testCreateBaseWallTile5() {
+    void testCreateBaseWallTileInsideRoom() {
         final TileFactoryImpl tf = new TileFactoryImpl();
         final Pair<Integer, Integer> roomSize = new Pair<>(3, 3);
+        final Tile wall = tf.createBaseWallTile(3, 2, roomSize);
 
-        // Inside room
-        Tile wall = tf.createBaseWallTile(3, 2, roomSize);
-        assertFalse(wall.isAccessible());
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/UNDEFINED",
-                ((WallTileImpl) wall).getPath());
-
-        // Outside room unaligned
-        wall = tf.createBaseWallTile(-9, 9, roomSize);
-        assertFalse(wall.isAccessible());
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/UNDEFINED",
-                ((WallTileImpl) wall).getPath());
-
-        // Outside room aligned
-        wall = tf.createBaseWallTile(4, 5, roomSize);
         assertFalse(wall.isAccessible());
         assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/UNDEFINED",
                 ((WallTileImpl) wall).getPath());
@@ -214,13 +201,37 @@ class TileFactoryImplTest {
      * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
      */
     @Test
-    void testCreateBaseWallTile6() {
-        try {
-            (new TileFactoryImpl()).createBaseWallTile(2, 0, null);
-            fail("Size must not be null!");
-        } catch (IllegalArgumentException e) {
-            // Exception thrown correctly
-        }
+    void testCreateBaseWallTileOutsideRoomUnaligned() {
+        final TileFactoryImpl tf = new TileFactoryImpl();
+        final Pair<Integer, Integer> roomSize = new Pair<>(3, 3);
+        final Tile wall = tf.createBaseWallTile(-9, 9, roomSize);
+
+        assertFalse(wall.isAccessible());
+        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/UNDEFINED",
+                ((WallTileImpl) wall).getPath());
+    }
+
+    /**
+     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
+     */
+    @Test
+    void testCreateBaseWallTileOutsideRoomAligned() {
+        final TileFactoryImpl tf = new TileFactoryImpl();
+        final Pair<Integer, Integer> roomSize = new Pair<>(3, 3);
+        final Tile wall = tf.createBaseWallTile(4, 5, roomSize);
+
+        assertFalse(wall.isAccessible());
+        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/UNDEFINED",
+                ((WallTileImpl) wall).getPath());
+    }
+
+    /**
+     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
+     */
+    @Test
+    void testCreateBaseWallTileNullRoomSize() {
+        assertThrows(IllegalArgumentException.class,
+                () ->  (new TileFactoryImpl()).createBaseWallTile(2, 0, null));
     }
 }
 
