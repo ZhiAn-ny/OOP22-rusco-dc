@@ -8,6 +8,8 @@ import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.GameControl;
+import it.unibo.ruscodc.utils.Pair;
+import it.unibo.ruscodc.utils.Pairs;
 
 public class BehaviourImpl implements Behaviour{
 
@@ -40,6 +42,19 @@ public class BehaviourImpl implements Behaviour{
 
     //TODO: Modifica
     private GameCommand optimizeComplexAction(GameCommand toOptimize, Monster monster, Room room, List<Actor> actors) {
+        
+        toOptimize.setActor(monster);
+        toOptimize.setRoom(room);
+        
+        Pair<Integer, Integer> target = actors
+            .stream()
+            .sorted((a, b) -> (int)(Pairs.computePPLine(monster.getPos(), a.getPos()).count() - Pairs.computePPLine(monster.getPos(), b.getPos()).count()))
+            .findFirst()
+            .get()
+            .getPos();
+        
+        toOptimize.setCursorPos(target);;
+
         return toOptimize;
     }
 }
