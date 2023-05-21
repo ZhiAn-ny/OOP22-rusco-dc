@@ -38,7 +38,7 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
                 possibleActions.stream().sorted((a, b) -> a.getAPCost() - b.getAPCost()).toList();
 
                 for ( GameCommand gameCommand : possibleActions) {
-                    if (gameCommand.getAPCost() <= monster.getStatInfo(StatName.AP)) {
+                    if (gameCommand.getAPCost() <= monster.getStatActual(StatName.AP)) {
                         return Optional.of(gameCommand);
                     }
                 }

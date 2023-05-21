@@ -12,7 +12,9 @@ public interface Actor extends Entity {
 
     String getName();
 
-    int getStatInfo(StatName statName);
+    int getStatActual(StatName statName);
+
+    int getStatMax(StatName statName);
 
     /**
      * @param newPos
