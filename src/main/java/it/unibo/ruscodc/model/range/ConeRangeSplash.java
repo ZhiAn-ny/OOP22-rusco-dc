@@ -6,9 +6,9 @@ import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 
 /**
- * TODO - DA FINIRE.
+ * //TODO - da completare.
  */
-public class ConeRange extends DecoratedRange {
+public class ConeRangeSplash extends DecoratedRange {
 
     private final int radius;
 
@@ -17,7 +17,7 @@ public class ConeRange extends DecoratedRange {
      * @param start the last Range to decorate
      * @param radius the lenght of the radius of the cone
      */
-    public ConeRange(final int radius, final Range start) {
+    public ConeRangeSplash(final int radius, final Range start) {
         super(start);
         this.radius = radius;
     }
@@ -29,6 +29,7 @@ public class ConeRange extends DecoratedRange {
     protected Stream<Stream<Pair<Integer, Integer>>> uploadShapeDelta(
             final Pair<Integer, Integer> from,
             final Pair<Integer, Integer> to) {
-        return Pairs.computePerpendicularCone(from, to, radius, false);
+        final Pair<Integer, Integer> newTo = Pairs.mirror(to, from);
+        return Pairs.computePerpendicularCone(to, newTo, radius, false);
     }
 }
