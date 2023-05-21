@@ -63,7 +63,6 @@ public class IAAttack extends NoPlayerCommand {
 
     @Override
     public String toString() {
-        return "If a Hero is into a " + range.toString() + ", it can be targetable"
-        +" This attack inflict " actionToPerform.toString() + " damage";
+        return "If a Hero is into a " + range.toString() + ", it can be targetable";
     }
 }

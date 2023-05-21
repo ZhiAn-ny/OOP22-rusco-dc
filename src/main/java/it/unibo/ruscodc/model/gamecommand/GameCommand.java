@@ -8,12 +8,12 @@ import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.exception.ModelException;
 
 /**
- * Interface for game's command. Defines method that all builder's command must to implement
+ * Interface for game's command. Defines method that all command must to implement
  */
 public interface GameCommand extends IAGameCommand, HandlebleGameCommand {
 
     /**
-     * Set into builder-command who summon this command.
+     * Set into command who summon this command.
      * Once setted, other call to this method will be ineffective
      * This method is indispensable to the future execution of the command
      * @param by the actor that summon this command
@@ -21,7 +21,7 @@ public interface GameCommand extends IAGameCommand, HandlebleGameCommand {
     void setActor(Actor by);
 
     /**
-     * Set into builder-command who summon this command.
+     * Set into command who summon this command.
      * Once setted, other call to this method will be ineffective
      * This method is indispensable to the future execution of the command
      * @param where the room where this action is executing
@@ -38,7 +38,8 @@ public interface GameCommand extends IAGameCommand, HandlebleGameCommand {
      * Execute the wrapped command.
      * Even if the command can logically run, maybe there is a problem
      * For example, if the Actor wants to move up, but it cannot do it because there is a wall
-     * @throws ModelException 
+     * @return eventually this error, coded into a special class
+     * @throws ModelException if the exception have to change the 
      */
     Optional<InfoPayload> execute() throws ModelException;
 }

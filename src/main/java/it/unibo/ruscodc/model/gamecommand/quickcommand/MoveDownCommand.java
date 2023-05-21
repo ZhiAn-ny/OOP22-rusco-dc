@@ -15,6 +15,6 @@ public final class MoveDownCommand extends MoveCommand {
 
     @Override
     public String toString() {
-        return super.toString() + "down";
+        return super.toString() + " down";
     }
 }

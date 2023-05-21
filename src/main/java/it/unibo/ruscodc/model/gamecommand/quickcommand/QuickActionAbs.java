@@ -67,11 +67,17 @@ public abstract class QuickActionAbs extends BasicGameCommand  {
         throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 
+    /**
+     * 
+     */
     @Override
     public boolean isTargetInRange(Actor target) {
         throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 
+    /**
+     * 
+     */
     @Override
     public int getAPCost() {
         throw new UnsupportedOperationException(this.getGlobalErrMess());

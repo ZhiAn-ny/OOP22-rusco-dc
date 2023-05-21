@@ -6,6 +6,8 @@ import it.unibo.ruscodc.utils.Pair;
 
 public abstract class NoIACommand extends ComplexActionAbs {
 
+    private final static String CURSOR_PATH = "";
+
     /**
      * 
      */
@@ -30,6 +32,10 @@ public abstract class NoIACommand extends ComplexActionAbs {
     @Override
     public int getAPCost() {
         throw new UnsupportedOperationException(this.getGlobalErrMess());
+    }
+
+    protected String getCursorPath() {
+        return CURSOR_PATH;
     }
 
 }

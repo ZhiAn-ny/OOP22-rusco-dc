@@ -14,7 +14,6 @@ import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 import it.unibo.ruscodc.utils.exception.ModelException;
-import it.unibo.ruscodc.utils.exception.NotInRange;
 import it.unibo.ruscodc.utils.exception.Undo;
 
 /**
@@ -95,7 +94,7 @@ public class PlayerAttack extends NoIACommand {
 
             @Override
             public String getPath() {
-                return "";
+                return getCursorPath();
             }
 
             @Override
@@ -105,7 +104,7 @@ public class PlayerAttack extends NoIACommand {
 
             @Override
             public int getID() {
-                return 4;
+                return 5;
             }
             
         };
