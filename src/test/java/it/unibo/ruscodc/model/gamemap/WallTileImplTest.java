@@ -3,9 +3,12 @@ package it.unibo.ruscodc.model.gamemap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import it.unibo.ruscodc.model.interactable.Chest;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Pair;
 import org.junit.jupiter.api.Test;
+
+import java.util.Set;
 
 class WallTileImplTest {
     /**
@@ -19,34 +22,29 @@ class WallTileImplTest {
     @Test
     void testConstructor() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
-        WallTileImpl wall = new WallTileImpl(pos, WallType.TOP);
+        final WallTileImpl wallTile = new WallTileImpl(pos, WallType.TOP);
 
-        assertEquals("wall", wall.getID());
-        assertEquals(pos, wall.getPosition());
-        assertFalse(wall.isAccessible());
-        assertFalse(wall.isTrap());
+        assertEquals("wall", wallTile.getID());
+        assertEquals(pos, wallTile.getPosition());
+        assertFalse(wallTile.isAccessible());
+        assertFalse(wallTile.isTrap());
     }
 
     /**
      * Methods under test:
      * <ul>
-     *     <li>
-     *         {@link WallTileImpl#put(Interactable)}
-     *     </li>
-     *     <li>
-     *         {@link WallTileImpl#get()}
-     *     </li>
-     *     <li>
-     *         {@link WallTileImpl#empty()}
-     *     </li>
+     *   <li>{@link WallTileImpl#put(Interactable)}
+     *   <li>{@link WallTileImpl#get()}
+     *   <li>{@link WallTileImpl#empty()}
      * </ul>
      */
     @Test
     void testObjectPlacement() {
-        WallTileImpl wallTileImpl = new WallTileImpl(new Pair<>(2, 3), WallType.TOP);
-        assertFalse(wallTileImpl.put(new FloorTrapTileImpl(new Pair<>(2, 3))));
-        assertFalse(wallTileImpl.get().isPresent());
-        assertFalse(wallTileImpl.empty().isPresent());
+        final Pair<Integer, Integer> pos = new Pair<>(2, 3);
+        final WallTileImpl wallTile = new WallTileImpl(pos, WallType.TOP);
+        assertFalse(wallTile.put(new Chest(Set.of(), pos)));
+        assertFalse(wallTile.get().isPresent());
+        assertFalse(wallTile.empty().isPresent());
     }
 
     /**
@@ -54,23 +52,24 @@ class WallTileImplTest {
      */
     @Test
     void testGetPath() {
+        final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/TOP",
-                (new WallTileImpl(new Pair<>(2, 3), WallType.TOP)).getPath());
+                (new WallTileImpl(pos, WallType.TOP)).getPath());
         assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/LEFT",
-                (new WallTileImpl(new Pair<>(2, 3), WallType.LEFT)).getPath());
+                (new WallTileImpl(pos, WallType.LEFT)).getPath());
         assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/RIGHT",
-                (new WallTileImpl(new Pair<>(2, 3), WallType.RIGHT)).getPath());
+                (new WallTileImpl(pos, WallType.RIGHT)).getPath());
         assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/BOTTOM",
-                (new WallTileImpl(new Pair<>(2, 3), WallType.BOTTOM)).getPath());
+                (new WallTileImpl(pos, WallType.BOTTOM)).getPath());
 
         assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/BOTTOM_LEFT",
-                (new WallTileImpl(new Pair<>(2, 3), WallType.BOTTOM_LEFT)).getPath());
+                (new WallTileImpl(pos, WallType.BOTTOM_LEFT)).getPath());
         assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/BOTTOM_RIGHT",
-                (new WallTileImpl(new Pair<>(2, 3), WallType.BOTTOM_RIGHT)).getPath());
+                (new WallTileImpl(pos, WallType.BOTTOM_RIGHT)).getPath());
         assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/TOP_LEFT",
-                (new WallTileImpl(new Pair<>(2, 3), WallType.TOP_LEFT)).getPath());
+                (new WallTileImpl(pos, WallType.TOP_LEFT)).getPath());
         assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/TOP_RIGHT",
-                (new WallTileImpl(new Pair<>(2, 3), WallType.TOP_RIGHT)).getPath());
+                (new WallTileImpl(pos, WallType.TOP_RIGHT)).getPath());
     }
 }
 
