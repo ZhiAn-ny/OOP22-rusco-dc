@@ -44,6 +44,8 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
      * Sets the success rate for the interaction with the trap.
      * The interaction can be used to disable the trap. The success rate is set
      * to 100 by default.
+     * <br>
+     * If the specified value is less than 1 or greater than 100 the action will be ignored.
      * @param successRate the new success rate, must be integer between 1 and 100
      */
     public void setDisableSuccessRate(final int successRate) {

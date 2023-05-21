@@ -2,8 +2,14 @@ package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.HeroImpl;
+import it.unibo.ruscodc.model.actors.monster.MonsterActionFactory;
+import it.unibo.ruscodc.model.actors.monster.MonsterActionFactoryImpl;
+import it.unibo.ruscodc.model.actors.skill.Skill;
 import it.unibo.ruscodc.model.actors.skill.SkillImpl;
+import it.unibo.ruscodc.model.actors.stat.StatFactory;
+import it.unibo.ruscodc.model.actors.stat.StatFactoryImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl;
+import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -11,16 +17,24 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TileFactoryImplTest {
+    private Actor getActor(Pair<Integer, Integer> pos) {
+        final StatFactory stats = new StatFactoryImpl();
+        final MonsterActionFactory MAFactory = new MonsterActionFactoryImpl();
+        Skill skills = new SkillImpl();
+        skills.setAction(GameControl.ATTACK1, MAFactory.basicMeleeAttack());
+        skills.setAction(GameControl.ATTACK2, MAFactory.heavyMeleeAttack());
+        return new HeroImpl("testHero", pos, skills, stats.ratStat());
+    }
+
     /**
      * Method under test: {@link TileFactoryImpl#createSingleUseFloorTrap(int, int)}
      */
     @Test
-    @Disabled
     void testCreateSingleUseFloorTrap() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final Tile singleUseFloorTrap = (new TileFactoryImpl()).createSingleUseFloorTrap(2, 3);
         assertTrue(singleUseFloorTrap.isTrap());
-        final Actor actor = new HeroImpl("test", pos, new SkillImpl(), new StatImpl());
+        final Actor actor = this.getActor(pos);
 
         int hp = actor.getStatInfo(StatImpl.StatName.HP);
         singleUseFloorTrap.getEffect().applyEffect(actor);
@@ -35,12 +49,11 @@ class TileFactoryImplTest {
      * Method under test: {@link TileFactoryImpl#createFloorTrap(int, int)}
      */
     @Test
-    @Disabled
     void testCreateFloorTrap() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final Tile floorTrap = (new TileFactoryImpl()).createSingleUseFloorTrap(2, 3);
         assertTrue(floorTrap.isTrap());
-        final Actor actor = new HeroImpl("test", pos, new SkillImpl(), new StatImpl());
+        final Actor actor = this.getActor(pos);
 
         int hp = actor.getStatInfo(StatImpl.StatName.HP);
         floorTrap.getEffect().applyEffect(actor);
@@ -48,7 +61,7 @@ class TileFactoryImplTest {
 
         hp = actor.getStatInfo(StatImpl.StatName.HP);
         floorTrap.getEffect().applyEffect(actor);
-        assertTrue(hp > actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp, actor.getStatInfo(StatImpl.StatName.HP));
     }
 
     /**
