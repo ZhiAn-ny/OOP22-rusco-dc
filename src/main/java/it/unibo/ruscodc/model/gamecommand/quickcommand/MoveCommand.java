@@ -21,7 +21,8 @@ public abstract class MoveCommand extends QuickActionAbs {
     /**
      * Client must not create directly this object.
      */
-    protected MoveCommand() {
+    protected MoveCommand() { //NOPMD: if i don't add a comment here, checkstyle will generate an error. 
+    //So i prefer document an empty constructor
     }
 
     /**
@@ -49,8 +50,11 @@ public abstract class MoveCommand extends QuickActionAbs {
      */
     protected abstract Pair<Integer, Integer> computeNewPos();
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "Move " + this.getActor().getName();
-    }   
+    }
 }

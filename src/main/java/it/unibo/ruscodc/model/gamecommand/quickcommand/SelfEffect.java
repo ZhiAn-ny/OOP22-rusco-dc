@@ -13,6 +13,10 @@ public class SelfEffect extends QuickActionAbs {
 
     private final Consumable usedItem;
 
+    /**
+     * Create a command that use a consumable.
+     * @param toUse the item to consume
+     */
     public SelfEffect(final Consumable toUse) {
         this.usedItem = toUse;
     }
@@ -26,10 +30,12 @@ public class SelfEffect extends QuickActionAbs {
         throw new UnsupportedOperationException("Unimplemented method 'execute'");
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "Use " + usedItem.getName() + " consumable";
     }
 
-    
 }

@@ -11,11 +11,17 @@ import it.unibo.ruscodc.utils.exception.ModelException;
  */
 public class DoNothing extends QuickActionAbs {
 
+    /**
+     * 
+     */
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
         return Optional.empty();
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "Stay immobile (wow, what a wonderful rubbish!)";

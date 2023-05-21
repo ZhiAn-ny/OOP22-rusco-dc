@@ -8,7 +8,7 @@ import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
- * //TODO - è da fare
+ * //TODO - è da fare.
  */
 public class GlobalRange extends DecoratedRange {
 
@@ -16,7 +16,7 @@ public class GlobalRange extends DecoratedRange {
     private final Range prevRange;
 
     /**
-     * //TODO - è da fare documentazione
+     * //TODO - è da fare documentazione.
      * @param start
      */
     public GlobalRange(final Range start) {

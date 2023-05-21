@@ -18,7 +18,11 @@ import it.unibo.ruscodc.utils.exception.ModelException;
  */ //TODO-a gradle non piace l'andata a capo
 public abstract class QuickActionAbs extends BasicGameCommand  {
 
-    protected QuickActionAbs() {
+    /**
+     * Client must not create this object directily.
+     */
+    protected QuickActionAbs() { //NOPMD: if i don't add a comment here, checkstyle will generate an error. 
+                                //So i prefer document an empty constructor
     }
 
     /**
@@ -47,7 +51,7 @@ public abstract class QuickActionAbs extends BasicGameCommand  {
      * 
      */
     @Override
-    public void setCursorPos(Pair<Integer, Integer> newPos) {
+    public void setCursorPos(final Pair<Integer, Integer> newPos) {
         throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 
@@ -55,7 +59,7 @@ public abstract class QuickActionAbs extends BasicGameCommand  {
      * 
      */
     @Override
-    public boolean modify(GameControl input) {
+    public boolean modify(final GameControl input) {
         throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 
@@ -71,7 +75,7 @@ public abstract class QuickActionAbs extends BasicGameCommand  {
      * 
      */
     @Override
-    public boolean isTargetInRange(Actor target) {
+    public boolean isTargetInRange(final Actor target) {
         throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 
