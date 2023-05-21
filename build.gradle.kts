@@ -14,8 +14,8 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("org.danilopianini.gradle-java-qa") version "0.43.0"
 
-    id("org.openjfx.javafxplugin") version "0.0.13"
-    id("org.beryx.jlink") version "2.24.1"
+    //id("org.openjfx.javafxplugin") version "0.0.13"
+    //id("org.beryx.jlink") version "2.24.1"
 }
 
 repositories {
@@ -51,9 +51,12 @@ dependencies {
     }
 }
 
+tasks.withType<Test> {
+    // Enables JUnit 5 Jupiter module
+    useJUnitPlatform()
+}
+
 application {
-    // Define the main module for the application
-    mainModule.set("it.unibo.ruscodc.launcher")
     // Define the main class for the application
     mainClass.set("it.unibo.ruscodc.launcher.Launcher")
 }
