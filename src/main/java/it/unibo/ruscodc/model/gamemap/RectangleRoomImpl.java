@@ -45,7 +45,7 @@ public class RectangleRoomImpl implements Room {
                 if (i == 0 || j == 0 || i == this.size.getX() + 1 || j == this.size.getY() + 1) {
                     this.tiles.add(tf.createBaseWallTile(i, j, this.size));
                 } else {
-                    this.tiles.add(tf.createRandomFloorTile(i, j));
+                    this.tiles.add(tf.createBaseFloorTile(i, j));
                 }
             }
         }
@@ -53,9 +53,9 @@ public class RectangleRoomImpl implements Room {
 
     private Predicate<Tile> isNotCorner() {
         return (Tile t) -> !(t.getPosition().equals(new Pair<>(0, 0))
-                || t.getPosition().equals(this.size)
-                || t.getPosition().equals(new Pair<>(this.size.getX(), 0))
-                || t.getPosition().equals(new Pair<>(0, this.size.getY())));
+                || t.getPosition().equals(new Pair<>(this.size.getX() + 1, 0))
+                || t.getPosition().equals(new Pair<>(0, this.size.getY() + 1)))
+                || t.getPosition().equals(new Pair<>(this.size.getX() + 1, this.size.getY() + 1));
     }
 
     /** {@inheritDoc} */
@@ -68,7 +68,7 @@ public class RectangleRoomImpl implements Room {
     @Override
     public boolean addMonster(final Monster monster) {
         List<Pair<Integer, Integer>> positions = this.monsters.stream().map(Entity::getPos).toList();
-        if (positions.contains(monster.getPos())) {
+        if (positions.contains(monster.getPos()) || !this.isInRoom(monster.getPos())) {
             return false;
         }
 
@@ -151,10 +151,10 @@ public class RectangleRoomImpl implements Room {
     /** {@inheritDoc} */
     @Override
     public boolean addConnectedRoom(final Direction dir, final Room other) {
-        if (!this.connectedRooms.containsKey(dir)) {
+        if (!this.connectedRooms.containsKey(dir) || dir == Direction.UNDEFINED) {
             return false;
         }
-        if (this.connectedRooms.get(dir) == null) {
+        if (this.getConnectedRoom(dir).isPresent()) {
             return false;
         }
         this.connectedRooms.put(dir, other);
@@ -164,12 +164,12 @@ public class RectangleRoomImpl implements Room {
 
     /** {@inheritDoc} */
     @Override
-    public void addDoor(final Direction dir) {
-        if (this.connectedRooms.size() == MAX_DOORS_NUM) {
-            return;
+    public boolean addDoor(final Direction dir) {
+        if (this.connectedRooms.size() == MAX_DOORS_NUM || dir == Direction.UNDEFINED
+                || this.connectedRooms.containsKey(dir)) {
+            return false;
         }
         final Random rnd = new Random();
-
         final List<Tile> onSide = this.tiles.stream()
                 .filter(tile -> tile instanceof  WallTileImpl)
                 .filter(this.isNotCorner())
@@ -178,6 +178,7 @@ public class RectangleRoomImpl implements Room {
         final Tile tile = onSide.get(rnd.nextInt(onSide.size()));
         // tile.put() // TODO: add Door item
         this.connectedRooms.put(dir, null);
+        return true;
     }
 
     /** {@inheritDoc} */

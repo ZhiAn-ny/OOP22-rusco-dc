@@ -94,8 +94,9 @@ public interface Room {
     /**
      * Adds a single door to the room.
      * @param dir the side of the <code>Room</code> on which the door will be added
+     * @return <code>true</code> is the door was added correctly, <code>false</code> otherwise.
      */
-    void addDoor(Direction dir);
+    boolean addDoor(Direction dir);
 
     /**
      * Returns the inner size of the <code>Room</code>.
