@@ -1,7 +1,10 @@
 package it.unibo.ruscodc.model.gamecommand.iacommand;
 
+import java.util.Optional;
+
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.effect.Effect;
+import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.model.range.Range;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
@@ -36,20 +39,31 @@ public class IAAttack extends NoPlayerCommand {
         throw new UnsupportedOperationException("Unimplemented method 'setCursePos'");
     }
 
-    @Override
-    public void execute() throws ModelException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'execute'");
-    }
-
+    /**
+     * 
+     */
     @Override
     public boolean isTargetInRange(Actor target) {
         return this.range.isInRange(this.getActor().getPos(), target.getPos(), target.getPos(), this.getRoom());
     }
 
+    /**
+     * 
+     */
     @Override
     public int getAPCost() {
         return actionToPerform.getAPcost();
     }
-    
+
+    @Override
+    public Optional<InfoPayload> execute() throws ModelException {
+        // TODO - da fare
+        throw new UnsupportedOperationException("Unimplemented method 'execute'");
+    }
+
+    @Override
+    public String toString() {
+        return "If a Hero is into a " + range.toString() + ", it can be targetable"
+        +" This attack inflict " actionToPerform.toString() + " damage";
+    }
 }

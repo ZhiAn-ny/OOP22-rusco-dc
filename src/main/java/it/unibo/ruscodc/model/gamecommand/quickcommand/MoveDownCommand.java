@@ -12,4 +12,9 @@ public final class MoveDownCommand extends MoveCommand {
     protected Pair<Integer, Integer> computeNewPos() {
         return Pairs.computeDownPair(this.getActor().getPos());
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "down";
+    }
 }

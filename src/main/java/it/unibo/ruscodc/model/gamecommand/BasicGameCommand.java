@@ -18,6 +18,7 @@ import it.unibo.ruscodc.model.gamemap.Room;
 public abstract class BasicGameCommand implements GameCommand {
 
     private final static String GLOBAL_ERR_MESS = "Cannot execute this method on this object";
+    private final static String ERR_TITLE = "Error during execution of command";
 
     private Actor actActor;
     private Room where;
@@ -57,6 +58,10 @@ public abstract class BasicGameCommand implements GameCommand {
     
     protected String getGlobalErrMess() {
         return GLOBAL_ERR_MESS;
+    }
+
+    protected String getErrTitle() {
+        return ERR_TITLE;
     }
     
 }

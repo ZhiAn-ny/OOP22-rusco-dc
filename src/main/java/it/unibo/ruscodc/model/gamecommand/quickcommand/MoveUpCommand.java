@@ -15,4 +15,9 @@ public final class MoveUpCommand extends MoveCommand {
     protected Pair<Integer, Integer> computeNewPos() {
         return Pairs.computeUpPair(this.getActor().getPos());
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " up";
+    }
 }

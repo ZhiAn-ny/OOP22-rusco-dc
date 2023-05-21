@@ -1,11 +1,14 @@
 package it.unibo.ruscodc.model.gamecommand.playercommand;
 
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.effect.Effect;
+import it.unibo.ruscodc.model.outputinfo.InfoPayload;
+import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.model.range.Range;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
@@ -101,8 +104,8 @@ public class PlayerAttack extends NoIACommand {
             }
 
             @Override
-            public String getID() {
-                return null;
+            public int getID() {
+                return 4;
             }
             
         };
@@ -137,18 +140,20 @@ public class PlayerAttack extends NoIACommand {
      * 
      */
     @Override
-    public void execute() throws ModelException {
-
+    public Optional<InfoPayload> execute() throws ModelException {
         if (this.getRoom() == null || this.getActor() == null) {
             throw new IllegalStateException("");
         }
+
         if (undo) {
             throw new Undo("");
         }
 
         final Actor from = this.getActor();
+
         if (!range.isInRange(from.getPos(), cursePos, cursePos, this.getRoom())) {
-            throw new NotInRange(R_ERR);
+            return Optional.of(new InfoPayloadImpl(getErrTitle(), R_ERR));
+            //throw new NotInRange(R_ERR);
         }
         
         // if (from.getStatInfo(StatName.AP) < actionToPerform.getAPcost()) {
@@ -159,6 +164,16 @@ public class PlayerAttack extends NoIACommand {
         this.getRoom().getMonsters().stream()
             .filter(m -> splash.isInRange(from.getPos(), cursePos, m.getPos(), this.getRoom()))
             .forEach(m -> actionToPerform.applyEffect(from, m));
+        return Optional.empty();
+    }
+
+
+    @Override
+    public String toString() {
+        return "Cost :" + actionToPerform.getAPcost() + "AP" + 
+            "\nRange: " + range.toString() + 
+            "\nSplash: " + splash.toString() + 
+            "\nEffect: " + actionToPerform.toString() + "\n\n";
     }
 
 }

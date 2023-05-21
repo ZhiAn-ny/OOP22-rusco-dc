@@ -1,7 +1,10 @@
 package it.unibo.ruscodc.model.gamecommand;
 
+import java.util.Optional;
+
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamemap.Room;
+import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.exception.ModelException;
 
 /**
@@ -37,5 +40,5 @@ public interface GameCommand extends IAGameCommand, HandlebleGameCommand {
      * For example, if the Actor wants to move up, but it cannot do it because there is a wall
      * @throws ModelException 
      */
-    void execute() throws ModelException;
+    Optional<InfoPayload> execute() throws ModelException;
 }

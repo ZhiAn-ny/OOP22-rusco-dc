@@ -51,8 +51,8 @@ public class SingleAbs implements Range {
         final Entity begin = new Entity() {
 
             @Override
-            public String getID() {
-                return info;
+            public int getID() {
+                return 4;
             }
 
             @Override

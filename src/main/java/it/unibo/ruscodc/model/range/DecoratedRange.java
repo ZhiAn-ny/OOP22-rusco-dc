@@ -106,7 +106,7 @@ public abstract class DecoratedRange implements Range {
         return new Entity() {
 
             @Override
-            public String getID() {
+            public int getID() {
                 return res.getID();
             }
 

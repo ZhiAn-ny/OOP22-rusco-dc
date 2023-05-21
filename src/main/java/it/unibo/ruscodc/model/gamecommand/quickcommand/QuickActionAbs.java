@@ -1,10 +1,12 @@
 package it.unibo.ruscodc.model.gamecommand.quickcommand;
 
 import java.util.Iterator;
+import java.util.Optional;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamecommand.BasicGameCommand;
+import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
@@ -31,7 +33,7 @@ public abstract class QuickActionAbs extends BasicGameCommand  {
      * 
      */
     @Override
-    public abstract void execute() throws ModelException;
+    public abstract Optional<InfoPayload> execute() throws ModelException;
 
     /**
      * 
