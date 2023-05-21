@@ -31,9 +31,7 @@ public class RectangleRoomImpl implements Room {
         if (width < 3 || height < 3) {
             throw new InvalidParameterException();
         }
-        // +1 is added to allow the creation of the walls, it will be removed
-        // accessing the variable with its getter.
-        this.size = new Pair<>(width + 1, height + 1);
+        this.size = new Pair<>(width, height);
         this.addTiles();
     }
 
@@ -42,9 +40,9 @@ public class RectangleRoomImpl implements Room {
      */
     private void addTiles() {
         final TileFactory tf = new TileFactoryImpl();
-        for (int i = 0; i <= this.size.getX(); i++) {
-            for (int j = 0; j <= this.size.getY(); j++) {
-                if (i == 0 || j == 0 || i == this.size.getX() || j == this.size.getY()) {
+        for (int i = 0; i <= this.size.getX() + 1; i++) {
+            for (int j = 0; j <= this.size.getY() + 1; j++) {
+                if (i == 0 || j == 0 || i == this.size.getX() + 1 || j == this.size.getY() + 1) {
                     this.tiles.add(tf.createBaseWallTile(i, j, this.size));
                 } else {
                     this.tiles.add(tf.createRandomFloorTile(i, j));
@@ -185,7 +183,7 @@ public class RectangleRoomImpl implements Room {
     /** {@inheritDoc} */
     @Override
     public Pair<Integer, Integer> getSize() {
-        return new Pair<>(this.size.getX() - 1, this.size.getY() - 1);
+        return this.size;
     }
 
 }
