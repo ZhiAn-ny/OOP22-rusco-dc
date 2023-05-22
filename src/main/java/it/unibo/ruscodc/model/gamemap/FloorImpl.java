@@ -52,6 +52,7 @@ public class FloorImpl implements Floor {
         final Room next = this.getNextRoom();
         if (this.currentRoom.addConnectedRoom(dir, next)) {
             this.rooms.add(next);
+            this.currentRoom = next;
         }
     }
 

@@ -158,6 +158,7 @@ public class RectangleRoomImpl implements Room {
             return false;
         }
         this.connectedRooms.put(dir, other);
+        other.addDoor(dir.getOpposite());
         other.addConnectedRoom(dir.getOpposite(), this);
         return true;
     }

@@ -250,17 +250,18 @@ class RectangleRoomImplTest {
     @Test
     void testAddConnectedRoom() {
         final RectangleRoomImpl room = new RectangleRoomImpl(3, 3);
-        final RectangleRoomImpl other = new RectangleRoomImpl(4, 5);
 
-        room.addDoor(Direction.UP);
-        room.addDoor(Direction.DOWN);
-        room.addDoor(Direction.LEFT);
-        room.addDoor(Direction.RIGHT);
-
-        assertTrue(room.addConnectedRoom(Direction.UP, other));
-        assertTrue(room.addConnectedRoom(Direction.DOWN, other));
-        assertTrue(room.addConnectedRoom(Direction.LEFT, other));
-        assertTrue(room.addConnectedRoom(Direction.RIGHT, other));
+        for (int i = 0; i < Direction.values().length; i++) {
+            final Room other = new RectangleRoomImpl(4, 5);
+            room.addDoor(Direction.values()[i]);
+            if (Direction.values()[i] == Direction.UNDEFINED) {
+                assertFalse(room.addConnectedRoom(Direction.values()[i], other));
+            } else {
+                assertTrue(room.addConnectedRoom(Direction.values()[i], other));
+                assertTrue(other.getConnectedRoom(Direction.values()[i].getOpposite()).isPresent());
+                assertEquals(room, other.getConnectedRoom(Direction.values()[i].getOpposite()).get());
+            }
+        }
     }
 
     /**
