@@ -1,6 +1,7 @@
 package it.unibo.ruscodc.model.item.Equipement;
 
 import java.util.Map;
+import java.util.Optional;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
@@ -17,23 +18,41 @@ public class EquipementImpl implements Equipement {
     private final String path;
     private final Slot slot;
     private final Map<StatName, Integer> stat;
-    private final Pair<GameControl, GameCommand> action;
+    private final Optional<Pair<GameControl, GameCommand>> action;
     private final InfoPayload info;
 
+    
+    public EquipementImpl(
+        String name,
+        String description,
+        String path,
+        Slot slot,
+        Map<StatName, Integer> stat,
+        Pair<GameControl, GameCommand> action
+        ) {
+            this.name = name;
+            this.path = path;
+            this.slot = slot;
+            this.stat = stat;
+            this.action = Optional.ofNullable(action);
+            this.info = new InfoPayloadImpl(name, description, path);
+    }
+    
     public EquipementImpl(
             String name,
             String description,
             String path,
             Slot slot,
-            Map<StatName, Integer> stat,
-            Pair<GameControl, GameCommand> action
+            Map<StatName, Integer> stat
     ) {
-        this.name = name;
-        this.path = path;
-        this.slot = slot;
-        this.stat = stat;
-        this.action = action;
-        this.info = new InfoPayloadImpl(name, description, path);
+        this(
+            name,
+            description,
+            path,
+            slot,
+            stat,
+            null
+        );
     }
 
     public boolean isWearable() {
@@ -59,7 +78,9 @@ public class EquipementImpl implements Equipement {
             .forEach(
                 a -> actor.modifyMaxStat(a.getKey(), actor.getStatMax(a.getKey()) + a.getValue()));
 
-        actor.getSkills().setAction(action.getX(), action.getY());
+        if (action.isPresent()) {
+            actor.getSkills().setAction(action.get().getX(), action.get().getY());
+        }
     }
 
     public void unequip(Actor actor) {

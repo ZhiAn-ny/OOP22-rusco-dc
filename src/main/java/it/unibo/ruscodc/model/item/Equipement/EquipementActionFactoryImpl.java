@@ -1,6 +1,7 @@
 package it.unibo.ruscodc.model.item.Equipement;
 
 import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.effect.EffectAbs;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamecommand.playercommand.PlayerAttack;
@@ -21,7 +22,7 @@ public class EquipementActionFactoryImpl implements EquipementActionFactory {
                     int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
                     to.modifyActualStat(StatName.HP, - damage);
                 }
-            };
+            }
         );
     }
 
