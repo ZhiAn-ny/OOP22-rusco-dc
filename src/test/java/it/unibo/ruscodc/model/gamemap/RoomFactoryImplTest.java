@@ -1,56 +1,122 @@
 package it.unibo.ruscodc.model.gamemap;
 
+import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.utils.Direction;
+import it.unibo.ruscodc.utils.Pair;
+
+import java.security.InvalidParameterException;
+import java.util.List;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class RoomFactoryImplTest {
+    private final RoomFactory rfac = new RoomFactoryImpl();
+
     /**
      * Method under test: {@link RoomFactoryImpl#randomRoom()}
      */
     @Test
-    @Disabled("TODO: Complete this test")
     void testRandomRoom() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.UnsupportedOperationException: Unimplemented method 'makeMeleeAggressive'
-        //       at it.unibo.ruscodc.model.actors.monster.behaviour.BehaviourFactoryImpl.makeMeleeAggressive(BehaviourFactoryImpl.java:8)
-        //       at it.unibo.ruscodc.model.actors.monster.MonsterGeneratorImpl.makeMeleeRat(MonsterGeneratorImpl.java:29)
-        //       at it.unibo.ruscodc.model.gamemap.RoomFactoryImpl.addMonsters(RoomFactoryImpl.java:58)
-        //       at it.unibo.ruscodc.model.gamemap.RoomFactoryImpl.randomRoom(RoomFactoryImpl.java:25)
-        //   In order to prevent randomRoom()
-        //   from throwing UnsupportedOperationException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   randomRoom().
-        //   See https://diff.blue/R013 to resolve this issue.
+        final Room room = this.rfac.randomRoom();
 
-        (new RoomFactoryImpl()).randomRoom();
+        assertTrue(room.getObjectsInRoom().isEmpty());
+        assertTrue(room.getMonsters().isEmpty());
+        assertTrue(room.getSize().getX() >= 3);
+        assertTrue(room.getSize().getY() >= 3);
+        for (int i = 0; i < Direction.values().length; i++) {
+            assertTrue(room.getConnectedRoom(Direction.values()[i]).isEmpty());
+        }
     }
 
     /**
      * Method under test: {@link RoomFactoryImpl#randomRoomWithTraps()}
      */
     @Test
-    @Disabled("TODO: Complete this test")
     void testRandomRoomWithTraps() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.UnsupportedOperationException: Unimplemented method 'makeMeleeAggressive'
-        //       at it.unibo.ruscodc.model.actors.monster.behaviour.BehaviourFactoryImpl.makeMeleeAggressive(BehaviourFactoryImpl.java:8)
-        //       at it.unibo.ruscodc.model.actors.monster.MonsterGeneratorImpl.makeMeleeRat(MonsterGeneratorImpl.java:29)
-        //       at it.unibo.ruscodc.model.gamemap.RoomFactoryImpl.addMonsters(RoomFactoryImpl.java:58)
-        //       at it.unibo.ruscodc.model.gamemap.RoomFactoryImpl.randomRoom(RoomFactoryImpl.java:25)
-        //       at it.unibo.ruscodc.model.gamemap.RoomFactoryImpl.randomRoomWithTraps(RoomFactoryImpl.java:31)
-        //   In order to prevent randomRoomWithTraps()
-        //   from throwing UnsupportedOperationException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   randomRoomWithTraps().
-        //   See https://diff.blue/R013 to resolve this issue.
+        final Room room = this.rfac.randomRoomWithTraps();
 
-        (new RoomFactoryImpl()).randomRoomWithTraps();
+        assertFalse(room.getObjectsInRoom().isEmpty());
+        assertTrue(room.getMonsters().isEmpty());
+        assertTrue(room.getSize().getX() >= 3);
+        assertTrue(room.getSize().getY() >= 3);
+        for (int i = 0; i < Direction.values().length; i++) {
+            assertTrue(room.getConnectedRoom(Direction.values()[i]).isEmpty());
+        }
     }
+
+    /**
+     * Method under test: {@link RoomFactoryImpl#squareRoom(int)}
+     */
+    @Test
+    void testSquareRoom() {
+        final int sideLength = 3;
+        final Room room = this.rfac.squareRoom(sideLength);
+
+        assertTrue(room.getObjectsInRoom().isEmpty());
+        assertTrue(room.getMonsters().isEmpty());
+        assertEquals(25, room.getTilesAsEntity().size());
+        assertEquals(new Pair<Integer, Integer>(sideLength, sideLength), room.getSize());
+        for (int i = 0; i < Direction.values().length; i++) {
+            assertTrue(room.getConnectedRoom(Direction.values()[i]).isEmpty());
+        }
+    }
+
+    /**
+     * Method under test: {@link RoomFactoryImpl#squareRoom(int)}
+     */
+    @Test
+    void testSquareRoomSizeTooSmall() {
+        assertThrows(InvalidParameterException.class, () -> this.rfac.squareRoom(1));
+    }
+
+    /**
+     * Method under test: {@link RoomFactoryImpl#rectangleRoom(int, int)}
+     */
+    @Test
+    void testRectangleRoomSquare() {
+        final int wdt = 3;
+        final int hgt = 3;
+        final Room room = this.rfac.rectangleRoom(wdt, hgt);
+
+        assertTrue(room.getObjectsInRoom().isEmpty());
+        assertTrue(room.getMonsters().isEmpty());
+        assertEquals(25, room.getTilesAsEntity().size());
+        assertEquals(new Pair<Integer, Integer>(wdt, hgt), room.getSize());
+        for (int i = 0; i < Direction.values().length; i++) {
+            assertTrue(room.getConnectedRoom(Direction.values()[i]).isEmpty());
+        }
+    }
+
+    /**
+     * Method under test: {@link RoomFactoryImpl#rectangleRoom(int, int)}
+     */
+    @Test
+    void testRectangleRoom() {
+        final int wdt = 6;
+        final int hgt = 3;
+        final Room room = this.rfac.rectangleRoom(wdt, hgt);
+
+        assertTrue(room.getObjectsInRoom().isEmpty());
+        assertTrue(room.getMonsters().isEmpty());
+        assertEquals(40, room.getTilesAsEntity().size());
+        assertEquals(new Pair<Integer, Integer>(wdt, hgt), room.getSize());
+        for (int i = 0; i < Direction.values().length; i++) {
+            assertTrue(room.getConnectedRoom(Direction.values()[i]).isEmpty());
+        }
+    }
+
+    /**
+     * Method under test: {@link RoomFactoryImpl#rectangleRoom(int, int)}
+     */
+    @Test
+    void testRectangleRoomSizeTooSmall() {
+        assertThrows(InvalidParameterException.class, () -> this.rfac.rectangleRoom(1, 1));
+        assertThrows(InvalidParameterException.class, () -> this.rfac.rectangleRoom(1, 3));
+        assertThrows(InvalidParameterException.class, () -> this.rfac.rectangleRoom(3, 1));
+    }
+
 }
 

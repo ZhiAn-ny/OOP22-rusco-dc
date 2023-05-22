@@ -21,9 +21,7 @@ public class RoomFactoryImpl implements RoomFactory {
     /** {@inheritDoc} */
     @Override
     public Room randomRoom() {
-        final Room room = this.getRandomShapeRoom();
-        this.addMonsters(room);
-        return room;
+        return this.getRandomShapeRoom();
     }
 
     @Override

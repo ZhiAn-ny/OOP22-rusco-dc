@@ -14,9 +14,14 @@ import java.security.InvalidParameterException;
 
 import java.util.Set;
 
+import org.junit.jupiter.api.Disabled;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RectangleRoomImplTest {
     /**
@@ -73,7 +78,7 @@ class RectangleRoomImplTest {
         final StatImpl stats = new StatImpl();
         final BehaviourImpl behaviour = new BehaviourImpl(null, null);
         assertTrue(rectangleRoomImpl
-                .addMonster(new MonsterImpl("Name", currentPos, skills, stats,behaviour)));
+                .addMonster(new MonsterImpl("Name", currentPos, skills, stats, behaviour)));
         assertEquals(1, rectangleRoomImpl.getMonsters().size());
     }
 
@@ -325,6 +330,73 @@ class RectangleRoomImplTest {
         final RectangleRoomImpl room = new RectangleRoomImpl(3, 3);
         room.addDoor(Direction.UP);
         assertFalse(room.addDoor(Direction.UP));
+    }
+
+    /**
+     * Method under test: {@link RectangleRoomImpl#replaceTile(Pair, Tile)}
+     */
+    @Test
+    void testReplaceTile() {
+        RectangleRoomImpl rectangleRoomImpl = new RectangleRoomImpl(3, 3);
+        Pair<Integer, Integer> pos = new Pair<>(2, 3);
+
+        assertTrue(rectangleRoomImpl.replaceTile(pos, new FloorTrapTileImpl(new Pair<>(2, 3))));
+        assertEquals(25, rectangleRoomImpl.getTilesAsEntity().size());
+    }
+
+    /**
+     * Method under test: {@link RectangleRoomImpl#replaceTile(Pair, Tile)}
+     */
+    @Test
+    void testReplaceTile2() {
+        RectangleRoomImpl rectangleRoomImpl = new RectangleRoomImpl(3, 3);
+        Pair<Integer, Integer> pos = new Pair<>(1, 3);
+
+        assertFalse(rectangleRoomImpl.replaceTile(pos, new FloorTrapTileImpl(new Pair<>(2, 3))));
+    }
+
+    /**
+     * Method under test: {@link RectangleRoomImpl#replaceTile(Pair, Tile)}
+     */
+    @Test
+    @Disabled("TODO: Complete this test")
+    void testReplaceTile3() {
+        // TODO: Complete this test.
+        //   Reason: R013 No inputs found that don't throw a trivial exception.
+        //   Diffblue Cover tried to run the arrange/act section, but the method under
+        //   test threw
+        //   java.lang.NullPointerException: Cannot invoke "it.unibo.ruscodc.utils.Pair.equals(Object)" because "pos" is null
+        //       at it.unibo.ruscodc.model.gamemap.RectangleRoomImpl.replaceTile(RectangleRoomImpl.java:192)
+        //   In order to prevent replaceTile(Pair, Tile)
+        //   from throwing NullPointerException, add constructors or factory
+        //   methods that make it easier to construct fully initialized objects used in
+        //   replaceTile(Pair, Tile).
+        //   See https://diff.blue/R013 to resolve this issue.
+
+        RectangleRoomImpl rectangleRoomImpl = new RectangleRoomImpl(3, 3);
+        rectangleRoomImpl.replaceTile(null, new FloorTrapTileImpl(new Pair<>(2, 3)));
+    }
+
+    /**
+     * Method under test: {@link RectangleRoomImpl#replaceTile(Pair, Tile)}
+     */
+    @Test
+    @Disabled("TODO: Complete this test")
+    void testReplaceTile4() {
+        // TODO: Complete this test.
+        //   Reason: R013 No inputs found that don't throw a trivial exception.
+        //   Diffblue Cover tried to run the arrange/act section, but the method under
+        //   test threw
+        //   java.lang.NullPointerException: Cannot invoke "it.unibo.ruscodc.model.gamemap.Tile.getPosition()" because "newTile" is null
+        //       at it.unibo.ruscodc.model.gamemap.RectangleRoomImpl.replaceTile(RectangleRoomImpl.java:192)
+        //   In order to prevent replaceTile(Pair, Tile)
+        //   from throwing NullPointerException, add constructors or factory
+        //   methods that make it easier to construct fully initialized objects used in
+        //   replaceTile(Pair, Tile).
+        //   See https://diff.blue/R013 to resolve this issue.
+
+        RectangleRoomImpl rectangleRoomImpl = new RectangleRoomImpl(3, 3);
+        rectangleRoomImpl.replaceTile(new Pair<>(2, 3), null);
     }
 
 }
