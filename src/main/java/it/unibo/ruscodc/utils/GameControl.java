@@ -65,6 +65,11 @@ public enum GameControl {
      * you can use the consumable item right away.
      */
     USEQUICK,
+
+    /**
+     *
+     */
+    DELETE,
     /**
      * Do nothing.
      */
