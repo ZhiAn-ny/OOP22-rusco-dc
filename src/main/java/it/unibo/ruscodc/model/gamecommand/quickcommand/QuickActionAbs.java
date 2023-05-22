@@ -15,14 +15,14 @@ import it.unibo.ruscodc.utils.exception.ModelException;
  * This abstract class defines that all the other class that extend this class will wrap an
  * action that tipically can do without any type of control (neither by player or IA).
  * So logically the wrapped command can be executed
- */ //TODO-a gradle non piace l'andata a capo
+ */
 public abstract class QuickActionAbs extends BasicGameCommand  {
 
     /**
      * Client must not create this object directily.
      */
-    protected QuickActionAbs() { //NOPMD: if i don't add a comment here, checkstyle will generate an error. 
-                                //So i prefer document an empty constructor
+    protected QuickActionAbs() { //NOPMD: if I don't add a comment to the costructor, 
+    //checkstyle will generate an error. So i prefer document an empty constructor
     }
 
     /**

@@ -8,7 +8,9 @@ import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
- * //TODO - è da fare.
+ * Specific a Range with "Room" shape.
+ * Wrap the concept that the command, or more generally an alghoritm, 
+ * that need this type of Range take effect to all Room position.
  */
 public class GlobalRange extends DecoratedRange {
 
@@ -16,8 +18,9 @@ public class GlobalRange extends DecoratedRange {
     private final Range prevRange;
 
     /**
-     * //TODO - è da fare documentazione.
-     * @param start
+     * Create this type of range
+     * @param start the previous range. This type of range ignore the previous range shape,
+     * so this range use this information to be commuted as Entity to print to view
      */
     public GlobalRange(final Range start) {
         super(start);
@@ -43,7 +46,7 @@ public class GlobalRange extends DecoratedRange {
             final Pair<Integer, Integer> to, 
             final Pair<Integer, Integer> toCheck, 
             final Room where) {
-        return !where.isInRoom(by); //TODO - testato... ma perplesso...
+        return !where.isInRoom(by); //TODO - testato... ma perplesso... farò altri test
     }
 
     /**
