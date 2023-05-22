@@ -221,6 +221,7 @@ public class ViewJFX extends Application implements GameView {
 
     }
 
+    /*
     @Override
     public void setEntityToDraw(List<Entity> toDraw) {
         scene.clear();
@@ -232,7 +233,7 @@ public class ViewJFX extends Application implements GameView {
 
 
     }
-
+    */
 }
 
 
