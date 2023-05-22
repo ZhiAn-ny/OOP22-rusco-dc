@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+
+import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.item.Equipement.Equipement;
 
 public class InventoryImpl implements Inventory {
 
     public enum Slot {
         HEAD,
-        TORSO,
-        LEGS,
-        R_ARM,
-        L_ARM;
+        ARMOR,
+        WEAPON,
+        SPECIAL;
     }
 
     private final List<Item> bag;
@@ -23,21 +23,6 @@ public class InventoryImpl implements Inventory {
     public InventoryImpl() {
         this.bag = new ArrayList<>();
         this.equipement = new HashMap<>();
-        for (Slot slot : Slot.values()) {
-            //this.equipement.put(slot, new DefaultEquipement());
-        }
-    }
-
-    @Override
-    public void openBag() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'openBag'");
-    }
-
-    @Override
-    public void openEquipement() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'openEquipement'");
     }
 
     @Override
@@ -46,8 +31,19 @@ public class InventoryImpl implements Inventory {
     }
 
     @Override
-    public Equipement getEquipment(Slot slot) {
-        return this.equipement.get(slot);
+    public List<Equipement> getEquipedItems() {
+        return equipement
+            .entrySet()
+            .stream()
+            .map(a -> a.getValue())
+            .toList();
+    }
+
+    @Override
+    public void equip(Equipement equip, Actor actor) {
+        this.equipement.get(equip.getSlot()).unequip(actor);
+        this.equipement.put(equip.getSlot(), equip);
+        equip.equip(actor);
     }
 
     @Override
@@ -55,46 +51,4 @@ public class InventoryImpl implements Inventory {
         return List.copyOf(this.bag);
     }
 
-    @Override
-    public List<Consumable> getAllConsumable() {
-        return List.copyOf(
-            this.bag
-            .stream()
-            .filter(a -> !a.isWearable())
-            .map(a -> (Consumable) a)
-            .collect(Collectors.toList())
-        );
-    }
-
-    @Override
-    public List<Equipement> getAllEquipement() {
-        return List.copyOf(
-            this.bag
-            .stream()
-            .filter(a -> a.isWearable())
-            .map(a -> (Equipement) a)
-            .collect(Collectors.toList())
-        );
-    }
-
-    @Override
-    public void swapEquipement(int index) {
-        Equipement toEquip = this.getAllEquipement().get(index);
-        for (Slot slot : toEquip.getSlots()) {
-            var tmp = this.equipement.get(slot).getSlots();
-            if (tmp.size() > 1) {
-                for (Slot slotTmp : tmp) {
-                    
-                }
-            };
-
-        }  
-    }
-
-    @Override
-    public void useItem(int index) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'useItem'");
-    }
-    
 }
