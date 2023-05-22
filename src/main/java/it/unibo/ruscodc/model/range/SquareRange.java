@@ -17,7 +17,7 @@ public class SquareRange extends DecoratedRange {
      * @param offset the orthogonal distance between center of square and their side
      * @param start the previous range.
      */
-    protected SquareRange(final int offset, final Range start) {
+    public SquareRange(final int offset, final Range start) {
         super(start);
         this.offset = offset;
     }
