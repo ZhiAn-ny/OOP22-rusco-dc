@@ -17,9 +17,9 @@ public class BehaviourImpl implements Behaviour{
     private final CombactBehaviour combactBehaviour;
 
 
-    public BehaviourImpl(final MovementBehaviour movementBehaviour, final CombactBehaviour combatBehaviour) {
+    public BehaviourImpl(final MovementBehaviour movementBehaviour, final CombactBehaviour combactBehaviour) {
         this.movementBehaviour = movementBehaviour;
-        this.combactBehaviour = combatBehaviour;
+        this.combactBehaviour = combactBehaviour;
     }
 
 
