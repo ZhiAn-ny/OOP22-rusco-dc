@@ -17,11 +17,10 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new CircleRange(1, new SingleRange()),
             new SingleSplash(),
             new EffectAbs(0) {
-
                 @Override
                 public void applyEffect(Actor from, Actor to) {
-                    int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR)*2;
-                    to.modifyStat(StatName.HP, - damage);
+                    int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
+                    to.modifyActualStat(StatName.HP, - damage);
                 }
             }
         );
@@ -33,11 +32,10 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new CircleRange(1, new SingleRange()),
             new SingleSplash(),
             new EffectAbs(3) {
-
                 @Override
                 public void applyEffect(Actor from, Actor to) {
                     int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR)*2;
-                    to.modifyStat(StatName.HP, - damage);
+                    to.modifyActualStat(StatName.HP, - damage);
                 }
             }
         );

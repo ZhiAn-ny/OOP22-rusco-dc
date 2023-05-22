@@ -60,9 +60,15 @@ public abstract class ActorAbs implements Actor {
     }
 
     @Override
-    public void modifyStat(StatName statName, int value) {
+    public void modifyActualStat(StatName statName, int value) {
         int current = this.stats.getStatActual(statName);
         this.stats.setStatActualValue(statName, current + value);
+    }
+
+    @Override
+    public void modifyMaxStat(StatName statName, int value) {
+        int current = this.stats.getStatMax(statName);
+        this.stats.setStatMaxValue(statName, current + value);
     }
 
     @Override

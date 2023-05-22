@@ -21,7 +21,9 @@ public interface Actor extends Entity {
      */
     void setPos(Pair<Integer, Integer> newPos);
 
-    void modifyStat(StatName statName, int value);
+    void modifyActualStat(StatName statName, int value);
+    
+    void modifyMaxStat(StatName statName, int value); 
 
     Skill getSkills();
 
