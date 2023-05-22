@@ -6,7 +6,11 @@ import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 
 /**
- * TODO - DA FINIRE.
+ * Specific a Range with a cone shape. 
+ * This cone has an angle of 90 degrees, starts at the "from" position of the "uploadShapeDelta" method 
+ * and the bisector of this cone is oriented along the direction of the half line
+ * that connects the "from" position to the "to" position
+ * (specified in the "uploadShapeDelta" method)
  */
 public class ConeRange extends DecoratedRange {
 

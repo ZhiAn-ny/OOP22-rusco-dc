@@ -32,14 +32,7 @@ public abstract class DecoratedRange implements Range {
         this.basicRange = start;
     }
 
-    /**
-     * 
-     * @param origin
-     * @param direction
-     * @param where
-     * //TODO - protected perchè potrebbe cambiare, essere overriddato da altre classi
-     */
-    protected void commute(final Pair<Integer, Integer> origin, final Pair<Integer, Integer> direction, final Room where) {
+    private void commute(final Pair<Integer, Integer> origin, final Pair<Integer, Integer> direction, final Room where) {
         effectiveShape.clear();
         effectiveShape.addAll(uploadShapeDelta(origin, direction).map(s -> Pairs.applyLineDelta(s, origin))
             .flatMap(s -> s.takeWhile(p -> !where.isAccessible(p)))
@@ -106,7 +99,7 @@ public abstract class DecoratedRange implements Range {
         return new Entity() {
 
             @Override
-            public String getID() {
+            public int getID() {
                 return res.getID();
             }
 

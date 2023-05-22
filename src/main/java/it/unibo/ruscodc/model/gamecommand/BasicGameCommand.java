@@ -17,23 +17,33 @@ import it.unibo.ruscodc.model.gamemap.Room;
  */
 public abstract class BasicGameCommand implements GameCommand {
 
-    private final static String GLOBAL_ERR_MESS = "Cannot execute this method on this object";
+    private static final String GLOBAL_ERR_MESS = "Cannot execute this method on this object";
+    private static final String ERR_TITLE = "Error during execution of command";
 
     private Actor actActor;
     private Room where;
 
-    protected BasicGameCommand(){
+    /**
+     * Client must not create directily this objects.
+     */
+    protected BasicGameCommand() { //NOPMD: if i don't add a comment here, checkstyle will generate an error. So i prefer document an empty constructor
     }
 
+    /**
+     * 
+     */
     @Override
-    public void setActor(Actor by) {
+    public void setActor(final Actor by) {
         if (this.actActor == null) {
             actActor = by;
         }
     }
 
+    /**
+     * 
+     */
     @Override
-    public void setRoom(Room where) {
+    public void setRoom(final Room where) {
         if (this.where == null) {
             this.where = where;
         }
@@ -54,9 +64,23 @@ public abstract class BasicGameCommand implements GameCommand {
     protected Room getRoom() {
         return this.where;
     }
-    
+
+    /**
+     * A message error useful for coders that advise the method is not invocable for this object.
+     * (for example, for all QuickCommand objects, method like "modify", method about HandableGameCommand,
+     * is not invocable).
+     * @return this message error 
+     */
     protected String getGlobalErrMess() {
         return GLOBAL_ERR_MESS;
     }
-    
+
+    /**
+     * For avoid DRY, other classes that extends this class can get a standard error title.
+     * @return the error title, something that advise that action is not terminated correctly
+     */
+    protected String getErrTitle() {
+        return ERR_TITLE;
+    }
+
 }

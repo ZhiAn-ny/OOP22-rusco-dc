@@ -12,4 +12,9 @@ public final class MoveLeftCommand extends MoveCommand {
     protected Pair<Integer, Integer> computeNewPos() {
         return Pairs.computeLeftPair(this.getActor().getPos());
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " left";
+    }
 }
