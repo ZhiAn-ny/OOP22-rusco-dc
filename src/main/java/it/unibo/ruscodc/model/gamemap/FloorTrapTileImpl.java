@@ -112,7 +112,7 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
 
     /** {@inheritDoc} */
     @Override
-    public boolean put(Interactable obj) {
+    public boolean put(final Interactable obj) {
         return false;
     }
 }

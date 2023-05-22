@@ -30,7 +30,7 @@ public class RoomFactoryImpl implements RoomFactory {
         final TileFactory tf = new TileFactoryImpl();
 
         base.getTilesAsEntity().forEach(tile -> {
-            Tile newTile = tf.createRandomFloorTile(tile.getPos().getX(), tile.getPos().getY());
+            final Tile newTile = tf.createRandomFloorTile(tile.getPos().getX(), tile.getPos().getY());
             base.replaceTile(tile.getPos(), newTile);
         });
 
@@ -41,23 +41,6 @@ public class RoomFactoryImpl implements RoomFactory {
         return (this.rnd.nextInt() % 2 == 0) ?
                 this.squareRoom(this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE)) :
                 this.rectangleRoom(this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE), this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE));
-    }
-
-    private void addMonsters(final Room base) {
-        final Random rnd = new Random();
-        final int monstersNum = rnd.nextInt(MAX_MONSTERS_NUM);
-        int i = 0;
-        while (i < monstersNum) {
-            Pair<Integer, Integer> pos = new Pair<>(
-                    rnd.nextInt(base.getSize().getX()),
-                    rnd.nextInt(base.getSize().getY())
-            );
-            // TODO: change to random
-            Monster monster = this.monsterGen.makeMeleeRat("m" + i, pos);
-            if (base.addMonster(monster)) {
-                i = i + 1;
-            }
-        }
     }
 
     /** {@inheritDoc} */

@@ -11,20 +11,17 @@ import it.unibo.ruscodc.model.actors.stat.StatFactoryImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import java.security.InvalidParameterException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TileFactoryImplTest {
     private Actor getActor(final Pair<Integer, Integer> pos) {
         final StatFactory stats = new StatFactoryImpl();
-        final MonsterActionFactory MAFactory = new MonsterActionFactoryImpl();
+        final MonsterActionFactory mfac = new MonsterActionFactoryImpl();
         final Skill skills = new SkillImpl();
-        skills.setAction(GameControl.ATTACK1, MAFactory.basicMeleeAttack());
-        skills.setAction(GameControl.ATTACK2, MAFactory.heavyMeleeAttack());
+        skills.setAction(GameControl.ATTACK1, mfac.basicMeleeAttack());
+        skills.setAction(GameControl.ATTACK2, mfac.heavyMeleeAttack());
         return new HeroImpl("testHero", pos, skills, stats.ratStat());
     }
 
@@ -34,7 +31,7 @@ class TileFactoryImplTest {
     @Test
     void testCreateSingleUseFloorTrap() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
-        final Tile singleUseFloorTrap = (new TileFactoryImpl()).createSingleUseFloorTrap(2, 3);
+        final Tile singleUseFloorTrap = new TileFactoryImpl().createSingleUseFloorTrap(2, 3);
         final Actor actor = this.getActor(pos);
         int hp = actor.getStatInfo(StatImpl.StatName.HP);
 
@@ -231,7 +228,7 @@ class TileFactoryImplTest {
     @Test
     void testCreateBaseWallTileNullRoomSize() {
         assertThrows(IllegalArgumentException.class,
-                () ->  (new TileFactoryImpl()).createBaseWallTile(2, 0, null));
+                () ->  new TileFactoryImpl().createBaseWallTile(2, 0, null));
     }
 }
 

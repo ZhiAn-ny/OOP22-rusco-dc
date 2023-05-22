@@ -67,13 +67,13 @@ public class RectangleRoomImpl implements Room {
     /** {@inheritDoc} */
     @Override
     public boolean addMonster(final Monster monster) {
-        List<Pair<Integer, Integer>> positions = this.monsters.stream().map(Entity::getPos).toList();
+        final List<Pair<Integer, Integer>> positions = this.monsters.stream().map(Entity::getPos).toList();
         if (positions.contains(monster.getPos()) || !this.isInRoom(monster.getPos())) {
             return false;
         }
 
-        int minFreeTiles = 5;
-        int freeTiles = (int) this.tiles.stream()
+        final int minFreeTiles = 5;
+        final int freeTiles = (int) this.tiles.stream()
                 .filter(tile -> tile.get().isEmpty())
                 .count();
         if (positions.size() >= (freeTiles - minFreeTiles)) {
@@ -120,7 +120,7 @@ public class RectangleRoomImpl implements Room {
     }
 
     @Override
-    public Optional<Tile> get(Pair<Integer, Integer> pos) {
+    public Optional<Tile> get(final Pair<Integer, Integer> pos) {
         if (this.isInRoom(pos)) {
             return this.tiles.stream()
                     .filter(tile -> tile.getPosition().equals(pos))

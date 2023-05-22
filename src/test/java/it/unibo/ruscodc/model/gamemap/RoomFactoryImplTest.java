@@ -1,13 +1,10 @@
 package it.unibo.ruscodc.model.gamemap;
 
-import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.security.InvalidParameterException;
-import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

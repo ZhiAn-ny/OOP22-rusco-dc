@@ -26,10 +26,10 @@ class FloorTrapTileImplTest {
 
     private Actor getActor(final Pair<Integer, Integer> pos) {
         final StatFactory stats = new StatFactoryImpl();
-        final MonsterActionFactory MAFactory = new MonsterActionFactoryImpl();
+        final MonsterActionFactory mfac = new MonsterActionFactoryImpl();
         final Skill skills = new SkillImpl();
-        skills.setAction(GameControl.ATTACK1, MAFactory.basicMeleeAttack());
-        skills.setAction(GameControl.ATTACK2, MAFactory.heavyMeleeAttack());
+        skills.setAction(GameControl.ATTACK1, mfac.basicMeleeAttack());
+        skills.setAction(GameControl.ATTACK2, mfac.heavyMeleeAttack());
         return new HeroImpl("testHero", pos, skills, stats.ratStat());
     }
     
