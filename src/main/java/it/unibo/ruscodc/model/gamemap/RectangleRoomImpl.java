@@ -187,4 +187,19 @@ public class RectangleRoomImpl implements Room {
         return this.size;
     }
 
+    @Override
+    public boolean replaceTile(final Pair<Integer, Integer> pos, final Tile newTile) {
+        if (!pos.equals(newTile.getPosition()) || this.get(pos).isEmpty()) {
+            return false;
+        }
+        final Optional<Interactable> content = this.get(pos).get().get();
+        if (content.isPresent()) {
+            // Cannot replace an occupied Tile!
+            return false;
+        }
+        this.tiles.removeIf(t -> t.getPosition().equals(pos));
+        this.tiles.add(newTile);
+        return true;
+    }
+
 }

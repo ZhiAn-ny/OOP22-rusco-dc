@@ -26,6 +26,19 @@ public class RoomFactoryImpl implements RoomFactory {
         return room;
     }
 
+    @Override
+    public Room randomRoomWithTraps() {
+        final Room base = this.randomRoom();
+        final TileFactory tf = new TileFactoryImpl();
+
+        base.getTilesAsEntity().forEach(tile -> {
+            Tile newTile = tf.createRandomFloorTile(tile.getPos().getX(), tile.getPos().getY());
+            base.replaceTile(tile.getPos(), newTile);
+        });
+
+        return base;
+    }
+
     private Room getRandomShapeRoom() {
         return (this.rnd.nextInt() % 2 == 0) ?
                 this.squareRoom(this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE)) :

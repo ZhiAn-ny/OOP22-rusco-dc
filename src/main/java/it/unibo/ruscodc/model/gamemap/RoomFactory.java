@@ -19,6 +19,13 @@ public interface RoomFactory {
      */
     Room randomRoom();
 
+
+    /**
+     * Creates a randomly generated <code>Room</code> containing traps.
+     * @return a randomly generated room
+     */
+    Room randomRoomWithTraps();
+
     /**
      * Creates a randomly generated <code>Room</code> in the shape of a rectangle.
      * @param width the width of the <code>Room</code>

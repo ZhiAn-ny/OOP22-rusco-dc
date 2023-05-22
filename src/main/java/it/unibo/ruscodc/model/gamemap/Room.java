@@ -103,4 +103,12 @@ public interface Room {
      * @return a <code>Pair</code> containing the width and the height of the room.
      */
     Pair<Integer, Integer> getSize();
+
+    /**
+     * Replaces the <code>Tile</code> at the specified position with a new one.
+     * @param pos the position of the <code>Tile</code> to replace
+     * @param newTile the new <code>Tile</code>
+     * @return <code>true</code> if the <code>Tile</code> has been successfully replaced, <code>false</code> otherwise.
+     */
+    boolean replaceTile(Pair<Integer, Integer> pos, Tile newTile);
 }
