@@ -1,7 +1,10 @@
 package it.unibo.ruscodc.model.gamecommand.playercommand;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
@@ -157,14 +160,24 @@ public class PlayerAttack extends NoIACommand {
             //throw new NotInRange(R_ERR);
         }
 
-        if (from.getStatInfo(StatName.AP) < actionToPerform.getAPcost()) {
+        if (from.getStatActual(StatName.AP) < actionToPerform.getAPcost()) {
             return Optional.of(new InfoPayloadImpl(getErrTitle(), AP_ERR));
         } 
-        from.modifyStat(StatName.AP, -actionToPerform.getAPcost());
+        from.modifyActualStat(StatName.AP, -actionToPerform.getAPcost());
 
-        this.getRoom().getMonsters().stream()
+        Set<Actor> targets = this.getRoom().getMonsters().stream()
             .filter(m -> splash.isInRange(from.getPos(), cursorPos, m.getPos(), this.getRoom()))
-            .forEach(m -> actionToPerform.applyEffect(from, m));
+            .collect(Collectors.toSet());
+        
+        //Factory itemFactory = new FefjnijweniwufM;
+        targets.forEach(m -> actionToPerform.applyEffect(from, m));
+        targets.forEach(m -> {
+            if (m.isAlive()) {
+                //Set<Item> toDrop = itemFactory.getDrop(m);
+            }
+        });
+
+        
         return Optional.empty();
     }
 

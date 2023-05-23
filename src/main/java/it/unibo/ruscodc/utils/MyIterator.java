@@ -1,6 +1,7 @@
 package it.unibo.ruscodc.utils;
 
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * An implementation of Java Iterator that save the last element.
@@ -13,20 +14,16 @@ import java.util.Iterator;
 public class MyIterator<X> implements Iterator<X> {
 
     private X act;
-    private final Iterator<X> myIt;
+    private Iterator<X> myIt;
+    private final Iterable<X> source;
 
     /**
      * Create this type of iterator.
      * @param it the iterator to wrap
      */
     public MyIterator(final Iterator<X> it) {
-        this.myIt = it;
-        if (myIt.hasNext()) {
-            act = this.next();
-        } else {
-            act = null;
-        }
-        
+        source = () -> it;
+        reset();
     }
 
     /**
@@ -55,6 +52,22 @@ public class MyIterator<X> implements Iterator<X> {
      */
     public X getAct() {
         return act;
+    }
+
+    /**
+     * Reset the local iterator to its start
+     */
+    public void reset() {
+        this.myIt = source.iterator();
+        if (myIt.hasNext()) {
+            act = this.next();
+        } else {
+            act = null;
+        }
+    }
+
+    public static MyIterator<Integer> integerFlow() {
+        return new MyIterator<>(Stream.iterate(0, i -> i+1).iterator());
     }
 
 }
