@@ -15,7 +15,6 @@ import java.util.List;
 public class FXMLView extends Application implements GameView {
 
     private GameObserverController controller;
-    private MainMenuView view;
 
     public FXMLView(){
 
@@ -43,7 +42,6 @@ public class FXMLView extends Application implements GameView {
     @Override
     public void init(GameObserverController ctrl) {
         this.controller = ctrl;
-        this.view = new MainMenuView();
 
     }
 
@@ -80,7 +78,14 @@ public class FXMLView extends Application implements GameView {
 
     @Override
     public void start(Stage stage) throws Exception {
-           view.loadView(stage);
+        FXMLLoader fxmlLoader = new FXMLLoader(FXMLView.class.getResource("main-menu-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        stage.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth()*0.5);
+        stage.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight()*0.5);
+        stage.setFullScreen(true);
+        stage.setTitle("Rusco DC");
+        stage.setScene(scene);
+        stage.show();
     }
 
 
