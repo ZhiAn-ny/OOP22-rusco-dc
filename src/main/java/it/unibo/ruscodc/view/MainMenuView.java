@@ -36,12 +36,13 @@ public class MainMenuView implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    @Override
+
+    @FXML
     public void initialize(URL location, ResourceBundle resources) {
         for (int i=0; i < rows; i++){
             for (int j=0; j<cols; j++){
-                var pane = new ImageView(new Image("/images.png"));
-                mainGrid.sceneProperty().addListener((observable, oldScene, newScene) -> {
+                var pane = new ImageView(new Image("file:src/main/resources/it/unibo/ruscodc/map_res/FloorTile"));
+                this.mainGrid.sceneProperty().addListener((observable, oldScene, newScene) -> {
                     if (newScene != null){
                         unit.bind(Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(100));
                     }
