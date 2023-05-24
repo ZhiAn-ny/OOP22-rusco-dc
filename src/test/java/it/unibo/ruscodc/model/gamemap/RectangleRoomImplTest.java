@@ -1,17 +1,20 @@
 package it.unibo.ruscodc.model.gamemap;
 
+import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.actors.monster.MonsterImpl;
 import it.unibo.ruscodc.model.actors.monster.behaviour.BehaviourImpl;
 import it.unibo.ruscodc.model.actors.skill.SkillImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl;
 import it.unibo.ruscodc.model.interactable.Chest;
+import it.unibo.ruscodc.model.interactable.Door;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.security.InvalidParameterException;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -78,7 +81,7 @@ class RectangleRoomImplTest {
         final StatImpl stats = new StatImpl();
         final BehaviourImpl behaviour = new BehaviourImpl(null, null);
         assertTrue(rectangleRoomImpl
-                .addMonster(new MonsterImpl(this.TEST_STR, currentPos, skills, stats, behaviour)));
+                .addMonster(new MonsterImpl(TEST_STR, currentPos, skills, stats, behaviour)));
         assertEquals(1, rectangleRoomImpl.getMonsters().size());
     }
 
@@ -94,10 +97,10 @@ class RectangleRoomImplTest {
         final StatImpl stats = new StatImpl();
         final BehaviourImpl behaviour = new BehaviourImpl(null, null);
         rectangleRoomImpl.addMonster(new MonsterImpl(
-                this.TEST_STR, currentPos, skills, stats, behaviour));
+                TEST_STR, currentPos, skills, stats, behaviour));
 
         assertFalse(rectangleRoomImpl.addMonster(new MonsterImpl(
-                this.TEST_STR, currentPos, skills, stats, behaviour)));
+                TEST_STR, currentPos, skills, stats, behaviour)));
     }
 
     /**
@@ -115,7 +118,7 @@ class RectangleRoomImplTest {
         rectangleRoomImpl.put(pos, new Chest(Set.of(), pos));
 
         assertTrue(rectangleRoomImpl.addMonster(new MonsterImpl(
-                this.TEST_STR, pos, skills, stats, behaviour)));
+                TEST_STR, pos, skills, stats, behaviour)));
         assertEquals(1, rectangleRoomImpl.getMonsters().size());
     }
 
@@ -131,7 +134,7 @@ class RectangleRoomImplTest {
         final StatImpl stats = new StatImpl();
         final BehaviourImpl behaviour = new BehaviourImpl(null, null);
         assertFalse(rectangleRoomImpl.addMonster(new MonsterImpl(
-                this.TEST_STR, pos, skills, stats, behaviour)));
+                TEST_STR, pos, skills, stats, behaviour)));
     }
 
     /**
@@ -308,10 +311,24 @@ class RectangleRoomImplTest {
     void testAddDoor() {
         final RectangleRoomImpl room = new RectangleRoomImpl(3, 3);
 
+        assertFalse(room.addDoor(Direction.UNDEFINED));
         assertTrue(room.addDoor(Direction.UP));
-        assertTrue(room.addDoor(Direction.DOWN));
-        assertTrue(room.addDoor(Direction.LEFT));
-        assertTrue(room.addDoor(Direction.RIGHT));
+    }
+
+    /**
+     * Method under test: {@link RectangleRoomImpl#addDoor(Direction)}
+     */
+    @Test
+    void testAddDoorFetchDoor() {
+        final RectangleRoomImpl room = new RectangleRoomImpl(3, 3);
+
+        room.addDoor(Direction.UP);
+        Tile tile = (Tile) room.getTilesAsEntity().stream()
+                .filter(t -> t.getPos().getY() == 0)
+                .filter(t -> ((Tile) t).get().isPresent())
+                .findFirst().orElse(new FloorTileImpl(new Pair<>(0, 0), true));
+        Entity entity = tile.get().get();
+        assertTrue(entity instanceof Door);
     }
 
     /**

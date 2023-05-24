@@ -35,13 +35,13 @@ public interface Room {
      * Gets the monsters in the room.
      * @return a set representing the monsters in the room
      */
-    Set<Monster> getMonsters();
+    List<Monster> getMonsters();
 
     /**
      * Returns the objects in the room.
      * @return a set representing the objects in the room
      */
-    Set<Interactable> getObjectsInRoom();
+    List<Interactable> getObjectsInRoom();
 
     /**
      * Returns the <code>Room</code>'s tiles as <code>Entity</code>.

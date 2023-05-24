@@ -2,6 +2,7 @@ package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.monster.Monster;
+import it.unibo.ruscodc.model.interactable.Door;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
@@ -19,7 +20,7 @@ public class RectangleRoomImpl implements Room {
     private static final int MAX_DOORS_NUM = 4;
     private final Pair<Integer, Integer> size;
     private final List<Tile> tiles = new ArrayList<>();
-    private final Set<Monster> monsters = new HashSet<>();
+    private final List<Monster> monsters = new ArrayList<>();
     private final Map<Direction, Room> connectedRooms = new HashMap<>();
 
     /**
@@ -86,17 +87,17 @@ public class RectangleRoomImpl implements Room {
 
     /** {@inheritDoc} */
     @Override
-    public Set<Monster> getMonsters() {
+    public List<Monster> getMonsters() {
         return this.monsters;
     }
 
     /** {@inheritDoc} */
     @Override
-    public Set<Interactable> getObjectsInRoom() {
+    public List<Interactable> getObjectsInRoom() {
         return this.tiles.stream()
                 .filter(tile -> tile.get().isPresent())
                 .map(tile -> tile.get().orElseThrow())
-                .collect(Collectors.toSet());
+                .toList();
     }
 
     /** {@inheritDoc} */
@@ -119,6 +120,7 @@ public class RectangleRoomImpl implements Room {
         return tile.get().put(obj);
     }
 
+    /** {@inheritDoc} */
     @Override
     public Optional<Tile> get(final Pair<Integer, Integer> pos) {
         if (this.isInRoom(pos)) {
@@ -172,14 +174,29 @@ public class RectangleRoomImpl implements Room {
         }
         final Random rnd = new Random();
         final List<Tile> onSide = this.tiles.stream()
-                .filter(tile -> tile instanceof  WallTileImpl)
+                .filter(this.onSide(dir))
                 .filter(this.isNotCorner())
                 .toList();
 
         final Tile tile = onSide.get(rnd.nextInt(onSide.size()));
-        // tile.put() // TODO: add Door item
+        final Pair<Integer, Integer> pos = tile.getPosition();
+
+        this.tiles.removeIf(t -> t.getPosition().equals(pos));
+        this.tiles.add(new FloorTileImpl(pos, true));
+        this.put(pos, new Door(pos));
+
         this.connectedRooms.put(dir, null);
         return true;
+    }
+
+    private Predicate<Tile> onSide(final Direction dir) {
+        return (Tile tile) -> switch (dir) {
+            case UP -> tile.getPosition().getY() == 0;
+            case DOWN -> tile.getPosition().getY() == this.size.getY() + 1;
+            case RIGHT -> tile.getPosition().getX() == this.size.getX() + 1;
+            case LEFT -> tile.getPosition().getX() == 0;
+            default -> false;
+        };
     }
 
     /** {@inheritDoc} */
@@ -188,6 +205,7 @@ public class RectangleRoomImpl implements Room {
         return this.size;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean replaceTile(final Pair<Integer, Integer> pos, final Tile newTile) {
         if (!pos.equals(newTile.getPosition()) || this.get(pos).isEmpty()) {
@@ -202,5 +220,32 @@ public class RectangleRoomImpl implements Room {
         this.tiles.add(newTile);
         return true;
     }
+
+    /*
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("size: " + this.size.getX() + ", " + this.size.getY() + "\n");
+        str.append("info_obj:\n");
+        List<Interactable> objs = this.getObjectsInRoom();
+        for (int i = 0; i < objs.size(); i++) {
+            str.append(objs.get(i).toString());
+        }
+
+        for (int y = 0; y < this.size.getY() + 1; y++) {
+            for (int x = 0; x < this.size.getX() + 1; x++) {
+                Tile t = this.get(new Pair<>(x, y)).orElse(null);
+                if (t == null) {
+                    str.append("NIL");
+                    continue;
+                }
+                str.append("[");
+                str.append(t.get().isPresent() ? "*" : " ");
+                str.append("]");
+            }
+            str.append("\n");
+        }
+
+        return str.toString();
+    }*/
 
 }
