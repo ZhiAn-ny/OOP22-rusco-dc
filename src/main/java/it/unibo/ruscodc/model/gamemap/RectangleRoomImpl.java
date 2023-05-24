@@ -10,7 +10,6 @@ import it.unibo.ruscodc.utils.Pair;
 import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * The <code>RectangleRoomImpl</code> class creates a basic implementation of the interface <code>Room</code>.
@@ -221,31 +220,16 @@ public class RectangleRoomImpl implements Room {
         return true;
     }
 
-    /*
     @Override
-    public String toString() {
-        StringBuilder str = new StringBuilder("size: " + this.size.getX() + ", " + this.size.getY() + "\n");
-        str.append("info_obj:\n");
-        List<Interactable> objs = this.getObjectsInRoom();
-        for (int i = 0; i < objs.size(); i++) {
-            str.append(objs.get(i).toString());
+    public Optional<Interactable> getDoorOnSide(final Direction side) {
+        final Tile tile = this.tiles.stream().filter(this.onSide(side))
+                .filter(this.isNotCorner())
+                .filter(t -> t.get().isPresent() && t.get().get() instanceof Door)
+                .findFirst().orElse(null);
+        if (tile == null) {
+            return Optional.empty();
         }
-
-        for (int y = 0; y < this.size.getY() + 1; y++) {
-            for (int x = 0; x < this.size.getX() + 1; x++) {
-                Tile t = this.get(new Pair<>(x, y)).orElse(null);
-                if (t == null) {
-                    str.append("NIL");
-                    continue;
-                }
-                str.append("[");
-                str.append(t.get().isPresent() ? "*" : " ");
-                str.append("]");
-            }
-            str.append("\n");
-        }
-
-        return str.toString();
-    }*/
+        return tile.get();
+    }
 
 }

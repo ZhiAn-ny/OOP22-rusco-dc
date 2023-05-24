@@ -9,7 +9,6 @@ import it.unibo.ruscodc.utils.Pair;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * The <code>Room</code> interface represents the generic concept of room in the game.
@@ -110,4 +109,11 @@ public interface Room {
      * @return <code>true</code> if the <code>Tile</code> has been successfully replaced, <code>false</code> otherwise.
      */
     boolean replaceTile(Pair<Integer, Integer> pos, Tile newTile);
+
+    /**
+     * Returns the door on the specified side of the room if any.
+     * @param side the side of the room on which search the door
+     * @return an <code>Optional</code> containing the door or an empty <code>Optional</code> if there was no door
+     */
+    Optional<Interactable> getDoorOnSide(Direction side);
 }
