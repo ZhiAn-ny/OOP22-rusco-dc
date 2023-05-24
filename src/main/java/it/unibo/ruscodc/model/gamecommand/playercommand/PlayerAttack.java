@@ -157,10 +157,10 @@ public class PlayerAttack extends NoIACommand {
             //throw new NotInRange(R_ERR);
         }
 
-        if (from.getStatInfo(StatName.AP) < actionToPerform.getAPcost()) {
+        if (from.getStatActual(StatName.AP) < actionToPerform.getAPcost()) {
             return Optional.of(new InfoPayloadImpl(getErrTitle(), AP_ERR));
         } 
-        from.modifyStat(StatName.AP, -actionToPerform.getAPcost());
+        from.modifyActualStat(StatName.AP, -actionToPerform.getAPcost());
 
         this.getRoom().getMonsters().stream()
             .filter(m -> splash.isInRange(from.getPos(), cursorPos, m.getPos(), this.getRoom()))

@@ -13,7 +13,6 @@ import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.view.FXMLView;
 import it.unibo.ruscodc.view.GameView;
-import it.unibo.ruscodc.view.ViewJFX;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -180,7 +179,7 @@ public class GameControllerImpl implements GameObserverController {
             }
         }
 
-        this.view.setEntityToDraw(entityToUpload()); //TODO - resettare la view 
+        //TODO - resettare la view 
         manageMonsterTurn();
     }
 
