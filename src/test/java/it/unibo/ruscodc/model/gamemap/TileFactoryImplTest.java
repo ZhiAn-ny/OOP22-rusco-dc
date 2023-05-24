@@ -33,15 +33,15 @@ class TileFactoryImplTest {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final Tile singleUseFloorTrap = new TileFactoryImpl().createSingleUseFloorTrap(2, 3);
         final Actor actor = this.getActor(pos);
-        int hp = actor.getStatInfo(StatImpl.StatName.HP);
+        int hp = actor.getStatActual(StatImpl.StatName.HP);
 
         assertTrue(singleUseFloorTrap.isTrap());
         singleUseFloorTrap.getEffect().applyEffect(actor);
-        assertTrue(hp > actor.getStatInfo(StatImpl.StatName.HP));
+        assertTrue(hp > actor.getStatActual(StatImpl.StatName.HP));
 
-        hp = actor.getStatInfo(StatImpl.StatName.HP);
+        hp = actor.getStatActual(StatImpl.StatName.HP);
         singleUseFloorTrap.getEffect().applyEffect(actor);
-        assertEquals(hp, actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp, actor.getStatActual(StatImpl.StatName.HP));
     }
 
     /**
@@ -55,9 +55,9 @@ class TileFactoryImplTest {
 
         assertTrue(floorTrap.isTrap());
         for (int i = 0; i < 3; i++) {
-            final int hp = actor.getStatInfo(StatImpl.StatName.HP);
+            final int hp = actor.getStatActual(StatImpl.StatName.HP);
             floorTrap.getEffect().applyEffect(actor);
-            assertTrue(hp > actor.getStatInfo(StatImpl.StatName.HP));
+            assertTrue(hp > actor.getStatActual(StatImpl.StatName.HP));
         }
     }
 

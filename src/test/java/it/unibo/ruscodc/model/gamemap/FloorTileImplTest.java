@@ -160,11 +160,11 @@ class FloorTileImplTest {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final FloorTileImpl floorTile = new FloorTileImpl(pos, true);
         final Actor actor = this.getActor(pos);
-        final int hp = actor.getStatInfo(StatImpl.StatName.HP);
+        final int hp = actor.getStatActual(StatImpl.StatName.HP);
 
         // A normal floor tile should not produce damage
         floorTile.getEffect().applyEffect(actor);
-        assertEquals(hp, actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp, actor.getStatActual(StatImpl.StatName.HP));
     }
 }
 

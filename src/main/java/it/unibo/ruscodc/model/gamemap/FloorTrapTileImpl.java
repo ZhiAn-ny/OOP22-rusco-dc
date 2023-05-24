@@ -74,7 +74,7 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
     public SingleTargetEffect getEffect() {
         return (Actor target) -> {
             if (this.isReady) {
-                target.modifyStat(StatImpl.StatName.HP, -this.damage);
+                target.modifyActualStat(StatImpl.StatName.HP, -this.damage);
                 this.postTriggered.accept(this);
             }
         };
