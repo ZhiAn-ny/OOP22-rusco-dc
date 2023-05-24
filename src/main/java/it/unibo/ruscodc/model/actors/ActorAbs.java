@@ -23,9 +23,9 @@ public abstract class ActorAbs implements Actor {
     protected final Stat stats;
 
     @Override
-    public String getID() {
+    public int getID() {
         // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -50,14 +50,25 @@ public abstract class ActorAbs implements Actor {
     }
 
     @Override
-    public int getStatInfo(StatName statName) {
+    public int getStatActual(StatName statName) {
         return this.stats.getStatActual(statName);
     }
 
     @Override
-    public void modifyStat(StatName statName, int value) {
+    public int getStatMax(StatName statName) {
+        return this.stats.getStatMax(statName);
+    }
+
+    @Override
+    public void modifyActualStat(StatName statName, int value) {
         int current = this.stats.getStatActual(statName);
         this.stats.setStatActualValue(statName, current + value);
+    }
+
+    @Override
+    public void modifyMaxStat(StatName statName, int value) {
+        int current = this.stats.getStatMax(statName);
+        this.stats.setStatMaxValue(statName, current + value);
     }
 
     @Override

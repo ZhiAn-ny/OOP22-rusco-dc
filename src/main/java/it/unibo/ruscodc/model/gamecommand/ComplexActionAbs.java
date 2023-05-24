@@ -12,5 +12,5 @@ public abstract class ComplexActionAbs extends BasicGameCommand {
     public boolean isReady() {
         return false; //TODO - meditare se anche qui gestire un metodo protetto "setReady" o se fare override nelle altre classi
     }
-    
+
 }

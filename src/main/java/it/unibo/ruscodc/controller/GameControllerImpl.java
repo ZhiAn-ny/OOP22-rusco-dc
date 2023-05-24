@@ -40,10 +40,16 @@ public class GameControllerImpl implements GameObserverController {
         this.model = new GameModelImpl();
     }
 
+    /**
+     * 
+     */
     @Override
     public void save() {
     }
 
+    /**
+     * 
+     */
     @Override
     public void pause() {
     }
@@ -62,9 +68,13 @@ public class GameControllerImpl implements GameObserverController {
     public void changeAutomaticSave() {
     }
 
+    /**
+     * Compute the entity to draw when a room change.
+     */
     private List<Entity> entityToUpload() {
         List<Entity> tmp = new ArrayList<>(model.getCurrentRoom().getTilesAsEntity());
-        //tmp.addAll(this.model.getActorByInitative());
+        tmp.addAll(model.getCurrentRoom().getObjectsInRoom());
+        tmp.addAll(initiative);
         return tmp;
     }
 
@@ -74,13 +84,14 @@ public class GameControllerImpl implements GameObserverController {
         if (automaticSave){
             save();
         }
+        //TODO - resettare la view
     }
 
     private void changeRoom(final ChangeRoomException r) {
         //model.changeRoom(r.getDoorPos()); //TODO - da Direction a Pos
         initNewTurn();
+        //TODO - resettare la view
     }
-
 
     private boolean executeCommand(GameCommand toExec) {
         final boolean ready = toExec.isReady();
@@ -116,18 +127,23 @@ public class GameControllerImpl implements GameObserverController {
                 
                 if (tmpCommand.modify(input)) {
                     if (!executeCommand(tmpCommand)) {
-                        // TODO - aggiornare la view qui!
+                        //TODO - aggiornare la view qui! (magari allora lo si fa in quel metodo)
                     }
                 }
 
             } else {
-                GameCommand wrapper = tmpActor.act(input); //TODO - passare la stanza all'attore, così che può metterla nel builder
-                wrapper.setRoom(model.getCurrentRoom());
+                Optional<GameCommand> res = tmpActor.act(input); //TODO - ponderare se aggiungere qui la room...
+                if (res.isEmpty()){
+                    return;
+                }
+                tmpCommand = res.get(); 
+                tmpCommand.setRoom(model.getCurrentRoom());
                 
-                if (wrapper.isReady()) {
-                    executeCommand(wrapper);
+                if (tmpCommand.isReady()) {
+                    executeCommand(tmpCommand);
+                    //TODO - aggiornare la view qui! (magari allora lo si fa in quel metodo)
                 } else {
-                    playerSituation = Optional.of(wrapper);
+                    playerSituation = Optional.of(tmpCommand);
                 }
             }
         }
@@ -163,7 +179,8 @@ public class GameControllerImpl implements GameObserverController {
                 e.printStackTrace();
             }
         }
-        //this.view.setEntityToDraw(entityToUpload());
+
+        this.view.setEntityToDraw(entityToUpload()); //TODO - resettare la view 
         manageMonsterTurn();
     }
 

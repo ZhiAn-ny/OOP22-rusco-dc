@@ -32,5 +32,5 @@ public interface RoomFactory {
      * the next level.
      * @return a randomly generated room to the next level
      */
-    Room stairsRoom();
+    //Room stairsRoom(); // TODO:
 }

@@ -32,16 +32,9 @@ public abstract class DecoratedRange implements Range {
         this.basicRange = start;
     }
 
-    /**
-     * 
-     * @param origin
-     * @param direction
-     * @param where
-     * //TODO - protected perchè potrebbe cambiare, essere overriddato da altre classi
-     */
-    protected void commute(final Pair<Integer, Integer> origin, final Pair<Integer, Integer> direction, final Room where) {
+    private void commute(final Pair<Integer, Integer> origin, final Pair<Integer, Integer> direction, final Room where) {
         effectiveShape.clear();
-        effectiveShape.addAll(uploadShapeDelta(origin, direction).map(s -> Pairs.applyInfLineDelta(s, origin))
+        effectiveShape.addAll(uploadShapeDelta(origin, direction).map(s -> Pairs.applyLineDelta(s, origin))
             .flatMap(s -> s.takeWhile(p -> !where.isAccessible(p)))
             .collect(Collectors.toSet()));
     }
@@ -83,7 +76,8 @@ public abstract class DecoratedRange implements Range {
         final Entity res = tmp.next();
         final Stream<Entity> otherRange = Stream.concat(
             Stream.of(res), 
-            Stream.generate(() -> tmp.next()).takeWhile(e -> tmp.hasNext()));
+            Stream.generate(() -> tmp.next()).takeWhile(e -> tmp.hasNext())
+        );
 
         checkIfCommute(by, to, where);
 
@@ -98,14 +92,14 @@ public abstract class DecoratedRange implements Range {
      * @param res an Entity to get other info
      * @return the relative entity
      */
-    private Entity byPosToEntity(
+    protected Entity byPosToEntity(
             final Pair<Integer, Integer> toConvert,
             final Entity res) {
 
         return new Entity() {
 
             @Override
-            public String getID() {
+            public int getID() {
                 return res.getID();
             }
 

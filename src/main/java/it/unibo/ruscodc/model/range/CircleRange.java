@@ -29,6 +29,6 @@ public class CircleRange extends DecoratedRange {
     protected Stream<Stream<Pair<Integer, Integer>>> uploadShapeDelta(
             final Pair<Integer, Integer> from,
             final Pair<Integer, Integer> to) {
-        return Pairs.computeCircle(from, radius);
+        return Pairs.computeCircle(from, radius, false);
     }
 }

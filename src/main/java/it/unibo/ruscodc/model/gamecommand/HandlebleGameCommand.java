@@ -11,7 +11,7 @@ import it.unibo.ruscodc.utils.GameControl;
  */
 public interface HandlebleGameCommand {
     /**
-     * Modify the internal state of the builder, after getting an input.
+     * Modify the internal state of the command, after getting an input.
      * For example, with this method, the player can:
      * <ul>
      * <li>move the cursor</li>
@@ -20,7 +20,7 @@ public interface HandlebleGameCommand {
      * </ul>
      * 
      * @param input that modify the command
-     * @return true if input have effectly change the builder state, false otherwise
+     * @return true if input have effectly change the command state, false otherwise
      */
     boolean modify(GameControl input); 
 

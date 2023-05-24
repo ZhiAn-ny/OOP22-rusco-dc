@@ -2,10 +2,12 @@ package it.unibo.ruscodc.model.actors.monster.behaviour;
 
 public class BehaviourFactoryImpl implements BehaviourFactory {
 
+    private final MovementBehaviourFactory MBFactory = new MovementBehaviourFactoryImpl();
+    private final CombactBehaviourFactory CBFactory = new CombactBehaviourFactoryImpl();
+
     @Override
     public Behaviour makeMeleeAggressive() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'makeMeleeAggressive'");
+        return new BehaviourImpl(this.MBFactory.createAggressive(), CBFactory.Melee());
     }
 
     @Override

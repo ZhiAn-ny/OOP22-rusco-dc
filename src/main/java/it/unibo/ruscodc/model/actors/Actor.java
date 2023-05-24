@@ -12,14 +12,18 @@ public interface Actor extends Entity {
 
     String getName();
 
-    int getStatInfo(StatName statName);
+    int getStatActual(StatName statName);
+
+    int getStatMax(StatName statName);
 
     /**
      * @param newPos
      */
     void setPos(Pair<Integer, Integer> newPos);
 
-    void modifyStat(StatName statName, int value);
+    void modifyActualStat(StatName statName, int value);
+    
+    void modifyMaxStat(StatName statName, int value); 
 
     Skill getSkills();
 

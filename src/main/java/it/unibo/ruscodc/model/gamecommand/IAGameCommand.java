@@ -26,7 +26,7 @@ public interface IAGameCommand {
      * //TODO - da rifinire con il Behaviour.
      * @param newPos
      */
-    void setCursePos(Pair<Integer, Integer> newPos);
+    void setCursorPos(Pair<Integer, Integer> newPos);
 
     /**
      * 

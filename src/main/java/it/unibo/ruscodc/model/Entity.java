@@ -7,7 +7,7 @@ public interface Entity {
     /**
      * @return a string used as ID for the entity
      */
-    String getID();
+    int getID();
     
     /**
      * @return the Path to the directory where you can find the associated files

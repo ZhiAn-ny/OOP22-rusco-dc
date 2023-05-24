@@ -117,9 +117,10 @@ public class ViewJFX extends Application implements GameView {
             case D -> GameControl.MOVERIGHT;
             case I -> GameControl.INVENTORY;
             case P -> GameControl.PAUSE;
+            case F -> GameControl.INTERACT;
             case ESCAPE -> GameControl.CANCEL;
             case ENTER -> GameControl.CONFIRM;
-            case F -> GameControl.INTERACT;
+            case BACK_SPACE -> GameControl.DELETE;
             case DIGIT1 -> GameControl.BASEATTACK;
             case DIGIT2 -> GameControl.ATTACK1;
             case DIGIT3 -> GameControl.ATTACK2;

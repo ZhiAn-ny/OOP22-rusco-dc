@@ -8,6 +8,6 @@ import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
 
-public interface CombactBehave {
+public interface CombactBehaviour {
     Optional<GameCommand> choseAttack(Monster monster, Room room, List<Actor> actors);
 }

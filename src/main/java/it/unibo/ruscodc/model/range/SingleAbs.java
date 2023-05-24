@@ -18,7 +18,7 @@ public class SingleAbs implements Range {
 
     /**
      * Client must't create this object directly, but it must use the subclasses that 
-     * extend this class. In these subclasses's costructor, have to specify
+     * extend this class. In these subclasses's costructor, have to specify:
      * @param path the path where stored the entity information, coded as String
      * @param info the info about what to print
      */
@@ -51,8 +51,8 @@ public class SingleAbs implements Range {
         final Entity begin = new Entity() {
 
             @Override
-            public String getID() {
-                return info;
+            public int getID() {
+                return 4;
             }
 
             @Override

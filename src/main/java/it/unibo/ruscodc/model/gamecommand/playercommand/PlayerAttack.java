@@ -1,31 +1,35 @@
 package it.unibo.ruscodc.model.gamecommand.playercommand;
 
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.effect.Effect;
+import it.unibo.ruscodc.model.outputinfo.InfoPayload;
+import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.model.range.Range;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 import it.unibo.ruscodc.utils.exception.ModelException;
-import it.unibo.ruscodc.utils.exception.NotInRange;
 import it.unibo.ruscodc.utils.exception.Undo;
 
 /**
  * Class that wrap an AttackCommand.
  */
 public class PlayerAttack extends NoIACommand {
-
+    private static final int CURSOR_DEPTH = 5;
     private static final String R_ERR = "The target is too far";
+    private static final String AP_ERR = "Your AP is not sufficent";
     private final Range range;
     private final Range splash;
     private final Effect actionToPerform;
-    private Pair<Integer, Integer> cursePos;
-    private boolean isReady = false;
-    private boolean undo = false;
+    private Pair<Integer, Integer> cursorPos;
+    private boolean isReady;
+    private boolean undo;
 
     /**
      * Defines some parts of the command, characterizing it.
@@ -39,9 +43,9 @@ public class PlayerAttack extends NoIACommand {
         this.actionToPerform = action;
     }
 
-    private boolean moveCursor(Pair<Integer, Integer> newPos) {
+    private boolean moveCursor(final Pair<Integer, Integer> newPos) {
         if (this.getRoom().isInRoom(newPos)) {
-            cursePos = newPos;
+            cursorPos = newPos;
             return true;
         } else {
             return false;
@@ -55,12 +59,12 @@ public class PlayerAttack extends NoIACommand {
     public boolean modify(final GameControl input) {
         boolean mustUpdate = true;
         switch (input) {
-            case MOVEUP: mustUpdate = moveCursor(Pairs.computeUpPair(cursePos)); break;
-            case MOVEDOWN: mustUpdate = moveCursor(Pairs.computeDownPair(cursePos)); break;
-            case MOVELEFT: mustUpdate = moveCursor(Pairs.computeLeftPair(cursePos)); break;
-            case MOVERIGHT: mustUpdate = moveCursor(Pairs.computeRightPair(cursePos)); break;
-            case CONFIRM: isReady = true; mustUpdate = false;
-            case CANCEL: isReady = true; undo = true; mustUpdate = false;
+            case MOVEUP: mustUpdate = moveCursor(Pairs.computeUpPair(cursorPos)); break;
+            case MOVEDOWN: mustUpdate = moveCursor(Pairs.computeDownPair(cursorPos)); break;
+            case MOVELEFT: mustUpdate = moveCursor(Pairs.computeLeftPair(cursorPos)); break;
+            case MOVERIGHT: mustUpdate = moveCursor(Pairs.computeRightPair(cursorPos)); break;
+            case CONFIRM: isReady = true; mustUpdate = false; break;
+            case CANCEL: isReady = true; undo = true; mustUpdate = false; break;
             default: mustUpdate = false;
         }
         return mustUpdate;
@@ -71,7 +75,7 @@ public class PlayerAttack extends NoIACommand {
      * @return an {@code}Iterator{@code} that iterate on this infos
      */
     private Iterator<Entity> getRange() {
-        return range.getRange(this.getActorPos(), cursePos, this.getRoom());
+        return range.getRange(this.getActorPos(), cursorPos, this.getRoom());
     }
 
     /**
@@ -80,11 +84,11 @@ public class PlayerAttack extends NoIACommand {
      *  or {@value}null{@value} if the range is not valid (helps the player understand the correctness of the attack)
      */
     private Iterator<Entity> getSplash() {
-        return splash.getRange(this.getActorPos(), cursePos, this.getRoom());
+        return splash.getRange(this.getActorPos(), cursorPos, this.getRoom());
     }
 
     /**
-     * Compute the {@code}Entity{@code} that wrap for the view the cursor position
+     * Compute the {@code}Entity{@code} that wrap for the view the cursor position.
      * @return the cursor position, abstracted into an Entity
      */
     private Entity getCurseAsEntity() {
@@ -92,19 +96,19 @@ public class PlayerAttack extends NoIACommand {
 
             @Override
             public String getPath() {
-                return "";
+                return getCursorPath();
             }
 
             @Override
             public Pair<Integer, Integer> getPos() {
-                return cursePos;
+                return cursorPos;
             }
 
             @Override
-            public String getID() {
-                return null;
+            public int getID() {
+                return CURSOR_DEPTH;
             }
-            
+
         };
     }
 
@@ -121,8 +125,8 @@ public class PlayerAttack extends NoIACommand {
      */
     @Override
     public Iterator<Entity> getEntities() {
-        Iterator<Entity> splashRange = this.getSplash();
-        Iterator<Entity> rangeRange = this.getRange();
+        final Iterator<Entity> splashRange = this.getSplash();
+        final Iterator<Entity> rangeRange = this.getRange();
         return Stream.concat(
             Stream.concat(
                 Stream.iterate(splashRange.next(), i -> splashRange.hasNext(), i -> splashRange.next()), 
@@ -137,28 +141,42 @@ public class PlayerAttack extends NoIACommand {
      * 
      */
     @Override
-    public void execute() throws ModelException {
-
+    public Optional<InfoPayload> execute() throws ModelException {
         if (this.getRoom() == null || this.getActor() == null) {
             throw new IllegalStateException("");
         }
+
         if (undo) {
             throw new Undo("");
         }
 
         final Actor from = this.getActor();
-        if (!range.isInRange(from.getPos(), cursePos, cursePos, this.getRoom())) {
-            throw new NotInRange(R_ERR);
+
+        if (!range.isInRange(from.getPos(), cursorPos, cursorPos, this.getRoom())) {
+            return Optional.of(new InfoPayloadImpl(getErrTitle(), R_ERR));
+            //throw new NotInRange(R_ERR);
         }
-        
-        // if (from.getStatInfo(StatName.AP) < actionToPerform.getAPcost()) {
-        //     throw new Undo("Il tuo AP non è sufficente");
-        // } //TODO - incoming
-        //from.modifyStat(StatName.AP, -actionToPerform.getAPcost());
+
+        if (from.getStatInfo(StatName.AP) < actionToPerform.getAPcost()) {
+            return Optional.of(new InfoPayloadImpl(getErrTitle(), AP_ERR));
+        } 
+        from.modifyStat(StatName.AP, -actionToPerform.getAPcost());
 
         this.getRoom().getMonsters().stream()
-            .filter(m -> splash.isInRange(from.getPos(), cursePos, m.getPos(), this.getRoom()))
+            .filter(m -> splash.isInRange(from.getPos(), cursorPos, m.getPos(), this.getRoom()))
             .forEach(m -> actionToPerform.applyEffect(from, m));
+        return Optional.empty();
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public String toString() {
+        return "Cost :" + actionToPerform.getAPcost() + "AP" 
+            + "\nRange: " + range.toString() 
+            + "\nSplash: " + splash.toString() 
+            + "\nEffect: " + actionToPerform.toString() + "\n\n";
     }
 
 }

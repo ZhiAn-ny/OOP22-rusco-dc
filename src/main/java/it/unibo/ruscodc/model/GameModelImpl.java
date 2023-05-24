@@ -6,8 +6,14 @@ import it.unibo.ruscodc.model.actors.hero.HeroImpl;
 import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.FloorImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
+import it.unibo.ruscodc.model.gamemap.Tile;
+import it.unibo.ruscodc.model.interactable.Door;
+import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
+import it.unibo.ruscodc.utils.Pair;
+
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This class process the input received that will help the view to print all.
@@ -71,8 +77,20 @@ public class GameModelImpl implements GameModel {
     }
 
     @Override
-    public void changeRoom(final Direction dir) {
-        this.floor.goToRoom(dir);
+    public void changeRoom(final Pair<Integer, Integer> pos) {
+        final Room current = this.floor.getCurrentRoom();
+        if (!current.isInRoom(pos)) {
+            return;
+        }
+        if (pos.getX() == 0) {
+            this.floor.goToRoom(Direction.LEFT);
+        } else if (pos.getY() == 0) {
+            this.floor.goToRoom(Direction.UP);
+        } else if (pos.getY().equals(current.getSize().getY())) {
+            this.floor.goToRoom(Direction.DOWN);
+        } else if (pos.getX().equals(current.getSize().getX())) {
+            this.floor.goToRoom(Direction.RIGHT);
+        }
     }
 
     @Override
