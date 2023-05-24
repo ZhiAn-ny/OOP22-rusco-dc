@@ -11,6 +11,7 @@ import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.exception.ChangeFloorException;
 import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
+import it.unibo.ruscodc.view.FXMLView;
 import it.unibo.ruscodc.view.GameView;
 import it.unibo.ruscodc.view.ViewJFX;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class GameControllerImpl implements GameObserverController {
      * Create the controller of the game
      */
     public GameControllerImpl() {
-        this.view = new ViewJFX();
+        this.view = new FXMLView();
         this.model = new GameModelImpl();
     }
 
@@ -178,6 +179,7 @@ public class GameControllerImpl implements GameObserverController {
                 e.printStackTrace();
             }
         }
+
         this.view.setEntityToDraw(entityToUpload()); //TODO - resettare la view 
         manageMonsterTurn();
     }
