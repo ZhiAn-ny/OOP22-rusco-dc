@@ -23,13 +23,6 @@ public class Door extends InteractableAbs {
         this.name = "Door";
     }
 
-    /**
-     *
-     */
-    @Override
-    public String getID() {
-        return null;
-    }
 
     /**
      *

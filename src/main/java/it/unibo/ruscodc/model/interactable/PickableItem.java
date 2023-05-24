@@ -24,12 +24,6 @@ public abstract class PickableItem extends InteractableAbs {
         this.loot = itemSet;
     }
 
-    /**
-     *
-     * @return
-     */
-    @Override
-    public abstract String getID();
 
     /**
      *

@@ -19,14 +19,6 @@ public class Chest extends PickableItem{
         super(itemSet, pos);
     }
 
-    /**
-     *
-     *
-     */
-    @Override
-    public String getID() {
-        return null;
-    }
 
     /**
      *
