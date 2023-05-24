@@ -50,7 +50,7 @@ public abstract class AbstractTile implements Tile, Entity {
             return false;
         }
         this.content = obj;
-        return true;
+        return this.content != null;
     }
 
     @Override
