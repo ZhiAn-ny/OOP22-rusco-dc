@@ -1,7 +1,9 @@
 package it.unibo.ruscodc.view;
+
 import it.unibo.ruscodc.controller.GameObserverController;
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.utils.GameControl;
+import it.unibo.ruscodc.utils.Pair;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ViewJFX extends Application implements GameView {
+
     final private String TITLE = "Junkrisers";
     final private String BASE_BG_COLOR = "#4e533d";
     final private String iconPath = "file:src/main/resources/it/unibo/ruscodc/hero_res/racoon-head.png";
@@ -200,6 +203,27 @@ public class ViewJFX extends Application implements GameView {
     }
 
     @Override
+    public void resetView(List<Entity> toDraw, Pair<Integer, Integer> roomSize) {
+
+    }
+
+    @Override
+    public void addEntity(Entity toAdd) {
+
+    }
+
+    @Override
+    public void removeEntity(Entity toRemove) {
+
+    }
+
+    @Override
+    public void uploadEntity(Entity toUpload) {
+
+    }
+
+    /*
+    @Override
     public void setEntityToDraw(List<Entity> toDraw) {
         scene.clear();
         toDraw.stream().map(e-> {
@@ -210,5 +234,7 @@ public class ViewJFX extends Application implements GameView {
 
 
     }
-
+    */
 }
+
+
