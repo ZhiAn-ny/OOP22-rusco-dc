@@ -27,6 +27,9 @@ public abstract class InteractableAbs implements Interactable{
         return this.pos;
     }
 
-
+    @Override
+    public int getID(){
+        return 2;
+    }
 
 }
