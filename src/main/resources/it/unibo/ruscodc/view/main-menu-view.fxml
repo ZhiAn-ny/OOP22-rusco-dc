@@ -80,8 +80,8 @@
     <right>
         <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <Button contentDisplay="CENTER" mnemonicParsing="false" prefWidth="120.0" text="Salva" textAlignment="CENTER" />
-                <Button mnemonicParsing="false" prefWidth="120.0" text="Pausa" />
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="120.0" text="Salva" />
+                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="120.0" text="Pausa" />
                 <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="120.0" text="Esci" />
             </children>
             <BorderPane.margin>

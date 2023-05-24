@@ -86,6 +86,9 @@ public class FXMLView extends Application implements GameView {
         stage.setTitle("Rusco DC");
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(event -> {
+            System.exit(0);
+        });
     }
 
 
