@@ -29,6 +29,12 @@ public interface DropFactory {
      */
     DropManager createGenericPoorDrop(Actor by);
 
+    /**
+     * TODO.
+     * @param roomSize TODO
+     * @param floorDepth TODO
+     * @return
+     */
     DropManager createDropForRoom(Pair<Integer, Integer> roomSize, int floorDepth);
 
 }

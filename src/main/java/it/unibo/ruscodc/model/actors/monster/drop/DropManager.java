@@ -12,37 +12,37 @@ public interface DropManager {
     
     /**
      * //TODO
-     * @return
+     * @return TODO
      */
     public List<Item> generateAllDrop();
 
     /**
      * //TODO
-     * @return
+     * @return TODO
      */
     public List<Item> generateRandomDrop();
 
     /**
      * //TODO
-     * @return
+     * @return TODO
      */
     public List<Item> generateConsumableDrop();
 
     /**
      * //TODO
-     * @return
+     * @return TODO
      */
     public List<Item> generateEquipDrop();
 
     /**
      * //TODO
-     * @return
+     * @return TODO
      */
     public List<Item> generateRandomConsumableDrop();
 
     /**
      * //TODO
-     * @return
+     * @return TODO
      */
     public List<Item> generateRandomEquipDrop();
     

@@ -24,20 +24,23 @@ import it.unibo.ruscodc.utils.Pair;
 /**
  * TODO
  */
-@Deprecated
-public class DropFactoryImpl  {
+public class DropFactoryImpl implements DropFactory {
 
     private final static Random DICE = new Random(); //123456789
     private final static double RICH_COEFF = 1.5;
     private final static double POOR_COEFF = 0.5;
     private final static double GOLDEN_RATIO = (Math.sqrt(5) + 1) / 2;
-    private final static List<Double> STAT_COEFF = List.of(0.5,0.25,0.25,0.25,0.1,0.1);
+    private final static int ROOM_AMPLIFIER_BASE = 5;
+    //private final static List<Double> STAT_COEFF = List.of(0.5,0.25,0.25,0.25,0.1,0.1);
+    private final static List<Double> STAT_COEFF = List.of(1.0, 1.0, 1.5, 1.0, 1.0, 1.0);
     private final static Map<Integer, Item> TAB_E = new HashMap<>();
     private final static Map<Integer, Item> TAB_C = new HashMap<>();
-    //private final static EquipementFactory GEN_E = new EquipementFactoryImpl();
-    //private final static ConsumableFactory GEN_C = new ConsumableFactoryImpl();
+    
     private static boolean isInit;
 
+    /**
+     * TODO
+     */
     public DropFactoryImpl() {
         if (!isInit) {
             init();
@@ -55,7 +58,6 @@ public class DropFactoryImpl  {
             }
             myIt.next();           
         });
-
     }
 
     private void init() {
@@ -63,31 +65,18 @@ public class DropFactoryImpl  {
         Method cM[] = ConsumableFactory.class.getMethods();
         Method oM[] = Object.class.getMethods();
 
-        Set<Method> equpMethods = IntStream.range(0, eM.length)
+        Set<Method> equipMethods = IntStream.range(0, eM.length)
             .mapToObj(i -> eM[i]).collect(Collectors.toSet());
         Set<Method> consMethods = IntStream.range(0, cM.length)
             .mapToObj(i -> cM[i]).collect(Collectors.toSet());
         Set<Method> objMethods = IntStream.range(0, oM.length)
             .mapToObj(i -> oM[i]).collect(Collectors.toSet());
 
-        equpMethods.removeAll(objMethods);
+        equipMethods.removeAll(objMethods);
         consMethods.removeAll(objMethods);
 
-        fillTable(equpMethods, new EquipementFactoryImpl(), TAB_E);
+        fillTable(equipMethods, new EquipementFactoryImpl(), TAB_E);
         fillTable(consMethods, new ConsumableFactoryImpl(), TAB_C);
-
-        //TAB_E.forEach( (a,b) -> System.out.println("K: " + a.toString() + " / V: " + b.getName()));
-        //TAB_C.forEach((a,b) -> System.out.println("K: " + a.toString() + " / V: " + b.getName()));
-        // final MyIterator<Integer> myIt = new MyIterator<>(Stream.iterate(0, i -> i+1).iterator());
-        // provMethods.forEach(m -> {
-        //     try {
-        //         TAB_E.put(myIt.getAct(), (Item) m.invoke(GEN_E));
-        //     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-        //         e.printStackTrace();
-        //     }
-        //     myIt.next();           
-        // });
-        // myIt.reset();
         
     }
 
@@ -119,50 +108,60 @@ public class DropFactoryImpl  {
             .collect(Collectors.toList());
     }
 
-    private DropManager createMischellaneus(final int amountValue) {
-        return null;
-        // () -> {
-        //     int total = byValueToAmountItems(amountValue);
-            
-        //     int totalEquipment = (int) (total * (2 - GOLDEN_RATIO));
-        //     return createDrop(List.of(
-        //         new Pair<>(TAB_C, total - totalEquipment),
-        //         new Pair<>(TAB_E, totalEquipment)));
-        // };
+    private DropManager createMischellaneus(final int total) {
+        final int totalEquipment = (int) (total * (2 - GOLDEN_RATIO));
+        return new DropManagerImpl(createDrop(List.of(
+                new Pair<>(TAB_C, total - totalEquipment),
+                new Pair<>(TAB_E, totalEquipment))));
     } 
 
-    private DropManager createOnlyConsumable(final int amountValue) {
-        return null;
-        // () -> {
-        //     int total = byValueToAmountItems(amountValue);
-        //     return createDrop(List.of(new Pair<>(TAB_C, total)));
-        // };
+    private DropManager createOnlyConsumable(final int total) {
+        return new DropManagerImpl(createDrop(List.of(new Pair<>(TAB_C, total))));
     } 
 
     private DropManager creationManager(final int amountValue) {
+        int total = byValueToAmountItems(amountValue);
         if (amountValue % 2 == 1) {
-            return createOnlyConsumable(amountValue);
+            return createOnlyConsumable(total);
         } else {
-            return createMischellaneus(amountValue);
+            return createMischellaneus(total);
         }
     }
 
-    //@Override
+    /**
+     * 
+     */
+    @Override
     public DropManager createGenericBasicDrop(Actor by) {
         return creationManager(computeActorValue(by));
     }
 
-    //@Override
+    /**
+     * 
+     */
+    @Override
     public DropManager createGenericRichDrop(Actor by) {
         return creationManager((int) (computeActorValue(by) * RICH_COEFF));
     }
 
-    //@Override
+    /**
+     * 
+     */
+    @Override
     public DropManager createGenericPoorDrop(Actor by) {
         return creationManager((int) (computeActorValue(by) * POOR_COEFF));
     }
+
+    private int computeRoomMaxItem(Pair<Integer, Integer> roomSize, int floorDepth){
+        return ((int) Math.sqrt(Math.min(roomSize.getX(), roomSize.getY()))) * (floorDepth % ROOM_AMPLIFIER_BASE);
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public DropManager createDropForRoom(Pair<Integer, Integer> roomSize, int floorDepth) {
+        return createMischellaneus(computeRoomMaxItem(roomSize, floorDepth));
+    }
     
-    // public boolean isInitForTest() {
-    //     return isInit;
-    // }
 }
