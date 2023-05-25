@@ -9,6 +9,7 @@ import it.unibo.ruscodc.utils.Pair;
  * 
  */
 public abstract class ActorAbs implements Actor {
+    private final static int ID = 3;
     protected final String name;
     private Pair<Integer, Integer> currentPos;
     protected final Skill skills;
@@ -24,19 +25,12 @@ public abstract class ActorAbs implements Actor {
 
     @Override
     public int getID() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException();
+        return ID;
     }
 
     @Override
     public String getName() {
         return this.name;
-    }
-
-    @Override
-    public String getPath() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
