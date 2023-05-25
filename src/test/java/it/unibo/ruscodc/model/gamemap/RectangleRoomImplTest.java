@@ -28,7 +28,7 @@ class RectangleRoomImplTest {
     private static final String TEST_STR = "test";
 
     /**
-     * Method under test: {@link RectangleRoomImpl#RectangleRoomImpl(int, int)}
+     * Method under test: {@link RectangleRoomImpl#RectangleRoomImpl(int, int)}.
      */
     @Test
     void testConstructorInvalidSize() {
@@ -37,7 +37,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#RectangleRoomImpl(int, int)}
+     * Method under test: {@link RectangleRoomImpl#RectangleRoomImpl(int, int)}.
      */
     @Test
     void testConstructorValidSize() {
@@ -51,7 +51,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#isInRoom(Pair)}
+     * Method under test: {@link RectangleRoomImpl#isInRoom(Pair)}.
      */
     @Test
     void testIsInRoom() {
@@ -61,7 +61,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#isInRoom(Pair)}
+     * Method under test: {@link RectangleRoomImpl#isInRoom(Pair)}.
      */
     @Test
     void testIsInRoom2() {
@@ -70,7 +70,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#addMonster(Monster)}
+     * Method under test: {@link RectangleRoomImpl#addMonster(Monster)}.
      */
     @Test
     void testAddMonsterEmptySlot() {
@@ -86,7 +86,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#addMonster(Monster)}
+     * Method under test: {@link RectangleRoomImpl#addMonster(Monster)}.
      */
     @Test
     void testAddMonsterAlreadyPresent() {
@@ -104,11 +104,10 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#addMonster(Monster)}
+     * Method under test: {@link RectangleRoomImpl#addMonster(Monster)}.
      */
     @Test
     void testAddMonsterOccupiedByItem() {
-        fail("Are items an obstacle to movement?");
         final RectangleRoomImpl rectangleRoomImpl = new RectangleRoomImpl(3, 3);
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final SkillImpl skills = new SkillImpl();
@@ -117,13 +116,15 @@ class RectangleRoomImplTest {
 
         rectangleRoomImpl.put(pos, new Chest(Set.of(), pos));
 
+        // Items do not represent an obstacle to movement therefore,
+        // monsters can be placed on top of an occupied Tile
         assertTrue(rectangleRoomImpl.addMonster(new MonsterImpl(
                 TEST_STR, pos, skills, stats, behaviour)));
         assertEquals(1, rectangleRoomImpl.getMonsters().size());
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#addMonster(Monster)}
+     * Method under test: {@link RectangleRoomImpl#addMonster(Monster)}.
      */
     @Test
     void testAddMonsterOutsideRoom() {
@@ -138,7 +139,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#put(Pair, Interactable)}
+     * Method under test: {@link RectangleRoomImpl#put(Pair, Interactable)}.
      */
     @Test
     void testPutEmptyFloor() {
@@ -149,7 +150,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#put(Pair, Interactable)}
+     * Method under test: {@link RectangleRoomImpl#put(Pair, Interactable)}.
      */
     @Test
     void testPutOccupiedFloor() {
@@ -161,7 +162,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#put(Pair, Interactable)}
+     * Method under test: {@link RectangleRoomImpl#put(Pair, Interactable)}.
      */
     @Test
     void testPutOutsideRoom() {
@@ -172,7 +173,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#put(Pair, Interactable)}
+     * Method under test: {@link RectangleRoomImpl#put(Pair, Interactable)}.
      */
     @Test
     void testPutWall() {
@@ -183,7 +184,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#get(Pair)}
+     * Method under test: {@link RectangleRoomImpl#get(Pair)}.
      */
     @Test
     void testGetValid() {
@@ -192,7 +193,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#get(Pair)}
+     * Method under test: {@link RectangleRoomImpl#get(Pair)}.
      */
     @Test
     void testGetOutsideRoom() {
@@ -203,7 +204,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#isAccessible(Pair)}
+     * Method under test: {@link RectangleRoomImpl#isAccessible(Pair)}.
      */
     @Test
     void testIsAccessible() {
@@ -213,7 +214,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#isAccessible(Pair)}
+     * Method under test: {@link RectangleRoomImpl#isAccessible(Pair)}.
      */
     @Test
     void testIsAccessibleOutsideRoom() {
@@ -222,7 +223,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#getConnectedRoom(Direction)}
+     * Method under test: {@link RectangleRoomImpl#getConnectedRoom(Direction)}.
      */
     @Test
     void testGetConnectedRoomIsolated() {
@@ -235,7 +236,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#getConnectedRoom(Direction)}
+     * Method under test: {@link RectangleRoomImpl#getConnectedRoom(Direction)}.
      */
     @Test
     void testGetConnectedRoomConnected() {
@@ -248,7 +249,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#addConnectedRoom(Direction, Room)}
+     * Method under test: {@link RectangleRoomImpl#addConnectedRoom(Direction, Room)}.
      */
     @Test
     void testAddConnectedRoom() {
@@ -268,7 +269,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#addConnectedRoom(Direction, Room)}
+     * Method under test: {@link RectangleRoomImpl#addConnectedRoom(Direction, Room)}.
      */
     @Test
     void testAddConnectedRoomDirectionUndefined() {
@@ -280,7 +281,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#addConnectedRoom(Direction, Room)}
+     * Method under test: {@link RectangleRoomImpl#addConnectedRoom(Direction, Room)}.
      */
     @Test
     void testAddConnectedRoomNoDoor() {
@@ -291,7 +292,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#addConnectedRoom(Direction, Room)}
+     * Method under test: {@link RectangleRoomImpl#addConnectedRoom(Direction, Room)}.
      */
     @Test
     void testAddConnectedRoomAlreadyPresent() {
@@ -305,18 +306,48 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#addDoor(Direction)}
+     * Method under test: {@link RectangleRoomImpl#addDoor(Direction)}.
      */
     @Test
     void testAddDoor() {
         final RectangleRoomImpl room = new RectangleRoomImpl(3, 3);
 
         assertFalse(room.addDoor(Direction.UNDEFINED));
-        assertTrue(room.addDoor(Direction.UP));
+        assertTrue(room.addDoor(Direction.DOWN));
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#addDoor(Direction)}
+     * Method under test: {@link RectangleRoomImpl#addDoor(Direction)}.
+     */
+    @Test
+    void testAddDoorCheckCorners() {
+        final int roomSize = 5;
+        for (int d = 0; d < Direction.values().length; d++) {
+            final Direction dir = Direction.values()[d];
+            if (dir == Direction.UNDEFINED) {
+                continue;
+            }
+            final boolean compareX = dir == Direction.UP || dir == Direction.DOWN;
+            for (int i = 0; i < 30; i++) {
+                final RectangleRoomImpl room = new RectangleRoomImpl(roomSize, roomSize);
+                if (!room.addDoor(dir)) {
+                    continue;
+                }
+                Optional<Interactable> door = room.getDoorOnSide(dir);
+                assertTrue(door.isPresent());
+                final int toCompare = compareX ? door.get().getPos().getX() : door.get().getPos().getY();
+
+                assertNotEquals(0, toCompare,
+                        "coord: " + toCompare + " for direction " + dir.name());
+                assertNotEquals(roomSize + 1, toCompare,
+                        "coord: " + toCompare + " for direction " + dir.name());
+
+            }
+        }
+    }
+
+    /**
+     * Method under test: {@link RectangleRoomImpl#addDoor(Direction)}.
      */
     @Test
     void testAddDoorFetchDoor() {
@@ -332,7 +363,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#addDoor(Direction)}
+     * Method under test: {@link RectangleRoomImpl#addDoor(Direction)}.
      */
     @Test
     void testAddDoorDirectionUndefined() {
@@ -341,7 +372,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#addDoor(Direction)}
+     * Method under test: {@link RectangleRoomImpl#addDoor(Direction)}.
      */
     @Test
     void testAddDoorAlreadyPresent() {
@@ -351,7 +382,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#replaceTile(Pair, Tile)}
+     * Method under test: {@link RectangleRoomImpl#replaceTile(Pair, Tile)}.
      */
     @Test
     void testReplaceTile() {
@@ -364,7 +395,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#replaceTile(Pair, Tile)}
+     * Method under test: {@link RectangleRoomImpl#replaceTile(Pair, Tile)}.
      */
     @Test
     void testReplaceTileOutsideRoom() {
@@ -375,7 +406,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#replaceTile(Pair, Tile)}
+     * Method under test: {@link RectangleRoomImpl#replaceTile(Pair, Tile)}.
      */
     @Test
     void testReplaceTileDifferentPosition() {
@@ -385,7 +416,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#replaceTile(Pair, Tile)}
+     * Method under test: {@link RectangleRoomImpl#replaceTile(Pair, Tile)}.
      */
     @Test
     void testReplaceTileNullPosition() {
@@ -396,7 +427,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#replaceTile(Pair, Tile)}
+     * Method under test: {@link RectangleRoomImpl#replaceTile(Pair, Tile)}.
      */
     @Test
     void testReplaceTileNullTile() {

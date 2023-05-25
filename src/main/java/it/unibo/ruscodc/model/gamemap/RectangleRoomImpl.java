@@ -57,8 +57,8 @@ public class RectangleRoomImpl implements Room {
     private Predicate<Tile> isNotCorner() {
         return (Tile t) -> !(t.getPosition().equals(new Pair<>(0, 0))
                 || t.getPosition().equals(new Pair<>(this.size.getX() + 1, 0))
-                || t.getPosition().equals(new Pair<>(0, this.size.getY() + 1)))
-                || t.getPosition().equals(new Pair<>(this.size.getX() + 1, this.size.getY() + 1));
+                || t.getPosition().equals(new Pair<>(0, this.size.getY() + 1))
+                || t.getPosition().equals(new Pair<>(this.size.getX() + 1, this.size.getY() + 1)));
     }
 
     /** {@inheritDoc} */
@@ -77,10 +77,12 @@ public class RectangleRoomImpl implements Room {
         final Tile tile = this.tiles.stream()
                 .filter(t -> t.getPosition().equals(monster.getPos()))
                 .findFirst().orElse(null);
-        if (tile == null || tile.get().isPresent()) {
+
+        // Items do not represent an obstacle to movement therefore,
+        // monsters can be placed on top of an occupied Tile
+        if (tile == null) { // || tile.get().isPresent()) {
             return  false;
         }
-
         this.monsters.add(monster);
         return true;
     }
