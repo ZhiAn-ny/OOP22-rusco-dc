@@ -119,10 +119,10 @@ class FloorTrapTileImplTest {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final FloorTrapTileImpl trapTile = new FloorTrapTileImpl(pos);
         final Actor actor = this.getActor(pos);
-        final int hp = actor.getStatInfo(StatImpl.StatName.HP);
+        final int hp = actor.getStatActual(StatImpl.StatName.HP);
 
         trapTile.getEffect().applyEffect(actor);
-        assertEquals(hp - DEFAULT_DMG, actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp - DEFAULT_DMG, actor.getStatActual(StatImpl.StatName.HP));
     }
 
     /**
@@ -135,9 +135,9 @@ class FloorTrapTileImplTest {
         final Actor actor = this.getActor(pos);
 
         for (int i = 0; i < 3; i++) {
-            final int hp = actor.getStatInfo(StatImpl.StatName.HP);
+            final int hp = actor.getStatActual(StatImpl.StatName.HP);
             trapTile.getEffect().applyEffect(actor);
-            assertEquals(hp - DEFAULT_DMG, actor.getStatInfo(StatImpl.StatName.HP));
+            assertEquals(hp - DEFAULT_DMG, actor.getStatActual(StatImpl.StatName.HP));
         }
     }
 
@@ -149,12 +149,12 @@ class FloorTrapTileImplTest {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final FloorTrapTileImpl trapTile = new FloorTrapTileImpl(pos);
         final Actor actor = this.getActor(pos);
-        final int hp = actor.getStatInfo(StatImpl.StatName.HP);
+        final int hp = actor.getStatActual(StatImpl.StatName.HP);
 
         trapTile.interact();
         trapTile.getEffect().applyEffect(actor);
 
-        assertEquals(hp, actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp, actor.getStatActual(StatImpl.StatName.HP));
     }
 
     /**
@@ -165,13 +165,13 @@ class FloorTrapTileImplTest {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final FloorTrapTileImpl trapTile = new FloorTrapTileImpl(pos);
         final Actor actor = this.getActor(pos);
-        final int hp = actor.getStatInfo(StatImpl.StatName.HP);
+        final int hp = actor.getStatActual(StatImpl.StatName.HP);
 
         trapTile.interact();
         trapTile.interact();
         trapTile.getEffect().applyEffect(actor);
 
-        assertEquals(hp, actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp, actor.getStatActual(StatImpl.StatName.HP));
     }
 
     /**
@@ -182,13 +182,13 @@ class FloorTrapTileImplTest {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final Actor actor = this.getActor(pos);
         final FloorTrapTileImpl trapTile = new FloorTrapTileImpl(pos);
-        final int hp = actor.getStatInfo(StatImpl.StatName.HP);
+        final int hp = actor.getStatActual(StatImpl.StatName.HP);
 
         trapTile.setDisableSuccessRate(1);
         trapTile.interact();
         trapTile.getEffect().applyEffect(actor);
 
-        assertEquals(hp - DEFAULT_DMG, actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp - DEFAULT_DMG, actor.getStatActual(StatImpl.StatName.HP));
     }
 
     /**
@@ -199,13 +199,13 @@ class FloorTrapTileImplTest {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final Actor actor = this.getActor(pos);
         final FloorTrapTileImpl trapTile = new FloorTrapTileImpl(pos);
-        final int hp = actor.getStatInfo(StatImpl.StatName.HP);
+        final int hp = actor.getStatActual(StatImpl.StatName.HP);
 
         trapTile.interact();
         trapTile.setDisableSuccessRate(1);
         trapTile.getEffect().applyEffect(actor);
 
-        assertEquals(hp, actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp, actor.getStatActual(StatImpl.StatName.HP));
     }
 
     /**
@@ -216,20 +216,20 @@ class FloorTrapTileImplTest {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final Actor actor = this.getActor(pos);
         final FloorTrapTileImpl trapTile = new FloorTrapTileImpl(pos);
-        int hp = actor.getStatInfo(StatImpl.StatName.HP);
+        int hp = actor.getStatActual(StatImpl.StatName.HP);
 
         trapTile.setDisableSuccessRate(1);
         trapTile.setDisableSuccessRate(130);
         trapTile.interact();
         trapTile.getEffect().applyEffect(actor);
-        assertEquals(hp - DEFAULT_DMG, actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp - DEFAULT_DMG, actor.getStatActual(StatImpl.StatName.HP));
 
-        hp = actor.getStatInfo(StatImpl.StatName.HP);
+        hp = actor.getStatActual(StatImpl.StatName.HP);
         trapTile.setDisableSuccessRate(100);
         trapTile.setDisableSuccessRate(-15);
         trapTile.interact();
         trapTile.getEffect().applyEffect(actor);
-        assertEquals(hp, actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp, actor.getStatActual(StatImpl.StatName.HP));
     }
 
     /**
@@ -240,12 +240,12 @@ class FloorTrapTileImplTest {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final Actor actor = this.getActor(pos);
         final FloorTrapTileImpl trapTile = new FloorTrapTileImpl(pos);
-        final int hp = actor.getStatInfo(StatImpl.StatName.HP);
+        final int hp = actor.getStatActual(StatImpl.StatName.HP);
 
         trapTile.setDamage(30);
         trapTile.getEffect().applyEffect(actor);
 
-        assertEquals(hp - 30, actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp - 30, actor.getStatActual(StatImpl.StatName.HP));
     }
 
     /**
@@ -256,16 +256,16 @@ class FloorTrapTileImplTest {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final Actor actor = this.getActor(pos);
         final FloorTrapTileImpl trapTile = new FloorTrapTileImpl(pos);
-        int hp = actor.getStatInfo(StatImpl.StatName.HP);
+        int hp = actor.getStatActual(StatImpl.StatName.HP);
 
         trapTile.setPostTriggered(FloorTrapTileImpl::interact);
 
         trapTile.getEffect().applyEffect(actor);
-        assertEquals(hp - DEFAULT_DMG, actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp - DEFAULT_DMG, actor.getStatActual(StatImpl.StatName.HP));
         
-        hp = actor.getStatInfo(StatImpl.StatName.HP);
+        hp = actor.getStatActual(StatImpl.StatName.HP);
         trapTile.getEffect().applyEffect(actor);
-        assertEquals(hp, actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp, actor.getStatActual(StatImpl.StatName.HP));
     }
 }
 
