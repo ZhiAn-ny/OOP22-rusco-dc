@@ -150,6 +150,12 @@ public class RectangleRoomImpl implements Room {
 
     /** {@inheritDoc} */
     @Override
+    public Map<Direction, Room> getConnectedRooms() {
+        return this.connectedRooms;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public boolean addConnectedRoom(final Direction dir, final Room other) {
         if (!this.connectedRooms.containsKey(dir) || dir == Direction.UNDEFINED) {
             return false;
@@ -177,8 +183,7 @@ public class RectangleRoomImpl implements Room {
                 .toList();
 
         final Tile tile = onSide.get(rnd.nextInt(onSide.size()));
-        this.tiles.remove(tile);
-        this.tiles.add(new FloorTileImpl(tile.getPosition(), true));
+        this.replaceTile(tile.getPosition(), new FloorTileImpl(tile.getPosition(), true));
         this.put(tile.getPosition(), new Door(tile.getPosition()));
 
         this.connectedRooms.put(dir, null);
@@ -257,6 +262,30 @@ public class RectangleRoomImpl implements Room {
             return Optional.empty();
         }
         return tile.get();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("size: " + this.size.getX() + ", " + this.size.getY() + "\n");
+        for (int y = 0; y < this.size.getY() + 2; y++) {
+            for (int x = 0; x < this.size.getX() + 2; x++) {
+                Tile t = this.get(new Pair<>(x, y)).orElse(null);
+                if (t == null) {
+                    str.append("NIL");
+                    continue;
+                }
+                final String tileStr = t.toString();
+                if (t.get().isPresent()) {
+                    str.append(tileStr);
+                } else if (this.monsters.stream().anyMatch(m -> m.getPos().equals(t.getPosition()))) {
+                    str.append("[M]");
+                } else {
+                    str.append(tileStr);
+                }
+            }
+            str.append("\n");
+        }
+        return str.toString();
     }
 
 }

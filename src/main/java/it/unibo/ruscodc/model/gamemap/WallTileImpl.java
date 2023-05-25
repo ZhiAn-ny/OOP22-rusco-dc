@@ -36,4 +36,15 @@ public class WallTileImpl extends AbstractTile {
                 + this.side.name();
     }
 
+    @Override
+    public String toString() {
+        return switch (this.side) {
+            case TOP, BOTTOM -> "---";
+            case RIGHT, LEFT -> " | ";
+            case TOP_LEFT, BOTTOM_LEFT -> " +-";
+            case TOP_RIGHT, BOTTOM_RIGHT -> "-+ ";
+            default -> "NIL";
+        };
+    }
+
 }

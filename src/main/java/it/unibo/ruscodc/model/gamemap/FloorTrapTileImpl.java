@@ -115,4 +115,9 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
     public boolean put(final Interactable obj) {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "[*]";
+    }
 }

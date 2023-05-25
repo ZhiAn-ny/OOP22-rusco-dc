@@ -44,16 +44,23 @@ public interface RoomFactory {
     // ROOM UTILITIES
 
     /**
-     * Adds items to the specified room.
-     * @param room the room on which the operation will be executed
-     * @param floor the floor reached
+     * Adds a random number of doors to the specified <code>Room</code>.
+     * The number of doors added will be included between 1 and 4.
+     * @param room the room on which execute the operation.
      */
-    void addItems(final Room room, final int floor);
+    void addDoors(Room room);
 
     /**
      * Adds items to the specified room.
      * @param room the room on which the operation will be executed
      * @param floor the floor reached
      */
-    void addMonsters(final Room room, final int floor);
+    void addItems(Room room, int floor);
+
+    /**
+     * Adds items to the specified room.
+     * @param room the room on which the operation will be executed
+     * @param floor the floor reached
+     */
+    void addMonsters(Room room, int floor);
 }

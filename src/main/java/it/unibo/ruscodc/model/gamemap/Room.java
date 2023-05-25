@@ -8,6 +8,7 @@ import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -81,6 +82,13 @@ public interface Room {
     Optional<Room> getConnectedRoom(Direction dir);
 
     /**
+     * Returns a map containing all the rooms connected to the current one.
+     * @return a map containing the sides on which the room's doors are placed and,
+     * the <code>Room</code> connected if any.
+     */
+    Map<Direction, Room> getConnectedRooms();
+
+    /**
      * Connects two rooms between each other.
      * @param dir the side of the room to connect to the other
      * @param other the other room to connect
@@ -90,7 +98,8 @@ public interface Room {
     boolean addConnectedRoom(Direction dir, Room other);
 
     /**
-     * Adds a single door to the room.
+     * Adds a single door to the room on the specified side.
+     * The position of the door along the wall is selected randomly.
      * @param dir the side of the <code>Room</code> on which the door will be added
      * @return <code>true</code> is the door was added correctly, <code>false</code> otherwise.
      */

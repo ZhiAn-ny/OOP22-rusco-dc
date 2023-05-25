@@ -4,6 +4,7 @@ import it.unibo.ruscodc.utils.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -11,6 +12,8 @@ import java.util.Random;
  */
 public class FloorImpl implements Floor {
     private Room currentRoom;
+    private int unusedDoors = 0;
+    private boolean readyForNextFloor = false;
     private final int floorNum;
     private final RoomFactory roomFactory = new RoomFactoryImpl();
     private final Random rnd = new Random();
@@ -25,15 +28,25 @@ public class FloorImpl implements Floor {
     public FloorImpl(final int floorNum) {
         this.floorNum = floorNum;
         this.currentRoom = this.roomFactory.squareRoom(ENTRANCE_SIZE);
-        int i = rnd.nextInt(4);
-        while (i > 0) {
-            Direction dir = Direction.values()[rnd.nextInt(Direction.values().length)];
-            if (this.currentRoom.addDoor(dir)) {
-                i = i - 1;
-            }
-        }
+        this.roomFactory.addDoors(this.currentRoom);
+
+        this.manageDoors();
 
         this.rooms.add(this.currentRoom);
+        System.out.println(this.currentRoom.toString());
+    }
+
+    private void manageDoors() {
+        final int roomUnusedDoors = this.currentRoom.getConnectedRooms()
+                .values().stream()
+                .filter(Objects::isNull)
+                .toList().size();
+        this.unusedDoors += roomUnusedDoors;
+
+        if (this.unusedDoors == 0) {
+            this.roomFactory.addDoors(this.currentRoom);
+            this.manageDoors();
+        }
     }
 
     /** {@inheritDoc} */
@@ -63,8 +76,10 @@ public class FloorImpl implements Floor {
         final Room next = this.getNextRoom();
         this.populateRoom(next);
         if (this.currentRoom.addConnectedRoom(dir, next)) {
+            this.unusedDoors = this.unusedDoors - 1;
             this.rooms.add(next);
             this.currentRoom = next;
+            this.manageDoors();
         }
     }
 
@@ -81,6 +96,7 @@ public class FloorImpl implements Floor {
         final int left = MAX_ROOMS_NUMBER - this.getNRoomExplored();
         final int prob = new Random().nextInt(0, left + 1);
         if (prob == 0) {
+            this.readyForNextFloor = true;
             return this.roomFactory.stairsRoom();
         }
         return this.roomFactory.randomRoomNoTraps();
@@ -91,4 +107,8 @@ public class FloorImpl implements Floor {
         this.roomFactory.addMonsters(base, this.floorNum);
     }
 
+    @Override
+    public String toString() {
+        return "FLOOR: " + this.floorNum + "\nUNUSED DOORS: " + this.unusedDoors;
+    }
 }

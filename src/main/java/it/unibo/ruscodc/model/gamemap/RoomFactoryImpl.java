@@ -74,8 +74,10 @@ public class RoomFactoryImpl implements RoomFactory {
         return base;
     }
 
-    private void addDoors(final Room room) {
-        int i = new Random().nextInt(MAX_DOORS_NUM);
+    /** {@inheritDoc} */
+    @Override
+    public void addDoors(final Room room) {
+        int i = new Random().nextInt(1, MAX_DOORS_NUM);
         while (i > 0) {
             Direction dir = Direction.values()[rnd.nextInt(Direction.values().length)];
             if (room.addDoor(dir)) {
