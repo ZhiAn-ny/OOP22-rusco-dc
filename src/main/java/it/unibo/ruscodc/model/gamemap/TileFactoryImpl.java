@@ -3,6 +3,7 @@ package it.unibo.ruscodc.model.gamemap;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.util.Random;
+import java.util.function.Predicate;
 
 /**
  * The <code>TileFactoryImpl</code> class implements the <code>TileFactory</code>
@@ -15,7 +16,7 @@ public class TileFactoryImpl implements TileFactory {
     /** {@inheritDoc} */
     @Override
     public Tile createSingleUseFloorTrap(final int x, final int y) {
-        FloorTrapTileImpl base = new FloorTrapTileImpl(new Pair<>(x, y));
+        final FloorTrapTileImpl base = new FloorTrapTileImpl(new Pair<>(x, y));
         base.setPostTriggered(FloorTrapTileImpl::interact);
         base.setDamage(new Random().nextInt(1, MAX_TRAP_DMG + 1));
         return base;
@@ -24,7 +25,7 @@ public class TileFactoryImpl implements TileFactory {
     /** {@inheritDoc} */
     @Override
     public Tile createFloorTrap(final int x, final int y) {
-        FloorTrapTileImpl base = new FloorTrapTileImpl(new Pair<>(x, y));
+        final FloorTrapTileImpl base = new FloorTrapTileImpl(new Pair<>(x, y));
         base.setDamage(new Random().nextInt(1, MAX_TRAP_DMG + 1));
         return base;
     }
@@ -52,6 +53,9 @@ public class TileFactoryImpl implements TileFactory {
     /** {@inheritDoc} */
     @Override
     public Tile createBaseWallTile(final int x, final int y, final Pair<Integer, Integer> size) {
+        if (size == null) {
+            throw new IllegalArgumentException("Size must represent the room's size!");
+        }
         return new WallTileImpl(new Pair<>(x, y), this.getWallType(x, y, size));
     }
 
@@ -64,17 +68,19 @@ public class TileFactoryImpl implements TileFactory {
      * @return the type of wall to create
      */
     private WallType getWallType(final int x, final int y, final Pair<Integer, Integer> size) {
-        if (y == 0) {
+        Predicate<Integer> xInRoom = xCoord -> xCoord >= 0 && xCoord <= size.getX() + 1;
+        if (y == 0 && xInRoom.test(x)) {
             return this.getTopWallType(x, size);
         }
-        if (y == size.getY()) {
+        if (y == size.getY() + 1 && xInRoom.test(x)) {
             return this.getBottomWallType(x, size);
         }
 
-        if (x == 0) {
+        Predicate<Integer> yInRoom = yCoord -> yCoord >= 0 && yCoord <= size.getY() + 1;
+        if (x == 0 && yInRoom.test(y)) {
             return WallType.LEFT;
         }
-        if (x == size.getX()) {
+        if (x == size.getX() + 1 && yInRoom.test(y)) {
             return WallType.RIGHT;
         }
 
@@ -85,7 +91,7 @@ public class TileFactoryImpl implements TileFactory {
         if (x == 0) {
             return WallType.TOP_LEFT;
         }
-        if (x == size.getX()) {
+        if (x == size.getX() + 1) {
             return WallType.TOP_RIGHT;
         }
         return WallType.TOP;
@@ -95,7 +101,7 @@ public class TileFactoryImpl implements TileFactory {
         if (x == 0) {
             return WallType.BOTTOM_LEFT;
         }
-        if (x == size.getX()) {
+        if (x == size.getX() + 1) {
             return WallType.BOTTOM_RIGHT;
         }
         return WallType.BOTTOM;

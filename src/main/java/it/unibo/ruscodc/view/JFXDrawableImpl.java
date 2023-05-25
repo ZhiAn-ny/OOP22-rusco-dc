@@ -57,7 +57,7 @@ public class JFXDrawableImpl implements Drawable<GraphicsContext>  {
 
     /**
      *  Set the size of view.
-     * @param size the scale to apply to the object.
+    * @param screenUnit the scale to apply to the object.
      */
     @Override
     public void updateScreenUnit(double screenUnit) {

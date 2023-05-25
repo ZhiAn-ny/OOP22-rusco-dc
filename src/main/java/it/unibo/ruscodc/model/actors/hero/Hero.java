@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
+import it.unibo.ruscodc.model.item.Item;
 import it.unibo.ruscodc.utils.GameControl;
 
 /**
@@ -16,4 +17,8 @@ public interface Hero extends Actor {
      * @return Method used to make the player act with the heros
      */
     Optional<GameCommand> act(GameControl key);
+
+    void addItem(Item item);
+
+    void removeItem(int index);
 }

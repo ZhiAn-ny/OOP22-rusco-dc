@@ -51,4 +51,14 @@ public class InventoryImpl implements Inventory {
         return List.copyOf(this.bag);
     }
 
+    @Override
+    public void addItem(Item item) {
+        this.bag.add(item);
+    }
+
+    @Override
+    public void removeItem(int index) {
+        this.bag.remove(index);
+    }
+
 }
