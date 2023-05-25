@@ -198,7 +198,7 @@ public class ViewJFX extends Application implements GameView {
     }
 
     @Override
-    public void printError(String err) {
+    public void printInfo(String err) {
         System.err.println("ERROR: " + err);
     }
 

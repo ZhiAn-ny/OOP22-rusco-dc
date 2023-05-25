@@ -2,6 +2,7 @@ package it.unibo.ruscodc.view;
 
 import it.unibo.ruscodc.controller.GameObserverController;
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.Pair;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -15,6 +16,7 @@ import java.util.List;
 public class FXMLView extends Application implements GameView {
 
     private GameObserverController controller;
+
 
     public FXMLView(){
 
@@ -51,7 +53,7 @@ public class FXMLView extends Application implements GameView {
     }
 
     @Override
-    public void printError(String err) {
+    public void printInfo(InfoPayload toPrint) {
 
     }
 
@@ -72,9 +74,20 @@ public class FXMLView extends Application implements GameView {
     }
 
     @Override
+    public void uploadEntity(Pair<Integer, Integer> toUpload, Entity updated) {
+
+    }
+
+    @Override
+    public void resetLevel(List<Entity> entities) {
+
+    }
+
+    @Override
     public void uploadEntity(Entity toUpload) {
 
     }
+
 
     @Override
     public void start(Stage stage) throws Exception {

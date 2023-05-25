@@ -7,15 +7,19 @@ import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
+import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.GameControl;
+import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ChangeFloorException;
 import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.view.FXMLView;
 import it.unibo.ruscodc.view.GameView;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Class GameControllerImpl.
@@ -40,28 +44,28 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public void save() {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public void pause() {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public void resume() {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public void changeAutomaticSave() {
@@ -83,26 +87,36 @@ public class GameControllerImpl implements GameObserverController {
         if (automaticSave){
             save();
         }
-        //TODO - resettare la view
+        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
     }
 
     private void changeRoom(final ChangeRoomException r) {
-        //model.changeRoom(r.getDoorPos()); //TODO - da Direction a Pos
+        model.changeRoom(r.getDoorPos());
         initNewTurn();
-        //TODO - resettare la view
+        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
     }
 
     private boolean executeCommand(GameCommand toExec) {
         final boolean ready = toExec.isReady();
         if (ready) {
             try {
-                toExec.execute();
+                Pair<Integer, Integer> oldActor = initiative.get(0).getPos();
+                Optional<InfoPayload> tmp = toExec.execute();
+                if (tmp.isPresent()) {
+                    view.printInfo(tmp.get());
+                    return ready;
+                }
                 playerSituation = Optional.empty();
-                initiative.remove(0);
+                this.view.resetLevel(this.model.getActorByInitative().stream()
+                        .filter(Actor::isAlive)
+                        .map(a->(Entity)a)
+                        .toList());
             } catch (ChangeFloorException f){
                 changeFloor();
+                playerSituation = Optional.empty();
             } catch (ChangeRoomException r) {
                 changeRoom(r);
+                playerSituation = Optional.empty();
             } catch (ModelException e) {
                 // TODO - gestire eccezioni model
             }
@@ -120,36 +134,40 @@ public class GameControllerImpl implements GameObserverController {
         if (initiative.get(0) instanceof Hero) {
             Hero tmpActor = (Hero) initiative.get(0);
             GameCommand tmpCommand;
+            Pair<Integer, Integer> cod = tmpActor.getPos();
 
             if (playerSituation.isPresent()) {
                 tmpCommand = playerSituation.get();
-                
+
                 if (tmpCommand.modify(input)) {
-                    if (!executeCommand(tmpCommand)) {
-                        //TODO - aggiornare la view qui! (magari allora lo si fa in quel metodo)
+                    if(!executeCommand(tmpCommand)) {
+                        Iterator<Entity> itE = playerSituation.get().getEntities();
+                        this.view.resetLevel(Stream.iterate(itE.next(), i->itE.hasNext(), i->itE.next()).toList());
                     }
                 }
 
             } else {
-                Optional<GameCommand> res = tmpActor.act(input); //TODO - ponderare se aggiungere qui la room...
+                Optional<GameCommand> res = tmpActor.act(input);
                 if (res.isEmpty()){
                     return;
                 }
-                tmpCommand = res.get(); 
+                tmpCommand = res.get();
                 tmpCommand.setRoom(model.getCurrentRoom());
-                
+
                 if (tmpCommand.isReady()) {
                     executeCommand(tmpCommand);
                     //TODO - aggiornare la view qui! (magari allora lo si fa in quel metodo)
+                    //view.uploadEntity(cod, initiative.get(0));
                 } else {
                     playerSituation = Optional.of(tmpCommand);
                 }
             }
+            manageMonsterTurn();
         }
     }
 
     /**
-     * 
+     *
      */
     @Override
     public void quit() {
@@ -157,7 +175,7 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public void init() {
@@ -165,7 +183,7 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public void start() {
@@ -179,7 +197,7 @@ public class GameControllerImpl implements GameObserverController {
             }
         }
 
-        //TODO - resettare la view 
+        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
         manageMonsterTurn();
     }
 
@@ -189,14 +207,24 @@ public class GameControllerImpl implements GameObserverController {
         }
     }
 
+    private List<Actor> getHeros() {
+        List<Actor> tmp = new ArrayList<>();
+        for (Actor a : this.model.getActorByInitative()) {
+            if (a instanceof Hero) {
+                tmp.add(a);
+            }
+        }
+        return tmp;
+    }
+
     private void manageMonsterTurn() {
         Monster tmpMonster;
         initNewTurn();
         while (initiative.get(0) instanceof Monster) {
             tmpMonster = (Monster) initiative.get(0);
-            //executeCommand(tmpMonster.behave(model.getCurrentRoom()));
+            executeCommand(tmpMonster.behave(model.getCurrentRoom(), getHeros()));
             // TODO - post implementazione mostro
-            //initiative.remove(0);
+            initiative.remove(0);
             initNewTurn();
         }
     }
