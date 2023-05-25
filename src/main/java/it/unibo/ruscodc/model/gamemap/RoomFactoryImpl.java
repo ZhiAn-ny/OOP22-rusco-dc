@@ -35,10 +35,12 @@ public class RoomFactoryImpl implements RoomFactory {
         final Room base = this.randomRoomNoTraps();
         final TileFactory tf = new TileFactoryImpl();
 
-        base.getTilesAsEntity().forEach(tile -> {
-            final Tile newTile = tf.createRandomFloorTile(tile.getPos().getX(), tile.getPos().getY());
-            base.replaceTile(tile.getPos(), newTile);
-        });
+        base.getTilesAsEntity().stream()
+                .filter(tile -> tile instanceof FloorTileImpl)
+                .forEach(tile -> {
+                    final Tile newTile = tf.createRandomFloorTile(tile.getPos().getX(), tile.getPos().getY());
+                    base.replaceTile(tile.getPos(), newTile);
+                });
 
         return base;
     }
