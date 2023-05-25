@@ -97,6 +97,13 @@ public interface Room {
     boolean addDoor(Direction dir);
 
     /**
+     * Adds a ramp of stairs to the room.
+     * @param dir the side of the <code>Room</code> on which the stairs will be added
+     * @return <code>true</code> is the stairs were added correctly, <code>false</code> otherwise.
+     */
+    boolean addStairs(Direction dir);
+
+    /**
      * Returns the inner size of the <code>Room</code>.
      * @return a <code>Pair</code> containing the width and the height of the room.
      */

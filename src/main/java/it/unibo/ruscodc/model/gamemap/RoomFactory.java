@@ -39,5 +39,21 @@ public interface RoomFactory {
      * the next level.
      * @return a randomly generated room to the next level
      */
-    //Room stairsRoom(); // TODO:
+    Room stairsRoom(); // TODO:
+
+    // ROOM UTILITIES
+
+    /**
+     * Adds items to the specified room.
+     * @param room the room on which the operation will be executed
+     * @param floor the floor reached
+     */
+    void addItems(final Room room, final int floor);
+
+    /**
+     * Adds items to the specified room.
+     * @param room the room on which the operation will be executed
+     * @param floor the floor reached
+     */
+    void addMonsters(final Room room, final int floor);
 }

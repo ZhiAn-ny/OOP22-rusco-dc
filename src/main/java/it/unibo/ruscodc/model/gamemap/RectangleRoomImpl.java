@@ -4,6 +4,7 @@ import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.interactable.Door;
 import it.unibo.ruscodc.model.interactable.Interactable;
+import it.unibo.ruscodc.model.interactable.Stair;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
@@ -71,13 +72,11 @@ public class RectangleRoomImpl implements Room {
         if (positions.contains(monster.getPos()) || !this.isInRoom(monster.getPos())) {
             return false;
         }
-
-        final int minFreeTiles = 5;
-        final int freeTiles = (int) this.tiles.stream()
-                .filter(tile -> tile.get().isEmpty())
-                .count();
-        if (positions.size() >= (freeTiles - minFreeTiles)) {
-            return false;
+        final Tile tile = this.tiles.stream()
+                .filter(t -> t.getPosition().equals(monster.getPos()))
+                .findFirst().orElse(null);
+        if (tile == null || tile.get().isPresent()) {
+            return  false;
         }
 
         this.monsters.add(monster);
@@ -178,13 +177,35 @@ public class RectangleRoomImpl implements Room {
                 .toList();
 
         final Tile tile = onSide.get(rnd.nextInt(onSide.size()));
-        final Pair<Integer, Integer> pos = tile.getPosition();
-
-        this.tiles.removeIf(t -> t.getPosition().equals(pos));
-        this.tiles.add(new FloorTileImpl(pos, true));
-        this.put(pos, new Door(pos));
+        this.tiles.remove(tile);
+        this.tiles.add(new FloorTileImpl(tile.getPosition(), true));
+        this.put(tile.getPosition(), new Door(tile.getPosition()));
 
         this.connectedRooms.put(dir, null);
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean addStairs(final Direction dir) {
+        Tile tile;
+        final Optional<Interactable> door = this.getDoorOnSide(dir);
+        if (door.isPresent()) {
+            tile = this.get(door.get().getPos()).orElse(null);
+            if (tile == null) {
+                return false;
+            }
+            tile.empty();
+        } else {
+            final List<Tile> onSide = this.tiles.stream()
+                    .filter(this.onSide(dir))
+                    .filter(this.isNotCorner())
+                    .toList();
+            tile = onSide.get(new Random().nextInt(onSide.size()));
+            this.tiles.remove(tile);
+            this.tiles.add(new FloorTileImpl(tile.getPosition(), true));
+        }
+        tile.put(new Stair(tile.getPosition()));
         return true;
     }
 

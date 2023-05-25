@@ -3,10 +3,12 @@ package it.unibo.ruscodc.model.gamemap;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.actors.monster.MonsterGenerator;
 import it.unibo.ruscodc.model.actors.monster.MonsterGeneratorImpl;
+import it.unibo.ruscodc.model.interactable.Chest;
 import it.unibo.ruscodc.utils.Direction;
-import it.unibo.ruscodc.utils.Pair;
 
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * The <coode>RoomFactory</coode> class can be used to generate different
@@ -24,7 +26,6 @@ public class RoomFactoryImpl implements RoomFactory {
     @Override
     public Room randomRoom() {
         final Room base = this.getRandomShapeRoom();
-        // TODO: update tests
         this.addDoors(base);
 
         return this.getRandomShapeRoom();
@@ -71,21 +72,53 @@ public class RoomFactoryImpl implements RoomFactory {
         }
     }
 
-    private void addItems(final Room room) {
-        // TODO:
+    /** {@inheritDoc} */
+    @Override
+    public void addItems(final Room base, final int floor) {
+        final Random rnd = new Random();
+        int chestNum = rnd.nextInt();
+        final List<Tile> tiles = base.getTilesAsEntity().stream()
+                .filter(tile -> tile instanceof FloorTileImpl)
+                .map(tile -> (Tile) tile).toList();
+
+        // TODO: Add reference to drop factory
+
+        while (chestNum > 0) {
+            final Tile t = tiles.get(rnd.nextInt(tiles.size()));
+            if (t.put(new Chest(Set.of(), t.getPosition()))) {
+                chestNum = chestNum - 1;
+            }
+        }
     }
 
-    private void addMonsters(final Room room) {
-        // TODO:
+    /** {@inheritDoc} */
+    @Override
+    public void addMonsters(final Room base, final int floor) {
+        final Random rnd = new Random();
+        int monsterNum = rnd.nextInt();
+        final MonsterGenerator mgen = new MonsterGeneratorImpl();
+        final List<Tile> tiles = base.getTilesAsEntity().stream()
+                .filter(tile -> tile instanceof FloorTileImpl)
+                .map(tile -> (Tile) tile).toList();
+
+        while (monsterNum > 0) {
+            final Tile t = tiles.get(rnd.nextInt(tiles.size()));
+            final Monster monster = mgen.makeMeleeRat("Rat_" + monsterNum, t.getPosition());
+            if (base.addMonster(monster)) {
+                monsterNum = monsterNum - 1;
+            }
+        }
     }
 
-// TODO:
-//    /** {@inheritDoc} */
-//    @Override
-//    public Room stairsRoom() {
-//        final Room base = this.randomRoom();
-//        //base.addStairs(Direction.UNDEFINED);
-//        return base;
-//    }
+    /** {@inheritDoc} */
+    @Override
+    public Room stairsRoom() {
+        final Room base = this.randomRoom();
+
+        Direction dir = Direction.values()[rnd.nextInt(Direction.values().length)];
+        base.addStairs(dir);
+
+        return base;
+    }
 
 }
