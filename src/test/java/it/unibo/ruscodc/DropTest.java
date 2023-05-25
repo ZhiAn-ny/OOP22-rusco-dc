@@ -1,20 +1,14 @@
 package it.unibo.ruscodc;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -25,6 +19,9 @@ import it.unibo.ruscodc.model.actors.monster.MonsterGeneratorImpl;
 import it.unibo.ruscodc.model.actors.monster.drop.DropFactory;
 import it.unibo.ruscodc.model.actors.monster.drop.DropFactoryImplTRY;
 import it.unibo.ruscodc.model.actors.monster.drop.DropManager;
+import it.unibo.ruscodc.model.gamemap.RectangleRoomImpl;
+import it.unibo.ruscodc.model.gamemap.Room;
+import it.unibo.ruscodc.model.item.Item;
 
 /**
  * Test class for Drop
@@ -122,10 +119,10 @@ final class DropTest {
 
     // }
 
-    @Test
-    public void checkIfInitOnce() {
+    // @Test
+    // public void checkIfInitOnce() {
 
-    }
+    // }
 
     @Test
     public void randomMinusAll() {
@@ -152,8 +149,23 @@ final class DropTest {
         //     .anyMatch(dm -> dm.generateRandomConsumableDrop().size() > dm.generateConsumableDrop().size()));
     }
 
+    @Test
     public void generateDropForRoom() {
-        
+        final int size = 10;
+        final int depth = 2;
+        Room myRoom = new RectangleRoomImpl(size, size);
+        DropManager mine = dropGenerator.createDropForRoom(myRoom.getSize(), depth);
+        int expected = (int) Math.sqrt(Math.min(myRoom.getSize().getX(),myRoom.getSize().getY())) * depth % 5;
+        assertEquals(expected, mine.generateAllDrop().size());
+    }
+
+    public void checkRandomFunction() {
+        final int size = 10;
+        final int depth = 2;
+        final Room myRoom = new RectangleRoomImpl(size, size);
+        final DropManager mine = dropGenerator.createDropForRoom(myRoom.getSize(), depth);
+        List<List<Item>> loots = Stream.generate(() -> mine.generateRandomDrop()).toList();
+        assertFalse(IntStream.range(0, loots.size()-1).anyMatch(i -> loots.get(i).equals(loots.get(i+1))));
     }
 
     
