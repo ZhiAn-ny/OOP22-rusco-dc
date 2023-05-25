@@ -118,12 +118,19 @@ public class GameModelImpl implements GameModel {
     }
 
     private void respawnParty(final Pair<Integer, Integer> pos) {
+        final int radius = 2;
         this.hero.setPos(pos);
+        this.getCurrentRoom().clearArea(pos, radius);
     }
 
     @Override
     public void changeFloor() {
         this.nFloorsExplored = this.nFloorsExplored + 1;
         this.floor = new FloorImpl(this.nFloorsExplored);
+    }
+
+    @Override
+    public Floor getCurrentFloor() {
+        return this.floor;
     }
 }

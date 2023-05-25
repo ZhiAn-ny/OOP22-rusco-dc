@@ -67,7 +67,6 @@ public class FloorImpl implements Floor {
         if (dir == Direction.UNDEFINED) {
             return;
         }
-
         if (this.currentRoom.getConnectedRoom(dir).isPresent()) {
             this.currentRoom = this.currentRoom.getConnectedRoom(dir).get();
             return;

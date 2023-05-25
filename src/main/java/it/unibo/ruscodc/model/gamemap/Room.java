@@ -138,4 +138,11 @@ public interface Room {
      * @return an <code>Optional</code> containing the door or an empty <code>Optional</code> if there was no door
      */
     Optional<Interactable> getDoorOnSide(Direction side);
+
+    /**
+     * Clears the area centered in the specified position.
+     * @param pos the center of the area
+     * @param rad the radius of the area
+     */
+    void clearArea(Pair<Integer, Integer> pos, int rad);
 }

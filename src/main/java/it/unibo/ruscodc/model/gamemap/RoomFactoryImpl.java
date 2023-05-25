@@ -79,9 +79,9 @@ public class RoomFactoryImpl implements RoomFactory {
     /** {@inheritDoc} */
     @Override
     public void addDoors(final Room room) {
-        int i = new Random().nextInt(1, MAX_DOORS_NUM);
+        int i = this.rnd.nextInt(1, MAX_DOORS_NUM);
         while (i > 0) {
-            Direction dir = Direction.values()[rnd.nextInt(Direction.values().length)];
+            Direction dir = Direction.values()[this.rnd.nextInt(Direction.values().length)];
             if (room.addDoor(dir)) {
                 i = i - 1;
             }
@@ -91,8 +91,7 @@ public class RoomFactoryImpl implements RoomFactory {
     /** {@inheritDoc} */
     @Override
     public void addItems(final Room base, final int floor) {
-        final Random rnd = new Random();
-        int chestNum = rnd.nextInt(this.maxOccupation(base) / MIN_ROOM_SIZE);
+        int chestNum = this.rnd.nextInt(this.maxOccupation(base) / MIN_ROOM_SIZE);
         final List<Tile> tiles = base.getTilesAsEntity().stream()
                 .filter(tile -> tile instanceof FloorTileImpl)
                 .map(tile -> (Tile) tile).toList();
@@ -110,14 +109,13 @@ public class RoomFactoryImpl implements RoomFactory {
     /** {@inheritDoc} */
     @Override
     public void addMonsters(final Room base, final int floor) {
-        final Random rnd = new Random();
-        int monsterNum = rnd.nextInt(this.maxOccupation(base));
+        int monsterNum = this.rnd.nextInt(this.maxOccupation(base));
         final List<Tile> tiles = base.getTilesAsEntity().stream()
                 .filter(tile -> tile instanceof FloorTileImpl)
                 .map(tile -> (Tile) tile).toList();
 
         while (monsterNum > 0) {
-            final Tile t = tiles.get(rnd.nextInt(tiles.size()));
+            final Tile t = tiles.get(this.rnd.nextInt(tiles.size()));
             final Monster monster = this.monsterGen.makeMeleeRat("Rat_" + monsterNum, t.getPosition());
             if (base.addMonster(monster)) {
                 monsterNum = monsterNum - 1;
@@ -126,8 +124,7 @@ public class RoomFactoryImpl implements RoomFactory {
     }
 
     private int maxOccupation(final Room room) {
-        final int freePart = room.getArea() / MIN_ROOM_SIZE;
-        return room.getArea() - freePart;
+        return room.getArea() / (MIN_ROOM_SIZE * 2);
     }
 
 }

@@ -1,8 +1,8 @@
 package it.unibo.ruscodc.model;
 
 import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.Room;
-import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.util.List;
@@ -48,4 +48,9 @@ public interface GameModel {
      */
     void changeFloor();
 
+    /**
+     * Returns the current <code>Floor</code>.
+     * @return the current floor.
+     */
+    Floor getCurrentFloor();
 }

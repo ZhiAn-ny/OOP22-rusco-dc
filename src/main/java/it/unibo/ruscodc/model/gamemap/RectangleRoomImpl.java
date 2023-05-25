@@ -1,12 +1,14 @@
 package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.interactable.Door;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.model.interactable.Stair;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
+import it.unibo.ruscodc.utils.Pairs;
 
 import java.security.InvalidParameterException;
 import java.util.*;
@@ -254,14 +256,31 @@ public class RectangleRoomImpl implements Room {
 
     @Override
     public Optional<Interactable> getDoorOnSide(final Direction side) {
-        final Tile tile = this.tiles.stream().filter(this.onSide(side))
+        final Optional<Tile> tile = this.tiles.stream().filter(this.onSide(side))
                 .filter(this.isNotCorner())
                 .filter(t -> t.get().isPresent() && t.get().get() instanceof Door)
-                .findFirst().orElse(null);
-        if (tile == null) {
-            return Optional.empty();
+                .findFirst();
+        if (tile.isPresent()) {
+            return tile.get().get();
         }
-        return tile.get();
+        return Optional.empty();
+    }
+
+    @Override
+    public void clearArea(Pair<Integer, Integer> pos, int rad) {
+        final List<Tile> tilesInArea = new ArrayList<Tile>();
+        Pairs.computeCircle(pos, rad, true).forEach(str -> str.forEach(xy ->
+            this.get(xy).ifPresent(tilesInArea::add)
+        ));
+        final List<Pair<Integer, Integer>> positions = tilesInArea.stream()
+                .peek(tile -> {
+                    if (tile.get().isEmpty() || tile.get().get() instanceof Door) {
+                        return;
+                    }
+                    tile.empty();
+                })
+                .map(Tile::getPosition).toList();
+        this.monsters.removeIf(m -> positions.contains(m.getPos()));
     }
 
     @Override
