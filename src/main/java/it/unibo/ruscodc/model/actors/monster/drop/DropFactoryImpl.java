@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -22,19 +21,29 @@ import it.unibo.ruscodc.model.item.Equipement.EquipementFactoryImpl;
 import it.unibo.ruscodc.utils.MyIterator;
 import it.unibo.ruscodc.utils.Pair;
 
+/**
+ * TODO
+ */
+@Deprecated
+public class DropFactoryImpl  {
 
-public class DropFactoryImpl implements DropFactory {
-
-    private final static Random DICE = new Random();
+    private final static Random DICE = new Random(); //123456789
     private final static double RICH_COEFF = 1.5;
     private final static double POOR_COEFF = 0.5;
     private final static double GOLDEN_RATIO = (Math.sqrt(5) + 1) / 2;
-    private final static List<Integer> STAT_COEFF = List.of(1,1,1,1,1,1);
+    private final static List<Double> STAT_COEFF = List.of(0.5,0.25,0.25,0.25,0.1,0.1);
     private final static Map<Integer, Item> TAB_E = new HashMap<>();
     private final static Map<Integer, Item> TAB_C = new HashMap<>();
     //private final static EquipementFactory GEN_E = new EquipementFactoryImpl();
     //private final static ConsumableFactory GEN_C = new ConsumableFactoryImpl();
     private static boolean isInit;
+
+    public DropFactoryImpl() {
+        if (!isInit) {
+            init();
+        }
+        isInit = true;
+    }
 
     private void fillTable(Set<Method> itemsToAdd, Object receiver, Map<Integer, Item> toFill) {
         final MyIterator<Integer> myIt = new MyIterator<>(Stream.iterate(0, i -> i+1).iterator());
@@ -50,27 +59,25 @@ public class DropFactoryImpl implements DropFactory {
     }
 
     private void init() {
-        Class<EquipementFactory> equipClass = EquipementFactory.class;
-        Class<ConsumableFactory> consClass = ConsumableFactory.class;
-        Class<Object> objClass = Object.class;
+        Method eM[] = EquipementFactory.class.getMethods();
+        Method cM[] = ConsumableFactory.class.getMethods();
+        Method oM[] = Object.class.getMethods();
 
-        Method eM[] = equipClass.getMethods();
-        Method cM[] = consClass.getMethods();
-        Method oM[] = objClass.getMethods();
-
-        Set<Method> provMethods = IntStream.range(0, eM.length)
+        Set<Method> equpMethods = IntStream.range(0, eM.length)
             .mapToObj(i -> eM[i]).collect(Collectors.toSet());
         Set<Method> consMethods = IntStream.range(0, cM.length)
             .mapToObj(i -> cM[i]).collect(Collectors.toSet());
         Set<Method> objMethods = IntStream.range(0, oM.length)
             .mapToObj(i -> oM[i]).collect(Collectors.toSet());
 
-        provMethods.removeAll(objMethods);
+        equpMethods.removeAll(objMethods);
         consMethods.removeAll(objMethods);
 
-        fillTable(provMethods, new EquipementFactoryImpl(), TAB_C);
+        fillTable(equpMethods, new EquipementFactoryImpl(), TAB_E);
         fillTable(consMethods, new ConsumableFactoryImpl(), TAB_C);
 
+        //TAB_E.forEach( (a,b) -> System.out.println("K: " + a.toString() + " / V: " + b.getName()));
+        //TAB_C.forEach((a,b) -> System.out.println("K: " + a.toString() + " / V: " + b.getName()));
         // final MyIterator<Integer> myIt = new MyIterator<>(Stream.iterate(0, i -> i+1).iterator());
         // provMethods.forEach(m -> {
         //     try {
@@ -84,13 +91,6 @@ public class DropFactoryImpl implements DropFactory {
         
     }
 
-    public DropFactoryImpl() {
-        if (!isInit) {
-            init();
-        }
-        isInit = true;
-    }
-
     private int computeActorValue(final Actor by) {
         final int amountS = StatName.values().length;
         if (amountS != STAT_COEFF.size()) {
@@ -102,7 +102,7 @@ public class DropFactoryImpl implements DropFactory {
             .map(st -> by.getStatMax(st))
             .toList();
         
-        return IntStream.range(0, amountS).map(i -> value.get(i) * STAT_COEFF.get(i)).sum();
+        return IntStream.range(0, amountS).map(i -> (int) (value.get(i) * STAT_COEFF.get(i))).sum();
     }
 
     private int byValueToAmountItems(final int toConvert){
@@ -111,29 +111,32 @@ public class DropFactoryImpl implements DropFactory {
         return finValue < 0 ? 0 : finValue;
     }
 
-    private Set<Item> createDrop(final List<Pair<Map<Integer, Item>, Integer>> tables) {
+    private List<Item> createDrop(final List<Pair<Map<Integer, Item>, Integer>> tables) {
         return tables.stream()
             .flatMap(p -> Stream.iterate(0, i -> i < p.getY(), i -> i+1)
                 .map(i -> p.getX().get(DICE.nextInt(p.getX().size())))
                 )
-            .collect(Collectors.toSet());
+            .collect(Collectors.toList());
     }
 
     private DropManager createMischellaneus(final int amountValue) {
-        return () -> {
-            int total = byValueToAmountItems(amountValue);
-            int totalEquipment = (int) (total * (2 - GOLDEN_RATIO));
-            return createDrop(List.of(
-                new Pair<>(TAB_C, total - totalEquipment),
-                new Pair<>(TAB_E, totalEquipment)));
-        };
+        return null;
+        // () -> {
+        //     int total = byValueToAmountItems(amountValue);
+            
+        //     int totalEquipment = (int) (total * (2 - GOLDEN_RATIO));
+        //     return createDrop(List.of(
+        //         new Pair<>(TAB_C, total - totalEquipment),
+        //         new Pair<>(TAB_E, totalEquipment)));
+        // };
     } 
 
     private DropManager createOnlyConsumable(final int amountValue) {
-        return () -> {
-            int total = byValueToAmountItems(amountValue);
-            return createDrop(List.of(new Pair<>(TAB_C, total)));
-        };
+        return null;
+        // () -> {
+        //     int total = byValueToAmountItems(amountValue);
+        //     return createDrop(List.of(new Pair<>(TAB_C, total)));
+        // };
     } 
 
     private DropManager creationManager(final int amountValue) {
@@ -144,19 +147,22 @@ public class DropFactoryImpl implements DropFactory {
         }
     }
 
-    @Override
+    //@Override
     public DropManager createGenericBasicDrop(Actor by) {
         return creationManager(computeActorValue(by));
     }
 
-    @Override
+    //@Override
     public DropManager createGenericRichDrop(Actor by) {
         return creationManager((int) (computeActorValue(by) * RICH_COEFF));
     }
 
-    @Override
+    //@Override
     public DropManager createGenericPoorDrop(Actor by) {
         return creationManager((int) (computeActorValue(by) * POOR_COEFF));
     }
     
+    // public boolean isInitForTest() {
+    //     return isInit;
+    // }
 }

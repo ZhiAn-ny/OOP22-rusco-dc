@@ -154,5 +154,11 @@ public class DropFactoryImplTRY implements DropFactory {
     public DropManager createGenericPoorDrop(Actor by) {
         return creationManager((int) (computeActorValue(by) * POOR_COEFF));
     }
+
+    @Override
+    public DropManager createDropForRoom(Pair<Integer, Integer> roomSize, int floorDepth) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createDropForRoom'");
+    }
     
 }
