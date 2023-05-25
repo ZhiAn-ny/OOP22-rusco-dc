@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model.item.Equipement;
+package it.unibo.ruscodc.model.item.equipement;
 
 public interface EquipementFactory {
     Equipement createLongSword();

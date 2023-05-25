@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model.item.Equipement;
+package it.unibo.ruscodc.model.item.equipement;
 
 import java.util.HashMap;
 import java.util.Map;

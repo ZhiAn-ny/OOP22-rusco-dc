@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import it.unibo.ruscodc.model.actors.Actor;
-import it.unibo.ruscodc.model.item.Equipement.Equipement;
+import it.unibo.ruscodc.model.item.equipement.Equipement;
 
 public class InventoryImpl implements Inventory {
 

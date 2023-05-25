@@ -3,7 +3,7 @@ package it.unibo.ruscodc.model.item;
 import java.util.List;
 
 import it.unibo.ruscodc.model.actors.Actor;
-import it.unibo.ruscodc.model.item.Equipement.Equipement;
+import it.unibo.ruscodc.model.item.equipement.Equipement;
 
 public interface Inventory {
 	Item getItem(int index);
