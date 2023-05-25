@@ -19,12 +19,11 @@ public class RoomFactoryImpl implements RoomFactory {
     private static final int MIN_ROOM_SIZE = 3;
     private static final int MAX_ROOM_SIZE = 20;
     private static final int MAX_DOORS_NUM = 4;
-    private static final int MAX_MONSTERS_NUM = 10;
     private final MonsterGenerator monsterGen = new MonsterGeneratorImpl();
 
     /** {@inheritDoc} */
     @Override
-    public Room randomRoom() {
+    public Room randomRoomNoTraps() {
         final Room base = this.getRandomShapeRoom();
         this.addDoors(base);
 
@@ -33,7 +32,7 @@ public class RoomFactoryImpl implements RoomFactory {
 
     @Override
     public Room randomRoomWithTraps() {
-        final Room base = this.randomRoom();
+        final Room base = this.randomRoomNoTraps();
         final TileFactory tf = new TileFactoryImpl();
 
         base.getTilesAsEntity().forEach(tile -> {
@@ -62,6 +61,19 @@ public class RoomFactoryImpl implements RoomFactory {
         return new RectangleRoomImpl(width, height);
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public Room stairsRoom() {
+        final Room base = this.randomRoomNoTraps();
+
+        Direction dir = Direction.values()[rnd.nextInt(Direction.values().length)];
+        while(!base.addStairs(dir)) {
+            // Could not add stairs, retry on different direction
+            dir = Direction.values()[rnd.nextInt(Direction.values().length)];
+        }
+        return base;
+    }
+
     private void addDoors(final Room room) {
         int i = new Random().nextInt(MAX_DOORS_NUM);
         while (i > 0) {
@@ -76,7 +88,7 @@ public class RoomFactoryImpl implements RoomFactory {
     @Override
     public void addItems(final Room base, final int floor) {
         final Random rnd = new Random();
-        int chestNum = rnd.nextInt();
+        int chestNum = rnd.nextInt(this.maxOccupation(base) / MIN_ROOM_SIZE);
         final List<Tile> tiles = base.getTilesAsEntity().stream()
                 .filter(tile -> tile instanceof FloorTileImpl)
                 .map(tile -> (Tile) tile).toList();
@@ -95,30 +107,23 @@ public class RoomFactoryImpl implements RoomFactory {
     @Override
     public void addMonsters(final Room base, final int floor) {
         final Random rnd = new Random();
-        int monsterNum = rnd.nextInt();
-        final MonsterGenerator mgen = new MonsterGeneratorImpl();
+        int monsterNum = rnd.nextInt(this.maxOccupation(base));
         final List<Tile> tiles = base.getTilesAsEntity().stream()
                 .filter(tile -> tile instanceof FloorTileImpl)
                 .map(tile -> (Tile) tile).toList();
 
         while (monsterNum > 0) {
             final Tile t = tiles.get(rnd.nextInt(tiles.size()));
-            final Monster monster = mgen.makeMeleeRat("Rat_" + monsterNum, t.getPosition());
+            final Monster monster = this.monsterGen.makeMeleeRat("Rat_" + monsterNum, t.getPosition());
             if (base.addMonster(monster)) {
                 monsterNum = monsterNum - 1;
             }
         }
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public Room stairsRoom() {
-        final Room base = this.randomRoom();
-
-        Direction dir = Direction.values()[rnd.nextInt(Direction.values().length)];
-        base.addStairs(dir);
-
-        return base;
+    private int maxOccupation(final Room room) {
+        final int freePart = room.getArea() / MIN_ROOM_SIZE;
+        return room.getArea() - freePart;
     }
 
 }

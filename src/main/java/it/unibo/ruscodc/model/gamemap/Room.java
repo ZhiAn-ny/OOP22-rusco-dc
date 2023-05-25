@@ -110,6 +110,12 @@ public interface Room {
     Pair<Integer, Integer> getSize();
 
     /**
+     * Returns the internal area of the room
+     * @return the area of the room
+     */
+    int getArea();
+
+    /**
      * Replaces the <code>Tile</code> at the specified position with a new one.
      * @param pos the position of the <code>Tile</code> to replace
      * @param newTile the new <code>Tile</code>

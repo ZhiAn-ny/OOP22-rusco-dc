@@ -13,11 +13,11 @@ class RoomFactoryImplTest {
     private final RoomFactory rfac = new RoomFactoryImpl();
 
     /**
-     * Method under test: {@link RoomFactoryImpl#randomRoom()}
+     * Method under test: {@link RoomFactoryImpl#randomRoomNoTraps()}
      */
     @Test
     void testRandomRoom() {
-        final Room room = this.rfac.randomRoom();
+        final Room room = this.rfac.randomRoomNoTraps();
 
         assertTrue(room.getObjectsInRoom().isEmpty());
         assertTrue(room.getMonsters().isEmpty());

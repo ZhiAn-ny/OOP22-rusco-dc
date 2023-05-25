@@ -17,7 +17,7 @@ public interface RoomFactory {
      * Creates a randomly generated <code>Room</code>.
      * @return a randomly generated room
      */
-    Room randomRoom();
+    Room randomRoomNoTraps();
 
 
     /**

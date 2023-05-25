@@ -227,6 +227,12 @@ public class RectangleRoomImpl implements Room {
 
     /** {@inheritDoc} */
     @Override
+    public int getArea() {
+        return this.size.getX() * this.size.getY();
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public boolean replaceTile(final Pair<Integer, Integer> pos, final Tile newTile) {
         if (!pos.equals(newTile.getPosition()) || this.get(pos).isEmpty()) {
             return false;

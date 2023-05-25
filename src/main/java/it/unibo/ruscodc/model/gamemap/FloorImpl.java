@@ -11,6 +11,7 @@ import java.util.Random;
  */
 public class FloorImpl implements Floor {
     private Room currentRoom;
+    private final int floorNum;
     private final RoomFactory roomFactory = new RoomFactoryImpl();
     private final Random rnd = new Random();
     private final List<Room> rooms = new ArrayList<>();
@@ -19,8 +20,10 @@ public class FloorImpl implements Floor {
 
     /**
      * Constructs a <code>Floor</code> with only an initial of size 5.
+     * @param floorNum
      */
-    public FloorImpl() {
+    public FloorImpl(final int floorNum) {
+        this.floorNum = floorNum;
         this.currentRoom = this.roomFactory.squareRoom(ENTRANCE_SIZE);
         int i = rnd.nextInt(4);
         while (i > 0) {
@@ -58,6 +61,7 @@ public class FloorImpl implements Floor {
         }
 
         final Room next = this.getNextRoom();
+        this.populateRoom(next);
         if (this.currentRoom.addConnectedRoom(dir, next)) {
             this.rooms.add(next);
             this.currentRoom = next;
@@ -69,17 +73,22 @@ public class FloorImpl implements Floor {
         if (this.getNRoomExplored() < minRooms) {
             if ((new Random().nextInt() % 3) == 0) {
                 return this.roomFactory.randomRoomWithTraps();
+            } else {
+                return this.roomFactory.randomRoomNoTraps();
             }
-            return this.roomFactory.randomRoom();
         }
 
         final int left = MAX_ROOMS_NUMBER - this.getNRoomExplored();
         final int prob = new Random().nextInt(0, left + 1);
         if (prob == 0) {
-            // TODO:
-            //return this.roomFactory.stairsRoom();
+            return this.roomFactory.stairsRoom();
         }
-        return this.roomFactory.randomRoom();
+        return this.roomFactory.randomRoomNoTraps();
+    }
+
+    private void populateRoom(final Room base) {
+        this.roomFactory.addItems(base, this.floorNum);
+        this.roomFactory.addMonsters(base, this.floorNum);
     }
 
 }

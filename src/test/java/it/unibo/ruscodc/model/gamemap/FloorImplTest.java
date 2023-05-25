@@ -1,16 +1,15 @@
 package it.unibo.ruscodc.model.gamemap;
 
-import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
-
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FloorImplTest {
+    private static final int FLOOR_NUM = 1;
+
     /**
      * Methods under test:
      *
@@ -21,7 +20,7 @@ class FloorImplTest {
      */
     @Test
     void testConstructor() {
-        final FloorImpl floor = new FloorImpl();
+        final FloorImpl floor = new FloorImpl(FLOOR_NUM);
 
         assertNotNull(floor.getCurrentRoom());
         assertEquals(new Pair<Integer, Integer>(5, 5), floor.getCurrentRoom().getSize());
@@ -33,7 +32,7 @@ class FloorImplTest {
      */
     @Test
     void testGoToRoom() {
-        final Floor floor = new FloorImpl();
+        final Floor floor = new FloorImpl(FLOOR_NUM);
         final Room prev = floor.getCurrentRoom();
 
         prev.addDoor(Direction.UP);
@@ -48,7 +47,7 @@ class FloorImplTest {
      */
     @Test
     void testGoToRoomNoDoor() {
-        final Floor floor = new FloorImpl();
+        final Floor floor = new FloorImpl(FLOOR_NUM);
         final Room prev = floor.getCurrentRoom();
 
         floor.goToRoom(Direction.UP);
@@ -61,7 +60,7 @@ class FloorImplTest {
      */
     @Test
     void testGoToRoomDirectionUndefined() {
-        final Floor floor = new FloorImpl();
+        final Floor floor = new FloorImpl(FLOOR_NUM);
         final Room prev = floor.getCurrentRoom();
 
         floor.goToRoom(Direction.UNDEFINED);

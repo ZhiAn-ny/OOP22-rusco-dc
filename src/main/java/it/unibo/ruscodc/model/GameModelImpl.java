@@ -6,8 +6,6 @@ import it.unibo.ruscodc.model.actors.hero.HeroImpl;
 import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.FloorImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
-import it.unibo.ruscodc.model.gamemap.Tile;
-import it.unibo.ruscodc.model.interactable.Door;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
@@ -29,8 +27,8 @@ public class GameModelImpl implements GameModel {
      * Class constructor.
      */
     public GameModelImpl() {
-        this.floor = new FloorImpl();
         this.nFloorsExplored = 1;
+        this.floor = new FloorImpl(this.nFloorsExplored);
         this.hero = new HeroImpl(null, null, null, null);
     }
 
@@ -126,6 +124,6 @@ public class GameModelImpl implements GameModel {
     @Override
     public void changeFloor() {
         this.nFloorsExplored = this.nFloorsExplored + 1;
-        this.floor = new FloorImpl();
+        this.floor = new FloorImpl(this.nFloorsExplored);
     }
 }
