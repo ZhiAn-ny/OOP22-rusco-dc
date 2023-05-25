@@ -13,12 +13,16 @@ import it.unibo.ruscodc.model.item.Item;
  * TODO.
  */
 public class DropManagerImpl implements DropManager {
-    private final static Random DICE = new Random();
-    private final static Predicate<Item> ONLY_E = i -> i.isWearable();
-    private final static Predicate<Item> ONLY_C = i -> !(ONLY_E.test(i));
+    private static final Random DICE = new Random();
+    private static final Predicate<Item> ONLY_E = i -> i.isWearable();
+    private static final Predicate<Item> ONLY_C = i -> !(ONLY_E.test(i));
     private final List<Item> extractedDrop;
 
-    public DropManagerImpl(List<Item> extractedDrop) {
+    /**
+     * TODO.
+     * @param extractedDrop TODO.
+     */
+    public DropManagerImpl(final List<Item> extractedDrop) {
         this.extractedDrop = extractedDrop;
     }
 
@@ -30,7 +34,7 @@ public class DropManagerImpl implements DropManager {
         return new ArrayList<>(extractedDrop);
     }
 
-    private List<Item> randomPicks(final List<Item> box){
+    private List<Item> randomPicks(final List<Item> box) {
         final int dropSize = box.size();
         final int amountToDrop = (int) (DICE.nextDouble() * dropSize);
         //System.out.println(amountToDrop);
@@ -48,7 +52,7 @@ public class DropManagerImpl implements DropManager {
         return randomPicks(extractedDrop);
     }
 
-    private List<Item> filteredDrop(Predicate<Item> filter) {
+    private List<Item> filteredDrop(final Predicate<Item> filter) {
         return extractedDrop.stream().filter(filter).collect(Collectors.toList());
     }
 
@@ -83,5 +87,5 @@ public class DropManagerImpl implements DropManager {
     public List<Item> generateRandomEquipDrop() {
         return randomPicks(generateEquipDrop());
     }
-    
+
 }

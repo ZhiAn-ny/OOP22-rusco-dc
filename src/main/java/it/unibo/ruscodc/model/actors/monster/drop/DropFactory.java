@@ -4,10 +4,10 @@ import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
- * TODO
+ * TODO.
  */
 public interface DropFactory {
-    
+
     /**
      * TODO.
      * @param by TODO
@@ -21,7 +21,7 @@ public interface DropFactory {
      * @return TODO
      */
     DropManager createGenericRichDrop(Actor by);
-    
+
     /**
      * TODO.
      * @param by TODO
@@ -33,7 +33,7 @@ public interface DropFactory {
      * TODO.
      * @param roomSize TODO
      * @param floorDepth TODO
-     * @return
+     * @return TODO
      */
     DropManager createDropForRoom(Pair<Integer, Integer> roomSize, int floorDepth);
 
