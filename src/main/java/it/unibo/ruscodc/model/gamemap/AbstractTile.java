@@ -15,6 +15,7 @@ public abstract class AbstractTile implements Tile, Entity {
     private final Pair<Integer, Integer> position;
     private final boolean isAccessible;
     private Interactable content;
+    private final static int MAP_RENDERING_LEVEL = 1;
 
     /**
      * Creates a <code>Tile</code> at the specified position and sets its accessibility.
@@ -22,39 +23,48 @@ public abstract class AbstractTile implements Tile, Entity {
      * @param accessibility whether the tile can be accessed or not by the player
      */
     public AbstractTile(final Pair<Integer, Integer> position, final boolean accessibility) {
+        if (position == null) {
+            throw new IllegalArgumentException("Position cannot be null!");
+        }
         this.position = position;
         this.isAccessible = accessibility;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Pair<Integer, Integer> getPosition() {
         return this.position;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isAccessible() {
         return this.isAccessible;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isTrap() {
         return false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean put(final Interactable obj) {
-        if (this.content != null) {
+        if (this.content != null || obj instanceof Tile) {
             return false;
         }
         this.content = obj;
-        return true;
+        return this.content != null;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Optional<Interactable> get() {
         return Optional.ofNullable(this.content);
     }
 
+    /** {@inheritDoc} */
     @Override
     public Optional<Interactable> empty() {
         final Optional<Interactable> content = this.get();
@@ -62,14 +72,22 @@ public abstract class AbstractTile implements Tile, Entity {
         return content;
     }
 
+    /** {@inheritDoc} */
     @Override
     public SingleTargetEffect getEffect() {
         return (Actor a) -> { };
     }
 
+    /** {@inheritDoc} */
     @Override
     public Pair<Integer, Integer> getPos() {
         return this.position;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int getID() {
+        return MAP_RENDERING_LEVEL;
     }
 
 }

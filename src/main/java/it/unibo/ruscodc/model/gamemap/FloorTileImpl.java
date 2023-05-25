@@ -19,11 +19,6 @@ public class FloorTileImpl extends AbstractTile {
         super(position, accessibility);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public String getID() {
-        return "floor";
-    }
 
     /** {@inheritDoc} */
     @Override

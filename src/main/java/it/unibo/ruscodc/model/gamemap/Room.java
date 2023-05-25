@@ -2,7 +2,7 @@ package it.unibo.ruscodc.model.gamemap;
 
 
 import it.unibo.ruscodc.model.Entity;
-import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
@@ -25,16 +25,23 @@ public interface Room {
     boolean isInRoom(Pair<Integer, Integer> pos);
 
     /**
+     * Adds a monster to the room.
+     * @param monster the monster to add
+     * @return <code>true</code> is the monster has been added to the <code>Room</code>, <code>false</code> otherwise.
+     */
+    boolean addMonster(Monster monster);
+
+    /**
      * Gets the monsters in the room.
      * @return a set representing the monsters in the room
      */
-    Set<Actor> getMonsters();
+    List<Monster> getMonsters();
 
     /**
      * Returns the objects in the room.
      * @return a set representing the objects in the room
      */
-    Set<Interactable> getObjectsInRoom();
+    List<Interactable> getObjectsInRoom();
 
     /**
      * Returns the <code>Room</code>'s tiles as <code>Entity</code>.
@@ -86,12 +93,21 @@ public interface Room {
     /**
      * Adds a single door to the room.
      * @param dir the side of the <code>Room</code> on which the door will be added
+     * @return <code>true</code> is the door was added correctly, <code>false</code> otherwise.
      */
-    void addDoor(Direction dir);
+    boolean addDoor(Direction dir);
 
     /**
-     * Returns the size of the <code>Room</code>.
+     * Returns the inner size of the <code>Room</code>.
      * @return a <code>Pair</code> containing the width and the height of the room.
      */
     Pair<Integer, Integer> getSize();
+
+    /**
+     * Replaces the <code>Tile</code> at the specified position with a new one.
+     * @param pos the position of the <code>Tile</code> to replace
+     * @param newTile the new <code>Tile</code>
+     * @return <code>true</code> if the <code>Tile</code> has been successfully replaced, <code>false</code> otherwise.
+     */
+    boolean replaceTile(Pair<Integer, Integer> pos, Tile newTile);
 }

@@ -12,6 +12,7 @@ import java.util.Random;
 public class FloorImpl implements Floor {
     private Room currentRoom;
     private final RoomFactory roomFactory = new RoomFactoryImpl();
+    private final Random rnd = new Random();
     private final List<Room> rooms = new ArrayList<>();
     private static final int ENTRANCE_SIZE = 5;
     private static final int MAX_ROOMS_NUMBER = 20;
@@ -21,7 +22,14 @@ public class FloorImpl implements Floor {
      */
     public FloorImpl() {
         this.currentRoom = this.roomFactory.squareRoom(ENTRANCE_SIZE);
-        //this.currentRoom.addDoor(Direction.UNDEFINED); // TODO:
+        int i = rnd.nextInt(4);
+        while (i > 0) {
+            Direction dir = Direction.values()[rnd.nextInt(Direction.values().length)];
+            if (this.currentRoom.addDoor(dir)) {
+                i = i - 1;
+            }
+        }
+
         this.rooms.add(this.currentRoom);
     }
 
@@ -40,19 +48,28 @@ public class FloorImpl implements Floor {
     /** {@inheritDoc} */
     @Override
     public void goToRoom(final Direction dir) {
+        if (dir == Direction.UNDEFINED) {
+            return;
+        }
+
         if (this.currentRoom.getConnectedRoom(dir).isPresent()) {
             this.currentRoom = this.currentRoom.getConnectedRoom(dir).get();
             return;
         }
 
         final Room next = this.getNextRoom();
-        this.rooms.add(next);
-        this.currentRoom.addConnectedRoom(dir, next);
+        if (this.currentRoom.addConnectedRoom(dir, next)) {
+            this.rooms.add(next);
+            this.currentRoom = next;
+        }
     }
 
     private Room getNextRoom() {
         final int minRooms = MAX_ROOMS_NUMBER - 10;
         if (this.getNRoomExplored() < minRooms) {
+            if ((new Random().nextInt() % 3) == 0) {
+                return this.roomFactory.randomRoomWithTraps();
+            }
             return this.roomFactory.randomRoom();
         }
 

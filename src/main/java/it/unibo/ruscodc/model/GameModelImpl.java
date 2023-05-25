@@ -2,6 +2,7 @@ package it.unibo.ruscodc.model;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
+import it.unibo.ruscodc.model.actors.hero.HeroImpl;
 import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.FloorImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
@@ -11,6 +12,7 @@ import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +30,7 @@ public class GameModelImpl implements GameModel {
     public GameModelImpl() {
         this.floor = new FloorImpl();
         this.nFloorsExplored = 1;
-        this.hero = null; 
+        this.hero = new HeroImpl(null, null, null, null);
     }
 
     private List<Actor> getParty() {
@@ -41,7 +43,9 @@ public class GameModelImpl implements GameModel {
      */
     @Override
     public List<Actor> getActorByInitative() {
-        return List.of(hero);
+        List<Actor> list = new ArrayList<>();
+        list.add(hero);
+        return list;
     }
 
     /**
@@ -85,9 +89,9 @@ public class GameModelImpl implements GameModel {
             this.floor.goToRoom(Direction.LEFT);
         } else if (pos.getY() == 0) {
             this.floor.goToRoom(Direction.UP);
-        } else if (pos.getY().equals(current.getSize().getY())) {
+        } else if (pos.getY().equals(current.getSize().getY() + 1)) {
             this.floor.goToRoom(Direction.DOWN);
-        } else if (pos.getX().equals(current.getSize().getX())) {
+        } else if (pos.getX().equals(current.getSize().getX() + 1)) {
             this.floor.goToRoom(Direction.RIGHT);
         }
     }

@@ -21,14 +21,6 @@ public class Stair extends InteractableAbs{
         super(pos);
     }
 
-    /**
-     *
-     * @return
-     */
-    @Override
-    public String getID() {
-        return null;
-    }
 
     /**
      *
