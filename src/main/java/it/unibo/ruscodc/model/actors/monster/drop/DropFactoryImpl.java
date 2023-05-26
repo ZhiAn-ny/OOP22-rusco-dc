@@ -14,10 +14,10 @@ import java.util.stream.Stream;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.item.Item;
-import it.unibo.ruscodc.model.item.Consumable.ConsumableFactory;
-import it.unibo.ruscodc.model.item.Consumable.ConsumableFactoryImpl;
-import it.unibo.ruscodc.model.item.Equipement.EquipementFactory;
-import it.unibo.ruscodc.model.item.Equipement.EquipementFactoryImpl;
+import it.unibo.ruscodc.model.item.consumable.ConsumableFactory;
+import it.unibo.ruscodc.model.item.consumable.ConsumableFactoryImpl;
+import it.unibo.ruscodc.model.item.equipement.EquipementFactory;
+import it.unibo.ruscodc.model.item.equipement.EquipementFactoryImpl;
 import it.unibo.ruscodc.utils.MyIterator;
 import it.unibo.ruscodc.utils.Pair;
 
