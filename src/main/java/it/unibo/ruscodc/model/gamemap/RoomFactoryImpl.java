@@ -45,21 +45,30 @@ public class RoomFactoryImpl implements RoomFactory {
         return base;
     }
 
+    @Override
+    public Room randomRoom() {
+        final int roomWithTrapProbability = 3;
+        if (this.rnd.nextInt() % roomWithTrapProbability == 0) {
+            return this.randomRoomWithTraps();
+        }
+        return this.randomRoomNoTraps();
+    }
+
     private Room getRandomShapeRoom() {
         return (this.rnd.nextInt() % 2 == 0) ?
-                this.squareRoom(this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE)) :
-                this.rectangleRoom(this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE), this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE));
+                this.emptySquareRoom(this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE)) :
+                this.emptyRectangleRoom(this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE), this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE));
     }
 
     /** {@inheritDoc} */
     @Override
-    public Room squareRoom(final int size) {
+    public Room emptySquareRoom(final int size) {
         return new RectangleRoomImpl(size, size);
     }
 
     /** {@inheritDoc} */
     @Override
-    public Room rectangleRoom(final int width, final int height) {
+    public Room emptyRectangleRoom(final int width, final int height) {
         return new RectangleRoomImpl(width, height);
     }
 
@@ -79,7 +88,7 @@ public class RoomFactoryImpl implements RoomFactory {
     /** {@inheritDoc} */
     @Override
     public void addDoors(final Room room) {
-        int i = this.rnd.nextInt(1, MAX_DOORS_NUM);
+        int i = this.rnd.nextInt(0, MAX_DOORS_NUM);
         while (i > 0) {
             Direction dir = Direction.values()[this.rnd.nextInt(Direction.values().length)];
             if (room.addDoor(dir)) {

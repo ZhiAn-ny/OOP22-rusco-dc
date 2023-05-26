@@ -23,11 +23,11 @@ public class FloorImpl implements Floor {
 
     /**
      * Constructs a <code>Floor</code> with only an initial of size 5.
-     * @param floorNum
+     * @param floorNum the level of the floor
      */
     public FloorImpl(final int floorNum) {
         this.floorNum = floorNum;
-        this.currentRoom = this.roomFactory.squareRoom(ENTRANCE_SIZE);
+        this.currentRoom = this.roomFactory.emptySquareRoom(ENTRANCE_SIZE);
         this.roomFactory.addDoors(this.currentRoom);
 
         this.manageDoors();
@@ -43,7 +43,7 @@ public class FloorImpl implements Floor {
                 .toList().size();
         this.unusedDoors += roomUnusedDoors;
 
-        if (this.unusedDoors == 0) {
+        if (this.unusedDoors == 0 && !this.readyForNextFloor) {
             this.roomFactory.addDoors(this.currentRoom);
             this.manageDoors();
         }
@@ -85,11 +85,7 @@ public class FloorImpl implements Floor {
     private Room getNextRoom() {
         final int minRooms = MAX_ROOMS_NUMBER - 10;
         if (this.getNRoomExplored() < minRooms) {
-            if ((new Random().nextInt() % 3) == 0) {
-                return this.roomFactory.randomRoomWithTraps();
-            } else {
-                return this.roomFactory.randomRoomNoTraps();
-            }
+            return this.roomFactory.randomRoom();
         }
 
         final int left = MAX_ROOMS_NUMBER - this.getNRoomExplored();

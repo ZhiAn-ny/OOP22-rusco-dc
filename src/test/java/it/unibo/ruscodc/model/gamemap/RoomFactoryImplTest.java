@@ -45,12 +45,12 @@ class RoomFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#squareRoom(int)}
+     * Method under test: {@link RoomFactoryImpl#emptySquareRoom(int)}
      */
     @Test
     void testSquareRoom() {
         final int sideLength = 3;
-        final Room room = this.rfac.squareRoom(sideLength);
+        final Room room = this.rfac.emptySquareRoom(sideLength);
 
         assertTrue(room.getObjectsInRoom().isEmpty());
         assertTrue(room.getMonsters().isEmpty());
@@ -62,21 +62,21 @@ class RoomFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#squareRoom(int)}
+     * Method under test: {@link RoomFactoryImpl#emptySquareRoom(int)}
      */
     @Test
     void testSquareRoomSizeTooSmall() {
-        assertThrows(InvalidParameterException.class, () -> this.rfac.squareRoom(1));
+        assertThrows(InvalidParameterException.class, () -> this.rfac.emptySquareRoom(1));
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#rectangleRoom(int, int)}
+     * Method under test: {@link RoomFactoryImpl#emptyRectangleRoom(int, int)}
      */
     @Test
     void testRectangleRoomSquare() {
         final int wdt = 3;
         final int hgt = 3;
-        final Room room = this.rfac.rectangleRoom(wdt, hgt);
+        final Room room = this.rfac.emptyRectangleRoom(wdt, hgt);
 
         assertTrue(room.getObjectsInRoom().isEmpty());
         assertTrue(room.getMonsters().isEmpty());
@@ -88,13 +88,13 @@ class RoomFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#rectangleRoom(int, int)}
+     * Method under test: {@link RoomFactoryImpl#emptyRectangleRoom(int, int)}
      */
     @Test
     void testRectangleRoom() {
         final int wdt = 6;
         final int hgt = 3;
-        final Room room = this.rfac.rectangleRoom(wdt, hgt);
+        final Room room = this.rfac.emptyRectangleRoom(wdt, hgt);
 
         assertTrue(room.getObjectsInRoom().isEmpty());
         assertTrue(room.getMonsters().isEmpty());
@@ -106,13 +106,13 @@ class RoomFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#rectangleRoom(int, int)}
+     * Method under test: {@link RoomFactoryImpl#emptyRectangleRoom(int, int)}
      */
     @Test
     void testRectangleRoomSizeTooSmall() {
-        assertThrows(InvalidParameterException.class, () -> this.rfac.rectangleRoom(1, 1));
-        assertThrows(InvalidParameterException.class, () -> this.rfac.rectangleRoom(1, 3));
-        assertThrows(InvalidParameterException.class, () -> this.rfac.rectangleRoom(3, 1));
+        assertThrows(InvalidParameterException.class, () -> this.rfac.emptyRectangleRoom(1, 1));
+        assertThrows(InvalidParameterException.class, () -> this.rfac.emptyRectangleRoom(1, 3));
+        assertThrows(InvalidParameterException.class, () -> this.rfac.emptyRectangleRoom(3, 1));
     }
 
 }

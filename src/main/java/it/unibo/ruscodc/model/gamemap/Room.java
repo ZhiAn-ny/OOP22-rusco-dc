@@ -17,12 +17,22 @@ import java.util.Optional;
  */
 public interface Room {
     /**
-     * Checks whether a specified position is part of the room.
-     * @param pos the position check
-     * @return <code>True</code> if the position is part of the room,
-     * <code>False</code> otherwise
+     * Returns the inner size of the <code>Room</code>.
+     * @return a <code>Pair</code> containing the width and the height of the room.
      */
-    boolean isInRoom(Pair<Integer, Integer> pos);
+    Pair<Integer, Integer> getSize();
+
+    /**
+     * Returns the internal area of the room
+     * @return the area of the room
+     */
+    int getArea();
+
+    /**
+     * Gets the monsters in the room.
+     * @return a set representing the monsters in the room
+     */
+    List<Monster> getMonsters();
 
     /**
      * Adds a monster to the room.
@@ -32,22 +42,10 @@ public interface Room {
     boolean addMonster(Monster monster);
 
     /**
-     * Gets the monsters in the room.
-     * @return a set representing the monsters in the room
-     */
-    List<Monster> getMonsters();
-
-    /**
      * Returns the objects in the room.
      * @return a set representing the objects in the room
      */
     List<Interactable> getObjectsInRoom();
-
-    /**
-     * Returns the <code>Room</code>'s tiles as <code>Entity</code>.
-     * @return a list of <code>Entity</code> representing the room's tiles
-     */
-    List<Entity> getTilesAsEntity();
 
     /**
      * Places and entity on the specified position on the map.
@@ -57,6 +55,20 @@ public interface Room {
      * <code>False</code> otherwise.
      */
     boolean put(Pair<Integer, Integer> pos, Interactable obj);
+
+    /**
+     * Returns the <code>Room</code>'s tiles as <code>Entity</code>.
+     * @return a list of <code>Entity</code> representing the room's tiles
+     */
+    List<Entity> getTilesAsEntity();
+
+    /**
+     * Checks whether a specified position is part of the room.
+     * @param pos the position check
+     * @return <code>True</code> if the position is part of the room,
+     * <code>False</code> otherwise
+     */
+    boolean isInRoom(Pair<Integer, Integer> pos);
 
     /**
      * Returns the <code>Tile</code> at the specified position.
@@ -72,6 +84,21 @@ public interface Room {
      * accessible, <code>False</code> otherwise.
      */
     boolean isAccessible(Pair<Integer, Integer> pos);
+
+    /**
+     * Replaces the <code>Tile</code> at the specified position with a new one.
+     * @param pos the position of the <code>Tile</code> to replace
+     * @param newTile the new <code>Tile</code>
+     * @return <code>true</code> if the <code>Tile</code> has been successfully replaced, <code>false</code> otherwise.
+     */
+    boolean replaceTile(Pair<Integer, Integer> pos, Tile newTile);
+
+    /**
+     * Clears the area centered in the specified position.
+     * @param pos the center of the area
+     * @param rad the radius of the area
+     */
+    void clearArea(Pair<Integer, Integer> pos, int rad);
 
     /**
      * Returns the room connected to the current one on the specified side.
@@ -113,36 +140,10 @@ public interface Room {
     boolean addStairs(Direction dir);
 
     /**
-     * Returns the inner size of the <code>Room</code>.
-     * @return a <code>Pair</code> containing the width and the height of the room.
-     */
-    Pair<Integer, Integer> getSize();
-
-    /**
-     * Returns the internal area of the room
-     * @return the area of the room
-     */
-    int getArea();
-
-    /**
-     * Replaces the <code>Tile</code> at the specified position with a new one.
-     * @param pos the position of the <code>Tile</code> to replace
-     * @param newTile the new <code>Tile</code>
-     * @return <code>true</code> if the <code>Tile</code> has been successfully replaced, <code>false</code> otherwise.
-     */
-    boolean replaceTile(Pair<Integer, Integer> pos, Tile newTile);
-
-    /**
      * Returns the door on the specified side of the room if any.
      * @param side the side of the room on which search the door
      * @return an <code>Optional</code> containing the door or an empty <code>Optional</code> if there was no door
      */
     Optional<Interactable> getDoorOnSide(Direction side);
 
-    /**
-     * Clears the area centered in the specified position.
-     * @param pos the center of the area
-     * @param rad the radius of the area
-     */
-    void clearArea(Pair<Integer, Integer> pos, int rad);
 }
