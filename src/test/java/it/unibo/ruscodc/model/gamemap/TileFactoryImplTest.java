@@ -13,7 +13,11 @@ import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 class TileFactoryImplTest {
     private Actor getActor(final Pair<Integer, Integer> pos) {
@@ -26,26 +30,26 @@ class TileFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link TileFactoryImpl#createSingleUseFloorTrap(int, int)}
+     * Method under test: {@link TileFactoryImpl#createSingleUseFloorTrap(int, int)}.
      */
     @Test
     void testCreateSingleUseFloorTrap() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final Tile singleUseFloorTrap = new TileFactoryImpl().createSingleUseFloorTrap(2, 3);
         final Actor actor = this.getActor(pos);
-        int hp = actor.getStatInfo(StatImpl.StatName.HP);
+        int hp = actor.getStatActual(StatImpl.StatName.HP);
 
         assertTrue(singleUseFloorTrap.isTrap());
         singleUseFloorTrap.getEffect().applyEffect(actor);
-        assertTrue(hp > actor.getStatInfo(StatImpl.StatName.HP));
+        assertTrue(hp > actor.getStatActual(StatImpl.StatName.HP));
 
-        hp = actor.getStatInfo(StatImpl.StatName.HP);
+        hp = actor.getStatActual(StatImpl.StatName.HP);
         singleUseFloorTrap.getEffect().applyEffect(actor);
-        assertEquals(hp, actor.getStatInfo(StatImpl.StatName.HP));
+        assertEquals(hp, actor.getStatActual(StatImpl.StatName.HP));
     }
 
     /**
-     * Method under test: {@link TileFactoryImpl#createFloorTrap(int, int)}
+     * Method under test: {@link TileFactoryImpl#createFloorTrap(int, int)}.
      */
     @Test
     void testCreateFloorTrap() {
@@ -55,14 +59,14 @@ class TileFactoryImplTest {
 
         assertTrue(floorTrap.isTrap());
         for (int i = 0; i < 3; i++) {
-            final int hp = actor.getStatInfo(StatImpl.StatName.HP);
+            final int hp = actor.getStatActual(StatImpl.StatName.HP);
             floorTrap.getEffect().applyEffect(actor);
-            assertTrue(hp > actor.getStatInfo(StatImpl.StatName.HP));
+            assertTrue(hp > actor.getStatActual(StatImpl.StatName.HP));
         }
     }
 
     /**
-     * Method under test: {@link TileFactoryImpl#createBaseFloorTile(int, int)}
+     * Method under test: {@link TileFactoryImpl#createBaseFloorTile(int, int)}.
      */
     @Test
     void testCreateBaseFloorTile() {
@@ -72,7 +76,7 @@ class TileFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link TileFactoryImpl#createRandomFloorTile(int, int)}
+     * Method under test: {@link TileFactoryImpl#createRandomFloorTile(int, int)}.
      */
     @Test
     void testCreateRandomFloorTile() {
@@ -81,7 +85,7 @@ class TileFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
+     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}.
      */
     @Test
     void testCreateBaseWallTileTopWall() {
@@ -106,7 +110,7 @@ class TileFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
+     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}.
      */
     @Test
     void testCreateBaseWallTileBottomWall() {
@@ -131,7 +135,7 @@ class TileFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
+     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}.
      */
     @Test
     void testCreateBaseWallTileLeftWall() {
@@ -156,7 +160,7 @@ class TileFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
+     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}.
      */
     @Test
     void testCreateBaseWallTileRightWall() {
@@ -181,7 +185,7 @@ class TileFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
+     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}.
      */
     @Test
     void testCreateBaseWallTileInsideRoom() {
@@ -195,7 +199,7 @@ class TileFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
+     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}.
      */
     @Test
     void testCreateBaseWallTileOutsideRoomUnaligned() {
@@ -209,7 +213,7 @@ class TileFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
+     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}.
      */
     @Test
     void testCreateBaseWallTileOutsideRoomAligned() {
@@ -223,7 +227,7 @@ class TileFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}
+     * Method under test: {@link TileFactoryImpl#createBaseWallTile(int, int, Pair)}.
      */
     @Test
     void testCreateBaseWallTileNullRoomSize() {

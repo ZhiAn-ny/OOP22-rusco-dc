@@ -31,15 +31,21 @@ public class WallTileImpl extends AbstractTile {
 
     /** {@inheritDoc} */
     @Override
-    public String getID() {
-        return "wall";
+    public String getPath() {
+        return "file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/"
+                + this.side.name();
     }
 
     /** {@inheritDoc} */
     @Override
-    public String getPath() {
-        return "file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/"
-                + this.side.name();
+    public String toString() {
+        return switch (this.side) {
+            case TOP, BOTTOM -> "---";
+            case RIGHT, LEFT -> " | ";
+            case TOP_LEFT, BOTTOM_LEFT -> " +-";
+            case TOP_RIGHT, BOTTOM_RIGHT -> "-+ ";
+            default -> "NIL";
+        };
     }
 
 }

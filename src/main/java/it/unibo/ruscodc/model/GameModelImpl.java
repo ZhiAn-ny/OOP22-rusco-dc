@@ -6,11 +6,10 @@ import it.unibo.ruscodc.model.actors.hero.HeroImpl;
 import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.FloorImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
-import it.unibo.ruscodc.model.gamemap.Tile;
-import it.unibo.ruscodc.model.interactable.Door;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
+import it.unibo.ruscodc.utils.Pairs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +27,8 @@ public class GameModelImpl implements GameModel {
      * Class constructor.
      */
     public GameModelImpl() {
-        this.floor = new FloorImpl();
         this.nFloorsExplored = 1;
+        this.floor = new FloorImpl(this.nFloorsExplored);
         this.hero = new HeroImpl(null, null, null, null);
     }
 
@@ -81,24 +80,57 @@ public class GameModelImpl implements GameModel {
 
     @Override
     public void changeRoom(final Pair<Integer, Integer> pos) {
-        final Room current = this.floor.getCurrentRoom();
-        if (!current.isInRoom(pos)) {
+        if (!this.floor.getCurrentRoom().isInRoom(pos)) {
             return;
         }
-        if (pos.getX() == 0) {
-            this.floor.goToRoom(Direction.LEFT);
-        } else if (pos.getY() == 0) {
-            this.floor.goToRoom(Direction.UP);
-        } else if (pos.getY().equals(current.getSize().getY() + 1)) {
-            this.floor.goToRoom(Direction.DOWN);
-        } else if (pos.getX().equals(current.getSize().getX() + 1)) {
-            this.floor.goToRoom(Direction.RIGHT);
+        final Direction dir = this.getDoorDirection(pos.getX(), pos.getY());
+        this.floor.goToRoom(dir);
+
+        Optional<Interactable> door = this.floor.getCurrentRoom()
+                                          .getDoorOnSide(dir.getOpposite());
+        if (door.isEmpty()) {
+            throw new IllegalStateException("Door not found");
         }
+        this.respawnParty(this.moveToDirection(door.get().getPos(), dir.getOpposite()));
+    }
+
+    private Direction getDoorDirection(final int x, final int y) {
+        if (x == 0) {
+            return Direction.LEFT;
+        } else if (y == 0) {
+            return Direction.UP;
+        } else if (y == this.floor.getCurrentRoom().getSize().getY() + 1) {
+            return Direction.DOWN;
+        } else if (x == this.floor.getCurrentRoom().getSize().getX() + 1) {
+            return Direction.RIGHT;
+        }
+        return Direction.UNDEFINED;
+    }
+
+    private Pair<Integer, Integer> moveToDirection(final Pair<Integer, Integer> pos, final Direction dir) {
+        return switch (dir) {
+            case UP -> Pairs.computeDownPair(pos);
+            case DOWN -> Pairs.computeUpPair(pos);
+            case RIGHT -> Pairs.computeLeftPair(pos);
+            case LEFT -> Pairs.computeRightPair(pos);
+            default -> pos;
+        };
+    }
+
+    private void respawnParty(final Pair<Integer, Integer> pos) {
+        final int radius = 2;
+        this.hero.setPos(pos);
+        this.getCurrentRoom().clearArea(pos, radius);
     }
 
     @Override
     public void changeFloor() {
         this.nFloorsExplored = this.nFloorsExplored + 1;
-        this.floor = new FloorImpl();
+        this.floor = new FloorImpl(this.nFloorsExplored);
+    }
+
+    @Override
+    public Floor getCurrentFloor() {
+        return this.floor;
     }
 }
