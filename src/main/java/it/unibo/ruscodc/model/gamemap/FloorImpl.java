@@ -12,8 +12,8 @@ import java.util.Random;
  */
 public class FloorImpl implements Floor {
     private Room currentRoom;
-    private int unusedDoors = 0;
-    private boolean readyForNextFloor = false;
+    private int unusedDoors;
+    private boolean readyForNextFloor;
     private final int floorNum;
     private final RoomFactory roomFactory = new RoomFactoryImpl();
     private final Random rnd = new Random();
@@ -33,7 +33,6 @@ public class FloorImpl implements Floor {
         this.manageDoors();
 
         this.rooms.add(this.currentRoom);
-        System.out.println(this.currentRoom.toString());
     }
 
     private void manageDoors() {
@@ -89,7 +88,7 @@ public class FloorImpl implements Floor {
         }
 
         final int left = MAX_ROOMS_NUMBER - this.getNRoomExplored();
-        final int prob = new Random().nextInt(0, left + 1);
+        final int prob = this.rnd.nextInt(0, left + 1);
         if (prob == 0) {
             this.readyForNextFloor = true;
             return this.roomFactory.stairsRoom();
@@ -102,6 +101,7 @@ public class FloorImpl implements Floor {
         this.roomFactory.addMonsters(base, this.floorNum);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "FLOOR: " + this.floorNum + "\nUNUSED DOORS: " + this.unusedDoors;

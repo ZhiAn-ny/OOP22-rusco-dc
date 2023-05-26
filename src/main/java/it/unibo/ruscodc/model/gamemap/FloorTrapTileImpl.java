@@ -19,7 +19,8 @@ import java.util.function.Consumer;
  * of damage each time and can be disabled with a simple interaction.
  */
 public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
-    private int damage = 5;
+    private static final int DEFAULT_DAMAGE = 5;
+    private int damage;
     private boolean isReady = true;
     private int disableSuccessRate = 100;
     private Consumer<FloorTrapTileImpl> postTriggered = (self) -> { };
@@ -30,6 +31,7 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
      */
     public FloorTrapTileImpl(final Pair<Integer, Integer> pos) {
         super(pos, true);
+        this.damage = DEFAULT_DAMAGE;
     }
 
     /**
@@ -116,6 +118,7 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
         return false;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "[*]";

@@ -1,7 +1,6 @@
 package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.model.Entity;
-import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.interactable.Door;
 import it.unibo.ruscodc.model.interactable.Interactable;
@@ -11,7 +10,12 @@ import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 
 import java.security.InvalidParameterException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
 import java.util.function.Predicate;
 
 /**
@@ -256,6 +260,7 @@ public class RectangleRoomImpl implements Room {
         return true;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Optional<Interactable> getDoorOnSide(final Direction side) {
         final Optional<Tile> tile = this.tiles.stream().filter(this.onSide(side))
@@ -268,9 +273,10 @@ public class RectangleRoomImpl implements Room {
         return Optional.empty();
     }
 
+    /** {@inheritDoc} */
     @Override
-    public void clearArea(Pair<Integer, Integer> pos, int rad) {
-        final List<Tile> tilesInArea = new ArrayList<Tile>();
+    public void clearArea(final Pair<Integer, Integer> pos, final int rad) {
+        final List<Tile> tilesInArea = new ArrayList<>();
         Pairs.computeCircle(pos, rad, true).forEach(str -> str.forEach(xy ->
             this.get(xy).ifPresent(tilesInArea::add)
         ));
@@ -285,12 +291,14 @@ public class RectangleRoomImpl implements Room {
         this.monsters.removeIf(m -> positions.contains(m.getPos()));
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder("size: " + this.size.getX() + ", " + this.size.getY() + "\n");
+        // TODO: remove when view is working
+        final StringBuilder str = new StringBuilder("size: " + this.size.getX() + ", " + this.size.getY() + "\n");
         for (int y = 0; y < this.size.getY() + 2; y++) {
             for (int x = 0; x < this.size.getX() + 2; x++) {
-                Tile t = this.get(new Pair<>(x, y)).orElse(null);
+                final Tile t = this.get(new Pair<>(x, y)).orElse(null);
                 if (t == null) {
                     str.append("NIL");
                     continue;

@@ -29,6 +29,7 @@ public class FloorTileImpl extends AbstractTile {
         return "file:src/main/resources/it/unibo/ruscodc/map_res/FloorTile";
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         if (this.get().isPresent()) {

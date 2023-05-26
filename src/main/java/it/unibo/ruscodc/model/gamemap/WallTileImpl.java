@@ -36,6 +36,7 @@ public class WallTileImpl extends AbstractTile {
                 + this.side.name();
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return switch (this.side) {

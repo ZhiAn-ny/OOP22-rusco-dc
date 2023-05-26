@@ -23,7 +23,7 @@ public interface Room {
     Pair<Integer, Integer> getSize();
 
     /**
-     * Returns the internal area of the room
+     * Returns the internal area of the room.
      * @return the area of the room
      */
     int getArea();
@@ -73,7 +73,8 @@ public interface Room {
     /**
      * Returns the <code>Tile</code> at the specified position.
      * @param pos the position of the <code>Tile</code> to retrieve
-     * @return an <code>Optional</code> containing the tile at said position or an empty <code>Optional</code> if the position is out of the room
+     * @return an <code>Optional</code> containing the tile at said position or
+     * an empty <code>Optional</code> if the position is out of the room
      */
     Optional<Tile> get(Pair<Integer, Integer> pos);
 
@@ -89,7 +90,8 @@ public interface Room {
      * Replaces the <code>Tile</code> at the specified position with a new one.
      * @param pos the position of the <code>Tile</code> to replace
      * @param newTile the new <code>Tile</code>
-     * @return <code>true</code> if the <code>Tile</code> has been successfully replaced, <code>false</code> otherwise.
+     * @return <code>true</code> if the <code>Tile</code> has been successfully replaced,
+     * <code>false</code> otherwise.
      */
     boolean replaceTile(Pair<Integer, Integer> pos, Tile newTile);
 

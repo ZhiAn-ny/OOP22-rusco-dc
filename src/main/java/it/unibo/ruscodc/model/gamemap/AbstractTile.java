@@ -15,7 +15,7 @@ public abstract class AbstractTile implements Tile, Entity {
     private final Pair<Integer, Integer> position;
     private final boolean isAccessible;
     private Interactable content;
-    private final static int MAP_RENDERING_LEVEL = 1;
+    private static final int MAP_RENDERING_LEVEL = 1;
 
     /**
      * Creates a <code>Tile</code> at the specified position and sets its accessibility.

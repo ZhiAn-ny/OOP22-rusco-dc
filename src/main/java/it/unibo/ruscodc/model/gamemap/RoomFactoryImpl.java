@@ -11,7 +11,7 @@ import java.util.Random;
 import java.util.Set;
 
 /**
- * The <coode>RoomFactory</coode> class can be used to generate different
+ * The <code>RoomFactory</code> class can be used to generate different
  * types of rooms in the game.
  */
 public class RoomFactoryImpl implements RoomFactory {
@@ -30,6 +30,7 @@ public class RoomFactoryImpl implements RoomFactory {
         return this.getRandomShapeRoom();
     }
 
+    /** {@inheritDoc} */
     @Override
     public Room randomRoomWithTraps() {
         final Room base = this.randomRoomNoTraps();
@@ -45,6 +46,7 @@ public class RoomFactoryImpl implements RoomFactory {
         return base;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Room randomRoom() {
         final int roomWithTrapProbability = 3;
@@ -55,9 +57,10 @@ public class RoomFactoryImpl implements RoomFactory {
     }
 
     private Room getRandomShapeRoom() {
-        return (this.rnd.nextInt() % 2 == 0) ?
-                this.emptySquareRoom(this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE)) :
-                this.emptyRectangleRoom(this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE), this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE));
+        return (this.rnd.nextInt() % 2 == 0)
+                ? this.emptySquareRoom(this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE))
+                : this.emptyRectangleRoom(this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE),
+                                          this.rnd.nextInt(MIN_ROOM_SIZE, MAX_ROOM_SIZE));
     }
 
     /** {@inheritDoc} */
@@ -78,7 +81,7 @@ public class RoomFactoryImpl implements RoomFactory {
         final Room base = this.randomRoomNoTraps();
 
         Direction dir = Direction.values()[rnd.nextInt(Direction.values().length)];
-        while(!base.addStairs(dir)) {
+        while (!base.addStairs(dir)) {
             // Could not add stairs, retry on different direction
             dir = Direction.values()[rnd.nextInt(Direction.values().length)];
         }
@@ -90,7 +93,7 @@ public class RoomFactoryImpl implements RoomFactory {
     public void addDoors(final Room room) {
         int i = this.rnd.nextInt(0, MAX_DOORS_NUM);
         while (i > 0) {
-            Direction dir = Direction.values()[this.rnd.nextInt(Direction.values().length)];
+            final Direction dir = Direction.values()[this.rnd.nextInt(Direction.values().length)];
             if (room.addDoor(dir)) {
                 i = i - 1;
             }
