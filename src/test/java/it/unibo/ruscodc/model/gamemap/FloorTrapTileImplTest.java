@@ -19,30 +19,26 @@ import org.junit.jupiter.api.Test;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 class FloorTrapTileImplTest {
     private static final int DEFAULT_DMG = 5;
 
     private Actor getActor(final Pair<Integer, Integer> pos) {
         final StatFactory stats = new StatFactoryImpl();
-        final MonsterActionFactory mfac = new MonsterActionFactoryImpl();
+        final MonsterActionFactory monsterActionFactory = new MonsterActionFactoryImpl();
         final Skill skills = new SkillImpl();
-        skills.setAction(GameControl.ATTACK1, mfac.basicMeleeAttack());
-        skills.setAction(GameControl.ATTACK2, mfac.heavyMeleeAttack());
+        skills.setAction(GameControl.ATTACK1, monsterActionFactory.basicMeleeAttack());
+        skills.setAction(GameControl.ATTACK2, monsterActionFactory.heavyMeleeAttack());
         return new HeroImpl("testHero", pos, skills, stats.ratStat());
     }
-    
+
     /**
-     * Methods under test:
-     *
-     * <ul>
-     *   <li>{@link FloorTrapTileImpl#FloorTrapTileImpl(Pair)}
-     *   <li>{@link FloorTrapTileImpl#getName()}
-     *   <li>{@link FloorTrapTileImpl#isTrap()}
-     *   <li>{@link FloorTrapTileImpl#isAccessible()}
-     *   <li>{@link FloorTrapTileImpl#getPosition()}
-     * </ul>
+     * Method under test: default or parameterless constructor of {@link FloorTrapTileImpl}.
      */
     @Test
     void testConstructor() {
@@ -58,7 +54,7 @@ class FloorTrapTileImplTest {
     }
 
     /**
-     * Methods under test: {@link FloorTileImpl#FloorTileImpl(Pair, boolean)}
+     * Methods under test: {@link FloorTileImpl#FloorTileImpl(Pair, boolean)}.
      */
     @Test
     void testConstructorNullPosition() {
@@ -66,10 +62,7 @@ class FloorTrapTileImplTest {
     }
 
     /**
-     * Methods under test:
-     * <ul>
-     *     <li>{@link FloorTrapTileImpl#get()}
-     * </ul>
+     * Methods under test: {@link FloorTrapTileImpl#get()}.
      */
     @Test
     void testGet() {
@@ -81,10 +74,7 @@ class FloorTrapTileImplTest {
     }
 
     /**
-     * Methods under test:
-     * <ul>
-     *     <li>{@link FloorTrapTileImpl#get()}
-     * </ul>
+     * Methods under test: {@link FloorTrapTileImpl#get()}.
      */
     @Test
     void testGetAfterEmpty() {
@@ -97,7 +87,7 @@ class FloorTrapTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTrapTileImpl#put(Interactable)}
+     * Method under test: {@link FloorTrapTileImpl#put(Interactable)}.
      */
     @Test
     void testPut() {
@@ -112,7 +102,7 @@ class FloorTrapTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTrapTileImpl#getEffect()}
+     * Method under test: {@link FloorTrapTileImpl#getEffect()}.
      */
     @Test
     void testGetEffect() {
@@ -126,7 +116,7 @@ class FloorTrapTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTrapTileImpl#getEffect()}
+     * Method under test: {@link FloorTrapTileImpl#getEffect()}.
      */
     @Test
     void testGetEffectMultipleTimes() {
@@ -142,7 +132,7 @@ class FloorTrapTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTrapTileImpl#interact()}
+     * Method under test: {@link FloorTrapTileImpl#interact()}.
      */
     @Test
     void testInteract() {
@@ -158,7 +148,7 @@ class FloorTrapTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTrapTileImpl#interact()}
+     * Method under test: {@link FloorTrapTileImpl#interact()}.
      */
     @Test
     void testInteractDoubleInteraction() {
@@ -175,7 +165,7 @@ class FloorTrapTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTrapTileImpl#setDisableSuccessRate(int)}
+     * Method under test: {@link FloorTrapTileImpl#setDisableSuccessRate(int)}.
      */
     @Test
     void testSetDisableSuccessRateInRange() {
@@ -192,7 +182,7 @@ class FloorTrapTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTrapTileImpl#setDisableSuccessRate(int)}
+     * Method under test: {@link FloorTrapTileImpl#setDisableSuccessRate(int)}.
      */
     @Test
     void testSetDisableSuccessRateAfterInteraction() {
@@ -209,31 +199,33 @@ class FloorTrapTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTrapTileImpl#setDisableSuccessRate(int)}
+     * Method under test: {@link FloorTrapTileImpl#setDisableSuccessRate(int)}.
      */
     @Test
     void testSetDisableSuccessRateOutOfRange() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final Actor actor = this.getActor(pos);
         final FloorTrapTileImpl trapTile = new FloorTrapTileImpl(pos);
+        final int upperOutOfBound = 130;
+        final int lowerOutOfBound = -15;
         int hp = actor.getStatActual(StatImpl.StatName.HP);
 
         trapTile.setDisableSuccessRate(1);
-        trapTile.setDisableSuccessRate(130);
+        trapTile.setDisableSuccessRate(upperOutOfBound);
         trapTile.interact();
         trapTile.getEffect().applyEffect(actor);
         assertEquals(hp - DEFAULT_DMG, actor.getStatActual(StatImpl.StatName.HP));
 
         hp = actor.getStatActual(StatImpl.StatName.HP);
         trapTile.setDisableSuccessRate(100);
-        trapTile.setDisableSuccessRate(-15);
+        trapTile.setDisableSuccessRate(lowerOutOfBound);
         trapTile.interact();
         trapTile.getEffect().applyEffect(actor);
         assertEquals(hp, actor.getStatActual(StatImpl.StatName.HP));
     }
 
     /**
-     * Method under test: {@link FloorTrapTileImpl#setDamage(int)}
+     * Method under test: {@link FloorTrapTileImpl#setDamage(int)}.
      */
     @Test
     void testSetDamage() {
@@ -241,15 +233,16 @@ class FloorTrapTileImplTest {
         final Actor actor = this.getActor(pos);
         final FloorTrapTileImpl trapTile = new FloorTrapTileImpl(pos);
         final int hp = actor.getStatActual(StatImpl.StatName.HP);
+        final int newDmg = 30;
 
-        trapTile.setDamage(30);
+        trapTile.setDamage(newDmg);
         trapTile.getEffect().applyEffect(actor);
 
-        assertEquals(hp - 30, actor.getStatActual(StatImpl.StatName.HP));
+        assertEquals(hp - newDmg, actor.getStatActual(StatImpl.StatName.HP));
     }
 
     /**
-     * Method under test: {@link FloorTrapTileImpl#setPostTriggered(Consumer)}
+     * Method under test: {@link FloorTrapTileImpl#setPostTriggered(Consumer)}.
      */
     @Test
     void testSetPostTriggered() {
@@ -262,7 +255,7 @@ class FloorTrapTileImplTest {
 
         trapTile.getEffect().applyEffect(actor);
         assertEquals(hp - DEFAULT_DMG, actor.getStatActual(StatImpl.StatName.HP));
-        
+
         hp = actor.getStatActual(StatImpl.StatName.HP);
         trapTile.getEffect().applyEffect(actor);
         assertEquals(hp, actor.getStatActual(StatImpl.StatName.HP));

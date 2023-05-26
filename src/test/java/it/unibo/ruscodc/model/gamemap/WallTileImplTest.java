@@ -12,25 +12,21 @@ import java.util.Set;
 
 class WallTileImplTest {
     /**
-     * Methods under test:
-     *
-     * <ul>
-     *   <li>{@link WallTileImpl#WallTileImpl(Pair, WallType)}
-     *   <li>{@link WallTileImpl#getID()}
-     * </ul>
+     * Method under test: default or parameterless constructor of {@link WallTileImpl}.
      */
     @Test
     void testConstructor() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final WallTileImpl wallTile = new WallTileImpl(pos, WallType.TOP);
 
-        assertEquals("wall", wallTile.getID());
+        assertEquals(1, wallTile.getID());
         assertEquals(pos, wallTile.getPosition());
         assertFalse(wallTile.isAccessible());
         assertFalse(wallTile.isTrap());
     }
 
     /**
+     * Tests object placement over WallTile.
      * Methods under test:
      * <ul>
      *   <li>{@link WallTileImpl#put(Interactable)}
@@ -48,7 +44,7 @@ class WallTileImplTest {
     }
 
     /**
-     * Method under test: {@link WallTileImpl#getPath()}
+     * Method under test: {@link WallTileImpl#getPath()}.
      */
     @Test
     void testGetPath() {

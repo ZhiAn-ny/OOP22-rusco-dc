@@ -7,17 +7,21 @@ import java.security.InvalidParameterException;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 class RoomFactoryImplTest {
-    private final RoomFactory rfac = new RoomFactoryImpl();
+    private final RoomFactory roomFactory = new RoomFactoryImpl();
 
     /**
-     * Method under test: {@link RoomFactoryImpl#randomRoomNoTraps()}
+     * Method under test: {@link RoomFactoryImpl#randomRoomNoTraps()}.
      */
     @Test
     void testRandomRoom() {
-        final Room room = this.rfac.randomRoomNoTraps();
+        final Room room = this.roomFactory.randomRoomNoTraps();
 
         assertTrue(room.getObjectsInRoom().isEmpty());
         assertTrue(room.getMonsters().isEmpty());
@@ -29,11 +33,11 @@ class RoomFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#randomRoomWithTraps()}
+     * Method under test: {@link RoomFactoryImpl#randomRoomWithTraps()}.
      */
     @Test
     void testRandomRoomWithTraps() {
-        final Room room = this.rfac.randomRoomWithTraps();
+        final Room room = this.roomFactory.randomRoomWithTraps();
 
         assertFalse(room.getObjectsInRoom().isEmpty());
         assertTrue(room.getMonsters().isEmpty());
@@ -45,74 +49,77 @@ class RoomFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#emptySquareRoom(int)}
+     * Method under test: {@link RoomFactoryImpl#emptySquareRoom(int)}.
      */
     @Test
     void testSquareRoom() {
         final int sideLength = 3;
-        final Room room = this.rfac.emptySquareRoom(sideLength);
+        final Room room = this.roomFactory.emptySquareRoom(sideLength);
+        final int expectedTilesNum = (int) Math.pow(sideLength + 2, 2);
 
         assertTrue(room.getObjectsInRoom().isEmpty());
         assertTrue(room.getMonsters().isEmpty());
-        assertEquals(25, room.getTilesAsEntity().size());
-        assertEquals(new Pair<Integer, Integer>(sideLength, sideLength), room.getSize());
+        assertEquals(expectedTilesNum, room.getTilesAsEntity().size());
+        assertEquals(new Pair<>(sideLength, sideLength), room.getSize());
         for (int i = 0; i < Direction.values().length; i++) {
             assertTrue(room.getConnectedRoom(Direction.values()[i]).isEmpty());
         }
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#emptySquareRoom(int)}
+     * Method under test: {@link RoomFactoryImpl#emptySquareRoom(int)}.
      */
     @Test
     void testSquareRoomSizeTooSmall() {
-        assertThrows(InvalidParameterException.class, () -> this.rfac.emptySquareRoom(1));
+        assertThrows(InvalidParameterException.class, () -> this.roomFactory.emptySquareRoom(1));
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#emptyRectangleRoom(int, int)}
+     * Method under test: {@link RoomFactoryImpl#emptyRectangleRoom(int, int)}.
      */
     @Test
     void testRectangleRoomSquare() {
         final int wdt = 3;
         final int hgt = 3;
-        final Room room = this.rfac.emptyRectangleRoom(wdt, hgt);
+        final Room room = this.roomFactory.emptyRectangleRoom(wdt, hgt);
+        final int expectedTilesNum = (wdt + 2) * (hgt + 2);
 
         assertTrue(room.getObjectsInRoom().isEmpty());
         assertTrue(room.getMonsters().isEmpty());
-        assertEquals(25, room.getTilesAsEntity().size());
-        assertEquals(new Pair<Integer, Integer>(wdt, hgt), room.getSize());
+        assertEquals(expectedTilesNum, room.getTilesAsEntity().size());
+        assertEquals(new Pair<>(wdt, hgt), room.getSize());
         for (int i = 0; i < Direction.values().length; i++) {
             assertTrue(room.getConnectedRoom(Direction.values()[i]).isEmpty());
         }
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#emptyRectangleRoom(int, int)}
+     * Method under test: {@link RoomFactoryImpl#emptyRectangleRoom(int, int)}.
      */
     @Test
     void testRectangleRoom() {
         final int wdt = 6;
         final int hgt = 3;
-        final Room room = this.rfac.emptyRectangleRoom(wdt, hgt);
+        final Room room = this.roomFactory.emptyRectangleRoom(wdt, hgt);
+        final int expectedTilesNum = (wdt + 2) * (hgt + 2);
 
         assertTrue(room.getObjectsInRoom().isEmpty());
         assertTrue(room.getMonsters().isEmpty());
-        assertEquals(40, room.getTilesAsEntity().size());
-        assertEquals(new Pair<Integer, Integer>(wdt, hgt), room.getSize());
+        assertEquals(expectedTilesNum, room.getTilesAsEntity().size());
+        assertEquals(new Pair<>(wdt, hgt), room.getSize());
         for (int i = 0; i < Direction.values().length; i++) {
             assertTrue(room.getConnectedRoom(Direction.values()[i]).isEmpty());
         }
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#emptyRectangleRoom(int, int)}
+     * Method under test: {@link RoomFactoryImpl#emptyRectangleRoom(int, int)}.
      */
     @Test
     void testRectangleRoomSizeTooSmall() {
-        assertThrows(InvalidParameterException.class, () -> this.rfac.emptyRectangleRoom(1, 1));
-        assertThrows(InvalidParameterException.class, () -> this.rfac.emptyRectangleRoom(1, 3));
-        assertThrows(InvalidParameterException.class, () -> this.rfac.emptyRectangleRoom(3, 1));
+        assertThrows(InvalidParameterException.class, () -> this.roomFactory.emptyRectangleRoom(1, 1));
+        assertThrows(InvalidParameterException.class, () -> this.roomFactory.emptyRectangleRoom(1, 3));
+        assertThrows(InvalidParameterException.class, () -> this.roomFactory.emptyRectangleRoom(3, 1));
     }
 
 }

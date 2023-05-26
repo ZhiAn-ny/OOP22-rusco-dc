@@ -17,25 +17,23 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 class FloorTileImplTest {
     private Actor getActor(final Pair<Integer, Integer> pos) {
         final StatFactory stats = new StatFactoryImpl();
-        final MonsterActionFactory monstActFactory = new MonsterActionFactoryImpl();
+        final MonsterActionFactory maf = new MonsterActionFactoryImpl();
         final Skill skills = new SkillImpl();
-        skills.setAction(GameControl.ATTACK1, monstActFactory.basicMeleeAttack());
+        skills.setAction(GameControl.ATTACK1, maf.basicMeleeAttack());
         return new HeroImpl("testHero", pos, skills, stats.ratStat());
     }
 
     /**
-     * Methods under test:
-     *
-     * <ul>
-     *   <li>{@link FloorTileImpl#FloorTileImpl(Pair, boolean)}
-     *   <li>{@link FloorTileImpl#getID()}
-     *   <li>{@link FloorTileImpl#getPath()}
-     * </ul>
+     * Method under test: default or parameterless constructor of {@link FloorTileImpl}.
      */
     @Test
     void testConstructor() {
@@ -45,12 +43,12 @@ class FloorTileImplTest {
         assertEquals(pos, floorTile.getPos());
         assertFalse(floorTile.isTrap());
         assertFalse(floorTile.get().isPresent());
-        assertEquals("floor", floorTile.getID());
+        assertEquals(1, floorTile.getID());
         assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/FloorTile", floorTile.getPath());
     }
 
     /**
-     * Methods under test: {@link FloorTileImpl#FloorTileImpl(Pair, boolean)}
+     * Methods under test: {@link FloorTileImpl#FloorTileImpl(Pair, boolean)}.
      */
     @Test
     void testConstructorNullPosition() {
@@ -58,7 +56,7 @@ class FloorTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTileImpl#put(Interactable)}
+     * Method under test: {@link FloorTileImpl#put(Interactable)}.
      */
     @Test
     void testPutEmptyTile() {
@@ -71,7 +69,7 @@ class FloorTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTileImpl#put(Interactable)}
+     * Method under test: {@link FloorTileImpl#put(Interactable)}.
      */
     @Test
     void testPutTileInTile() {
@@ -82,7 +80,7 @@ class FloorTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTileImpl#put(Interactable)}
+     * Method under test: {@link FloorTileImpl#put(Interactable)}.
      */
     @Test
     void testPutOccupiedTile() {
@@ -94,7 +92,7 @@ class FloorTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTileImpl#get()}
+     * Method under test: {@link FloorTileImpl#get()}.
      */
     @Test
     void testGetOccupiedTile() {
@@ -106,7 +104,7 @@ class FloorTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTileImpl#get()}
+     * Method under test: {@link FloorTileImpl#get()}.
      */
     @Test
     void testGetEmptyTile() {
@@ -117,7 +115,7 @@ class FloorTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTileImpl#get()}
+     * Method under test: {@link FloorTileImpl#get()}.
      */
     @Test
     void testGetAfterEmpty() {
@@ -130,7 +128,7 @@ class FloorTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTileImpl#get()}
+     * Method under test: {@link FloorTileImpl#get()}.
      */
     @Test
     void testEmptyEmptyTile() {
@@ -141,7 +139,7 @@ class FloorTileImplTest {
     }
 
     /**
-     * Method under test: {@link FloorTileImpl#get()}
+     * Method under test: {@link FloorTileImpl#get()}.
      */
     @Test
     void testEmptyOccupiedTile() {
@@ -153,7 +151,7 @@ class FloorTileImplTest {
     }
 
     /**
-     * Methods under test: {@link FloorTileImpl#getEffect()}
+     * Methods under test: {@link FloorTileImpl#getEffect()}.
      */
     @Test
     void testGetEffect() {
