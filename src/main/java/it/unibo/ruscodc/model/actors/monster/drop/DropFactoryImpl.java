@@ -46,7 +46,7 @@ public class DropFactoryImpl implements DropFactory {
         }
     }
 
-    private static void fillTable(final Set<Method> itemsToAdd, final Object receiver, final Map<Integer, Item> toFill) {
+    private void fillTable(final Set<Method> itemsToAdd, final Object receiver, final Map<Integer, Item> toFill) {
         final MyIterator<Integer> myIt = new MyIterator<>(Stream.iterate(0, i -> i + 1).iterator());
         itemsToAdd.forEach(m -> {
             try {
@@ -58,7 +58,7 @@ public class DropFactoryImpl implements DropFactory {
         });
     }
 
-    private static void init() {
+    private void init() {
         final Method[] eM = EquipementFactory.class.getMethods();
         final Method[] cM = ConsumableFactory.class.getMethods();
         final Method[] oM = Object.class.getMethods();

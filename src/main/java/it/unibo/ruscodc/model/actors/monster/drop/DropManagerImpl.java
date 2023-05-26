@@ -16,14 +16,14 @@ public class DropManagerImpl implements DropManager {
     private static final Random DICE = new Random();
     private static final Predicate<Item> ONLY_E = i -> i.isWearable();
     private static final Predicate<Item> ONLY_C = i -> !(ONLY_E.test(i));
-    private final List<Item> extractedDrop;
+    private final List<Item> extractedDrop = new ArrayList<>();
 
     /**
      * TODO.
      * @param extractedDrop TODO.
      */
     public DropManagerImpl(final List<Item> extractedDrop) {
-        this.extractedDrop = extractedDrop;
+        this.extractedDrop.addAll(extractedDrop);
     }
 
     /**
@@ -36,7 +36,7 @@ public class DropManagerImpl implements DropManager {
 
     private List<Item> randomPicks(final List<Item> box) {
         final int dropSize = box.size();
-        final int amountToDrop = (int) (DICE.nextDouble() * dropSize);
+        final int amountToDrop = (int) Math.round(DICE.nextDouble() * dropSize);
         //System.out.println(amountToDrop);
         return Stream.generate(() -> DICE.nextInt(dropSize))
             .limit(amountToDrop)

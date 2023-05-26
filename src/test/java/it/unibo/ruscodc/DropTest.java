@@ -37,11 +37,15 @@ final class DropTest {
 
     private final DropFactory dropGenerator = new DropFactoryImpl();
     private final MonsterGenerator mg = new MonsterGeneratorImpl();
-    private DropManager dm;
+    private final DropManager dm;
+
+    private DropTest() {
+        this.dm = dropGenerator.createGenericBasicDrop(mg.makeMeleeRat(null, null));
+    }
 
     @BeforeAll
     void startTest() {
-        this.dm = dropGenerator.createGenericBasicDrop(mg.makeMeleeRat(null, null));
+        new DropTest();
     }
 
     /**
