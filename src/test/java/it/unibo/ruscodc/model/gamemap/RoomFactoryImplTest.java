@@ -4,6 +4,7 @@ import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.security.InvalidParameterException;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -78,38 +79,24 @@ class RoomFactoryImplTest {
      * Method under test: {@link RoomFactoryImpl#emptyRectangleRoom(int, int)}.
      */
     @Test
-    void testRectangleRoomSquare() {
-        final int wdt = 3;
-        final int hgt = 3;
-        final Room room = this.roomFactory.emptyRectangleRoom(wdt, hgt);
-        final int expectedTilesNum = (wdt + 2) * (hgt + 2);
-
-        assertTrue(room.getObjectsInRoom().isEmpty());
-        assertTrue(room.getMonsters().isEmpty());
-        assertEquals(expectedTilesNum, room.getTilesAsEntity().size());
-        assertEquals(new Pair<>(wdt, hgt), room.getSize());
-        for (int i = 0; i < Direction.values().length; i++) {
-            assertTrue(room.getConnectedRoom(Direction.values()[i]).isEmpty());
-        }
-    }
-
-    /**
-     * Method under test: {@link RoomFactoryImpl#emptyRectangleRoom(int, int)}.
-     */
-    @Test
     void testRectangleRoom() {
-        final int wdt = 6;
-        final int hgt = 3;
-        final Room room = this.roomFactory.emptyRectangleRoom(wdt, hgt);
-        final int expectedTilesNum = (wdt + 2) * (hgt + 2);
+        final List<Pair<Integer, Integer>> size = List.of(
+                new Pair<>(3, 3),
+                new Pair<>(3, 6)
+        );
 
-        assertTrue(room.getObjectsInRoom().isEmpty());
-        assertTrue(room.getMonsters().isEmpty());
-        assertEquals(expectedTilesNum, room.getTilesAsEntity().size());
-        assertEquals(new Pair<>(wdt, hgt), room.getSize());
-        for (int i = 0; i < Direction.values().length; i++) {
-            assertTrue(room.getConnectedRoom(Direction.values()[i]).isEmpty());
-        }
+        size.forEach(xy -> {
+            final Room room = this.roomFactory.emptyRectangleRoom(xy.getX(), xy.getY());
+            final int expectedTilesNum = (xy.getX() + 2) * (xy.getY() + 2);
+
+            assertTrue(room.getObjectsInRoom().isEmpty());
+            assertTrue(room.getMonsters().isEmpty());
+            assertEquals(expectedTilesNum, room.getTilesAsEntity().size());
+            assertEquals(xy, room.getSize());
+            for (int i = 0; i < Direction.values().length; i++) {
+                assertTrue(room.getConnectedRoom(Direction.values()[i]).isEmpty());
+            }
+        });
     }
 
     /**
