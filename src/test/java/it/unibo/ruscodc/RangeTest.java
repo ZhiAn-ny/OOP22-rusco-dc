@@ -1,7 +1,6 @@
 package it.unibo.ruscodc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -10,22 +9,20 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.monster.MonsterGenerator;
 import it.unibo.ruscodc.model.actors.monster.MonsterGeneratorImpl;
-import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
-import it.unibo.ruscodc.model.effect.Effect;
-import it.unibo.ruscodc.model.effect.EffectAbs;
 import it.unibo.ruscodc.model.gamemap.RectangleRoomImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.range.CircleRange;
-import it.unibo.ruscodc.model.range.DirectRowRange;
+import it.unibo.ruscodc.model.range.ConeRange;
 import it.unibo.ruscodc.model.range.GlobalRange;
 import it.unibo.ruscodc.model.range.Range;
 import it.unibo.ruscodc.model.range.SingleRange;
-import it.unibo.ruscodc.model.range.SingleSplash;
+import it.unibo.ruscodc.utils.MyIterator;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 
@@ -35,54 +32,103 @@ import it.unibo.ruscodc.utils.Pairs;
 @TestInstance(Lifecycle.PER_CLASS)
 final class RangeTest {
 
-    private Range range1;
-    private Range splash1;
-    private final List<Pair<Integer, Integer>> enemyPos = new ArrayList<>();
-    //private final List<Actor> monsters = new ArrayList<>();
+    private final static String ERR_M = "ERR";
+    private final Range basicR = new SingleRange();
+    private final List<Actor> enemys = new ArrayList<>();
     private Pair<Integer, Integer> heroPos;
-    private Pair<Integer, Integer> cursePos;
-    private static final int ROOM_SIZE = 20;
+    private Pair<Integer, Integer> cursorPos;
+    private static final int ROOM_SIZE = 21;
+    private static final int BASIC_R_SIZE = 2;
     private final Room r = new RectangleRoomImpl(ROOM_SIZE, ROOM_SIZE);
-    private static final Pair<Integer, Integer> START_POS1 = new Pair<>(4, 4);
 
-    private static final MonsterGenerator mg = new MonsterGeneratorImpl();
-    // private static final Effect DMG_1 = new EffectAbs(1) {
-    //     @Override
-    //     public void applyEffect(Actor from, Actor to) {
-    //         to.modifyStat(StatName.HP, 1);
-    //     }
-    // };
+    private final MyIterator<Integer> counter = 
+        new MyIterator<>(Stream.iterate(0, i -> i + 1).iterator());
+
+    private final Pair<Integer, Integer> startPos = new Pair<>(10, 10);
+
+    private final MonsterGenerator mg = new MonsterGeneratorImpl();
+
+    private Supplier<Stream<Pair<Integer, Integer>>> enemyPos;
+
+
 
     /**
      * Init some variable before start tests.
      */
     @BeforeAll
-    public void init() { //NOPMD - this is a method of Test class, it must be private without other method use it!
-        range1 = new CircleRange(3, new SingleRange());
-        splash1 = new DirectRowRange(new SingleSplash());
-        cursePos = START_POS1;
-        heroPos = new Pair<>(3, 3);
+    void init() {
+        final Pair<Integer, Integer> pos1 = Pairs.computeDownPair(Pairs.computeRightPair(startPos)); 
+        final Pair<Integer, Integer> pos2 = Pairs.computeUpPair(Pairs.computeRightPair(startPos));
+        final Pair<Integer, Integer> pos3 = Pairs.computeUpPair(Pairs.computeLeftPair(startPos));
 
-        final Pair<Integer, Integer> pos1 = Pairs.computeDownPair(Pairs.computeLeftPair(START_POS1)); 
-        final Pair<Integer, Integer> pos2 = START_POS1; 
-        final Pair<Integer, Integer> pos3 = Pairs.computeUpPair(Pairs.computeRightPair(START_POS1));
-        enemyPos.addAll(List.of(pos1, pos2, pos3));
+        cursorPos = pos1;
+        heroPos = startPos;
+
+        final List<Pair<Integer, Integer>> positions = List.of(pos1, pos2, pos3);
+
+        positions.forEach(p -> enemys.add(mg.makeMeleeRat(counter.next() + " " + p.toString(), p)));
+
+        enemyPos = () -> enemys.stream().map(a -> a.getPos());
+
     }
 
     /**
      * Test focused to test the "range" concept.
      */
     @Test
-    public void areEnemyInRange() { 
-        final long counted = enemyPos.stream().filter(ep -> !range1.isInRange(heroPos, cursePos, ep, r)).count();
-        assertEquals(3, counted, "ERR");
+    void testCircle() { 
+        final Range myRange = new CircleRange(BASIC_R_SIZE, basicR);
+        final long counted = enemyPos.get()
+            .filter(ep -> myRange.isInRange(heroPos, cursorPos, ep, r)).count();
+        assertEquals(3, counted, ERR_M);
     }
 
     @Test
-    public void globalRange() {
-        Range gR = new GlobalRange(new SingleRange());
-        final long counted = enemyPos.stream().filter(ep -> !gR.isInRange(heroPos, cursePos, ep, r)).count();
-        assertEquals(3, counted, "ERR");
+    void testCircle2() { 
+        final Range myRange = new CircleRange(BASIC_R_SIZE, basicR);
+        final Pair<Integer, Integer> farPos = new Pair<>(0, 0);
+        enemys.add(mg.makeMeleeRat(counter.next() + " " + farPos.toString(), farPos));
+        final long counted = enemyPos.get()
+            .filter(ep -> myRange.isInRange(heroPos, cursorPos, ep, r)).count();
+        assertEquals(3, counted, ERR_M);
+    }
+
+    @Test
+    void testGlobalRange() {
+        final Range gR = new GlobalRange(basicR);
+        final long counted = enemyPos.get()
+            .filter(ep -> gR.isInRange(heroPos, cursorPos, ep, r)).count();
+        assertEquals(3, counted, ERR_M);
+    }
+
+    @Test
+    void testglobalRange2() { 
+        final Range gR = new GlobalRange(basicR);
+        final Pair<Integer, Integer> farPos = new Pair<>(0, 0);
+        enemys.add(mg.makeMeleeRat(counter.next() + " " + farPos.toString(), farPos));
+        final long counted = enemyPos.get()
+            .filter(ep -> gR.isInRange(heroPos, cursorPos, ep, r)).count();
+        assertEquals(4, counted, ERR_M);
+    }
+
+    @Test
+    void testConeRange() {
+        final Range coneR = new ConeRange(BASIC_R_SIZE, basicR);
+        cursorPos = Pairs.computeUpPair(Pairs.computeUpPair(heroPos));
+        cursorPos = Pairs.computeLeftPair(Pairs.computeLeftPair(cursorPos));
+        final long counted = enemyPos.get()
+            .filter(ep -> coneR.isInRange(heroPos, cursorPos, ep, r)).count();
+        assertEquals(1, counted, ERR_M);
+    }
+
+    @Test
+    void testConeRange2() { 
+        final Range coneR = new ConeRange(BASIC_R_SIZE, basicR);
+        cursorPos = Pairs.computeUpPair(Pairs.computeUpPair(heroPos));
+        //cursorPos = Pairs.computeLeftPair(Pairs.computeLeftPair(cursorPos));
+        final long counted = enemyPos.get()
+            .filter(ep -> coneR.isInRange(heroPos, cursorPos, ep, r)).count();
+        assertEquals(2, counted, ERR_M);
     }
 
 }

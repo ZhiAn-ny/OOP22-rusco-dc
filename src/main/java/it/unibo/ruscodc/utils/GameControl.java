@@ -1,5 +1,7 @@
 package it.unibo.ruscodc.utils;
 
+import java.util.List;
+
 /**
  * Enum that contains the actions that the player can do.
  */
@@ -74,5 +76,9 @@ public enum GameControl {
      * Do nothing.
      */
     DONOTHING;
+
+    public static List<GameControl> getAttackControls() {
+        return List.of(BASEATTACK, ATTACK1, ATTACK2, ATTACK3, ATTACK4);
+    }
 
 }

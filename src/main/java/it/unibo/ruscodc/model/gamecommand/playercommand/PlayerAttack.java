@@ -199,8 +199,7 @@ public class PlayerAttack extends NoIACommand {
             .filter(i -> dice.nextBoolean())
             .forEach(i -> this.getRoom().put(
                 deadMonsters.get(i).getPos(), 
-                new Drop(new HashSet<>(drops.get(i).generateRandomDrop()), cursorPos)));
-
+                new Drop(new HashSet<>(drops.get(i).generateRandomDrop()), deadMonsters.get(i).getPos())));
 
         return Optional.empty();
     }

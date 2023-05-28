@@ -11,41 +11,75 @@ import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.GameControl;
+import it.unibo.ruscodc.utils.Pairs;
 
 public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
-
     @Override
-    public CombactBehaviour Melee() {
+    public CombactBehaviour createMelee() {
         return new CombactBehaviour() {
-
             @Override
             public Optional<GameCommand> choseAttack(Monster monster, Room room, List<Actor> actors) {
-                List<GameCommand> possibleActions = new LinkedList<>();
+                
                 Skill skills = monster.getSkills();
-                for ( GameControl gameControl : GameControl.values()) {
-                    Optional<GameCommand> action = skills.getAction(gameControl);  
-                    if (action.isPresent()) {
-                        possibleActions.add(action.get());
-                    }
-                }
+                
+                List<GameCommand> attacks = 
+                    GameControl.getAttackControls()
+                    .stream()
+                    .map(a -> skills.getAction(a))
+                    .filter(a -> a.isPresent())
+                    .map(a -> a.get())
+                    .toList();
+                attacks.removeIf(gc -> !actors.stream().anyMatch(a -> gc.isTargetInRange(a)));
 
-                possibleActions.removeIf(gc -> !actors.stream().anyMatch(a -> gc.isTargetInRange(a)));
-
-                if (possibleActions.isEmpty()) {
+                if (attacks.isEmpty()) {
                     return Optional.empty();
                 }
 
-                possibleActions.stream().sorted((a, b) -> a.getAPCost() - b.getAPCost()).toList();
+                return Optional.of(
+                    attacks.stream()
+                    .sorted((a,b) -> b.getAPCost() - a.getAPCost())
+                    .findFirst()
+                    .get()
+                );
+            }
+        };
+    }
 
-                for ( GameCommand gameCommand : possibleActions) {
-                    if (gameCommand.getAPCost() <= monster.getStatActual(StatName.AP)) {
-                        return Optional.of(gameCommand);
-                    }
+    @Override
+    public CombactBehaviour createRanged() {
+        return new CombactBehaviour() {
+            @Override
+            public Optional<GameCommand> choseAttack(Monster monster, Room room, List<Actor> actors) {
+                
+                Skill skills = monster.getSkills();
+                
+                List<GameCommand> attacks = 
+                    GameControl.getAttackControls()
+                    .stream()
+                    .map(a -> skills.getAction(a))
+                    .filter(a -> a.isPresent())
+                    .map(a -> a.get())
+                    .toList();
+                attacks.removeIf(gc -> !actors.stream().anyMatch(a -> gc.isTargetInRange(a)));
+                
+                int closestDistance =
+                    actors.stream()
+                    .map(a -> (int)(Pairs.computePPLine(monster.getPos(), a.getPos()).count()))
+                    .sorted((a, b) -> a - b)
+                    .findFirst()
+                    .get();
+                
+                if (attacks.isEmpty() || closestDistance < monster.getStatActual(StatName.DEX)) {
+                    return Optional.empty();
                 }
 
-                return Optional.empty();
+                return Optional.of(
+                    attacks.stream()
+                    .sorted((a,b) -> b.getAPCost() - a.getAPCost())
+                    .findFirst()
+                    .get()
+                );
             }
-
         };
     }
     
