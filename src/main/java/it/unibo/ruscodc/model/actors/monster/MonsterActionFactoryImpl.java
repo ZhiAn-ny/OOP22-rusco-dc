@@ -22,6 +22,11 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
                     int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
                     to.modifyActualStat(StatName.HP, - damage);
                 }
+
+                @Override
+                public String toString() {
+                    return "The Monster attacks with his fangs, claws or weapons";
+                }
             }
         );
     }
@@ -36,6 +41,11 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
                 public void applyEffect(Actor from, Actor to) {
                     int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR)*2;
                     to.modifyActualStat(StatName.HP, - damage);
+                }
+
+                @Override
+                public String toString() {
+                    return "The Monster attacks with all his Strengh using fangs, claws or weapons";
                 }
             }
         );

@@ -1,5 +1,8 @@
 package it.unibo.ruscodc.model.gamemap;
 
+import it.unibo.ruscodc.model.interactable.Chest;
+import it.unibo.ruscodc.model.interactable.Door;
+import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Pair;
 
 
@@ -24,6 +27,22 @@ public class FloorTileImpl extends AbstractTile {
     @Override
     public String getPath() {
         return "file:src/main/resources/it/unibo/ruscodc/map_res/FloorTile";
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        if (this.get().isPresent()) {
+            final Interactable cont = this.get().get();
+            if (cont instanceof Door) {
+                return "[D]";
+            }
+            if (cont instanceof Chest) {
+                return "[C]";
+            }
+            return "[?]";
+        }
+        return "[ ]";
     }
 
 }

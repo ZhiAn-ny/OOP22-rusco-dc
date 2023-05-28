@@ -4,13 +4,19 @@ import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.interactable.Door;
 import it.unibo.ruscodc.model.interactable.Interactable;
+import it.unibo.ruscodc.model.interactable.Stair;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
+import it.unibo.ruscodc.utils.Pairs;
 
 import java.security.InvalidParameterException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * The <code>RectangleRoomImpl</code> class creates a basic implementation of the interface <code>Room</code>.
@@ -55,8 +61,8 @@ public class RectangleRoomImpl implements Room {
     private Predicate<Tile> isNotCorner() {
         return (Tile t) -> !(t.getPosition().equals(new Pair<>(0, 0))
                 || t.getPosition().equals(new Pair<>(this.size.getX() + 1, 0))
-                || t.getPosition().equals(new Pair<>(0, this.size.getY() + 1)))
-                || t.getPosition().equals(new Pair<>(this.size.getX() + 1, this.size.getY() + 1));
+                || t.getPosition().equals(new Pair<>(0, this.size.getY() + 1))
+                || t.getPosition().equals(new Pair<>(this.size.getX() + 1, this.size.getY() + 1)));
     }
 
     /** {@inheritDoc} */
@@ -72,15 +78,15 @@ public class RectangleRoomImpl implements Room {
         if (positions.contains(monster.getPos()) || !this.isInRoom(monster.getPos())) {
             return false;
         }
+        final Tile tile = this.tiles.stream()
+                .filter(t -> t.getPosition().equals(monster.getPos()))
+                .findFirst().orElse(null);
 
-        final int minFreeTiles = 5;
-        final int freeTiles = (int) this.tiles.stream()
-                .filter(tile -> tile.get().isEmpty())
-                .count();
-        if (positions.size() >= (freeTiles - minFreeTiles)) {
-            return false;
+        // Items do not represent an obstacle to movement therefore,
+        // monsters can be placed on top of an occupied Tile
+        if (tile == null) { // || tile.get().isPresent()) {
+            return  false;
         }
-
         this.monsters.add(monster);
         return true;
     }
@@ -152,6 +158,12 @@ public class RectangleRoomImpl implements Room {
 
     /** {@inheritDoc} */
     @Override
+    public Map<Direction, Room> getConnectedRooms() {
+        return this.connectedRooms;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public boolean addConnectedRoom(final Direction dir, final Room other) {
         if (!this.connectedRooms.containsKey(dir) || dir == Direction.UNDEFINED) {
             return false;
@@ -179,13 +191,34 @@ public class RectangleRoomImpl implements Room {
                 .toList();
 
         final Tile tile = onSide.get(rnd.nextInt(onSide.size()));
-        final Pair<Integer, Integer> pos = tile.getPosition();
-
-        this.tiles.removeIf(t -> t.getPosition().equals(pos));
-        this.tiles.add(new FloorTileImpl(pos, true));
-        this.put(pos, new Door(pos));
+        this.replaceTile(tile.getPosition(), new FloorTileImpl(tile.getPosition(), true));
+        this.put(tile.getPosition(), new Door(tile.getPosition()));
 
         this.connectedRooms.put(dir, null);
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean addStairs(final Direction dir) {
+        Tile tile;
+        final Optional<Interactable> door = this.getDoorOnSide(dir);
+        if (door.isPresent()) {
+            tile = this.get(door.get().getPos()).orElse(null);
+            if (tile == null) {
+                return false;
+            }
+            tile.empty();
+        } else {
+            final List<Tile> onSide = this.tiles.stream()
+                    .filter(this.onSide(dir))
+                    .filter(this.isNotCorner())
+                    .toList();
+            tile = onSide.get(new Random().nextInt(onSide.size()));
+            this.tiles.remove(tile);
+            this.tiles.add(new FloorTileImpl(tile.getPosition(), true));
+        }
+        tile.put(new Stair(tile.getPosition()));
         return true;
     }
 
@@ -207,6 +240,12 @@ public class RectangleRoomImpl implements Room {
 
     /** {@inheritDoc} */
     @Override
+    public int getArea() {
+        return this.size.getX() * this.size.getY();
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public boolean replaceTile(final Pair<Integer, Integer> pos, final Tile newTile) {
         if (!pos.equals(newTile.getPosition()) || this.get(pos).isEmpty()) {
             return false;
@@ -221,31 +260,61 @@ public class RectangleRoomImpl implements Room {
         return true;
     }
 
-    /*
+    /** {@inheritDoc} */
+    @Override
+    public Optional<Interactable> getDoorOnSide(final Direction side) {
+        final Optional<Tile> tile = this.tiles.stream().filter(this.onSide(side))
+                .filter(this.isNotCorner())
+                .filter(t -> t.get().isPresent() && t.get().get() instanceof Door)
+                .findFirst();
+        if (tile.isPresent()) {
+            return tile.get().get();
+        }
+        return Optional.empty();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void clearArea(final Pair<Integer, Integer> pos, final int rad) {
+        final List<Tile> tilesInArea = new ArrayList<>();
+        Pairs.computeCircle(pos, rad, true).forEach(str -> str.forEach(xy ->
+            this.get(xy).ifPresent(tilesInArea::add)
+        ));
+        final List<Pair<Integer, Integer>> positions = tilesInArea.stream()
+                .peek(tile -> {
+                    if (tile.get().isEmpty() || tile.get().get() instanceof Door) {
+                        return;
+                    }
+                    tile.empty();
+                })
+                .map(Tile::getPosition).toList();
+        this.monsters.removeIf(m -> positions.contains(m.getPos()));
+    }
+
+    /** {@inheritDoc} */
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder("size: " + this.size.getX() + ", " + this.size.getY() + "\n");
-        str.append("info_obj:\n");
-        List<Interactable> objs = this.getObjectsInRoom();
-        for (int i = 0; i < objs.size(); i++) {
-            str.append(objs.get(i).toString());
-        }
-
-        for (int y = 0; y < this.size.getY() + 1; y++) {
-            for (int x = 0; x < this.size.getX() + 1; x++) {
-                Tile t = this.get(new Pair<>(x, y)).orElse(null);
+        // TODO: remove when view is working
+        final StringBuilder str = new StringBuilder("size: " + this.size.getX() + ", " + this.size.getY() + "\n");
+        for (int y = 0; y < this.size.getY() + 2; y++) {
+            for (int x = 0; x < this.size.getX() + 2; x++) {
+                final Tile t = this.get(new Pair<>(x, y)).orElse(null);
                 if (t == null) {
                     str.append("NIL");
                     continue;
                 }
-                str.append("[");
-                str.append(t.get().isPresent() ? "*" : " ");
-                str.append("]");
+                final String tileStr = t.toString();
+                if (t.get().isPresent()) {
+                    str.append(tileStr);
+                } else if (this.monsters.stream().anyMatch(m -> m.getPos().equals(t.getPosition()))) {
+                    str.append("[M]");
+                } else {
+                    str.append(tileStr);
+                }
             }
             str.append("\n");
         }
-
         return str.toString();
-    }*/
+    }
 
 }

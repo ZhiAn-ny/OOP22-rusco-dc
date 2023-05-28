@@ -33,8 +33,9 @@ public class TileFactoryImpl implements TileFactory {
     /** {@inheritDoc} */
     @Override
     public Tile createRandomFloorTrap(final int x, final int y) {
-        return (new Random().nextInt() % 2) == 0 ?
-                this.createSingleUseFloorTrap(x, y) : this.createFloorTrap(x, y);
+        return (new Random().nextInt() % 2) == 0
+                ? this.createSingleUseFloorTrap(x, y)
+                : this.createFloorTrap(x, y);
     }
 
     /** {@inheritDoc} */
@@ -46,8 +47,9 @@ public class TileFactoryImpl implements TileFactory {
     /** {@inheritDoc} */
     @Override
     public Tile createRandomFloorTile(final int x, final int y) {
-        return new Random().nextInt(100) < TRAP_PROBABILITY ?
-                this.createRandomFloorTrap(x, y) : this.createBaseFloorTile(x, y);
+        return new Random().nextInt(100) < TRAP_PROBABILITY
+                ? this.createRandomFloorTrap(x, y)
+                : this.createBaseFloorTile(x, y);
     }
 
     /** {@inheritDoc} */
@@ -68,7 +70,7 @@ public class TileFactoryImpl implements TileFactory {
      * @return the type of wall to create
      */
     private WallType getWallType(final int x, final int y, final Pair<Integer, Integer> size) {
-        Predicate<Integer> xInRoom = xCoord -> xCoord >= 0 && xCoord <= size.getX() + 1;
+        final Predicate<Integer> xInRoom = xCoord -> xCoord >= 0 && xCoord <= size.getX() + 1;
         if (y == 0 && xInRoom.test(x)) {
             return this.getTopWallType(x, size);
         }
@@ -76,7 +78,7 @@ public class TileFactoryImpl implements TileFactory {
             return this.getBottomWallType(x, size);
         }
 
-        Predicate<Integer> yInRoom = yCoord -> yCoord >= 0 && yCoord <= size.getY() + 1;
+        final Predicate<Integer> yInRoom = yCoord -> yCoord >= 0 && yCoord <= size.getY() + 1;
         if (x == 0 && yInRoom.test(y)) {
             return WallType.LEFT;
         }
