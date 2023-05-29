@@ -8,12 +8,15 @@ import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.Pair;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class FXMLMainView extends Application implements GameView {
 
@@ -22,11 +25,6 @@ public class FXMLMainView extends Application implements GameView {
     private List<Entity> entities;
     private double screenUnit;
     private MainMenuView view;
-
-
-    public FXMLMainView(String... args) {
-        FXMLMainView.launch(args);
-    }
 
     @Override
     public void startView(String[] args) {
@@ -112,6 +110,11 @@ public class FXMLMainView extends Application implements GameView {
         stage.setOnCloseRequest(event -> {
             System.exit(0);
         });
+    }
+
+    @Override
+    public void init() {
+
     }
 
 }

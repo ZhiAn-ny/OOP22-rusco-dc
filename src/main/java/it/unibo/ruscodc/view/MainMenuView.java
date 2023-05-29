@@ -15,7 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.beans.binding.Bindings;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.List;
@@ -40,14 +39,12 @@ public class MainMenuView implements Initializable {
     @FXML
     private Button menu;
 
-    private Stage stage;
-    private GameObserverController gameController;
 
-
+/*
     public MainMenuView(Stage stage){
         this.stage = stage;
         this.gameController = (GameControllerImpl)stage.getUserData();
-    }
+    }*/
 
     public void addioFichi(){
         System.out.println("addioFichi");

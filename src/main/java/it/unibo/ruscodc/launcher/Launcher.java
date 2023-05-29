@@ -16,6 +16,6 @@ public final class Launcher {
     public static void main(final String[] args) {
         GameObserverController ctrl = new GameControllerImpl(args);
         ctrl.init();
-        ctrl.start();
+        ctrl.start(args);
     }
 }

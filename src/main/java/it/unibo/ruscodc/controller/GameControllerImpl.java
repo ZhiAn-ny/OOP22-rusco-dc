@@ -39,7 +39,7 @@ public class GameControllerImpl implements GameObserverController {
      * Create the controller of the game
      */
     public GameControllerImpl(String... args) {
-        this.view = new FXMLMainView(args);
+        this.view = new FXMLMainView();
         this.model = new GameModelImpl();
     }
 
