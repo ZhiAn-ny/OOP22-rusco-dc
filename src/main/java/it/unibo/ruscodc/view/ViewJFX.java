@@ -2,6 +2,7 @@
 //
 //import it.unibo.ruscodc.controller.GameObserverController;
 //import it.unibo.ruscodc.model.Entity;
+//import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 //import it.unibo.ruscodc.utils.GameControl;
 //import it.unibo.ruscodc.utils.Pair;
 //import javafx.animation.AnimationTimer;
@@ -202,6 +203,11 @@
 //        System.err.println("ERROR: " + err);
 //    }
 //
+//    public void printInfo(InfoPayload toPrint) {
+//
+//    }
+//
+//
 //    @Override
 //    public void resetView(List<Entity> toDraw, Pair<Integer, Integer> roomSize) {
 //
@@ -214,6 +220,7 @@
 //
 //    @Override
 //    public void removeEntity(Entity toRemove) {
+//    public void uploadEntity(Pair<Integer, Integer> toUpload, Entity updated) {
 //
 //    }
 //
@@ -221,6 +228,11 @@
 //    public void uploadEntity(Entity toUpload) {
 //
 //    }
+//
+//    public void resetLevel(List<Entity> entities) {
+//
+//    }
+//
 //
 //    /*
 //    @Override

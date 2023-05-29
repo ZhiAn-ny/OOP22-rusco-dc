@@ -11,4 +11,5 @@ package it.unibo.ruscodc.utils.exception;
  * All classes that extend this class define all this situation
  */
 public class ModelException extends Exception {
+    static final long serialVersionUID = 7002L;
 }

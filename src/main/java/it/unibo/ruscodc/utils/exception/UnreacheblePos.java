@@ -5,6 +5,8 @@ package it.unibo.ruscodc.utils.exception;
  */
 public final class UnreacheblePos extends ModelException {
 
+    static final long serialVersionUID = 7005L;
+
     /**
      * Create this type of exception.
      * @param mess the "unreacheble position" message error

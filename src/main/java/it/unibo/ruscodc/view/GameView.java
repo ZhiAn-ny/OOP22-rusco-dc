@@ -11,7 +11,7 @@ public interface GameView {
     /**
      * Starts the game view creating a new window.
      */
-    void startView();
+    void startView(String[] args);
 
     /**
      * Initializes the view.
@@ -33,9 +33,7 @@ public interface GameView {
 
     void resetView(List<Entity> toDraw, Pair<Integer, Integer> roomSize);
     void addEntity(Entity toAdd);
-    void removeEntity(Entity toRemove);
     void uploadEntity(Pair<Integer, Integer> toUpload, Entity updated);
     void resetLevel(List<Entity> entities);
 
-    void uploadEntity(Entity toUpload);
 }

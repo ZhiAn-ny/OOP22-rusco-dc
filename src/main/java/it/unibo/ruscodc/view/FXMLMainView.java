@@ -13,23 +13,27 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-public class FXMLView extends Application implements GameView {
+public class FXMLMainView extends Application implements GameView {
 
     private GameObserverController controller;
+    private List<Entity> entities;
+    private double screenUnit;
+    private MainMenuView view;
 
 
-    public FXMLView(){
 
+    public FXMLMainView(String... args) {
+        FXMLMainView.launch(args);
     }
 
     @Override
-    public void startView() {
+    public void startView(String[] args) {
         if (this.controller == null) throw new IllegalStateException(
                 "Error in ViewJFX: The controller has not been initialized."
                         + " Please initialize the controller before starting the view."
         );
 
-        Platform.startup(() -> {
+       /* Platform.startup(() -> {
             // create primary stage
             Stage stage = new Stage();
 
@@ -38,7 +42,7 @@ public class FXMLView extends Application implements GameView {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
+        });*/
     }
 
     @Override
@@ -49,7 +53,7 @@ public class FXMLView extends Application implements GameView {
 
     @Override
     public boolean isReady() {
-        return false;
+        return this.screenUnit > 0;
     }
 
     @Override
@@ -60,44 +64,45 @@ public class FXMLView extends Application implements GameView {
 
     @Override
     public void resetView(List<Entity> toDraw, Pair<Integer, Integer> roomSize) {
-
+        this.entities = toDraw;
+        this.view.setGrid(roomSize);
     }
 
     @Override
     public void addEntity(Entity toAdd) {
-
+        if (!this.entities.contains(toAdd)) this.entities.add(toAdd);
     }
 
-    @Override
-    public void removeEntity(Entity toRemove) {
-
-    }
 
     @Override
     public void uploadEntity(Pair<Integer, Integer> toUpload, Entity updated) {
-
+        for (int i = 0; i < this.entities.size(); i++) {
+            if (this.entities.get(i).getID() == updated.getID()) {
+                if (!this.entities.get(i).getPos().equals(toUpload)) {
+                    this.entities.set(i, updated);
+                }
+            }
+        }
     }
 
     @Override
     public void resetLevel(List<Entity> entities) {
-
-    }
-
-    @Override
-    public void uploadEntity(Entity toUpload) {
-
+        this.entities.removeIf(e -> e.getID() >= entities.get(0).getID());
+        this.entities.addAll(entities);
     }
 
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(FXMLView.class.getResource("main-menu-view.fxml"));
+        System.out.println("FXMLMainView start");
+        FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("main-menu-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth()*0.5);
         stage.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight()*0.5);
         stage.setFullScreen(true);
         stage.setTitle("Rusco DC");
         stage.setScene(scene);
+        stage.setUserData(this.controller);
         stage.show();
         stage.setOnCloseRequest(event -> {
             System.exit(0);
