@@ -22,7 +22,7 @@ import it.unibo.ruscodc.utils.MyIterator;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
- * TODO.
+ * The implementation of DropFactory
  */
 public class DropFactoryImpl implements DropFactory {
 
@@ -30,7 +30,7 @@ public class DropFactoryImpl implements DropFactory {
     private static final double RICH_COEFF = 1.5;
     private static final double POOR_COEFF = 0.5;
     private static final double GOLDEN_RATIO = (Math.sqrt(5) + 1) / 2;
-    private static final int ROOM_AMPLIFIER_BASE = 5;
+    private static final int FLOOR_CYCLE = 5;
     private static final List<Double> STAT_COEFF = List.of(1.0, 1.0, 1.5, 1.0, 1.0, 1.0);
     private static final Map<Integer, Item> TAB_E = new HashMap<>();
     private static final Map<Integer, Item> TAB_C = new HashMap<>();
@@ -38,7 +38,7 @@ public class DropFactoryImpl implements DropFactory {
     private static boolean isInit;
 
     /**
-     * TODO.
+     * Costructor of class. It init "static tables" if this class isn't loaded before 
      */
     public DropFactoryImpl() {
         if (!isInit) {
@@ -155,7 +155,7 @@ public class DropFactoryImpl implements DropFactory {
     }
 
     private int computeRoomMaxItem(final Pair<Integer, Integer> roomSize, final int floorDepth) {
-        return ((int) Math.sqrt(Math.min(roomSize.getX(), roomSize.getY()))) * (floorDepth % ROOM_AMPLIFIER_BASE);
+        return ((int) Math.sqrt(Math.min(roomSize.getX(), roomSize.getY()))) * (floorDepth % FLOOR_CYCLE);
     }
 
     /**

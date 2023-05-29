@@ -46,7 +46,7 @@ public class GlobalRange extends DecoratedRange {
             final Pair<Integer, Integer> to, 
             final Pair<Integer, Integer> toCheck, 
             final Room where) {
-        return where.isInRoom(by); //TODO - testato... ma perplesso... farò altri test
+        return where.isInRoom(by);
     }
 
     /**
