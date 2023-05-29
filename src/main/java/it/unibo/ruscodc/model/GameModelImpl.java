@@ -22,6 +22,7 @@ public class GameModelImpl implements GameModel {
     private int nFloorsExplored;
     private Floor floor;
     private final Hero hero;
+    private final Pair<Integer, Integer> initialPosition = new Pair<Integer, Integer>(3, 3);
 
     /**
      * Class constructor.
@@ -29,7 +30,7 @@ public class GameModelImpl implements GameModel {
     public GameModelImpl() {
         this.nFloorsExplored = 1;
         this.floor = new FloorImpl(this.nFloorsExplored);
-        this.hero = new HeroImpl("Rusco", new Pair<Integer, Integer>(1, 1), null, null);
+        this.hero = new HeroImpl("Rusco", this.initialPosition, null, null);
     }
 
     private List<Actor> getParty() {
