@@ -5,6 +5,8 @@ package it.unibo.ruscodc.utils.exception;
  */
 public class NotInRange extends ModelException {
 
+    static final long serialVersionUID = 7003L;
+
     /**
      * Create this type of exception.
      * @param mess the "not in range" message error

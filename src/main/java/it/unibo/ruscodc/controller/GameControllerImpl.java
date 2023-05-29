@@ -13,7 +13,7 @@ import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ChangeFloorException;
 import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
-import it.unibo.ruscodc.view.FXMLView;
+import it.unibo.ruscodc.view.FXMLMainView;
 import it.unibo.ruscodc.view.GameView;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,9 +38,41 @@ public class GameControllerImpl implements GameObserverController {
     /**
      * Create the controller of the game
      */
-    public GameControllerImpl() {
-        this.view = new FXMLView();
+    public GameControllerImpl(String... args) {
+        this.view = new FXMLMainView(args);
         this.model = new GameModelImpl();
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void init() {
+        this.view.init(this);
+    }
+
+    @Override
+    public void start() {
+
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void start(String[] args) {
+        this.view.startView(args);
+        initNewTurn();
+        while (!this.view.isReady()) {
+            try {
+                Thread.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
+        manageMonsterTurn();
     }
 
     /**
@@ -96,6 +128,14 @@ public class GameControllerImpl implements GameObserverController {
         view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
     }
 
+    private void passTurn() {
+        this.view.resetLevel(this.model.getCurrentRoom().getObjectsInRoom().stream().map(i->(Entity)i).toList());
+        this.view.resetLevel(this.model.getActorByInitative().stream()
+                .filter(Actor::isAlive)
+                .map(a->(Entity)a)
+                .toList());
+    }
+
     private boolean executeCommand(GameCommand toExec) {
         final boolean ready = toExec.isReady();
         if (ready) {
@@ -107,10 +147,7 @@ public class GameControllerImpl implements GameObserverController {
                     return ready;
                 }
                 playerSituation = Optional.empty();
-                this.view.resetLevel(this.model.getActorByInitative().stream()
-                        .filter(Actor::isAlive)
-                        .map(a->(Entity)a)
-                        .toList());
+                passTurn();
             } catch (ChangeFloorException f){
                 changeFloor();
                 playerSituation = Optional.empty();
@@ -156,8 +193,7 @@ public class GameControllerImpl implements GameObserverController {
 
                 if (tmpCommand.isReady()) {
                     executeCommand(tmpCommand);
-                    //TODO - aggiornare la view qui! (magari allora lo si fa in quel metodo)
-                    //view.uploadEntity(cod, initiative.get(0));
+                    //passTurn();
                 } else {
                     playerSituation = Optional.of(tmpCommand);
                 }
@@ -174,32 +210,7 @@ public class GameControllerImpl implements GameObserverController {
         System.exit(0);
     }
 
-    /**
-     *
-     */
-    @Override
-    public void init() {
-        this.view.init(this);
-    }
 
-    /**
-     *
-     */
-    @Override
-    public void start() {
-        this.view.startView();
-        initNewTurn();
-        while (!this.view.isReady()) {
-            try {
-                Thread.sleep(2);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
-        manageMonsterTurn();
-    }
 
     private void initNewTurn() {
         if (initiative.isEmpty()) {
@@ -223,8 +234,8 @@ public class GameControllerImpl implements GameObserverController {
         while (initiative.get(0) instanceof Monster) {
             tmpMonster = (Monster) initiative.get(0);
             executeCommand(tmpMonster.behave(model.getCurrentRoom(), getHeros()));
-            // TODO - post implementazione mostro
             initiative.remove(0);
+            passTurn();
             initNewTurn();
         }
     }

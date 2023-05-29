@@ -4,6 +4,8 @@ import it.unibo.ruscodc.utils.Pair;
 
 public class ChangeRoomException extends ModelException{
 
+    static final long serialVersionUID = 7001L;
+
     private final Pair<Integer, Integer> door;
     /**
      * Create this type of exception.
@@ -13,7 +15,7 @@ public class ChangeRoomException extends ModelException{
         this.door =selectedDoor;
     }
 
-    public Pair<Integer, Integer> getDoorPos(){
+    public Pair<Integer, Integer> getDoorPos() {
         return door;
     }
 
