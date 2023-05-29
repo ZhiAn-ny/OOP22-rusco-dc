@@ -5,26 +5,28 @@ import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.gamemap.RectangleRoomImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
+import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.net.URL;
+import java.io.IOException;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class FXMLMainView extends Application implements GameView {
+    private static final double ASPECT_RATIO = 3/4.;
+    private static final double MIN_WIDTH_SCALE = 0.4;
 
     private GameObserverController controller;
     private MainMenuView gameView;
     private List<Entity> entities;
-    private double screenUnit;
-    private MainMenuView view;
+    private boolean isReady;
 
     @Override
     public void startView(String[] args) {
@@ -33,7 +35,7 @@ public class FXMLMainView extends Application implements GameView {
                         + " Please initialize the controller before starting the view."
         );
 
-       Platform.startup(() -> {
+        Platform.startup(() -> {
             // create primary stage
             Stage stage = new Stage();
 
@@ -53,7 +55,7 @@ public class FXMLMainView extends Application implements GameView {
 
     @Override
     public boolean isReady() {
-        return this.screenUnit > 0;
+        return this.isReady;
     }
 
     @Override
@@ -64,7 +66,7 @@ public class FXMLMainView extends Application implements GameView {
     @Override
     public void resetView(List<Entity> toDraw, Pair<Integer, Integer> roomSize) {
         this.entities = toDraw;
-        this.view.setRoom(toDraw, roomSize);
+        //this.gameView.setRoom(toDraw, roomSize);
     }
 
     @Override
@@ -93,29 +95,75 @@ public class FXMLMainView extends Application implements GameView {
     @Override
     public void start(Stage stage) throws Exception {
         System.out.println("FXMLMainView start");
-        FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("main-menu-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        this.gameView = (MainMenuView) fxmlLoader.getController();
+        final Scene scene = this.loadGameView();
+        this.handleWindowSize(stage, scene);
+        this.handleEvents(stage);
+        this.handleUserInputs(scene);
 
-        Room r = new RectangleRoomImpl(3, 3);
+        Room r = new RectangleRoomImpl(8, 6);
         this.gameView.setRoom(r.getTilesAsEntity(), r.getSize());
 
-        stage.setMinWidth(Screen.getPrimary().getVisualBounds().getWidth()*0.5);
-        stage.setMinHeight(Screen.getPrimary().getVisualBounds().getHeight()*0.5);
-        stage.setFullScreen(true);
+        //stage.setFullScreen(true);
         stage.setTitle("Rusco DC");
         stage.setScene(scene);
         stage.setUserData(this.controller);
+
+        this.isReady = true;
         stage.show();
+    }
+
+    private Scene loadGameView() throws IOException {
+        final Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+        final double scale = 2/3.;
+        final double width = screenSize.getWidth() * scale;
+        final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("main-menu-view.fxml"));
+        final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
+        this.gameView = (MainMenuView) fxmlLoader.getController();
+        return scene;
+    }
+
+    private void handleWindowSize(final Stage stage, final Scene scene) {
+        final double minWidth = Screen.getPrimary().getVisualBounds().getWidth() * MIN_WIDTH_SCALE;
+        stage.setMinWidth(minWidth);
+        stage.setMinHeight(minWidth * ASPECT_RATIO);
+        stage.setMaxHeight(Screen.getPrimary().getVisualBounds().getHeight());
+        stage.minHeightProperty().bind(scene.widthProperty().multiply(ASPECT_RATIO));
+        stage.maxHeightProperty().bind(scene.widthProperty().multiply(ASPECT_RATIO));
+    }
+
+    private void handleEvents(final Stage stage) {
         stage.setOnCloseRequest(event -> {
             System.exit(0);
         });
     }
 
-    @Override
-    public void init() {
+    private void handleUserInputs(final Scene scene) {
+        scene.setOnKeyPressed((KeyEvent key) -> {
+            System.out.println(key.getCode());
+            this.controller.computeInput(this.getInput(key));
+        });
+    }
 
+    private GameControl getInput(KeyEvent e){
+        return switch (e.getCode()) {
+            case W -> GameControl.MOVEUP;
+            case A -> GameControl.MOVELEFT;
+            case S -> GameControl.MOVEDOWN;
+            case D -> GameControl.MOVERIGHT;
+            case I -> GameControl.INVENTORY;
+            case P -> GameControl.PAUSE;
+            case F -> GameControl.INTERACT;
+            case ESCAPE -> GameControl.CANCEL;
+            case ENTER -> GameControl.CONFIRM;
+            case BACK_SPACE -> GameControl.DELETE;
+            case DIGIT1 -> GameControl.BASEATTACK;
+            case DIGIT2 -> GameControl.ATTACK1;
+            case DIGIT3 -> GameControl.ATTACK2;
+            case DIGIT4 -> GameControl.ATTACK3;
+            case DIGIT5 -> GameControl.ATTACK4;
+            case DIGIT6 -> GameControl.USEQUICK;
+            default -> GameControl.DONOTHING;
+        };
     }
 
 }
-

@@ -1,9 +1,8 @@
 package it.unibo.ruscodc.view;
 
 import it.unibo.ruscodc.model.Entity;
-import it.unibo.ruscodc.controller.GameControllerImpl;
-import it.unibo.ruscodc.controller.GameObserverController;
 import it.unibo.ruscodc.utils.Pair;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
@@ -13,7 +12,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.beans.binding.Bindings;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
@@ -27,8 +25,8 @@ public class MainMenuView implements Initializable {
     @FXML
     private GridPane mainGrid;
     IntegerProperty unit = new SimpleIntegerProperty();
-    private int rows = 2;
-    private int cols = 1;
+    private int rows;
+    private int cols;
 
     @FXML
     private ProgressBar hp;
@@ -40,67 +38,26 @@ public class MainMenuView implements Initializable {
     private Button menu;
 
 
-/*
-    public MainMenuView(Stage stage){
-        this.stage = stage;
-        this.gameController = (GameControllerImpl)stage.getUserData();
-    }*/
-
-
     public void setRoom(final List<Entity> obj1, final Pair<Integer, Integer> size) {
-        this.cols = size.getX();
-        this.rows = size.getY();
+        this.cols = size.getX() + 2;
+        this.rows = size.getY() + 2;
+        final int maxDimension = Math.max(this.cols, this.rows);
 
-        for (int i = 0; i < rows+2; i++) {
-            for (int j = 0; j < cols+2; j++) {
-                var image = new ImageView(new Image("it/unibo/ruscodc/map_res/FloorTile/FloorTile.jpg"));
-                //var pane = new ImageView(new Image(entity.get().getPath()+ "/Sprite.png"));
-                mainGrid.sceneProperty().addListener((observable, oldScene, newScene) -> {
-                    if (newScene != null) {
-                        unit.bind(Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(100));
-                    }
-                    if (!image.fitWidthProperty().isBound() && newScene != null) {
-                        //var binding = Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty().divide(30));
-                        var binding = mainGrid.getScene().widthProperty().divide(10);
-                        image.fitWidthProperty().bind(binding);
-                        image.fitHeightProperty().bind(binding);
-                    }
-                });
+        DoubleBinding binding = mainGrid.getScene().heightProperty().divide(maxDimension);
+        if (mainGrid.getScene().getWidth() < mainGrid.getScene().getHeight()) {
+            binding = mainGrid.getScene().widthProperty().divide(maxDimension);
+        }
 
-                var binding = mainGrid.getScene().widthProperty().divide(10);
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                final ImageView image = new ImageView(new Image("it/unibo/ruscodc/map_res/FloorTile/FloorTile.jpg"));
+
                 image.fitWidthProperty().bind(binding);
                 image.fitHeightProperty().bind(binding);
-
 
                 this.mainGrid.add(new Pane(image), i, j);
             }
         }
-
-
-
-
-//        for (int i = 0; i < cols+2; i++){
-//            for (int j = 0; j < rows+2; j++){
-//                final Optional<Entity> entity = this.getTileAtPosition(obj1, i,j);
-//                if (entity.isEmpty()) {
-//                    continue;
-//                }
-//
-//                var pane = new ImageView(new Image(entity.get().getPath()+ "/Sprite.png"));
-//
-//                this.mainGrid.sceneProperty().addListener((observable, oldScene, newScene) -> {
-//                    if (newScene != null) {
-//                        unit.bind(Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(100));
-//                    }
-//                    if (!pane.fitWidthProperty().isBound() && newScene != null){
-//                        pane.fitWidthProperty().bind(Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(rows));
-//                        pane.fitHeightProperty().bind(Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(cols));
-//                    }
-//                });
-//                this.mainGrid.add(new Pane(pane), i, j);
-//
-//            }
-//        }
     }
 
     private Optional<Entity> getTileAtPosition(final List<Entity> entities, final int x, final int y) {
