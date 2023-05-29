@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.ruscodc.view.MainMenuView">
     <left>
         <VBox prefHeight="343.0" prefWidth="111.0" spacing="5.0" BorderPane.alignment="CENTER">
@@ -86,12 +85,6 @@
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="ATTACK 4" />
                     </children>
                 </HBox>
-                <HBox prefHeight="21.0" prefWidth="155.0">
-                    <children>
-                        <Label text="6" />
-                        <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="USE QUICK" />
-                    </children>
-                </HBox>
             </children>
             <padding>
                 <Insets right="1.0" />
@@ -102,7 +95,7 @@
         </VBox>
     </left>
     <center>
-        <GridPane fx:id="mainGrid" gridLinesVisible="true" BorderPane.alignment="CENTER">
+        <GridPane fx:id="mainGrid" alignment="CENTER" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: red;" BorderPane.alignment="CENTER">
             <padding>
                 <Insets bottom="5.0" left="1.0" />
             </padding>

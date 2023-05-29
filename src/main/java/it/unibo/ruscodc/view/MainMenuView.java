@@ -46,35 +46,61 @@ public class MainMenuView implements Initializable {
         this.gameController = (GameControllerImpl)stage.getUserData();
     }*/
 
-    public void addioFichi(){
-        System.out.println("addioFichi");
-    }
 
     public void setRoom(final List<Entity> obj1, final Pair<Integer, Integer> size) {
         this.cols = size.getX();
         this.rows = size.getY();
 
-        for (int i = 0; i < cols+2; i++){
-            for (int j = 0; j < rows+2; j++){
-                final Optional<Entity> entity = this.getTileAtPosition(obj1, i,j);
-                if (entity.isEmpty()) {
-                    continue;
-                }
-
-                var pane = new ImageView(new Image(entity.get().getPath()+ "/Sprite.png"));
-                this.mainGrid.sceneProperty().addListener((observable, oldScene, newScene) -> {
+        for (int i = 0; i < rows+2; i++) {
+            for (int j = 0; j < cols+2; j++) {
+                var image = new ImageView(new Image("it/unibo/ruscodc/map_res/FloorTile/FloorTile.jpg"));
+                //var pane = new ImageView(new Image(entity.get().getPath()+ "/Sprite.png"));
+                mainGrid.sceneProperty().addListener((observable, oldScene, newScene) -> {
                     if (newScene != null) {
                         unit.bind(Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(100));
                     }
-                    if (!pane.fitWidthProperty().isBound() && newScene != null){
-                        pane.fitWidthProperty().bind(Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(rows));
-                        pane.fitHeightProperty().bind(Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(cols));
+                    if (!image.fitWidthProperty().isBound() && newScene != null) {
+                        //var binding = Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty().divide(30));
+                        var binding = mainGrid.getScene().widthProperty().divide(10);
+                        image.fitWidthProperty().bind(binding);
+                        image.fitHeightProperty().bind(binding);
                     }
                 });
-                this.mainGrid.add(new Pane(pane), i, j);
 
+                var binding = mainGrid.getScene().widthProperty().divide(10);
+                image.fitWidthProperty().bind(binding);
+                image.fitHeightProperty().bind(binding);
+
+
+                this.mainGrid.add(new Pane(image), i, j);
             }
         }
+
+
+
+
+//        for (int i = 0; i < cols+2; i++){
+//            for (int j = 0; j < rows+2; j++){
+//                final Optional<Entity> entity = this.getTileAtPosition(obj1, i,j);
+//                if (entity.isEmpty()) {
+//                    continue;
+//                }
+//
+//                var pane = new ImageView(new Image(entity.get().getPath()+ "/Sprite.png"));
+//
+//                this.mainGrid.sceneProperty().addListener((observable, oldScene, newScene) -> {
+//                    if (newScene != null) {
+//                        unit.bind(Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(100));
+//                    }
+//                    if (!pane.fitWidthProperty().isBound() && newScene != null){
+//                        pane.fitWidthProperty().bind(Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(rows));
+//                        pane.fitHeightProperty().bind(Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(cols));
+//                    }
+//                });
+//                this.mainGrid.add(new Pane(pane), i, j);
+//
+//            }
+//        }
     }
 
     private Optional<Entity> getTileAtPosition(final List<Entity> entities, final int x, final int y) {
