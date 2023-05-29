@@ -33,7 +33,6 @@ import it.unibo.ruscodc.utils.exception.Undo;
 public class PlayerAttack extends NoIACommand {
     private static final Random DICE  = new Random();
     private static final DropFactory DROP_G = new DropFactoryImpl();
-    private static final int CURSOR_DEPTH = 5;
     private static final String R_ERR = "The target is too far";
     private static final String AP_ERR = "Your AP is not sufficent";
     private final Range range;
@@ -103,7 +102,7 @@ public class PlayerAttack extends NoIACommand {
      * Compute the {@code}Entity{@code} that wrap for the view the cursor position.
      * @return the cursor position, abstracted into an Entity
      */
-    private Entity getCurseAsEntity() {
+    private Entity getCursorAsEntity() {
         return new Entity() {
 
             @Override
@@ -118,7 +117,7 @@ public class PlayerAttack extends NoIACommand {
 
             @Override
             public int getID() {
-                return CURSOR_DEPTH;
+                return getCursorDepth();
             }
 
         };
@@ -144,7 +143,7 @@ public class PlayerAttack extends NoIACommand {
                 Stream.iterate(splashRange.next(), i -> splashRange.hasNext(), i -> splashRange.next()), 
                 Stream.iterate(rangeRange.next(), i -> rangeRange.hasNext(), i -> rangeRange.next())),
             Stream.of(
-                getCurseAsEntity()
+                getCursorAsEntity()
             )
             ).iterator();
     }

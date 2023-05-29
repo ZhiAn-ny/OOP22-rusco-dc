@@ -15,6 +15,7 @@ import it.unibo.ruscodc.utils.Pair;
 public abstract class NoIACommand extends ComplexActionAbs {
 
     private static final String CURSOR_PATH = "";
+    private static final int CURSOR_DEPTH = 5;
 
     /**
      * 
@@ -54,6 +55,14 @@ public abstract class NoIACommand extends ComplexActionAbs {
      */
     protected String getCursorPath() {
         return CURSOR_PATH;
+    }
+
+     /**
+     * Identify the depth render of the cursor
+     * @return this ID
+     */
+    protected int getCursorDepth() {
+        return CURSOR_DEPTH;
     }
 
 }
