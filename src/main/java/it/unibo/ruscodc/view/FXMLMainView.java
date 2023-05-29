@@ -2,22 +2,23 @@ package it.unibo.ruscodc.view;
 
 import it.unibo.ruscodc.controller.GameObserverController;
 import it.unibo.ruscodc.model.Entity;
-import it.unibo.ruscodc.model.gamemap.RectangleRoomImpl;
-import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import java.util.Optional;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 public class FXMLMainView extends Application implements GameView {
     private static final double ASPECT_RATIO = 3/4.;
@@ -25,15 +26,19 @@ public class FXMLMainView extends Application implements GameView {
 
     private GameObserverController controller;
     private MainMenuView gameView;
-    private List<Entity> entities;
+    private final List<Entity> printedEntity = new ArrayList<>();
     private boolean isReady;
+    private final Optional<Pair<Integer, Integer>> dims = Optional.empty();
+
 
     @Override
     public void startView(String[] args) {
-        if (this.controller == null) throw new IllegalStateException(
-                "Error in ViewJFX: The controller has not been initialized."
-                        + " Please initialize the controller before starting the view."
-        );
+        if (this.controller == null) {
+            throw new IllegalStateException(
+                    "Error in ViewJFX: The controller has not been initialized."
+                            + " Please initialize the controller before starting the view."
+            );
+        }
 
         Platform.startup(() -> {
             // create primary stage
@@ -65,22 +70,33 @@ public class FXMLMainView extends Application implements GameView {
 
     @Override
     public void resetView(List<Entity> toDraw, Pair<Integer, Integer> roomSize) {
-        this.entities = toDraw;
+        this.printedEntity.clear();
+        this.printedEntity.addAll(toDraw);
+
+        //int effecctiveX = roomSize.getX()+2;
+        //int effectiveY = roomSize.getY()+2;
+        //Pair<Integer, Integer> effectiveDim = new Pair<>(roomSize.getX()+2, roomSize.getY()+2);
+        //dims.map(p -> new Pair<>(roomSize.getX()+2, roomSize.getY()+2));
         //this.gameView.setRoom(toDraw, roomSize);
+        //javafx.util.Pair<Integer, Integer> effectiveDim2 = new javafx.util.Pair<>(roomSize.getX()+2, roomSize.getY()+2);
+
+
+        //Map<Character, Integer> dim = new HashMap<>();
+
     }
 
     @Override
     public void addEntity(Entity toAdd) {
-        if (!this.entities.contains(toAdd)) this.entities.add(toAdd);
+        if (!this.printedEntity.contains(toAdd)) this.printedEntity.add(toAdd);
     }
 
 
     @Override
     public void uploadEntity(Pair<Integer, Integer> toUpload, Entity updated) {
-        for (int i = 0; i < this.entities.size(); i++) {
-            if (this.entities.get(i).getID() == updated.getID()) {
-                if (!this.entities.get(i).getPos().equals(toUpload)) {
-                    this.entities.set(i, updated);
+        for (int i = 0; i < this.printedEntity.size(); i++) {
+            if (this.printedEntity.get(i).getID() == updated.getID()) {
+                if (!this.printedEntity.get(i).getPos().equals(toUpload)) {
+                    this.printedEntity.set(i, updated);
                 }
             }
         }
@@ -88,8 +104,8 @@ public class FXMLMainView extends Application implements GameView {
 
     @Override
     public void resetLevel(List<Entity> entities) {
-        this.entities.removeIf(e -> e.getID() >= entities.get(0).getID());
-        this.entities.addAll(entities);
+        this.printedEntity.removeIf(e -> e.getID() >= entities.get(0).getID());
+        this.printedEntity.addAll(entities);
     }
 
     @Override
@@ -100,8 +116,6 @@ public class FXMLMainView extends Application implements GameView {
         this.handleEvents(stage);
         this.handleUserInputs(scene);
 
-        Room r = new RectangleRoomImpl(8, 6);
-        this.gameView.setRoom(r.getTilesAsEntity(), r.getSize());
 
         //stage.setFullScreen(true);
         stage.setTitle("Rusco DC");
@@ -112,6 +126,10 @@ public class FXMLMainView extends Application implements GameView {
         stage.show();
     }
 
+    private void uploadView() {
+
+    }
+
     private Scene loadGameView() throws IOException {
         final Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
         final double scale = 2/3.;
@@ -119,6 +137,12 @@ public class FXMLMainView extends Application implements GameView {
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("main-menu-view.fxml"));
         final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
         this.gameView = (MainMenuView) fxmlLoader.getController();
+
+        this.gameView.setEntities(this.printedEntity);
+        this.gameView.update();
+
+
+        //this.gameView.setRoomSize();
         return scene;
     }
 
@@ -161,7 +185,6 @@ public class FXMLMainView extends Application implements GameView {
             case DIGIT3 -> GameControl.ATTACK2;
             case DIGIT4 -> GameControl.ATTACK3;
             case DIGIT5 -> GameControl.ATTACK4;
-            case DIGIT6 -> GameControl.USEQUICK;
             default -> GameControl.DONOTHING;
         };
     }
