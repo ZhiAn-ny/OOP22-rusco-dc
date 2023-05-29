@@ -38,13 +38,8 @@ public class HeroImpl extends ActorAbs implements Hero {
     }
 
     @Override
-    public void addItem(Item item) {
-        this.inventory.addItem(item);
-    }
-
-    @Override
-    public void removeItem(int index) {
-        this.inventory.removeItem(index);
+    public Inventory getInventory() {
+        return this.inventory;
     }
 
     @Override

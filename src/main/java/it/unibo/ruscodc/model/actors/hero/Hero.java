@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
-import it.unibo.ruscodc.model.item.Item;
+import it.unibo.ruscodc.model.item.Inventory;
 import it.unibo.ruscodc.utils.GameControl;
 
 /**
@@ -18,7 +18,5 @@ public interface Hero extends Actor {
      */
     Optional<GameCommand> act(GameControl key);
 
-    void addItem(Item item);
-
-    void removeItem(int index);
+    Inventory getInventory();
 }
