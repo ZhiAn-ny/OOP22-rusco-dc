@@ -3,12 +3,19 @@ package it.unibo.ruscodc.model.gamemap;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.actors.monster.MonsterGenerator;
 import it.unibo.ruscodc.model.actors.monster.MonsterGeneratorImpl;
+import it.unibo.ruscodc.model.actors.monster.drop.DropFactory;
+import it.unibo.ruscodc.model.actors.monster.drop.DropFactoryImpl;
+import it.unibo.ruscodc.model.actors.monster.drop.DropManager;
 import it.unibo.ruscodc.model.interactable.Chest;
+import it.unibo.ruscodc.model.interactable.Interactable;
+import it.unibo.ruscodc.model.item.Item;
 import it.unibo.ruscodc.utils.Direction;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * The <code>RoomFactory</code> class can be used to generate different
@@ -20,6 +27,7 @@ public class RoomFactoryImpl implements RoomFactory {
     private static final int MAX_ROOM_SIZE = 20;
     private static final int MAX_DOORS_NUM = 4;
     private final MonsterGenerator monsterGen = new MonsterGeneratorImpl();
+    private final DropFactory dropFactory = new DropFactoryImpl();
 
     /** {@inheritDoc} */
     @Override
@@ -104,15 +112,16 @@ public class RoomFactoryImpl implements RoomFactory {
     @Override
     public void addItems(final Room base, final int floor) {
         int chestNum = this.rnd.nextInt(this.maxOccupation(base) / MIN_ROOM_SIZE);
+        final DropManager dm = this.dropFactory.createDropForRoom(base.getSize(), floor);
         final List<Tile> tiles = base.getTilesAsEntity().stream()
                 .filter(tile -> tile instanceof FloorTileImpl)
                 .map(tile -> (Tile) tile).toList();
 
-        // TODO: Add reference to drop factory
-
         while (chestNum > 0) {
             final Tile t = tiles.get(rnd.nextInt(tiles.size()));
-            if (t.put(new Chest(Set.of(), t.getPosition()))) {
+            final Interactable chest = new Chest(new HashSet<>(dm.generateRandomDrop()), t.getPosition());
+
+            if (t.put(chest)) {
                 chestNum = chestNum - 1;
             }
         }
@@ -128,6 +137,7 @@ public class RoomFactoryImpl implements RoomFactory {
 
         while (monsterNum > 0) {
             final Tile t = tiles.get(this.rnd.nextInt(tiles.size()));
+            // TODO: change to random
             final Monster monster = this.monsterGen.makeMeleeRat("Rat_" + monsterNum, t.getPosition());
             if (base.addMonster(monster)) {
                 monsterNum = monsterNum - 1;
