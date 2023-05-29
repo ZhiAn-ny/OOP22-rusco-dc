@@ -26,8 +26,9 @@ public class SquareRange extends DecoratedRange {
      * 
      */
     @Override
-    protected Stream<Stream<Pair<Integer, Integer>>> uploadShapeDelta(Pair<Integer, Integer> from,
-            Pair<Integer, Integer> to) {
+    protected Stream<Stream<Pair<Integer, Integer>>> uploadShapeDelta(
+            final Pair<Integer, Integer> from,
+            final Pair<Integer, Integer> to) {
         return Pairs.computeSquare(to, offset, false);
     }
     

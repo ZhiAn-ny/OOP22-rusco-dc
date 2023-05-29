@@ -14,7 +14,7 @@ public final class Launcher {
      * @param args
      */
     public static void main(final String[] args) {
-        GameObserverController ctrl = new GameControllerImpl();
+        GameObserverController ctrl = new GameControllerImpl(args);
         ctrl.init();
         ctrl.start();
     }

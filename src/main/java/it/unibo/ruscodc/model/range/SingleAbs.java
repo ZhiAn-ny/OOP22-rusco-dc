@@ -14,7 +14,6 @@ import it.unibo.ruscodc.utils.Pair;
 public class SingleAbs implements Range {
 
     private final String path;
-    private final String info;
 
     /**
      * Client must't create this object directly, but it must use the subclasses that 
@@ -22,9 +21,8 @@ public class SingleAbs implements Range {
      * @param path the path where stored the entity information, coded as String
      * @param info the info about what to print
      */
-    protected SingleAbs(final String path, final String info) {
+    protected SingleAbs(final String path) {
         this.path = path;
-        this.info = info;
     }
 
     /**

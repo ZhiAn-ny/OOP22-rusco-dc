@@ -45,5 +45,5 @@ public interface GameObserverController {
     void start();
 
 
-
+    void start(String[] args);
 }
