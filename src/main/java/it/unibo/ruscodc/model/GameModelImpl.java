@@ -3,11 +3,19 @@ package it.unibo.ruscodc.model;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.hero.HeroImpl;
+import it.unibo.ruscodc.model.actors.monster.MonsterActionFactory;
+import it.unibo.ruscodc.model.actors.monster.MonsterActionFactoryImpl;
+import it.unibo.ruscodc.model.actors.skill.Skill;
+import it.unibo.ruscodc.model.actors.skill.SkillImpl;
+import it.unibo.ruscodc.model.actors.stat.StatFactory;
+import it.unibo.ruscodc.model.actors.stat.StatFactoryImpl;
+import it.unibo.ruscodc.model.gamecommand.playercommand.Interact;
 import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.FloorImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
+import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 
@@ -30,7 +38,14 @@ public class GameModelImpl implements GameModel {
     public GameModelImpl() {
         this.nFloorsExplored = 1;
         this.floor = new FloorImpl(this.nFloorsExplored);
-        this.hero = new HeroImpl("Rusco", this.initialPosition, null, null);
+
+        final StatFactory stats = new StatFactoryImpl();
+        final MonsterActionFactory monsterActionFactory = new MonsterActionFactoryImpl();
+        final Skill skills = new SkillImpl();
+        skills.setAction(GameControl.ATTACK1, monsterActionFactory.basicMeleeAttack());
+        skills.setAction(GameControl.ATTACK2, monsterActionFactory.heavyMeleeAttack());
+        skills.setAction(GameControl.INTERACT, new Interact());
+        this.hero = new HeroImpl("Rusco", this.initialPosition, skills, stats.ratStat());
     }
 
     private List<Actor> getParty() {
