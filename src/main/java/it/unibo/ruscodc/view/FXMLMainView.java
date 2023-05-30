@@ -6,18 +6,15 @@ import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.util.Optional;
-
 import java.io.IOException;
 import java.util.*;
 
@@ -105,7 +102,8 @@ public class FXMLMainView extends Application implements GameView {
 
     @Override
     public void resetLevel(List<Entity> entities) {
-        this.printedEntity.removeIf(e -> e.getID() >= entities.get(0).getID());
+        int minDepth = entities.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
+        this.printedEntity.removeIf(e -> e.getID() >= minDepth);
         this.printedEntity.addAll(entities);
     }
 

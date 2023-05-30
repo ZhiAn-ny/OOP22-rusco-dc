@@ -13,7 +13,7 @@ public abstract class InteractableAbs implements Interactable{
      *
      * @param pos
      */
-    public InteractableAbs(final Pair<Integer, Integer> pos){
+    protected InteractableAbs(final Pair<Integer, Integer> pos){
         this.pos = pos;
     }
 

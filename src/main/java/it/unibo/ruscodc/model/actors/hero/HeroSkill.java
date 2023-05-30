@@ -21,7 +21,7 @@ public class HeroSkill extends SkillImpl {
             GameControl.BASEATTACK,
             new PlayerAttack(
                 new SquareRange(1, new SingleRange()),
-                new SingleRange(),
+                new SingleSplash(),
                 new EffectAbs(0) {
                     @Override
                     public void applyEffect(Actor from, Actor to) {
@@ -41,7 +41,7 @@ public class HeroSkill extends SkillImpl {
             GameControl.ATTACK1,
             new PlayerAttack(
                 new SquareRange(1, new SingleRange()),
-                new SingleRange(),
+                new SingleSplash(),
                 new EffectAbs(3) {
                     @Override
                     public void applyEffect(Actor from, Actor to) {
@@ -81,7 +81,7 @@ public class HeroSkill extends SkillImpl {
             GameControl.ATTACK3,
             new PlayerAttack(
                 new SquareRange(1, new SingleRange()),
-                new SingleRange(),
+                new SingleSplash(),
                 new EffectAbs(5) {
                     @Override
                     public void applyEffect(Actor from, Actor to) {
@@ -100,7 +100,7 @@ public class HeroSkill extends SkillImpl {
             GameControl.ATTACK4,
             new PlayerAttack(
                 new SquareRange(1, new SingleRange()),
-                new SingleRange(),
+                new SingleSplash(),
                 new EffectAbs(3) {
                     @Override
                     public void applyEffect(Actor from, Actor to) {

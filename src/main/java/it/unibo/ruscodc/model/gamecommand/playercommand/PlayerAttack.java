@@ -96,7 +96,9 @@ public class PlayerAttack extends NoIACommand {
      *  or {@value}null{@value} if the range is not valid (helps the player understand the correctness of the attack)
      */
     private Set<Entity> getSplash() {
-        return splash.getRange(cursorPos, cursorPos, this.getRoom());
+        Set<Entity> tmp = splash.getRange(cursorPos, this.getActor().getPos(), this.getRoom());
+        tmp.forEach(e -> System.out.println(e.getPos() + "\n" + e.getPath() + "\n" + e.getID()));
+        return splash.getRange(cursorPos, this.getActor().getPos(), this.getRoom());
     }
 
     /**
@@ -141,9 +143,9 @@ public class PlayerAttack extends NoIACommand {
             cursorPos = this.getActor().getPos();
         }
         final Set<Entity> splashRange = this.getSplash();
-        final Set<Entity> rangeRange = this.getRange();
         splashRange.add(getCursorAsEntity());
         if (isFirstTime) {
+            final Set<Entity> rangeRange = this.getRange();
             splashRange.addAll(rangeRange);
             isFirstTime = false;
         }
