@@ -61,4 +61,14 @@ public class InventoryImpl implements Inventory {
         this.bag.remove(index);
     }
 
+    @Override
+    public boolean isEmpty() {
+        return this.bag.isEmpty();
+    }
+
+    @Override
+    public int slotOccupied() {
+        return this.bag.size();
+    }
+
 }

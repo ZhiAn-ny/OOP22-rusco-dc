@@ -12,4 +12,6 @@ public interface Inventory {
 	List<Equipement> getEquipedItems();
 	void equip(Equipement equip, Actor actor);
 	List<Item> getAllItems();
+	boolean isEmpty();
+	int slotOccupied();
 }

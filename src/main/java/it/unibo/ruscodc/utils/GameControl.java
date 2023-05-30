@@ -64,11 +64,6 @@ public enum GameControl {
      */
     ATTACK4,
     /**
-     * you can use the consumable item right away.
-     */
-    USEQUICK,
-
-    /**
      *
      */
     DELETE,
