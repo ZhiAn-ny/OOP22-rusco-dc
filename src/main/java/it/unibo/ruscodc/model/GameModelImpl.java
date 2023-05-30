@@ -3,6 +3,7 @@ package it.unibo.ruscodc.model;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.hero.HeroImpl;
+import it.unibo.ruscodc.model.actors.hero.HeroSkill;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.actors.monster.MonsterActionFactory;
 import it.unibo.ruscodc.model.actors.monster.MonsterActionFactoryImpl;
@@ -12,12 +13,16 @@ import it.unibo.ruscodc.model.actors.stat.StatFactory;
 import it.unibo.ruscodc.model.actors.stat.StatFactoryImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.gamecommand.playercommand.Interact;
+import it.unibo.ruscodc.model.gamecommand.playercommand.PlayerAttack;
 import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.FloorImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.model.outputinfo.PortraitImpl;
+import it.unibo.ruscodc.model.range.SingleRange;
+import it.unibo.ruscodc.model.range.SingleSplash;
+import it.unibo.ruscodc.model.range.SquareRange;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
@@ -46,7 +51,8 @@ public class GameModelImpl implements GameModel {
 
         final StatFactory stats = new StatFactoryImpl();
         final MonsterActionFactory monsterActionFactory = new MonsterActionFactoryImpl();
-        final Skill skills = new SkillImpl();
+        final Skill skills = new HeroSkill();
+        
         //skills.setAction(GameControl.ATTACK1, monsterActionFactory.basicMeleeAttack());
         //skills.setAction(GameControl.ATTACK2, monsterActionFactory.heavyMeleeAttack());
         skills.setAction(GameControl.INTERACT, new Interact());

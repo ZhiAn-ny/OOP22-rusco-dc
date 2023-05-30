@@ -38,6 +38,7 @@ public class PlayerAttack extends NoIACommand {
     private final Range range;
     private final Range splash;
     private final Effect actionToPerform;
+    private boolean isFirstTime = true;
     private Pair<Integer, Integer> cursorPos;
     private boolean isReady;
     private boolean undo;
@@ -86,7 +87,7 @@ public class PlayerAttack extends NoIACommand {
      * @return an {@code}Iterator{@code} that iterate on this infos
      */
     private Set<Entity> getRange() {
-        return range.getRange(this.getActorPos(), cursorPos, this.getRoom());
+        return range.getRange(this.getActor().getPos(), cursorPos, this.getRoom());
     }
 
     /**
@@ -95,7 +96,7 @@ public class PlayerAttack extends NoIACommand {
      *  or {@value}null{@value} if the range is not valid (helps the player understand the correctness of the attack)
      */
     private Set<Entity> getSplash() {
-        return splash.getRange(this.getActorPos(), cursorPos, this.getRoom());
+        return splash.getRange(cursorPos, cursorPos, this.getRoom());
     }
 
     /**
@@ -136,16 +137,24 @@ public class PlayerAttack extends NoIACommand {
      */
     @Override
     public Set<Entity> getEntities() {
+        if (cursorPos == null) {
+            cursorPos = this.getActor().getPos();
+        }
         final Set<Entity> splashRange = this.getSplash();
         final Set<Entity> rangeRange = this.getRange();
-
-        return Stream.concat(
-                    Stream.concat(
-                        splashRange.stream(),
-                        rangeRange.stream()), 
-                    Stream.of(
-                        getCursorAsEntity()
-                    )).collect(Collectors.toSet());
+        splashRange.add(getCursorAsEntity());
+        if (isFirstTime) {
+            splashRange.addAll(rangeRange);
+            isFirstTime = false;
+        }
+        return splashRange;
+        // return Stream.concat(
+        //             Stream.concat(
+        //                 splashRange.stream(),
+        //                 rangeRange.stream()), 
+        //             Stream.of(
+        //                 getCursorAsEntity()
+        //             )).collect(Collectors.toSet());
 
         // return Stream.concat(
         //         Stream.concat(
@@ -175,6 +184,9 @@ public class PlayerAttack extends NoIACommand {
      */
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
+        isReady = false;
+        isFirstTime = true;
+        cursorPos = null;
         if (this.getRoom() == null || this.getActor() == null) {
             throw new IllegalStateException("");
         }

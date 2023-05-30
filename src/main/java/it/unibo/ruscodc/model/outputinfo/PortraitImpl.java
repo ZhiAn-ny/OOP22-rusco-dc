@@ -54,8 +54,7 @@ public class PortraitImpl implements Portrait {
             GameControl.ATTACK1,
             GameControl.ATTACK2,
             GameControl.ATTACK3,
-            GameControl.ATTACK4,
-            GameControl.USEQUICK
+            GameControl.ATTACK4
         );
         
         return attackControl

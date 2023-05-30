@@ -62,6 +62,7 @@ public class MainMenuView implements Initializable {
         this.render(ACTORS_RENDERING_LEVEL);
         this.render(4);
         this.render(5);
+        this.render(6);
     }
 
     private DoubleBinding getBindingFunction() {

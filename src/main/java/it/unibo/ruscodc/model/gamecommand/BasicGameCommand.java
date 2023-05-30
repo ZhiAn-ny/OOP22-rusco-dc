@@ -34,9 +34,9 @@ public abstract class BasicGameCommand implements GameCommand {
      */
     @Override
     public void setActor(final Actor by) {
-        if (this.actActor == null) {
+        //if (this.actActor == null) {
             actActor = by;
-        }
+        //}
     }
 
     /**
@@ -44,9 +44,9 @@ public abstract class BasicGameCommand implements GameCommand {
      */
     @Override
     public void setRoom(final Room where) {
-        if (this.where == null) {
+        //if (this.where == null) {
             this.where = where;
-        }
+        //}
     }
 
     /**

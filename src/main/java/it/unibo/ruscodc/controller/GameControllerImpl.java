@@ -7,6 +7,7 @@ import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
+import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
@@ -220,6 +221,7 @@ public class GameControllerImpl implements GameObserverController {
                 }
                 tmpCommand = result.get();
                 tmpCommand.setRoom(model.getCurrentRoom());
+
                 //TODO settaggio "by" già fatto nel act di Hero
 
                 if (tmpCommand.isReady()) { 

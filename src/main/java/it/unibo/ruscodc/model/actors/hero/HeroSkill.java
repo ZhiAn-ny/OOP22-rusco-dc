@@ -14,7 +14,7 @@ import it.unibo.ruscodc.utils.GameControl;
 
 public class HeroSkill extends SkillImpl {
     
-    HeroSkill(){
+    public HeroSkill(){
         super();
 
         super.setAction(

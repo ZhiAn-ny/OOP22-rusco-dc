@@ -15,7 +15,7 @@ import it.unibo.ruscodc.utils.Pair;
 public abstract class NoIACommand extends ComplexActionAbs {
     
     private static final String CURSOR_PATH = "file:src/main/resources/it/unibo/ruscodc/range_res/cursor";
-    private static final int CURSOR_DEPTH = 5;
+    private static final int CURSOR_DEPTH = 6;
 
     /**
      * 
