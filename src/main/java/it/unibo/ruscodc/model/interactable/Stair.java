@@ -28,7 +28,7 @@ public class Stair extends InteractableAbs{
      */
     @Override
     public String getPath() {
-        return null;
+        return "file:src/main/resources/it/unibo/ruscodc/map_res/StairTile";
     }
 
     /**
