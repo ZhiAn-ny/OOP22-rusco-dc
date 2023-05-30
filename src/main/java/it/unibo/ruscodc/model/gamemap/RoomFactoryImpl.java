@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class RoomFactoryImpl implements RoomFactory {
     private final Random rnd = new Random();
     private static final int MIN_ROOM_SIZE = 3;
-    private static final int MAX_ROOM_SIZE = 20;
+    private static final int MAX_ROOM_SIZE = 18;
     private static final int MAX_DOORS_NUM = 4;
     private final MonsterGenerator monsterGen = new MonsterGeneratorImpl();
     private final DropFactory dropFactory = new DropFactoryImpl();

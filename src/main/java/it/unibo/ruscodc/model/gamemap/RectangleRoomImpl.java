@@ -236,8 +236,8 @@ public class RectangleRoomImpl implements Room {
                     .filter(this.isNotCorner())
                     .toList();
             tile = onSide.get(new Random().nextInt(onSide.size()));
-            this.tiles.remove(tile);
-            this.tiles.add(new FloorTileImpl(tile.getPosition(), true));
+            tile = new FloorTileImpl(tile.getPosition(), true);
+            this.replaceTile(tile.getPosition(), tile);
         }
         tile.put(new Stair(tile.getPosition()));
         return true;

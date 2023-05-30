@@ -157,6 +157,8 @@ public class GameModelImpl implements GameModel {
     public void changeFloor() {
         this.nFloorsExplored = this.nFloorsExplored + 1;
         this.floor = new FloorImpl(this.nFloorsExplored);
+
+        this.respawnParty(this.initialPosition);
     }
 
     @Override
