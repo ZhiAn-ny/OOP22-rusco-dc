@@ -29,7 +29,7 @@ public class Interact extends NoIACommand {
     private boolean undo;
 
     public Interact() {
-        
+        cursorPos = null;
     }
 
     private boolean moveCursor(final Pair<Integer, Integer> newPos) {
@@ -69,9 +69,6 @@ public class Interact extends NoIACommand {
     
     @Override
     public boolean modify(GameControl input) {
-        if (cursorPos == null) {
-            cursorPos = this.getActor().getPos();
-        }
         boolean mustUpdate = true;
         switch (input) {
             case MOVEUP: mustUpdate = moveCursor(Pairs.computeUpPair(cursorPos)); break;
@@ -87,6 +84,9 @@ public class Interact extends NoIACommand {
 
     @Override
     public Set<Entity> getEntities() {
+        if (cursorPos == null) {
+            cursorPos = this.getActor().getPos();
+        }
         //Iterator<Entity> tmpp = interactableRange.getRange(this.getActor().getPos(), cursorPos, this.getRoom());
         //System.out.println("################");
         //System.out.println(tmpp.next().getID());

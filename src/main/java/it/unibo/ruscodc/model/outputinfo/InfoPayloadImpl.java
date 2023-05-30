@@ -7,7 +7,7 @@ import java.util.Objects;
  */
 public class InfoPayloadImpl implements InfoPayload {
 
-    private final static String ERR_IMG_PATH = null;
+    private final static String ERR_IMG_PATH = "file:src/main/resources/it/unibo/ruscodc/output_res/error";
 
     private final String title; 
     private final String text;

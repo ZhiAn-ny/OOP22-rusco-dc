@@ -31,6 +31,8 @@ import java.util.stream.Stream;
  */
 public class GameControllerImpl implements GameObserverController {
 
+    private Set<GameControl> DOUBLE_EX = Set.of(GameControl.CANCEL, GameControl.CONFIRM);
+
     private List<Actor> initiative = new ArrayList<>();
     private Optional<GameCommand> playerSituation = Optional.empty();
     private final GameView view;
@@ -146,16 +148,17 @@ public class GameControllerImpl implements GameObserverController {
     private boolean executeCommand(GameCommand toExec) {
         updateRuscoInfo();
         final boolean ready = toExec.isReady();
+        System.out.println(" ### " + ready);
         if (ready) {
             try {
-                Pair<Integer, Integer> oldActor = initiative.get(0).getPos();
+                //Pair<Integer, Integer> oldActor = initiative.get(0).getPos();
                 Optional<InfoPayload> tmp = toExec.execute();
 
                 if (tmp.isPresent()) {
                     view.printInfo(tmp.get());
                     return ready;
                 }
-                
+
                 initiative.remove(0);
                 playerSituation = Optional.empty();
                 flushView();
@@ -195,14 +198,19 @@ public class GameControllerImpl implements GameObserverController {
                 tmpCommand = playerSituation.get();
 
                 if (tmpCommand.modify(input)) {
-                    if(!executeCommand(tmpCommand)) {
-                        printCommand();
-                    }
-                    //TODO se volevo annullare il comando, annullamelo
-                    if (input.equals(GameControl.CANCEL)) {
-                        executeCommand(tmpCommand);
-                    }
+                    printCommand();
                 }
+                executeCommand(tmpCommand);
+                    // if(!executeCommand(tmpCommand)) {
+                        
+                    // }
+                    // //TODO se volevo annullare il comando, annullamelo
+                    // System.out.println(" @@@ " + DOUBLE_EX.contains(input));
+                    // if (DOUBLE_EX.contains(input)) {
+                    //     executeCommand(tmpCommand);
+                    //     flushView();
+                    // }
+                //}
 
             } else {
                 //TODO se input non è presente nelle skill di Rusco esci senza fare niente

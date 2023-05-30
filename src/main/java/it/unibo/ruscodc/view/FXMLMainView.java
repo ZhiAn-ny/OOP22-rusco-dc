@@ -164,12 +164,13 @@ public class FXMLMainView extends Application implements GameView {
 
     private void handleUserInputs(final Scene scene) {
         scene.setOnKeyPressed((KeyEvent key) -> {
-            System.out.println(this.getInput(key));
+            System.out.println(key.getText() + " " + this.getInput(key));
             this.controller.computeInput(this.getInput(key));
         });
     }
 
-    private GameControl getInput(KeyEvent e){
+    private GameControl getInput(KeyEvent e) {
+        //System.out.println(e.getText());
         return switch (e.getCode()) {
             case W -> GameControl.MOVEUP;
             case A -> GameControl.MOVELEFT;
@@ -179,7 +180,7 @@ public class FXMLMainView extends Application implements GameView {
             case P -> GameControl.PAUSE;
             case F -> GameControl.INTERACT;
             case ESCAPE -> GameControl.CANCEL;
-            case ENTER -> GameControl.CONFIRM;
+            case C -> GameControl.CONFIRM;
             case BACK_SPACE -> GameControl.DELETE;
             case DIGIT1 -> GameControl.BASEATTACK;
             case DIGIT2 -> GameControl.ATTACK1;
