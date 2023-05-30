@@ -138,7 +138,7 @@ public class RoomFactoryImpl implements RoomFactory {
         while (monsterNum > 0) {
             final Tile t = tiles.get(this.rnd.nextInt(tiles.size()));
             // TODO: change to random
-            final Monster monster = this.monsterGen.makeMeleeRat("Rat_" + monsterNum, t.getPosition());
+            final Monster monster = this.monsterGen.makeMeleeRat("rat", t.getPosition());
             if (base.addMonster(monster)) {
                 monsterNum = monsterNum - 1;
             }
