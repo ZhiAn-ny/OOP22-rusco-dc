@@ -48,4 +48,9 @@ public class Stair extends InteractableAbs{
     public GameCommand interact() {
         return new ChangeFloor();
     }
+
+    @Override
+    public boolean isTransitable() {
+        return true;
+    }
 }

@@ -28,4 +28,9 @@ public class Chest extends PickableItem{
     public String getPath() {
         return "file:src/main/resources/it/unibo/ruscodc/pickable_item/chest";
     }
+
+    @Override
+    public boolean isTransitable() {
+        return false;
+    }
 }
