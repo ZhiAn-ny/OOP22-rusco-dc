@@ -103,6 +103,7 @@ public class Interact extends NoIACommand {
         isReady = false;
         if (undo) {
             undo = false;
+            cursorPos = null;
             throw new Undo("");
         }
         
@@ -121,6 +122,7 @@ public class Interact extends NoIACommand {
         if (!obtained.isReady()) {
             throw new IllegalStateException("GameCommand behind interactable must not be complex");
         }
+        cursorPos = null;
         return obtained.execute();
     }
 
