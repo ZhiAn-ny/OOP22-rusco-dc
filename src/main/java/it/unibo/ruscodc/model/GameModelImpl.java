@@ -3,23 +3,28 @@ package it.unibo.ruscodc.model;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.hero.HeroImpl;
+import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.actors.monster.MonsterActionFactory;
 import it.unibo.ruscodc.model.actors.monster.MonsterActionFactoryImpl;
 import it.unibo.ruscodc.model.actors.skill.Skill;
 import it.unibo.ruscodc.model.actors.skill.SkillImpl;
 import it.unibo.ruscodc.model.actors.stat.StatFactory;
 import it.unibo.ruscodc.model.actors.stat.StatFactoryImpl;
+import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.gamecommand.playercommand.Interact;
 import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.FloorImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.interactable.Interactable;
+import it.unibo.ruscodc.model.outputinfo.Portrait;
+import it.unibo.ruscodc.model.outputinfo.PortraitImpl;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,8 +47,8 @@ public class GameModelImpl implements GameModel {
         final StatFactory stats = new StatFactoryImpl();
         final MonsterActionFactory monsterActionFactory = new MonsterActionFactoryImpl();
         final Skill skills = new SkillImpl();
-        skills.setAction(GameControl.ATTACK1, monsterActionFactory.basicMeleeAttack());
-        skills.setAction(GameControl.ATTACK2, monsterActionFactory.heavyMeleeAttack());
+        //skills.setAction(GameControl.ATTACK1, monsterActionFactory.basicMeleeAttack());
+        //skills.setAction(GameControl.ATTACK2, monsterActionFactory.heavyMeleeAttack());
         skills.setAction(GameControl.INTERACT, new Interact());
         this.hero = new HeroImpl("Rusco", this.initialPosition, skills, stats.ratStat());
     }
@@ -60,6 +65,9 @@ public class GameModelImpl implements GameModel {
     public List<Actor> getActorByInitative() {
         List<Actor> list = new ArrayList<>();
         list.add(hero);
+        List<Monster> monsters = this.getCurrentRoom().getMonsters();
+        list.addAll(monsters);
+        list.sort(Comparator.comparingInt(a -> a.getStatActual(StatName.INT)));
         return list;
     }
 
@@ -148,5 +156,10 @@ public class GameModelImpl implements GameModel {
     @Override
     public Floor getCurrentFloor() {
         return this.floor;
+    }
+
+    @Override
+    public Portrait getRuscoInfo() {
+        return new PortraitImpl(hero, hero.getStatActual(StatName.HP), hero.getStatActual(StatName.AP));
     }
 }

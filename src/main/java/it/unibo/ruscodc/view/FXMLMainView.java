@@ -3,6 +3,7 @@ package it.unibo.ruscodc.view;
 import it.unibo.ruscodc.controller.GameObserverController;
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
+import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import javafx.animation.AnimationTimer;
@@ -163,7 +164,7 @@ public class FXMLMainView extends Application implements GameView {
 
     private void handleUserInputs(final Scene scene) {
         scene.setOnKeyPressed((KeyEvent key) -> {
-            System.out.println(key.getCode());
+            System.out.println(this.getInput(key));
             this.controller.computeInput(this.getInput(key));
         });
     }
@@ -187,6 +188,12 @@ public class FXMLMainView extends Application implements GameView {
             case DIGIT5 -> GameControl.ATTACK4;
             default -> GameControl.DONOTHING;
         };
+    }
+
+    @Override
+    public void uploadPortrait(Portrait infos) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

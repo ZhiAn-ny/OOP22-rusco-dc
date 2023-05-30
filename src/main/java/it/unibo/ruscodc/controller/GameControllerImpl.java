@@ -13,12 +13,14 @@ import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ChangeFloorException;
 import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
+import it.unibo.ruscodc.utils.exception.Undo;
 import it.unibo.ruscodc.view.FXMLMainView;
 import it.unibo.ruscodc.view.GameView;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -49,11 +51,6 @@ public class GameControllerImpl implements GameObserverController {
     @Override
     public void init() {
         this.view.init(this);
-    }
-
-    @Override
-    public void start() {
-
     }
 
     /**
@@ -101,6 +98,7 @@ public class GameControllerImpl implements GameObserverController {
      */
     @Override
     public void changeAutomaticSave() {
+        automaticSave = !automaticSave;
     }
 
     /**
@@ -111,6 +109,10 @@ public class GameControllerImpl implements GameObserverController {
         tmp.addAll(model.getCurrentRoom().getObjectsInRoom());
         tmp.addAll(initiative);
         return tmp;
+    }
+
+    private void updateRuscoInfo() {
+        this.view.uploadPortrait(this.model.getRuscoInfo());
     }
 
     private void changeFloor() {
@@ -128,7 +130,7 @@ public class GameControllerImpl implements GameObserverController {
         view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
     }
 
-    private void passTurn() {
+    private void flushView() {
         this.view.resetLevel(this.model.getCurrentRoom().getObjectsInRoom().stream().map(i->(Entity)i).toList());
         this.view.resetLevel(this.model.getActorByInitative().stream()
                 .filter(Actor::isAlive)
@@ -136,24 +138,40 @@ public class GameControllerImpl implements GameObserverController {
                 .toList());
     }
 
+    private void printCommand() {
+        Set<Entity> rangeToPrint = playerSituation.get().getEntities();
+        this.view.resetLevel(new ArrayList<>(rangeToPrint));
+    }
+
     private boolean executeCommand(GameCommand toExec) {
+        updateRuscoInfo();
         final boolean ready = toExec.isReady();
         if (ready) {
             try {
                 Pair<Integer, Integer> oldActor = initiative.get(0).getPos();
                 Optional<InfoPayload> tmp = toExec.execute();
+
                 if (tmp.isPresent()) {
                     view.printInfo(tmp.get());
                     return ready;
                 }
+                
+                initiative.remove(0);
                 playerSituation = Optional.empty();
-                passTurn();
+                flushView();
+
             } catch (ChangeFloorException f){
                 changeFloor();
                 playerSituation = Optional.empty();
+
             } catch (ChangeRoomException r) {
                 changeRoom(r);
                 playerSituation = Optional.empty();
+
+            } catch (Undo u) {
+                playerSituation = Optional.empty();
+                flushView();
+
             } catch (ModelException e) {
                 // TODO - gestire eccezioni model
             }
@@ -171,31 +189,38 @@ public class GameControllerImpl implements GameObserverController {
         if (initiative.get(0) instanceof Hero) {
             Hero tmpActor = (Hero) initiative.get(0);
             GameCommand tmpCommand;
-            Pair<Integer, Integer> cod = tmpActor.getPos();
+            //Pair<Integer, Integer> cod = tmpActor.getPos();
 
             if (playerSituation.isPresent()) {
                 tmpCommand = playerSituation.get();
 
                 if (tmpCommand.modify(input)) {
                     if(!executeCommand(tmpCommand)) {
-                        Iterator<Entity> itE = playerSituation.get().getEntities();
-                        this.view.resetLevel(Stream.iterate(itE.next(), i->itE.hasNext(), i->itE.next()).toList());
+                        printCommand();
+                    }
+                    //TODO se volevo annullare il comando, annullamelo
+                    if (input.equals(GameControl.CANCEL)) {
+                        executeCommand(tmpCommand);
                     }
                 }
 
             } else {
-                Optional<GameCommand> res = tmpActor.act(input);
-                if (res.isEmpty()){
+                //TODO se input non è presente nelle skill di Rusco esci senza fare niente
+                Optional<GameCommand> result = tmpActor.act(input);
+                if (result.isEmpty()){
                     return;
                 }
-                tmpCommand = res.get();
+                tmpCommand = result.get();
                 tmpCommand.setRoom(model.getCurrentRoom());
+                //TODO settaggio "by" già fatto nel act di Hero
 
-                if (tmpCommand.isReady()) {
+                if (tmpCommand.isReady()) { 
+                    //TODO è un comando veloce
                     executeCommand(tmpCommand);
                     //passTurn();
                 } else {
                     playerSituation = Optional.of(tmpCommand);
+                    printCommand();
                 }
             }
             manageMonsterTurn();
@@ -210,8 +235,9 @@ public class GameControllerImpl implements GameObserverController {
         System.exit(0);
     }
 
-
-
+    /**
+     * If the initiative list is empty, this method will fill it
+     */
     private void initNewTurn() {
         if (initiative.isEmpty()) {
             initiative.addAll(model.getActorByInitative());
@@ -233,9 +259,9 @@ public class GameControllerImpl implements GameObserverController {
         initNewTurn();
         while (initiative.get(0) instanceof Monster) {
             tmpMonster = (Monster) initiative.get(0);
-            executeCommand(tmpMonster.behave(model.getCurrentRoom(), getHeros()));
+            executeCommand(tmpMonster.behave(model.getCurrentRoom(), this.getHeros()));
             initiative.remove(0);
-            passTurn();
+            flushView();
             initNewTurn();
         }
     }

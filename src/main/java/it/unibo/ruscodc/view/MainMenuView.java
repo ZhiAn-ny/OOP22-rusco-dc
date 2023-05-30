@@ -18,10 +18,12 @@ import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MainMenuView implements Initializable {
     private static final int TILES_RENDERING_LEVEL = 1;
@@ -51,9 +53,14 @@ public class MainMenuView implements Initializable {
         this.cols = 20;
         this.rows = 20;
 
+        //Entity ref = toRender.stream().max(Comparator.comparingInt(e -> e.getID())).get();
+
+        //Stream.iterate(0, i -> i < (ref.getID()+1), i -> i+1).forEach(i -> this.render(i));
+
         this.render(TILES_RENDERING_LEVEL);
         this.render(OBJECTS_RENDERING_LEVEL);
         this.render(ACTORS_RENDERING_LEVEL);
+        this.render(4);
     }
 
     private DoubleBinding getBindingFunction() {

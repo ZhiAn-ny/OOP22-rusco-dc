@@ -85,7 +85,7 @@ public class PlayerAttack extends NoIACommand {
      * Get information about "range" to print to view.
      * @return an {@code}Iterator{@code} that iterate on this infos
      */
-    private Iterator<Entity> getRange() {
+    private Set<Entity> getRange() {
         return range.getRange(this.getActorPos(), cursorPos, this.getRoom());
     }
 
@@ -94,7 +94,7 @@ public class PlayerAttack extends NoIACommand {
      * @return an {@code}Iterator{@code} that iterate on this infos
      *  or {@value}null{@value} if the range is not valid (helps the player understand the correctness of the attack)
      */
-    private Iterator<Entity> getSplash() {
+    private Set<Entity> getSplash() {
         return splash.getRange(this.getActorPos(), cursorPos, this.getRoom());
     }
 
@@ -135,17 +135,26 @@ public class PlayerAttack extends NoIACommand {
      * 
      */
     @Override
-    public Iterator<Entity> getEntities() {
-        final Iterator<Entity> splashRange = this.getSplash();
-        final Iterator<Entity> rangeRange = this.getRange();
+    public Set<Entity> getEntities() {
+        final Set<Entity> splashRange = this.getSplash();
+        final Set<Entity> rangeRange = this.getRange();
+
         return Stream.concat(
-            Stream.concat(
-                Stream.iterate(splashRange.next(), i -> splashRange.hasNext(), i -> splashRange.next()), 
-                Stream.iterate(rangeRange.next(), i -> rangeRange.hasNext(), i -> rangeRange.next())),
-            Stream.of(
-                getCursorAsEntity()
-            )
-            ).iterator();
+                    Stream.concat(
+                        splashRange.stream(),
+                        rangeRange.stream()), 
+                    Stream.of(
+                        getCursorAsEntity()
+                    )).collect(Collectors.toSet());
+
+        // return Stream.concat(
+        //         Stream.concat(
+        //             splashRange.stream(),
+        //             rangeRange.stream()),
+        //         Stream.of(
+        //             getCursorAsEntity()
+        //         )
+        //     ).iterator();
     }
 
     private DropManager createMonsterDrop(final Actor by) {

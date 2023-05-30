@@ -66,26 +66,23 @@ public abstract class DecoratedRange implements Range {
      * 
      */
     @Override
-    public Iterator<Entity> getRange(
+    public Set<Entity> getRange(
             final Pair<Integer, Integer> by, 
             final Pair<Integer, Integer> to, 
             final Room where) {
-        final Iterator<Entity> tmp = this.basicRange.getRange(by, to, where);
-        if (!tmp.hasNext()) {
+        final Set<Entity> tmp = this.basicRange.getRange(by, to, where);
+        if (tmp.isEmpty()) {
             return tmp;
         }
 
-        final Entity res = tmp.next();
-        final Stream<Entity> otherRange = Stream.concat(
-            Stream.of(res), 
-            Stream.generate(() -> tmp.next()).takeWhile(e -> tmp.hasNext())
-        );
+        final Entity res = tmp.stream().findFirst().get();
+        final Stream<Entity> otherRange = tmp.stream();
 
         checkIfCommute(by, to, where);
 
         final Stream<Entity> thisRange = this.effectiveShape.stream().map(p -> byPosToEntity(p, res));
 
-        return Stream.concat(otherRange, thisRange).iterator();
+        return Stream.concat(otherRange, thisRange).collect(Collectors.toSet());
     }
 
     /**

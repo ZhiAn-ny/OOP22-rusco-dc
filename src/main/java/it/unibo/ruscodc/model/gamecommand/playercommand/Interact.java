@@ -2,6 +2,8 @@ package it.unibo.ruscodc.model.gamecommand.playercommand;
 
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
@@ -9,6 +11,7 @@ import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamemap.Tile;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
+import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.model.range.Range;
 import it.unibo.ruscodc.model.range.SingleRange;
 import it.unibo.ruscodc.model.range.SquareRange;
@@ -25,7 +28,12 @@ public class Interact extends NoIACommand {
     private boolean isReady;
     private boolean undo;
 
+    public Interact() {
+        
+    }
+
     private boolean moveCursor(final Pair<Integer, Integer> newPos) {
+        System.out.println(newPos);
         if (this.getRoom().isInRoom(newPos)) {
             cursorPos = newPos;
             return true;
@@ -61,6 +69,9 @@ public class Interact extends NoIACommand {
     
     @Override
     public boolean modify(GameControl input) {
+        if (cursorPos == null) {
+            cursorPos = this.getActor().getPos();
+        }
         boolean mustUpdate = true;
         switch (input) {
             case MOVEUP: mustUpdate = moveCursor(Pairs.computeUpPair(cursorPos)); break;
@@ -75,26 +86,34 @@ public class Interact extends NoIACommand {
     }
 
     @Override
-    public Iterator<Entity> getEntities() {
-        Iterator<Entity> tmp = interactableRange.getRange(this.getActor().getPos(), cursorPos, this.getRoom());
-        Stream<Entity> rangeE = Stream.iterate(tmp.next(), i -> tmp.hasNext(), i -> tmp.next());
-        return Stream.concat(rangeE, Stream.of(getCursorAsEntity())).iterator();
+    public Set<Entity> getEntities() {
+        //Iterator<Entity> tmpp = interactableRange.getRange(this.getActor().getPos(), cursorPos, this.getRoom());
+        //System.out.println("################");
+        //System.out.println(tmpp.next().getID());
+        //final Iterator<Entity> tmp = interactableRange.getRange(this.getActor().getPos(), cursorPos, this.getRoom());
+        //Stream<Entity> rangeE = this.interactableRange.getRange(this.getActor().getPos(), cursorPos, getRoom()).stream();
+        //return Stream.concat(rangeE, Stream.of(getCursorAsEntity())).collect(Collectors.toSet());
+        Set<Entity> tmp = this.interactableRange.getRange(this.getActor().getPos(), cursorPos, this.getRoom());
+        tmp.add(getCursorAsEntity());
+        return tmp;
     }
 
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
+        isReady = false;
         if (undo) {
+            undo = false;
             throw new Undo("");
         }
         
         Optional<Tile> selected = this.getRoom().get(cursorPos);
         if (selected.isEmpty()) {
-            return Optional.of(null);
+            return Optional.of(new InfoPayloadImpl("ERR", "ERR"));
         }
 
         Optional<Interactable> interac = selected.get().get();
         if (interac.isEmpty()) {
-            return Optional.of(null);
+            return Optional.of(new InfoPayloadImpl("ERR", "ERR"));
         }
         GameCommand obtained = interac.get().interact();
         obtained.setActor(this.getActor());
@@ -103,6 +122,14 @@ public class Interact extends NoIACommand {
             throw new IllegalStateException("GameCommand behind interactable must not be complex");
         }
         return obtained.execute();
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public boolean isReady() {
+        return isReady;
     }
     
 }

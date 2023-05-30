@@ -3,6 +3,7 @@ package it.unibo.ruscodc.view;
 import it.unibo.ruscodc.controller.GameObserverController;
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
+import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public interface GameView {
      * @param toPrint the message to visualize as error
      */
     void printInfo(InfoPayload toPrint);
+
+    void uploadPortrait(Portrait infos);
 
     void resetView(List<Entity> toDraw, Pair<Integer, Integer> roomSize);
     void addEntity(Entity toAdd);

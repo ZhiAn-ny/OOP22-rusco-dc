@@ -39,10 +39,10 @@ public interface GameObserverController {
      * Initialize the view with the controller.
      */
     void init();
-    /**
-     * Start the view and the game.
-     */
-    void start();
+    // /**
+    //  * Start the view and the game.
+    //  */
+    // void start();
 
 
     void start(String[] args);

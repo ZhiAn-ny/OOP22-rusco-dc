@@ -1,6 +1,7 @@
 package it.unibo.ruscodc.model.range;
 
-import java.util.Iterator;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
@@ -41,7 +42,7 @@ public class SingleAbs implements Range {
      * 
      */
     @Override
-    public Iterator<Entity> getRange(
+    public Set<Entity> getRange(
             final Pair<Integer, Integer> by, 
             final Pair<Integer, Integer> to, 
             final Room where) {
@@ -65,7 +66,7 @@ public class SingleAbs implements Range {
 
         };
 
-        return Stream.of(begin).filter(e -> !where.isAccessible(e.getPos())).iterator();
+        return Stream.of(begin).filter(e -> where.isAccessible(e.getPos())).collect(Collectors.toSet());
     }
 
     // /**
