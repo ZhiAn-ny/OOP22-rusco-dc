@@ -192,10 +192,31 @@ public class RectangleRoomImpl implements Room {
 
         final Tile tile = onSide.get(rnd.nextInt(onSide.size()));
         this.replaceTile(tile.getPosition(), new FloorTileImpl(tile.getPosition(), true));
-        this.put(tile.getPosition(), new Door(tile.getPosition()));
+        this.put(tile.getPosition(), new Door(tile.getPosition(), this.getSide(tile.getPosition())));
 
         this.connectedRooms.put(dir, null);
         return true;
+    }
+
+    /**
+     * Return on which side is placed the specified position.
+     * @param pos the position to check
+     * @return the side of the room on which lies the specified position
+     */
+    private Direction getSide(final Pair<Integer, Integer> pos) {
+        if (pos.getX() == 0) {
+            return Direction.LEFT;
+        }
+        if (pos.getY() == 0) {
+            return Direction.UP;
+        }
+        if (pos.getX() == this.size.getX() + 1) {
+            return Direction.RIGHT;
+        }
+        if (pos.getY() == this.size.getY() + 1) {
+            return Direction.DOWN;
+        }
+        return Direction.UNDEFINED;
     }
 
     /** {@inheritDoc} */

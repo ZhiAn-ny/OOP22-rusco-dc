@@ -102,6 +102,12 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
 
     /** {@inheritDoc} */
     @Override
+    public boolean isTransitable() {
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public Optional<Interactable> get() {
         return Optional.of(this);
     }
