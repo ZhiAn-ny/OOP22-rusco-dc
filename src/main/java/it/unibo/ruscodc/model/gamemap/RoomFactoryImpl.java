@@ -8,14 +8,11 @@ import it.unibo.ruscodc.model.actors.monster.drop.DropFactoryImpl;
 import it.unibo.ruscodc.model.actors.monster.drop.DropManager;
 import it.unibo.ruscodc.model.interactable.Chest;
 import it.unibo.ruscodc.model.interactable.Interactable;
-import it.unibo.ruscodc.model.item.Item;
 import it.unibo.ruscodc.utils.Direction;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * The <code>RoomFactory</code> class can be used to generate different
@@ -130,7 +127,7 @@ public class RoomFactoryImpl implements RoomFactory {
     /** {@inheritDoc} */
     @Override
     public void addMonsters(final Room base, final int floor) {
-        int monsterNum = this.rnd.nextInt(this.maxOccupation(base));
+        /*int monsterNum = this.rnd.nextInt(this.maxOccupation(base));
         final List<Tile> tiles = base.getTilesAsEntity().stream()
                 .filter(tile -> tile instanceof FloorTileImpl)
                 .map(tile -> (Tile) tile).toList();
@@ -142,11 +139,11 @@ public class RoomFactoryImpl implements RoomFactory {
             if (base.addMonster(monster)) {
                 monsterNum = monsterNum - 1;
             }
-        }
+        }*/
     }
 
     private int maxOccupation(final Room room) {
-        return room.getArea() / (MIN_ROOM_SIZE * 2);
+        return room.getArea() * MIN_ROOM_SIZE / MAX_ROOM_SIZE;
     }
 
 }

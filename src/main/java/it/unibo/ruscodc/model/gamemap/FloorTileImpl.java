@@ -22,7 +22,6 @@ public class FloorTileImpl extends AbstractTile {
         super(position, accessibility);
     }
 
-
     /** {@inheritDoc} */
     @Override
     public String getPath() {
