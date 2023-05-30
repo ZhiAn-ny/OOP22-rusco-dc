@@ -11,8 +11,14 @@ import it.unibo.ruscodc.model.range.SingleRange;
 import it.unibo.ruscodc.model.range.SingleSplash;
 import it.unibo.ruscodc.model.range.SquareRange;
 
+/**
+ * Implementation of the Factory that creates the GameCommand for the Monsters skill.
+ */
 public class MonsterActionFactoryImpl implements MonsterActionFactory {
 
+    /**
+     * 
+     */
     @Override
     public GameCommand basicMeleeAttack() {
         return new IAAttack(
@@ -20,9 +26,9 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new SingleSplash(),
             new EffectAbs(0) {
                 @Override
-                public void applyEffect(Actor from, Actor to) {
+                public void applyEffect(final Actor from, final Actor to) {
                     int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
-                    to.modifyActualStat(StatName.HP, - damage);
+                    to.modifyActualStat(StatName.HP, -damage);
                 }
 
                 @Override
@@ -33,6 +39,9 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
         );
     }
 
+    /**
+     * 
+     */
     @Override
     public GameCommand heavyMeleeAttack() {
         return new IAAttack(
@@ -40,9 +49,9 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new SingleSplash(),
             new EffectAbs(3) {
                 @Override
-                public void applyEffect(Actor from, Actor to) {
-                    int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR)*2;
-                    to.modifyActualStat(StatName.HP, - damage);
+                public void applyEffect(final Actor from, final Actor to) {
+                    int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR) * 2;
+                    to.modifyActualStat(StatName.HP, -damage);
                 }
 
                 @Override
@@ -53,6 +62,9 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
         );
     }
 
+    /**
+     * 
+     */
     @Override
     public GameCommand basicRangedAttack() {
         return new IAAttack(
@@ -60,11 +72,11 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new SingleSplash(),
             new EffectAbs(0) {
                 @Override
-                public void applyEffect(Actor from, Actor to) {
+                public void applyEffect(final Actor from, final Actor to) {
                     int damage = from.getStatActual(StatName.DMG);
-                    to.modifyActualStat(StatName.HP, - damage);
+                    to.modifyActualStat(StatName.HP, -damage);
                 }
-                
+
                 @Override
                 public String toString() {
                     return "The Monster use everything it can to attack from the discance";
@@ -73,6 +85,9 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
         );
     }
 
+    /**
+     * 
+     */
     @Override
     public GameCommand ratMagic() {
         return new IAAttack(
@@ -80,11 +95,11 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new SingleSplash(),
             new EffectAbs(0) {
                 @Override
-                public void applyEffect(Actor from, Actor to) {
+                public void applyEffect(final Actor from, final Actor to) {
                     int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.INT);
-                    to.modifyActualStat(StatName.HP, - damage);
+                    to.modifyActualStat(StatName.HP, -damage);
                 }
-                
+
                 @Override
                 public String toString() {
                     return "Some kind of nauseous arcane magic used by Rats";
@@ -93,6 +108,9 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
         );
     }
 
+    /**
+     * 
+     */
     @Override
     public GameCommand badSmell() {
         return new IAAttack(
@@ -100,11 +118,11 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new CircleRange(2, new SingleSplash()),
             new EffectAbs(3) {
                 @Override
-                public void applyEffect(Actor from, Actor to) {
+                public void applyEffect(final Actor from, final Actor to) {
                     int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.INT);
-                    to.modifyActualStat(StatName.HP, - damage);
+                    to.modifyActualStat(StatName.HP, -damage);
                 }
-                
+
                 @Override
                 public String toString() {
                     return "A nauseous stink that cause damage in a small damage";
@@ -113,6 +131,9 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
         );
     }
 
+    /**
+     * 
+     */
     @Override
     public GameCommand backstab() {
         return new IAAttack(
@@ -120,11 +141,11 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new SingleSplash(),
             new EffectAbs(4) {
                 @Override
-                public void applyEffect(Actor from, Actor to) {
+                public void applyEffect(final Actor from, final Actor to) {
                     int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.DEX);
-                    to.modifyActualStat(StatName.HP, - damage);
+                    to.modifyActualStat(StatName.HP, -damage);
                 }
-                
+
                 @Override
                 public String toString() {
                     return "The Monster ambush the hero with a well placed attack in it's weakspot";
@@ -133,6 +154,9 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
         );
     }
 
+    /**
+     * 
+     */
     @Override
     public GameCommand disgustingDemise() {
         return new IAAttack(
@@ -140,9 +164,9 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new SquareRange(1, new SingleSplash()),
             new EffectAbs(0) {
                 @Override
-                public void applyEffect(Actor from, Actor to) {
+                public void applyEffect(final Actor from, final Actor to) {
                     int damage = from.getStatActual(StatName.DMG);
-                    to.modifyActualStat(StatName.HP, - damage);
+                    to.modifyActualStat(StatName.HP, -damage);
                 }
 
                 @Override
@@ -152,5 +176,4 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             }
         );
     }
-    
 }
