@@ -28,4 +28,9 @@ public class Drop extends PickableItem{
     public String getPath() {
         return "file:src/main/resources/it/unibo/ruscodc/pickable_item/drop";
     }
+
+    @Override
+    public String getName() {
+        return "drop";
+    }
 }

@@ -10,7 +10,7 @@ import it.unibo.ruscodc.utils.exception.ModelException;
 import java.util.Optional;
 import java.util.Set;
 
-public abstract class FillInventory extends QuickActionAbs {
+public class FillInventory extends QuickActionAbs {
 
     private final Set<Item> items;
     private Inventory inventory;
