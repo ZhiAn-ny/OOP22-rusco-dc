@@ -18,9 +18,9 @@
             </Label>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" text="Nuova partita" />
-                  <Button mnemonicParsing="false" text="Carica partita" />
-                  <Button mnemonicParsing="false" text="Impostazioni" />
+                  <Button fx:id="nuovaPartita" mnemonicParsing="false" text="Nuova partita" />
+                  <Button fx:id="caricaPartita" mnemonicParsing="false" text="Carica partita" />
+                  <Button fx:id="impostazioni" mnemonicParsing="false" text="Impostazioni" />
                </children>
             </VBox>
          </children>
