@@ -31,7 +31,7 @@ final class MonsterGeneratorTest {
     private final MonsterActionFactory monsterActionFactory = new MonsterActionFactoryImpl();
 
     /**
-     * Method under test: default or parameterless constructor of {@link FloorTileImpl}.
+     * Method under test: Method that creates a Melee Rat.
      */
     @Test
     void testMeleeRat() {
@@ -48,7 +48,14 @@ final class MonsterGeneratorTest {
             assertEquals(meleeRat.getStatActual(stat), toCheck.getStatMax(stat));
         }
 
-        assertEquals(meleeRatSkill.getAction(GameControl.BASEATTACK), this.monsterActionFactory.basicMeleeAttack());
-        assertEquals(meleeRatSkill.getAction(GameControl.ATTACK1), this.monsterActionFactory.heavyMeleeAttack());
+        assertEquals(
+            meleeRatSkill.getAction(GameControl.BASEATTACK).get().toString(),
+            this.monsterActionFactory.basicMeleeAttack().toString()
+        );
+
+        assertEquals(
+            meleeRatSkill.getAction(GameControl.ATTACK1).get().toString(),
+            this.monsterActionFactory.heavyMeleeAttack().toString()
+        );
     }
 }
