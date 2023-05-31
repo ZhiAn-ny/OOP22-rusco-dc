@@ -2,6 +2,7 @@ package it.unibo.ruscodc.model.actors.monster.behaviour;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.monster.Monster;
@@ -34,7 +35,7 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
                     .map(a -> skills.getAction(a))
                     .filter(a -> a.isPresent())
                     .map(a -> a.get())
-                    .toList();
+                    .collect(Collectors.toList());
                 attacks.removeIf(gc -> !actors.stream().anyMatch(a -> gc.isTargetInRange(a)));
 
                 if (attacks.isEmpty()) {
@@ -68,7 +69,7 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
                     .map(a -> skills.getAction(a))
                     .filter(a -> a.isPresent())
                     .map(a -> a.get())
-                    .toList();
+                    .collect(Collectors.toList());
                 attacks.removeIf(gc -> !actors.stream().anyMatch(a -> gc.isTargetInRange(a)));
 
                 int closestDistance =
