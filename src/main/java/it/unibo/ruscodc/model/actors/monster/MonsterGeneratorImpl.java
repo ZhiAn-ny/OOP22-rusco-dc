@@ -19,7 +19,7 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
     private final MonsterActionFactory MAFactory = new MonsterActionFactoryImpl();
 
     @Override
-    public Monster makeMeleeRat(String name, Pair<Integer, Integer> pos) {
+    public Monster makeMeleeRat(Pair<Integer, Integer> pos) {
         
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicMeleeAttack());
@@ -29,11 +29,11 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
 
         Behaviour behaviour = this.behaviourFactory.makeMeleeAggressive();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("MeleeRat", pos, skills, stats, behaviour);
     }
 
     @Override
-    public Monster makeRangedRat(String name, Pair<Integer, Integer> pos) {
+    public Monster makeRangedRat(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicRangedAttack());
 
@@ -41,11 +41,11 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
 
         Behaviour behaviour = this.behaviourFactory.makeRangedBrainless();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("RangedRat", pos, skills, stats, behaviour);
     }
 
     @Override
-    public Monster makeMageRat(String name, Pair<Integer, Integer> pos) {
+    public Monster makeMageRat(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.ratMagic());
         skills.setAction(GameControl.ATTACK1, this.MAFactory.badSmell());
@@ -55,11 +55,11 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
 
         Behaviour behaviour = this.behaviourFactory.makeRangedShy();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("MagedRat", pos, skills, stats, behaviour);
     }
 
     @Override
-    public Monster makeRogueOpossum(String name, Pair<Integer, Integer> pos) {
+    public Monster makeRogueOpossum(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicMeleeAttack());
         skills.setAction(GameControl.ATTACK1, this.MAFactory.heavyMeleeAttack());
@@ -69,11 +69,11 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
 
         Behaviour behaviour = this.behaviourFactory.makeMeleeAggressive();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("RogueOpossum", pos, skills, stats, behaviour);
     }
 
     @Override
-    public Monster makeRangedOpossum(String name, Pair<Integer, Integer> pos) {
+    public Monster makeRangedOpossum(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicRangedAttack());
 
@@ -81,11 +81,11 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
 
         Behaviour behaviour = this.behaviourFactory.makeRangedShy();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("RangedOpossum", pos, skills, stats, behaviour);
     }
 
     @Override
-    public Monster makeMeleeSeagull(String name, Pair<Integer, Integer> pos) {
+    public Monster makeMeleeSeagull(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicMeleeAttack());
         skills.setAction(GameControl.ATTACK1, this.MAFactory.backstab());
@@ -94,11 +94,11 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
 
         Behaviour behaviour = this.behaviourFactory.makeMeleeAggressive();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("MeleeSeagull", pos, skills, stats, behaviour);
     }
 
     @Override
-    public Monster makeRangedSeagull(String name, Pair<Integer, Integer> pos) {
+    public Monster makeRangedSeagull(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicRangedAttack());
 
@@ -106,11 +106,11 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
 
         Behaviour behaviour = this.behaviourFactory.makeRangedShy();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("RangedSeagull", pos, skills, stats, behaviour);
     }
 
     @Override
-    public Monster makeBombCockroach(String name, Pair<Integer, Integer> pos) {
+    public Monster makeBombCockroach(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.disgustingDemise());
 
@@ -118,6 +118,6 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
 
         Behaviour behaviour = this.behaviourFactory.makeMeleeBrainless();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("BombCockroach", pos, skills, stats, behaviour);
     }
 }
