@@ -5,7 +5,7 @@ import java.util.Map;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
- * A class used to manage the Stats of an Actor
+ * A class used to manage the Stats of an Actor.
  */
 public class StatImpl implements Stat {
 
@@ -17,7 +17,7 @@ public class StatImpl implements Stat {
         DEX,
         INT;
     }
-    
+
     private final Map<StatName, Pair<Integer, Integer>> stats = new HashMap<>();
 
     //TODO: Constructor default

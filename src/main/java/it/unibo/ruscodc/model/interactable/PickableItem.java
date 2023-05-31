@@ -1,6 +1,7 @@
 package it.unibo.ruscodc.model.interactable;
 
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.FillInventory;
 import it.unibo.ruscodc.model.item.Item;
 import it.unibo.ruscodc.utils.Pair;
 
@@ -19,7 +20,7 @@ public abstract class PickableItem extends InteractableAbs {
      * @param itemSet
      * @param pos
      */
-    public PickableItem(Set<Item> itemSet, Pair<Integer, Integer> pos){
+    protected PickableItem(Set<Item> itemSet, Pair<Integer, Integer> pos){
         super(pos);
         this.loot = itemSet;
     }
@@ -37,9 +38,7 @@ public abstract class PickableItem extends InteractableAbs {
      * @return
      */
     @Override
-    public String getName() {
-        return null;
-    }
+    public abstract String getName();
 
     /**
      *
@@ -47,6 +46,6 @@ public abstract class PickableItem extends InteractableAbs {
      */
     @Override
     public GameCommand interact() {
-        return null;
+        return new FillInventory(loot);
     }
 }

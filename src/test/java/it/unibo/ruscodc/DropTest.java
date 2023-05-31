@@ -40,7 +40,7 @@ final class DropTest {
     private final DropManager dm;
 
     private DropTest() {
-        this.dm = dropGenerator.createGenericBasicDrop(mg.makeMeleeRat(null, null));
+        this.dm = dropGenerator.createGenericBasicDrop(mg.makeMeleeRat(null));
     }
 
     @BeforeAll
@@ -101,7 +101,7 @@ final class DropTest {
      */
     @Test
     void randomMinusAll() {
-        final Actor ref = mg.makeMeleeRat(null, null);
+        final Actor ref = mg.makeMeleeRat(null);
         final List<DropManager> generators = List.of(
             dropGenerator.createGenericBasicDrop(ref),
             dropGenerator.createGenericPoorDrop(ref), 

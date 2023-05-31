@@ -13,44 +13,55 @@ import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 
-public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory{
+/**
+ * The implementation of the Movement Behaviour Factory interface that for ech method returns the specific Movement Behaviour.
+ */
+public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
 
+    /**
+     * 
+     */
     @Override
     public MovementBehaviour createAggressive() {
         return new MovementBehaviour() {
 
             @Override
-            public Optional<GameCommand> chooseMove(Monster monster, List<Actor> actors, Room room) {
-                
+            public Optional<GameCommand> chooseMove(final Monster monster, final List<Actor> actors, final Room room) {
+
                 Pair<Integer, Integer> monsterPos = monster.getPos();
-                Optional<Pair<Integer, Integer>> actorPos = Optional.of( 
+                Optional<Pair<Integer, Integer>> actorPos = Optional.of(
                     actors
                         .stream()
-                        .sorted((a, b) -> (int)(Pairs.computePPLine(monsterPos, a.getPos()).count() - Pairs.computePPLine(monsterPos, b.getPos()).count()))
+                        .sorted((a, b) ->
+                            (int) (
+                                Pairs.computePPLine(monsterPos, a.getPos()).count()
+                                - Pairs.computePPLine(monsterPos, b.getPos()).count()
+                            )
+                        )
                         .findFirst()
                         .get()
                         .getPos()
                 );
-                
+
                 if (actorPos.isPresent()) {
                     if (monsterPos.getY() < actorPos.get().getY()) {
                         if (canMove(new Pair<>(monsterPos.getX(), monsterPos.getY() + 1), actors, room)) {
                             return monster.getSkills().getAction(GameControl.MOVERIGHT);
                         }
                     }
-    
+
                     if (monsterPos.getY() > actorPos.get().getY()) {
                         if (canMove(new Pair<>(monsterPos.getX(), monsterPos.getY() - 1), actors, room)) {
                             return monster.getSkills().getAction(GameControl.MOVELEFT);
                         }
                     }
-    
+
                     if (monsterPos.getX() > actorPos.get().getX()) {
                         if (canMove(new Pair<>(monsterPos.getX() - 1, monsterPos.getY()), actors, room)) {
                             return monster.getSkills().getAction(GameControl.MOVEUP);
                         }
                     }
-    
+
                     if (monsterPos.getX() < actorPos.get().getX()) {
                         if (canMove(new Pair<>(monsterPos.getX() + 1, monsterPos.getY()), actors, room)) {
                             return monster.getSkills().getAction(GameControl.MOVEDOWN);
@@ -60,20 +71,22 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory{
                 return Optional.empty();
             }
 
-            private boolean canMove(Pair<Integer, Integer> pos, List<Actor> actors, Room room) {
+            private boolean canMove(final Pair<Integer, Integer> pos, final List<Actor> actors, final Room room) {
                 return room.isAccessible(pos)
                     && actors.stream().anyMatch(a -> a.getPos() == pos)
                     && room.getMonsters().stream().anyMatch(a -> a.getPos() == pos);
             }
-            
         };
     }
 
+    /**
+     * 
+     */
     @Override
     public MovementBehaviour createBrainless() {
         return new MovementBehaviour() {
             @Override
-            public Optional<GameCommand> chooseMove(Monster monster, List<Actor> actors, Room room) {
+            public Optional<GameCommand> chooseMove(final Monster monster, final List<Actor> actors, final Room room) {
                 Pair<Integer, Integer> monsterPos = monster.getPos();
                 Random rng = new Random();
                 List<Boolean> check = List.of(false, false, false, false);
@@ -114,7 +127,7 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory{
                 return Optional.empty();
             }
 
-            private boolean canMove(Pair<Integer, Integer> pos, List<Actor> actors, Room room) {
+            private boolean canMove(final Pair<Integer, Integer> pos, final List<Actor> actors, final Room room) {
                 return room.isAccessible(pos)
                     && actors.stream().anyMatch(a -> a.getPos() == pos)
                     && room.getMonsters().stream().anyMatch(a -> a.getPos() == pos);
@@ -122,41 +135,52 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory{
         };
     }
 
+    /**
+     * 
+     */
     @Override
     public MovementBehaviour createShy() {
         return new MovementBehaviour() {
             @Override
-            public Optional<GameCommand> chooseMove(Monster monster, List<Actor> actors, Room room) {
+            public Optional<GameCommand> chooseMove(final Monster monster, final List<Actor> actors, final Room room) {
                 Pair<Integer, Integer> monsterPos = monster.getPos();
                 Optional<Pair<Integer, Integer>> actorPos = Optional.of(
                     actors
                         .stream()
-                        .sorted((a, b) -> (int)(Pairs.computePPLine(monsterPos, a.getPos()).count() - Pairs.computePPLine(monsterPos, b.getPos()).count()))
-                        .filter(a -> ((int)Pairs.computePPLine(monsterPos, a.getPos()).count()) < monster.getStatActual(StatName.DEX))
+                        .sorted((a, b) ->
+                            (int) (
+                                Pairs.computePPLine(monsterPos, a.getPos()).count()
+                                - Pairs.computePPLine(monsterPos, b.getPos()).count()
+                            )
+                        )
+                        .filter(a ->
+                            ((int) Pairs.computePPLine(monsterPos, a.getPos()).count()) 
+                            < monster.getStatActual(StatName.DEX)
+                        )
                         .findFirst()
                         .get()
                         .getPos()
                 );
-                
+
                 if (actorPos.isPresent()) {
                     if (monsterPos.getY() > actorPos.get().getY()) {
                         if (canMove(new Pair<>(monsterPos.getX(), monsterPos.getY() + 1), actors, room)) {
                             return monster.getSkills().getAction(GameControl.MOVERIGHT);
                         }
                     }
-    
+
                     if (monsterPos.getY() < actorPos.get().getY()) {
                         if (canMove(new Pair<>(monsterPos.getX(), monsterPos.getY() - 1), actors, room)) {
                             return monster.getSkills().getAction(GameControl.MOVELEFT);
                         }
                     }
-    
+
                     if (monsterPos.getX() > actorPos.get().getX()) {
                         if (canMove(new Pair<>(monsterPos.getX() + 1, monsterPos.getY()), actors, room)) {
                             return monster.getSkills().getAction(GameControl.MOVEUP);
                         }
                     }
-    
+
                     if (monsterPos.getX() < actorPos.get().getX()) {
                         if (canMove(new Pair<>(monsterPos.getX() - 1, monsterPos.getY()), actors, room)) {
                             return monster.getSkills().getAction(GameControl.MOVEDOWN);
@@ -167,12 +191,11 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory{
                 return Optional.empty();
             }
 
-            private boolean canMove(Pair<Integer, Integer> pos, List<Actor> actors, Room room) {
+            private boolean canMove(final Pair<Integer, Integer> pos, final List<Actor> actors, final Room room) {
                 return room.isAccessible(pos)
                     && actors.stream().anyMatch(a -> a.getPos() == pos)
                     && room.getMonsters().stream().anyMatch(a -> a.getPos() == pos);
             }
         };
     }
-    
 }
