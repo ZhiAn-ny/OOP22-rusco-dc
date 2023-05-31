@@ -49,7 +49,7 @@ public class GlobalRange extends DecoratedRange {
             final Pair<Integer, Integer> to, 
             final Pair<Integer, Integer> toCheck, 
             final Room where) {
-        return where.isInRoom(by);
+        return where.isAccessible(toCheck);
     }
 
     /**
@@ -62,6 +62,7 @@ public class GlobalRange extends DecoratedRange {
         final Entity res = this.prevRange.getRange(by, to, where).stream().findFirst().get();
 
         final Stream<Entity> thisRange = where.getTilesAsEntity().stream()
+            .filter(e -> where.isAccessible(e.getPos()))
             .map(oldE -> byPosToEntity(oldE.getPos(), res));
 
         return thisRange.collect(Collectors.toSet()); //TODO - è da testare

@@ -3,7 +3,10 @@ package it.unibo.ruscodc.model.gamecommand.quickcommand;
 import java.util.Optional;
 
 import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
+import it.unibo.ruscodc.model.gamemap.Tile;
+import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.utils.Pair;
@@ -40,6 +43,15 @@ public abstract class MoveCommand extends QuickActionAbs {
             //throw new UnreacheblePos(err);
         }
         actActor.setPos(newPos);
+
+        Optional<Interactable> possiblePortal = where.get(actActor.getPos()).get().get();
+        if (possiblePortal.isPresent()) {
+            final GameCommand gc = possiblePortal.get().interact();
+            gc.setActor(actActor);
+            gc.setRoom(where);
+            return gc.execute();
+        }
+
         return Optional.empty();
     }
 

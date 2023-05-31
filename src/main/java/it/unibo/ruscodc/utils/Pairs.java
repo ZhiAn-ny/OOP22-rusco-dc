@@ -430,21 +430,25 @@ public final class Pairs {
         final int toSkip = radius - 1 <= 1 ? 1 : radius - 1;
         final Pair<Integer, Integer> b = computeInfPPLine(a, bb).skip(toSkip).findFirst().get();
         final Pair<Integer, Integer> c = computeInfPPLine(a, cc).skip(toSkip).findFirst().get();
-        final Pair<Integer, Integer> d = computeBoldLine(a, to).skip(radius).findFirst().get();
+        final Pair<Integer, Integer> d = computeInfBoldLine(a, to).skip(radius).findFirst().get();
 
         final Stream<Pair<Integer, Integer>> bd = computeBoldLine(d, b);
         final Stream<Pair<Integer, Integer>> cd = computeBoldLine(d, c);
         final Stream<Pair<Integer, Integer>> cfr = Stream.concat(bd, cd).distinct();
 
+        if (b.equals(c)) {
+            return Stream.of(Stream.of(b));
+        }
+
         final Set<Pair<Integer, Integer>> extremes = Set.of(b, c);
 
         return concrete
             ? cfr.map(p -> extremes.contains(p) 
-                ? computePPLine(a, p) 
-                : computeBoldLine(a, p))
+                ? computePPLine(a, p)//? computePPLine(p, a)//? computePPLine(a, p) 
+                : computeBoldLine(a, p))//: computeBoldLine(p, a))//: computeBoldLine(a, p))
             : cfr.map(p -> extremes.contains(p) 
-                ? computePPLineDelta(a, p) 
-                : computeBoldLineDelta(a, p));
+                ? computePPLineDelta(a, p) //? computePPLineDelta(p, a) //? computePPLineDelta(a, p) 
+                : computeBoldLineDelta(a, p));//: computeBoldLineDelta(p, a)); //: computeBoldLineDelta(a, p));
     }
 
     /**

@@ -3,6 +3,7 @@ package it.unibo.ruscodc.model.gamecommand.playercommand;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -14,7 +15,7 @@ import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.model.range.Range;
 import it.unibo.ruscodc.model.range.SingleRange;
-import it.unibo.ruscodc.model.range.SquareRange;
+import it.unibo.ruscodc.model.range.SquareInteraction;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
@@ -23,13 +24,15 @@ import it.unibo.ruscodc.utils.exception.Undo;
 
 public class Interact extends NoIACommand {
 
-    private Range interactableRange = new SquareRange(1, new SingleRange());
+    //private Supplier<Range> rr = () -> new SquareInteraction(new SingleRange());
+    private final Range interactableRange = new SquareInteraction(new SingleRange());
     private Pair<Integer, Integer> cursorPos;
     private boolean isReady;
     private boolean undo;
 
     public Interact() {
         cursorPos = null;
+        //interactableRange = rr.get();
     }
 
     private boolean moveCursor(final Pair<Integer, Integer> newPos) {

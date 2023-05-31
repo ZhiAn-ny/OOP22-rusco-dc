@@ -1,5 +1,6 @@
 package it.unibo.ruscodc.model.gamecommand.playercommand;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -96,9 +97,9 @@ public class PlayerAttack extends NoIACommand {
      *  or {@value}null{@value} if the range is not valid (helps the player understand the correctness of the attack)
      */
     private Set<Entity> getSplash() {
-        Set<Entity> tmp = splash.getRange(cursorPos, this.getActor().getPos(), this.getRoom());
-        tmp.forEach(e -> System.out.println(e.getPos() + "\n" + e.getPath() + "\n" + e.getID()));
-        return splash.getRange(cursorPos, this.getActor().getPos(), this.getRoom());
+        //Set<Entity> tmp = splash.getRange(cursorPos, this.getActor().getPos(), this.getRoom());
+        //tmp.forEach(e -> System.out.println(e.getPos() + "\n" + e.getPath() + "\n" + e.getID()));
+        return splash.getRange(cursorPos, this.getActor().getPos(),  this.getRoom());
     }
 
     /**
@@ -149,6 +150,8 @@ public class PlayerAttack extends NoIACommand {
             splashRange.addAll(rangeRange);
             isFirstTime = false;
         }
+        int min = splashRange.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
+        System.out.println("JP : " + min);
         return splashRange;
         // return Stream.concat(
         //             Stream.concat(
