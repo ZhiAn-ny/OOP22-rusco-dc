@@ -32,11 +32,36 @@ public interface GameView {
      */
     void printInfo(InfoPayload toPrint);
 
+    /**
+     *
+     * @param infos
+     */
     void uploadPortrait(Portrait infos);
 
+    /**
+     * Print the new room with the new entities.
+     * @param toDraw list of entities to draw
+     * @param roomSize size of the room
+     */
     void resetView(List<Entity> toDraw, Pair<Integer, Integer> roomSize);
+
+    /**
+     * Add a new entity in the room.
+     * @param toAdd entity to add
+     */
     void addEntity(Entity toAdd);
+
+    /**
+     * Upload the entity with the new position.
+     * @param toUpload new position
+     * @param updated entity that needs to be updated
+     */
     void uploadEntity(Pair<Integer, Integer> toUpload, Entity updated);
+
+    /**
+     * Reset the level of the game with the new entities.
+     * @param entities that need to be printed.
+     */
     void resetLevel(List<Entity> entities);
 
 }
