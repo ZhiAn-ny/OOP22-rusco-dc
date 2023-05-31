@@ -9,6 +9,7 @@ import it.unibo.ruscodc.model.actors.monster.MonsterActionFactory;
 import it.unibo.ruscodc.model.actors.monster.MonsterActionFactoryImpl;
 import it.unibo.ruscodc.model.actors.skill.Skill;
 import it.unibo.ruscodc.model.actors.skill.SkillImpl;
+import it.unibo.ruscodc.model.actors.stat.Stat;
 import it.unibo.ruscodc.model.actors.stat.StatFactory;
 import it.unibo.ruscodc.model.actors.stat.StatFactoryImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
@@ -52,11 +53,13 @@ public class GameModelImpl implements GameModel {
         final StatFactory stats = new StatFactoryImpl();
         final MonsterActionFactory monsterActionFactory = new MonsterActionFactoryImpl();
         final Skill skills = new HeroSkill();
-        
+        final Stat ruscoStat = stats.ratStat();
+        ruscoStat.setStatMaxValue(StatName.HP, 20);
+        ruscoStat.setStatActualValue(StatName.HP, 20);
         //skills.setAction(GameControl.ATTACK1, monsterActionFactory.basicMeleeAttack());
         //skills.setAction(GameControl.ATTACK2, monsterActionFactory.heavyMeleeAttack());
         skills.setAction(GameControl.INTERACT, new Interact());
-        this.hero = new HeroImpl("Rusco", this.initialPosition, skills, stats.ratStat());
+        this.hero = new HeroImpl("Rusco", this.initialPosition, skills, ruscoStat);
     }
 
     private List<Actor> getParty() {
@@ -168,6 +171,13 @@ public class GameModelImpl implements GameModel {
 
     @Override
     public Portrait getRuscoInfo() {
-        return new PortraitImpl(hero, hero.getStatActual(StatName.HP), hero.getStatActual(StatName.AP));
+        return new PortraitImpl(hero, 
+            (hero.getStatActual(StatName.HP) * 1.0) / (hero.getStatMax(StatName.HP) * 1.0) , 
+            (hero.getStatActual(StatName.AP) * 1.0) / (hero.getStatMax(StatName.HP) * 1.0));
+    }
+
+    @Override
+    public boolean isGameOver() {
+        return !hero.isAlive();
     }
 }

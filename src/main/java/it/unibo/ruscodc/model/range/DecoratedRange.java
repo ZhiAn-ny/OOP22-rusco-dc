@@ -35,7 +35,8 @@ public abstract class DecoratedRange implements Range {
 
     private void commute(final Pair<Integer, Integer> origin, final Pair<Integer, Integer> direction, final Room where) {
         effectiveShape.clear();
-        effectiveShape.addAll(this.uploadShapeDelta(origin, direction).map(s -> Pairs.applyLineDelta(s, origin))
+        effectiveShape.addAll(this.uploadShapeDelta(origin, direction)
+            .map(s -> Pairs.applyLineDelta(s, this.centerToFrom() ? origin : direction))
             .flatMap(s -> s.takeWhile(this.filterToApply(where)))
             .collect(Collectors.toSet()));
     }
@@ -133,5 +134,9 @@ public abstract class DecoratedRange implements Range {
     
     protected Predicate<Pair<Integer, Integer>> filterToApply (final Room where) {
         return p -> where.isInRoom(p) && where.isAccessible(p);
+    }
+
+    protected boolean centerToFrom () {
+        return true;
     }
 }
