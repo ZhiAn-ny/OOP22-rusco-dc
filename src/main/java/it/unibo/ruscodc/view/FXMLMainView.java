@@ -94,7 +94,6 @@ public class FXMLMainView extends Application implements GameView {
         this.gameView.setRoomSize(roomSize);
         //javafx.util.Pair<Integer, Integer> effectiveDim2 = new javafx.util.Pair<>(roomSize.getX()+2, roomSize.getY()+2);
 
-
         //Map<Character, Integer> dim = new HashMap<>();
 
     }
@@ -132,7 +131,7 @@ public class FXMLMainView extends Application implements GameView {
     @Override
     public void start(final Stage stage) throws Exception {
         System.out.println("FXMLMainView start");
-        final Scene scene = this.loadMainMenu();
+        final Scene scene = this.loadGameView();
         this.handleWindowSize(stage, scene);
         this.handleEvents(stage);
         this.handleUserInputs(scene);
@@ -151,24 +150,24 @@ public class FXMLMainView extends Application implements GameView {
 
     }
 
-    private Scene loadMainMenu() throws IOException {
-        final Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
-        final double scale = 2 / 3.;
-        final double width = screenSize.getWidth() * scale;
-        final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("menu-iniziale.fxml"));
-        fxmlLoader.setController(new MainMenuController());
-        final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
-        this.gameView = (GameViewController) fxmlLoader.getController();
+    // private Scene loadMainMenu() throws IOException {
+    //     final Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+    //     final double scale = 2 / 3.;
+    //     final double width = screenSize.getWidth() * scale;
+    //     final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("menu-iniziale.fxml"));
+    //     fxmlLoader.setController(new MainMenuController());
+    //     final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
+    //     this.gameView = (GameViewController) fxmlLoader.getController();
 
-        return scene;
-    }
+    //     return scene;
+    // }
 
     private Scene loadGameView() throws IOException {
         final Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
         final double scale = 2 / 3.;
         final double width = screenSize.getWidth() * scale;
-        final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("menu-iniziale.fxml"));
-        fxmlLoader.setController(new MainMenuController());
+        final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("main-menu-view.fxml"));
+        fxmlLoader.setController(new GameViewController());
         final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
         this.gameView = (GameViewController) fxmlLoader.getController();
 
