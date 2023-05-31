@@ -6,6 +6,7 @@ import it.unibo.ruscodc.model.effect.SingleTargetEffect;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Pair;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 /**
