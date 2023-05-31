@@ -57,4 +57,6 @@ public interface GameModel {
 
 
     Portrait getRuscoInfo();
+
+    boolean isGameOver();
 }

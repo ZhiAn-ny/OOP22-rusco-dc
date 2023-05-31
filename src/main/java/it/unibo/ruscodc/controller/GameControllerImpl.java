@@ -69,6 +69,7 @@ public class GameControllerImpl implements GameObserverController {
         }
 
         view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
+        updateRuscoInfo();
         manageMonsterTurn();
     }
 
@@ -118,6 +119,7 @@ public class GameControllerImpl implements GameObserverController {
 
     private void changeFloor() {
         model.changeFloor();
+        initiative.clear();
         initNewTurn();
         if (automaticSave) {
             save();
@@ -127,6 +129,7 @@ public class GameControllerImpl implements GameObserverController {
 
     private void changeRoom(final ChangeRoomException r) {
         model.changeRoom(r.getDoorPos());
+        initiative.clear();
         initNewTurn();
         view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
     }
@@ -145,7 +148,6 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     private boolean executeCommand(final GameCommand toExec) {
-        updateRuscoInfo();
         final boolean ready = toExec.isReady();
         System.out.println(" ### " + ready);
         if (ready) {
@@ -160,7 +162,9 @@ public class GameControllerImpl implements GameObserverController {
 
                 initiative.remove(0);
                 playerSituation = Optional.empty();
-                flushView();
+                if (!this.model.isGameOver()) {
+                    flushView();
+                }
 
             } catch (ChangeFloorException f) {
                 changeFloor();
@@ -178,6 +182,7 @@ public class GameControllerImpl implements GameObserverController {
                 // TODO - gestire eccezioni model
             }
         }
+        updateRuscoInfo();
         return ready;
     }
 
@@ -187,6 +192,11 @@ public class GameControllerImpl implements GameObserverController {
      */
     @Override
     public void computeInput(final GameControl input) {
+        updateRuscoInfo();
+        if (model.isGameOver()) {
+            view.printGameOver();
+            return;
+        }
 
         if (initiative.get(0) instanceof Hero) {
             Hero tmpActor = (Hero) initiative.get(0);

@@ -35,7 +35,7 @@ public class FXMLMainView extends Application implements GameView {
     private final List<Entity> printedEntity = new ArrayList<>();
     private boolean isReady;
     private final Optional<Pair<Integer, Integer>> dims = Optional.empty();
-    private boolean isPrintingInfo = true;
+    private boolean isPrintingInfo = false;
 
     /** {@inheritDoc} */
     @Override
@@ -76,7 +76,7 @@ public class FXMLMainView extends Application implements GameView {
     @Override
     public void printInfo(final InfoPayload toPrint) {
         isPrintingInfo = true;
-        gameView.dummy(
+        gameView.printInfoPalyodToScreen(
                 new Image("file:src/main/resources/it/unibo/ruscodc/output_res/error/Sprite.png"),
                 toPrint.title(),
                 toPrint.text());
@@ -142,6 +142,7 @@ public class FXMLMainView extends Application implements GameView {
         stage.setUserData(this.controller);
 
         this.isReady = true;
+        gameView.clearInfoPalyodToScreen();
         stage.show();
     }
 
@@ -196,7 +197,7 @@ public class FXMLMainView extends Application implements GameView {
     private void handleUserInputs(final Scene scene) {
         scene.setOnKeyPressed((KeyEvent key) -> {
             if (isPrintingInfo) {
-                gameView.dedummy();
+                gameView.clearInfoPalyodToScreen();
                 isPrintingInfo = false;
             } else {
                 System.out.println(key.getText() + " " + this.getInput(key));
@@ -230,8 +231,12 @@ public class FXMLMainView extends Application implements GameView {
     /** {@inheritDoc} */
     @Override
     public void uploadPortrait(final Portrait infos) {
-        // TODO Auto-generated method stub
+        gameView.uploadPortraitToScreen(infos);
+    }
 
+    @Override
+    public void printGameOver() {
+        System.out.println("Game Over");
     }
 
 }

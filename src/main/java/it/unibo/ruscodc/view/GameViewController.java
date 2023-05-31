@@ -1,6 +1,7 @@
 package it.unibo.ruscodc.view;
 
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.utils.Pair;
 import javafx.animation.AnimationTimer;
 import javafx.beans.binding.DoubleBinding;
@@ -186,9 +187,9 @@ public class GameViewController implements Initializable {
      * @param title
      * @param desc
      */
-    public void dummy(final Image image, final String title, final String desc) {
-        infoPane.setMaxWidth(mainPane.getWidth() / 2);
-        infoPane.setMaxHeight(mainPane.getHeight() / 2);
+    public void printInfoPalyodToScreen(final Image image, final String title, final String desc) {
+        //infoPane.setMaxWidth(mainPane.getWidth() / 2);
+        //infoPane.setMaxHeight(mainPane.getHeight() / 2);
         infoPane.toFront();
         infoImage.setImage(image);
         infoImage.setFitWidth(infoPane.getWidth() * 0.05);
@@ -201,8 +202,13 @@ public class GameViewController implements Initializable {
     /**
      *
      */
-    public void dedummy() {
+    public void clearInfoPalyodToScreen() {
         infoPane.toBack();
+    }
+
+    public void uploadPortraitToScreen(final Portrait toPrint) {
+        hp.setProgress(toPrint.getHPcoeff());
+        ap.setProgress(toPrint.getAPcoeff());
     }
 
     /**
