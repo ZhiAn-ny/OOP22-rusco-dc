@@ -26,8 +26,15 @@ public interface Stat {
      */
     void setStat(StatName toSet, Pair<Integer, Integer> val);
 
+    /**
+     * @param statName which Stat you want to get the info from
+     * @return the current value of that Stat
+     */
     int getStatActual(StatName statName);
 
+    /**
+     * @param statName which Stat you want to get the info from
+     * @return the max value of that Stat
+     */
     int getStatMax(StatName statName);
-
 }

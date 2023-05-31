@@ -7,10 +7,8 @@ import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
-import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.GameControl;
-import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ChangeFloorException;
 import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
@@ -18,11 +16,9 @@ import it.unibo.ruscodc.utils.exception.Undo;
 import it.unibo.ruscodc.view.FXMLMainView;
 import it.unibo.ruscodc.view.GameView;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
 
 /**
  * Class GameControllerImpl.
@@ -41,9 +37,10 @@ public class GameControllerImpl implements GameObserverController {
     private boolean automaticSave = false;
 
     /**
-     * Create the controller of the game
+     * Create the controller of the game.
+     * @param args
      */
-    public GameControllerImpl(String... args) {
+    public GameControllerImpl(final String... args) {
         this.view = new FXMLMainView();
         this.model = new GameModelImpl();
     }
@@ -60,7 +57,7 @@ public class GameControllerImpl implements GameObserverController {
      *
      */
     @Override
-    public void start(String[] args) {
+    public void start(final String[] args) {
         this.view.startView(args);
         initNewTurn();
         while (!this.view.isReady()) {
@@ -72,6 +69,7 @@ public class GameControllerImpl implements GameObserverController {
         }
 
         view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
+        updateRuscoInfo();
         manageMonsterTurn();
     }
 
@@ -106,6 +104,7 @@ public class GameControllerImpl implements GameObserverController {
 
     /**
      * Compute the entity to draw when a room change.
+     * @return the entity to draw
      */
     private List<Entity> entityToUpload() {
         List<Entity> tmp = new ArrayList<>(model.getCurrentRoom().getTilesAsEntity());
@@ -120,8 +119,9 @@ public class GameControllerImpl implements GameObserverController {
 
     private void changeFloor() {
         model.changeFloor();
+        initiative.clear();
         initNewTurn();
-        if (automaticSave){
+        if (automaticSave) {
             save();
         }
         view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
@@ -129,15 +129,16 @@ public class GameControllerImpl implements GameObserverController {
 
     private void changeRoom(final ChangeRoomException r) {
         model.changeRoom(r.getDoorPos());
+        initiative.clear();
         initNewTurn();
         view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
     }
 
     private void flushView() {
-        this.view.resetLevel(this.model.getCurrentRoom().getObjectsInRoom().stream().map(i->(Entity)i).toList());
+        this.view.resetLevel(this.model.getCurrentRoom().getObjectsInRoom().stream().map(i -> (Entity) i).toList());
         this.view.resetLevel(this.model.getActorByInitative().stream()
                 .filter(Actor::isAlive)
-                .map(a->(Entity)a)
+                .map(a -> (Entity) a)
                 .toList());
     }
 
@@ -146,8 +147,7 @@ public class GameControllerImpl implements GameObserverController {
         this.view.resetLevel(new ArrayList<>(rangeToPrint));
     }
 
-    private boolean executeCommand(GameCommand toExec) {
-        updateRuscoInfo();
+    private boolean executeCommand(final GameCommand toExec) {
         final boolean ready = toExec.isReady();
         System.out.println(" ### " + ready);
         if (ready) {
@@ -162,9 +162,11 @@ public class GameControllerImpl implements GameObserverController {
 
                 initiative.remove(0);
                 playerSituation = Optional.empty();
-                flushView();
+                if (!this.model.isGameOver()) {
+                    flushView();
+                }
 
-            } catch (ChangeFloorException f){
+            } catch (ChangeFloorException f) {
                 changeFloor();
                 playerSituation = Optional.empty();
 
@@ -180,6 +182,7 @@ public class GameControllerImpl implements GameObserverController {
                 // TODO - gestire eccezioni model
             }
         }
+        updateRuscoInfo();
         return ready;
     }
 
@@ -189,6 +192,11 @@ public class GameControllerImpl implements GameObserverController {
      */
     @Override
     public void computeInput(final GameControl input) {
+        updateRuscoInfo();
+        if (model.isGameOver()) {
+            view.printGameOver();
+            return;
+        }
 
         if (initiative.get(0) instanceof Hero) {
             Hero tmpActor = (Hero) initiative.get(0);
@@ -203,7 +211,6 @@ public class GameControllerImpl implements GameObserverController {
                 }
                 executeCommand(tmpCommand);
                     // if(!executeCommand(tmpCommand)) {
-                        
                     // }
                     // //TODO se volevo annullare il comando, annullamelo
                     // System.out.println(" @@@ " + DOUBLE_EX.contains(input));
@@ -216,7 +223,7 @@ public class GameControllerImpl implements GameObserverController {
             } else {
                 //TODO se input non è presente nelle skill di Rusco esci senza fare niente
                 Optional<GameCommand> result = tmpActor.act(input);
-                if (result.isEmpty()){
+                if (result.isEmpty()) {
                     return;
                 }
                 tmpCommand = result.get();
@@ -246,7 +253,7 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     /**
-     * If the initiative list is empty, this method will fill it
+     * If the initiative list is empty, this method will fill it.
      */
     private void initNewTurn() {
         if (initiative.isEmpty()) {

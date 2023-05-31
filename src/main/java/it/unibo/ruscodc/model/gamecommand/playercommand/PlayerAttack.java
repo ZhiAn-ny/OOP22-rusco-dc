@@ -1,5 +1,6 @@
 package it.unibo.ruscodc.model.gamecommand.playercommand;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -96,8 +97,8 @@ public class PlayerAttack extends NoIACommand {
      *  or {@value}null{@value} if the range is not valid (helps the player understand the correctness of the attack)
      */
     private Set<Entity> getSplash() {
-        Set<Entity> tmp = splash.getRange(cursorPos, this.getActor().getPos(), this.getRoom());
-        tmp.forEach(e -> System.out.println(e.getPos() + "\n" + e.getPath() + "\n" + e.getID()));
+        //Set<Entity> tmp = splash.getRange(cursorPos, this.getActor().getPos(), this.getRoom());
+        //tmp.forEach(e -> System.out.println(e.getPos() + "\n" + e.getPath() + "\n" + e.getID()));
         return splash.getRange(cursorPos, this.getActor().getPos(), this.getRoom());
     }
 
@@ -134,6 +135,10 @@ public class PlayerAttack extends NoIACommand {
         return isReady;
     }
 
+    private boolean isCursorInRange() {
+        return this.range.isInRange(this.getActor().getPos(), cursorPos, cursorPos, this.getRoom());
+    }
+
     /**
      * 
      */
@@ -142,30 +147,18 @@ public class PlayerAttack extends NoIACommand {
         if (cursorPos == null) {
             cursorPos = this.getActor().getPos();
         }
-        final Set<Entity> splashRange = this.getSplash();
-        splashRange.add(getCursorAsEntity());
+        final Set<Entity> toPrint = new HashSet<>();
+        toPrint.add(getCursorAsEntity());
+        if (this.isCursorInRange()) {
+            toPrint.addAll(this.getSplash());
+        }
         if (isFirstTime) {
-            final Set<Entity> rangeRange = this.getRange();
-            splashRange.addAll(rangeRange);
+            toPrint.addAll(this.getRange());
             isFirstTime = false;
         }
-        return splashRange;
-        // return Stream.concat(
-        //             Stream.concat(
-        //                 splashRange.stream(),
-        //                 rangeRange.stream()), 
-        //             Stream.of(
-        //                 getCursorAsEntity()
-        //             )).collect(Collectors.toSet());
-
-        // return Stream.concat(
-        //         Stream.concat(
-        //             splashRange.stream(),
-        //             rangeRange.stream()),
-        //         Stream.of(
-        //             getCursorAsEntity()
-        //         )
-        //     ).iterator();
+        int min = toPrint.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
+        System.out.println("JP : " + min);
+        return toPrint;
     }
 
     private DropManager createMonsterDrop(final Actor by) {

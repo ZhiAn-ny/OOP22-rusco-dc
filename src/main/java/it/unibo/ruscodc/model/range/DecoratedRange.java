@@ -3,6 +3,7 @@ package it.unibo.ruscodc.model.range;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -34,17 +35,18 @@ public abstract class DecoratedRange implements Range {
 
     private void commute(final Pair<Integer, Integer> origin, final Pair<Integer, Integer> direction, final Room where) {
         effectiveShape.clear();
-        effectiveShape.addAll(uploadShapeDelta(origin, direction).map(s -> Pairs.applyLineDelta(s, origin))
-            .flatMap(s -> s.takeWhile(p -> where.isAccessible(p)))
+        effectiveShape.addAll(this.uploadShapeDelta(origin, direction)
+            .map(s -> Pairs.applyLineDelta(s, this.centerToFrom() ? origin : direction))
+            .flatMap(s -> s.takeWhile(this.filterToApply(where)))
             .collect(Collectors.toSet()));
     }
 
     private void checkIfCommute(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Room where) {
-        if (!to.equals(lastTo) || !by.equals(lastBy)) {
-            this.commute(by, to, where);
-        }
-        lastBy = by;
-        lastTo = to;
+        //if (!to.equals(lastTo) || !by.equals(lastBy)) {
+        System.out.println("ahahah");
+        this.commute(by, to, where);
+        //lastBy = by;
+        //lastTo = to;
     }
 
     /**
@@ -57,9 +59,11 @@ public abstract class DecoratedRange implements Range {
             final Pair<Integer, Integer> toCheck, 
             final Room where) {
         this.checkIfCommute(by, to, where);
-        return effectiveShape.contains(toCheck) 
-            ||
-            basicRange.isInRange(by, to, toCheck, where);
+        boolean okForLast = basicRange.isInRange(by, to, toCheck, where);
+        if (basicRange.getRange(by, toCheck, where).size() == 1){
+            okForLast = !okForLast;
+        }
+        return effectiveShape.contains(toCheck) || okForLast;
     }
 
     /**
@@ -80,7 +84,9 @@ public abstract class DecoratedRange implements Range {
 
         checkIfCommute(by, to, where);
 
-        final Stream<Entity> thisRange = this.effectiveShape.stream().map(p -> byPosToEntity(p, res));
+        final Stream<Entity> thisRange = this.effectiveShape.stream()
+            .filter(p -> !p.equals(by))
+            .map(p -> byPosToEntity(p, res));
 
         return Stream.concat(otherRange, thisRange).collect(Collectors.toSet());
     }
@@ -124,4 +130,13 @@ public abstract class DecoratedRange implements Range {
     protected abstract Stream<Stream<Pair<Integer, Integer>>> uploadShapeDelta(
         Pair<Integer, Integer> from, 
         Pair<Integer, Integer> to);
+
+    
+    protected Predicate<Pair<Integer, Integer>> filterToApply (final Room where) {
+        return p -> where.isInRoom(p) && where.isAccessible(p);
+    }
+
+    protected boolean centerToFrom () {
+        return true;
+    }
 }

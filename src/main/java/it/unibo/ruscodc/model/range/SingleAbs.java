@@ -1,8 +1,6 @@
 package it.unibo.ruscodc.model.range;
 
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.gamemap.Room;
@@ -37,7 +35,7 @@ public class SingleAbs implements Range {
             final Pair<Integer, Integer> to, 
             final Pair<Integer, Integer> toCheck, 
             final Room where) {
-        return by.equals(toCheck) && where.isAccessible(toCheck);
+        return to.equals(toCheck);
     }
 
     /**
@@ -68,18 +66,7 @@ public class SingleAbs implements Range {
 
         };
 
-        return Stream.of(begin).filter(e -> where.isAccessible(e.getPos())).collect(Collectors.toSet());
+        return Set.of(begin);
     }
 
-    // /**
-    //  * Let the class that extend this abstract class to specific path resources.
-    //  * @return a String rappresentation about the path
-    //  */
-    // protected abstract String getSpecificPath();
-
-    // /**
-    //  * Let the class that extend this abstract class to specific info.
-    //  * @return a String rappresentation about info
-    //  */
-    // protected abstract String getSpecificInfo();
 }

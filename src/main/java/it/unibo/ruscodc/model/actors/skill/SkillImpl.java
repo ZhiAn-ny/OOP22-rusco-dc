@@ -6,22 +6,24 @@ import java.util.Map;
 import java.util.Optional;
 
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
-import it.unibo.ruscodc.model.gamecommand.quickcommand.*;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveDownCommand;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveLeftCommand;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveRightCommand;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveUpCommand;
 import it.unibo.ruscodc.utils.GameControl;
 
+/**
+ * The Class that manage the "Actions"(GameCommand) an Actor can do.
+ */
 public class SkillImpl implements Skill {
 
     private final Map<GameControl, Optional<GameCommand>> skills = new HashMap<>();
 
-    public enum SkillType {
-        ATK,
-        AIMEDATK,
-        SELF,
-        MOVE;
-    }
-
+    /**
+     * 
+     */
     public SkillImpl() {
-        
+
         for (GameControl gameControl : GameControl.values()) {
             this.skills.put(gameControl, Optional.empty());
         }
@@ -32,12 +34,19 @@ public class SkillImpl implements Skill {
         this.setAction(GameControl.MOVELEFT, new MoveLeftCommand());
     }
 
-    public void setAction(GameControl key, GameCommand action) {
+    /**
+     * 
+     */
+    @Override
+    public void setAction(final GameControl key, final GameCommand action) {
         this.skills.put(key, Optional.of(action));
     }
-    
+
+    /**
+     * 
+     */
     @Override
-    public Optional<GameCommand> getAction(GameControl key) {
+    public Optional<GameCommand> getAction(final GameControl key) {
         return this.skills.get(key);
     }
 

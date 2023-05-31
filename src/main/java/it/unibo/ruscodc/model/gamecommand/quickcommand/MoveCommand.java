@@ -3,7 +3,12 @@ package it.unibo.ruscodc.model.gamecommand.quickcommand;
 import java.util.Optional;
 
 import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
+import it.unibo.ruscodc.model.effect.SingleTargetEffect;
+import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
+import it.unibo.ruscodc.model.gamemap.Tile;
+import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.utils.Pair;
@@ -40,6 +45,22 @@ public abstract class MoveCommand extends QuickActionAbs {
             //throw new UnreacheblePos(err);
         }
         actActor.setPos(newPos);
+
+        Optional<Tile> arrivedPos = where.get(newPos);
+        if (arrivedPos.isPresent()) {
+            SingleTargetEffect tmp = arrivedPos.get().getEffect();
+            System.out.println(this.getActor().getStatActual(StatName.HP) + " <--");
+            tmp.applyEffect(actActor);
+        }
+
+        Optional<Interactable> possiblePortal = arrivedPos.get().get();
+        if (possiblePortal.isPresent()) {
+            final GameCommand gc = possiblePortal.get().interact();
+            gc.setActor(actActor);
+            gc.setRoom(where);
+            return gc.execute();
+        }
+
         return Optional.empty();
     }
 

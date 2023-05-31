@@ -33,6 +33,11 @@ public class ConeRange extends DecoratedRange {
     protected Stream<Stream<Pair<Integer, Integer>>> uploadShapeDelta(
             final Pair<Integer, Integer> from,
             final Pair<Integer, Integer> to) {
-        return Pairs.computePerpendicularCone(from, to, radius, false);
+        return Pairs.computePerpendicularCone(to, from, radius, false);
+    }
+
+    @Override
+    protected boolean centerToFrom () {
+        return false;
     }
 }
