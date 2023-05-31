@@ -108,7 +108,8 @@ public class RoomFactoryImpl implements RoomFactory {
     /** {@inheritDoc} */
     @Override
     public void addItems(final Room base, final int floor) {
-        int chestNum = this.rnd.nextInt(this.maxOccupation(base) / MIN_ROOM_SIZE);
+        int chestNum = this.rnd.nextInt(this.maxItemNum(base, floor));
+        chestNum = chestNum - 1;
         final DropManager dm = this.dropFactory.createDropForRoom(base.getSize(), floor);
         final List<Tile> tiles = base.getTilesAsEntity().stream()
                 .filter(tile -> tile instanceof FloorTileImpl)
@@ -127,7 +128,8 @@ public class RoomFactoryImpl implements RoomFactory {
     /** {@inheritDoc} */
     @Override
     public void addMonsters(final Room base, final int floor) {
-        /*int monsterNum = this.rnd.nextInt(this.maxOccupation(base));
+        int monsterNum = this.rnd.nextInt(this.maxMonstersNum(base, floor));
+        monsterNum = monsterNum % (base.getArea() - base.getObjectsInRoom().size() - base.getArea()/2);
         final List<Tile> tiles = base.getTilesAsEntity().stream()
                 .filter(tile -> tile instanceof FloorTileImpl)
                 .map(tile -> (Tile) tile).toList();
@@ -139,11 +141,23 @@ public class RoomFactoryImpl implements RoomFactory {
             if (base.addMonster(monster)) {
                 monsterNum = monsterNum - 1;
             }
-        }*/
+        }
     }
 
-    private int maxOccupation(final Room room) {
-        return room.getArea() * MIN_ROOM_SIZE / MAX_ROOM_SIZE;
+    private int maxOccupation(final Room base) {
+        return base.getArea() - base.getObjectsInRoom().size() - base.getArea()/2;
+    }
+
+    private int maxItemNum(final Room room, final int floor) {
+        int maxNumItems = (int)(room.getArea() / Math.pow(MIN_ROOM_SIZE, 2)) + floor;
+        maxNumItems = maxNumItems % this.maxOccupation(room);
+        return maxNumItems == 0 ? 1 : maxNumItems;
+    }
+
+    private int maxMonstersNum(final Room room, final int floor) {
+        int maxNumItems = (int)(room.getArea() / Math.pow(MIN_ROOM_SIZE, 2)) + floor;
+        maxNumItems = (int)(maxNumItems * 0.6) % this.maxOccupation(room);
+        return maxNumItems == 0 ? 1 : maxNumItems;
     }
 
 }

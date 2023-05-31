@@ -10,7 +10,9 @@ import it.unibo.ruscodc.model.actors.stat.StatFactory;
 import it.unibo.ruscodc.model.actors.stat.StatFactoryImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl;
 import it.unibo.ruscodc.model.interactable.Chest;
+import it.unibo.ruscodc.model.interactable.Door;
 import it.unibo.ruscodc.model.interactable.Interactable;
+import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import org.junit.jupiter.api.Test;
@@ -53,6 +55,41 @@ class FloorTileImplTest {
     @Test
     void testConstructorNullPosition() {
         assertThrows(IllegalArgumentException.class, () -> new FloorTileImpl(null, true));
+    }
+
+    /**
+     * Method under test: {@link FloorTileImpl#isAccessible()}.
+     */
+    @Test
+    void testIsAcccessible() {
+        final Pair<Integer, Integer> pos = new Pair<>(2, 3);
+        final FloorTileImpl floorTile = new FloorTileImpl(pos, true);
+
+        assertTrue(floorTile.isAccessible());
+    }
+
+    /**
+     * Method under test: {@link FloorTileImpl#isAccessible()}.
+     */
+    @Test
+    void testIsAcccessibleWithNotTransitableObject() {
+        final Pair<Integer, Integer> pos = new Pair<>(2, 3);
+        final FloorTileImpl floorTile = new FloorTileImpl(pos, true);
+
+        floorTile.put(new Chest(Set.of(), pos));
+        assertFalse(floorTile.isAccessible());
+    }
+
+    /**
+     * Method under test: {@link FloorTileImpl#isAccessible()}.
+     */
+    @Test
+    void testIsAcccessibleWithTransitableObject() {
+        final Pair<Integer, Integer> pos = new Pair<>(2, 3);
+        final FloorTileImpl floorTile = new FloorTileImpl(pos, true);
+
+        floorTile.put(new Door(pos, Direction.UP));
+        assertTrue(floorTile.isAccessible());
     }
 
     /**

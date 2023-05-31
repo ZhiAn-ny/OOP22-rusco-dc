@@ -21,8 +21,17 @@ class WallTileImplTest {
 
         assertEquals(1, wallTile.getID());
         assertEquals(pos, wallTile.getPosition());
-        assertFalse(wallTile.isAccessible());
         assertFalse(wallTile.isTrap());
+    }
+
+    /**
+     * Method under test: {@link WallTileImpl#getPath()}.
+     */
+    @Test
+    void testIsAccessible() {
+        final Pair<Integer, Integer> pos = new Pair<>(2, 3);
+        final WallTileImpl wallTile = new WallTileImpl(pos, WallType.TOP);
+        assertFalse(wallTile.isAccessible());
     }
 
     /**
