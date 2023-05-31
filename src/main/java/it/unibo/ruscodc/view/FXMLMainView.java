@@ -136,7 +136,6 @@ public class FXMLMainView extends Application implements GameView {
         this.handleEvents(stage);
         this.handleUserInputs(scene);
 
-
         //stage.setFullScreen(true);
         stage.setTitle("Rusco DC");
         stage.setScene(scene);
