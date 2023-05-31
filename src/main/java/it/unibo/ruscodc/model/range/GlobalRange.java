@@ -1,6 +1,9 @@
 package it.unibo.ruscodc.model.range;
 
 import java.util.Iterator;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
@@ -46,22 +49,22 @@ public class GlobalRange extends DecoratedRange {
             final Pair<Integer, Integer> to, 
             final Pair<Integer, Integer> toCheck, 
             final Room where) {
-        return !where.isInRoom(by); //TODO - testato... ma perplesso... farò altri test
+        return where.isInRoom(by);
     }
 
     /**
      * 
      */
     @Override
-    public Iterator<Entity> getRange(final Pair<Integer, Integer> by, 
+    public Set<Entity> getRange(final Pair<Integer, Integer> by, 
             final Pair<Integer, Integer> to, 
             final Room where) {
-        final Entity res = this.prevRange.getRange(by, to, where).next();
+        final Entity res = this.prevRange.getRange(by, to, where).stream().findFirst().get();
 
         final Stream<Entity> thisRange = where.getTilesAsEntity().stream()
             .map(oldE -> byPosToEntity(oldE.getPos(), res));
 
-        return thisRange.iterator(); //TODO - è da testare
+        return thisRange.collect(Collectors.toSet()); //TODO - è da testare
     }
 
 }

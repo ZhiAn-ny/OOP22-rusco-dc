@@ -39,6 +39,9 @@ public abstract class AbstractTile implements Tile, Entity {
     /** {@inheritDoc} */
     @Override
     public boolean isAccessible() {
+        if (this.get().isPresent()) {
+            return this.isAccessible && this.get().get().isTransitable();
+        }
         return this.isAccessible;
     }
 

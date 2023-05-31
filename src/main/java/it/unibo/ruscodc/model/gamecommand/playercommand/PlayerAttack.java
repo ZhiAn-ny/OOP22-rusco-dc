@@ -1,13 +1,23 @@
 package it.unibo.ruscodc.model.gamecommand.playercommand;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.actors.monster.drop.DropFactory;
+import it.unibo.ruscodc.model.actors.monster.drop.DropFactoryImpl;
+import it.unibo.ruscodc.model.actors.monster.drop.DropManager;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.effect.Effect;
+import it.unibo.ruscodc.model.interactable.Drop;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.model.range.Range;
@@ -21,12 +31,14 @@ import it.unibo.ruscodc.utils.exception.Undo;
  * Class that wrap an AttackCommand.
  */
 public class PlayerAttack extends NoIACommand {
-    private static final int CURSOR_DEPTH = 5;
+    private static final Random DICE  = new Random();
+    private static final DropFactory DROP_G = new DropFactoryImpl();
     private static final String R_ERR = "The target is too far";
     private static final String AP_ERR = "Your AP is not sufficent";
     private final Range range;
     private final Range splash;
     private final Effect actionToPerform;
+    private boolean isFirstTime = true;
     private Pair<Integer, Integer> cursorPos;
     private boolean isReady;
     private boolean undo;
@@ -74,8 +86,8 @@ public class PlayerAttack extends NoIACommand {
      * Get information about "range" to print to view.
      * @return an {@code}Iterator{@code} that iterate on this infos
      */
-    private Iterator<Entity> getRange() {
-        return range.getRange(this.getActorPos(), cursorPos, this.getRoom());
+    private Set<Entity> getRange() {
+        return range.getRange(this.getActor().getPos(), cursorPos, this.getRoom());
     }
 
     /**
@@ -83,15 +95,17 @@ public class PlayerAttack extends NoIACommand {
      * @return an {@code}Iterator{@code} that iterate on this infos
      *  or {@value}null{@value} if the range is not valid (helps the player understand the correctness of the attack)
      */
-    private Iterator<Entity> getSplash() {
-        return splash.getRange(this.getActorPos(), cursorPos, this.getRoom());
+    private Set<Entity> getSplash() {
+        Set<Entity> tmp = splash.getRange(cursorPos, this.getActor().getPos(), this.getRoom());
+        tmp.forEach(e -> System.out.println(e.getPos() + "\n" + e.getPath() + "\n" + e.getID()));
+        return splash.getRange(cursorPos, this.getActor().getPos(), this.getRoom());
     }
 
     /**
      * Compute the {@code}Entity{@code} that wrap for the view the cursor position.
      * @return the cursor position, abstracted into an Entity
      */
-    private Entity getCurseAsEntity() {
+    private Entity getCursorAsEntity() {
         return new Entity() {
 
             @Override
@@ -106,7 +120,7 @@ public class PlayerAttack extends NoIACommand {
 
             @Override
             public int getID() {
-                return CURSOR_DEPTH;
+                return getCursorDepth();
             }
 
         };
@@ -124,17 +138,47 @@ public class PlayerAttack extends NoIACommand {
      * 
      */
     @Override
-    public Iterator<Entity> getEntities() {
-        final Iterator<Entity> splashRange = this.getSplash();
-        final Iterator<Entity> rangeRange = this.getRange();
-        return Stream.concat(
-            Stream.concat(
-                Stream.iterate(splashRange.next(), i -> splashRange.hasNext(), i -> splashRange.next()), 
-                Stream.iterate(rangeRange.next(), i -> rangeRange.hasNext(), i -> rangeRange.next())),
-            Stream.of(
-                getCurseAsEntity()
-            )
-            ).iterator();
+    public Set<Entity> getEntities() {
+        if (cursorPos == null) {
+            cursorPos = this.getActor().getPos();
+        }
+        final Set<Entity> splashRange = this.getSplash();
+        splashRange.add(getCursorAsEntity());
+        if (isFirstTime) {
+            final Set<Entity> rangeRange = this.getRange();
+            splashRange.addAll(rangeRange);
+            isFirstTime = false;
+        }
+        return splashRange;
+        // return Stream.concat(
+        //             Stream.concat(
+        //                 splashRange.stream(),
+        //                 rangeRange.stream()), 
+        //             Stream.of(
+        //                 getCursorAsEntity()
+        //             )).collect(Collectors.toSet());
+
+        // return Stream.concat(
+        //         Stream.concat(
+        //             splashRange.stream(),
+        //             rangeRange.stream()),
+        //         Stream.of(
+        //             getCursorAsEntity()
+        //         )
+        //     ).iterator();
+    }
+
+    private DropManager createMonsterDrop(final Actor by) {
+        final int upperBound = 10;
+        final List<Integer> bounds = List.of(3, 7);
+        final int extracted = DICE.nextInt(upperBound);
+        if (extracted < bounds.get(0)) {
+            return DROP_G.createGenericPoorDrop(by);
+        } else if (extracted < bounds.get(1)) {
+            return DROP_G.createGenericBasicDrop(by);
+        } else {
+            return DROP_G.createGenericRichDrop(by);
+        }
     }
 
     /**
@@ -142,6 +186,9 @@ public class PlayerAttack extends NoIACommand {
      */
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
+        isReady = false;
+        isFirstTime = true;
+        cursorPos = null;
         if (this.getRoom() == null || this.getActor() == null) {
             throw new IllegalStateException("");
         }
@@ -162,9 +209,20 @@ public class PlayerAttack extends NoIACommand {
         } 
         from.modifyActualStat(StatName.AP, -actionToPerform.getAPcost());
 
-        this.getRoom().getMonsters().stream()
+        final Set<Actor> targets = this.getRoom().getMonsters().stream()
             .filter(m -> splash.isInRange(from.getPos(), cursorPos, m.getPos(), this.getRoom()))
-            .forEach(m -> actionToPerform.applyEffect(from, m));
+            .collect(Collectors.toSet());
+
+        targets.forEach(m -> actionToPerform.applyEffect(from, m));
+        final Random dice = new Random();
+        final List<Actor> deadMonsters = targets.stream().filter(m -> !(m.isAlive())).collect(Collectors.toList());
+        final List<DropManager> drops = deadMonsters.stream().map(a -> createMonsterDrop(a)).toList();
+        IntStream.range(0, deadMonsters.size())
+            .filter(i -> dice.nextBoolean())
+            .forEach(i -> this.getRoom().put(
+                deadMonsters.get(i).getPos(), 
+                new Drop(new HashSet<>(drops.get(i).generateRandomDrop()), deadMonsters.get(i).getPos())));
+
         return Optional.empty();
     }
 

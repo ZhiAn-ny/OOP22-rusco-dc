@@ -6,6 +6,9 @@ import it.unibo.ruscodc.model.actors.ActorAbs;
 import it.unibo.ruscodc.model.actors.skill.Skill;
 import it.unibo.ruscodc.model.actors.stat.Stat;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
+import it.unibo.ruscodc.model.item.Inventory;
+import it.unibo.ruscodc.model.item.InventoryImpl;
+import it.unibo.ruscodc.model.item.Item;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 
@@ -14,10 +17,13 @@ import it.unibo.ruscodc.utils.Pair;
  */
 public class HeroImpl extends ActorAbs implements Hero {
 
-    //private final String path
+    private final Inventory inventory;
+    private final String path;
 
     public HeroImpl(String name, Pair<Integer, Integer> initialPos, Skill skills, Stat stats) {
         super(name, initialPos, skills, stats);
+        this.inventory = new InventoryImpl();
+        this.path = "file:src/main/resources/it/unibo/ruscodc/hero_res/" + this.name;
     }
 
     @Override
@@ -30,7 +36,15 @@ public class HeroImpl extends ActorAbs implements Hero {
         command.get().setActor(this);
         return command;
     }
-    
-    //TODO: Dopo il merge con item fai inventory
+
+    @Override
+    public Inventory getInventory() {
+        return this.inventory;
+    }
+
+    @Override
+    public String getPath() {
+        return this.path;
+    }
     
 }

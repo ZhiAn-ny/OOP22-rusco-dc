@@ -4,4 +4,5 @@ public interface StatFactory {
     Stat ratStat();
     Stat opossumStat();
     Stat seagullStat();
+    Stat cockroachStat();
 }

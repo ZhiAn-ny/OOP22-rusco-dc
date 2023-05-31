@@ -11,7 +11,7 @@ import it.unibo.ruscodc.utils.GameControl;
 
 public class SkillImpl implements Skill {
 
-    final Map<GameControl, Optional<GameCommand>> skills = new HashMap<>();
+    private final Map<GameControl, Optional<GameCommand>> skills = new HashMap<>();
 
     public enum SkillType {
         ATK,

@@ -1,8 +1,10 @@
 package it.unibo.ruscodc.model;
 
+import java.io.Serializable;
+
 import it.unibo.ruscodc.utils.Pair;
 
-public interface Entity {
+public interface Entity extends Serializable{
 
     /**
      * @return a string used as ID for the entity

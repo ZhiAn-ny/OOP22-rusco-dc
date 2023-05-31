@@ -2,6 +2,8 @@ package it.unibo.ruscodc.view;
 
 import it.unibo.ruscodc.controller.GameObserverController;
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.outputinfo.InfoPayload;
+import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.util.List;
@@ -10,7 +12,7 @@ public interface GameView {
     /**
      * Starts the game view creating a new window.
      */
-    void startView();
+    void startView(String[] args);
 
     /**
      * Initializes the view.
@@ -26,13 +28,15 @@ public interface GameView {
 
     /**
      * Prints a message on the errors stream.
-     * @param err the message to visualize as error
+     * @param toPrint the message to visualize as error
      */
-    void printError(String err);
+    void printInfo(InfoPayload toPrint);
+
+    void uploadPortrait(Portrait infos);
 
     void resetView(List<Entity> toDraw, Pair<Integer, Integer> roomSize);
     void addEntity(Entity toAdd);
-    void removeEntity(Entity toRemove);
-    void uploadEntity(Entity toUpload);
+    void uploadEntity(Pair<Integer, Integer> toUpload, Entity updated);
+    void resetLevel(List<Entity> entities);
 
 }

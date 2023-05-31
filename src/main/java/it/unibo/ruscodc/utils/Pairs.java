@@ -64,7 +64,7 @@ public final class Pairs {
             final boolean yDirection) {
         final int x = oldPair.getX();
         final int y = oldPair.getY();
-        if (yDirection) {
+        if (!yDirection) {
             return new Pair<>(x + delta, y);
         } else {
             return new Pair<>(x, y + delta);

@@ -1,6 +1,7 @@
 package it.unibo.ruscodc.model.range;
 
-import java.util.Iterator;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
@@ -14,7 +15,7 @@ import it.unibo.ruscodc.utils.Pair;
 public class SingleAbs implements Range {
 
     private final String path;
-    private final String info;
+    private final int depth;
 
     /**
      * Client must't create this object directly, but it must use the subclasses that 
@@ -22,9 +23,9 @@ public class SingleAbs implements Range {
      * @param path the path where stored the entity information, coded as String
      * @param info the info about what to print
      */
-    protected SingleAbs(final String path, final String info) {
+    protected SingleAbs(final String path, final int depth) {
         this.path = path;
-        this.info = info;
+        this.depth = depth;
     }
 
     /**
@@ -43,7 +44,7 @@ public class SingleAbs implements Range {
      * 
      */
     @Override
-    public Iterator<Entity> getRange(
+    public Set<Entity> getRange(
             final Pair<Integer, Integer> by, 
             final Pair<Integer, Integer> to, 
             final Room where) {
@@ -52,7 +53,7 @@ public class SingleAbs implements Range {
 
             @Override
             public int getID() {
-                return 4;
+                return depth;
             }
 
             @Override
@@ -67,7 +68,7 @@ public class SingleAbs implements Range {
 
         };
 
-        return Stream.of(begin).filter(e -> !where.isAccessible(e.getPos())).iterator();
+        return Stream.of(begin).filter(e -> where.isAccessible(e.getPos())).collect(Collectors.toSet());
     }
 
     // /**

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import it.unibo.ruscodc.model.actors.Actor;
-import it.unibo.ruscodc.model.item.Equipement.Equipement;
+import it.unibo.ruscodc.model.item.equipement.Equipement;
 
 public class InventoryImpl implements Inventory {
 
@@ -49,6 +49,26 @@ public class InventoryImpl implements Inventory {
     @Override
     public List<Item> getAllItems() {
         return List.copyOf(this.bag);
+    }
+
+    @Override
+    public void addItem(Item item) {
+        this.bag.add(item);
+    }
+
+    @Override
+    public void removeItem(int index) {
+        this.bag.remove(index);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.bag.isEmpty();
+    }
+
+    @Override
+    public int slotOccupied() {
+        return this.bag.size();
     }
 
 }

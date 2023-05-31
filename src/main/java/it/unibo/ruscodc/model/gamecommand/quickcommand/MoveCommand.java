@@ -34,7 +34,7 @@ public abstract class MoveCommand extends QuickActionAbs {
         final Actor actActor = this.getActor();
         final Pair<Integer, Integer> newPos = this.computeNewPos();
         if (where.getMonsters().stream().map(a -> a.getPos()).anyMatch(p -> p.equals(newPos)) 
-            || !where.isInRoom(newPos)) {
+            || !where.isAccessible(newPos)) {
             final String err = ERR + newPos.toString() + ERR2;
             return Optional.of(new InfoPayloadImpl(getErrTitle(), err));
             //throw new UnreacheblePos(err);

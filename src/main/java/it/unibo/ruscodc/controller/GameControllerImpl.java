@@ -7,15 +7,22 @@ import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
+import it.unibo.ruscodc.model.gamemap.Room;
+import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.GameControl;
+import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ChangeFloorException;
 import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
-import it.unibo.ruscodc.view.FXMLView;
+import it.unibo.ruscodc.utils.exception.Undo;
+import it.unibo.ruscodc.view.FXMLMainView;
 import it.unibo.ruscodc.view.GameView;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Class GameControllerImpl.
@@ -24,6 +31,8 @@ import java.util.Optional;
  * In the end upload the view with the changes made.
  */
 public class GameControllerImpl implements GameObserverController {
+
+    private Set<GameControl> DOUBLE_EX = Set.of(GameControl.CANCEL, GameControl.CONFIRM);
 
     private List<Actor> initiative = new ArrayList<>();
     private Optional<GameCommand> playerSituation = Optional.empty();
@@ -34,37 +43,65 @@ public class GameControllerImpl implements GameObserverController {
     /**
      * Create the controller of the game
      */
-    public GameControllerImpl() {
-        this.view = new FXMLView();
+    public GameControllerImpl(String... args) {
+        this.view = new FXMLMainView();
         this.model = new GameModelImpl();
     }
 
     /**
-     * 
+     *
+     */
+    @Override
+    public void init() {
+        this.view.init(this);
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void start(String[] args) {
+        this.view.startView(args);
+        initNewTurn();
+        while (!this.view.isReady()) {
+            try {
+                Thread.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
+        manageMonsterTurn();
+    }
+
+    /**
+     *
      */
     @Override
     public void save() {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public void pause() {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public void resume() {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public void changeAutomaticSave() {
+        automaticSave = !automaticSave;
     }
 
     /**
@@ -77,32 +114,68 @@ public class GameControllerImpl implements GameObserverController {
         return tmp;
     }
 
+    private void updateRuscoInfo() {
+        this.view.uploadPortrait(this.model.getRuscoInfo());
+    }
+
     private void changeFloor() {
         model.changeFloor();
         initNewTurn();
         if (automaticSave){
             save();
         }
-        //TODO - resettare la view
+        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
     }
 
     private void changeRoom(final ChangeRoomException r) {
-        //model.changeRoom(r.getDoorPos()); //TODO - da Direction a Pos
+        model.changeRoom(r.getDoorPos());
         initNewTurn();
-        //TODO - resettare la view
+        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
+    }
+
+    private void flushView() {
+        this.view.resetLevel(this.model.getCurrentRoom().getObjectsInRoom().stream().map(i->(Entity)i).toList());
+        this.view.resetLevel(this.model.getActorByInitative().stream()
+                .filter(Actor::isAlive)
+                .map(a->(Entity)a)
+                .toList());
+    }
+
+    private void printCommand() {
+        Set<Entity> rangeToPrint = playerSituation.get().getEntities();
+        this.view.resetLevel(new ArrayList<>(rangeToPrint));
     }
 
     private boolean executeCommand(GameCommand toExec) {
+        updateRuscoInfo();
         final boolean ready = toExec.isReady();
+        System.out.println(" ### " + ready);
         if (ready) {
             try {
-                toExec.execute();
-                playerSituation = Optional.empty();
+                //Pair<Integer, Integer> oldActor = initiative.get(0).getPos();
+                Optional<InfoPayload> tmp = toExec.execute();
+
+                if (tmp.isPresent()) {
+                    view.printInfo(tmp.get());
+                    return ready;
+                }
+
                 initiative.remove(0);
+                playerSituation = Optional.empty();
+                flushView();
+
             } catch (ChangeFloorException f){
                 changeFloor();
+                playerSituation = Optional.empty();
+
             } catch (ChangeRoomException r) {
                 changeRoom(r);
+                playerSituation = Optional.empty();
+
+            } catch (Undo u) {
+                playerSituation = Optional.empty();
+                flushView();
+
             } catch (ModelException e) {
                 // TODO - gestire eccezioni model
             }
@@ -120,36 +193,52 @@ public class GameControllerImpl implements GameObserverController {
         if (initiative.get(0) instanceof Hero) {
             Hero tmpActor = (Hero) initiative.get(0);
             GameCommand tmpCommand;
+            //Pair<Integer, Integer> cod = tmpActor.getPos();
 
             if (playerSituation.isPresent()) {
                 tmpCommand = playerSituation.get();
-                
+
                 if (tmpCommand.modify(input)) {
-                    if (!executeCommand(tmpCommand)) {
-                        //TODO - aggiornare la view qui! (magari allora lo si fa in quel metodo)
-                    }
+                    printCommand();
                 }
+                executeCommand(tmpCommand);
+                    // if(!executeCommand(tmpCommand)) {
+                        
+                    // }
+                    // //TODO se volevo annullare il comando, annullamelo
+                    // System.out.println(" @@@ " + DOUBLE_EX.contains(input));
+                    // if (DOUBLE_EX.contains(input)) {
+                    //     executeCommand(tmpCommand);
+                    //     flushView();
+                    // }
+                //}
 
             } else {
-                Optional<GameCommand> res = tmpActor.act(input); //TODO - ponderare se aggiungere qui la room...
-                if (res.isEmpty()){
+                //TODO se input non è presente nelle skill di Rusco esci senza fare niente
+                Optional<GameCommand> result = tmpActor.act(input);
+                if (result.isEmpty()){
                     return;
                 }
-                tmpCommand = res.get(); 
+                tmpCommand = result.get();
                 tmpCommand.setRoom(model.getCurrentRoom());
-                
-                if (tmpCommand.isReady()) {
+
+                //TODO settaggio "by" già fatto nel act di Hero
+
+                if (tmpCommand.isReady()) { 
+                    //TODO è un comando veloce
                     executeCommand(tmpCommand);
-                    //TODO - aggiornare la view qui! (magari allora lo si fa in quel metodo)
+                    //passTurn();
                 } else {
                     playerSituation = Optional.of(tmpCommand);
+                    printCommand();
                 }
             }
+            manageMonsterTurn();
         }
     }
 
     /**
-     * 
+     *
      */
     @Override
     public void quit() {
@@ -157,36 +246,22 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     /**
-     * 
+     * If the initiative list is empty, this method will fill it
      */
-    @Override
-    public void init() {
-        this.view.init(this);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public void start() {
-        this.view.startView();
-        initNewTurn();
-        while (!this.view.isReady()) {
-            try {
-                Thread.sleep(2);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        //TODO - resettare la view 
-        manageMonsterTurn();
-    }
-
     private void initNewTurn() {
         if (initiative.isEmpty()) {
             initiative.addAll(model.getActorByInitative());
         }
+    }
+
+    private List<Actor> getHeros() {
+        List<Actor> tmp = new ArrayList<>();
+        for (Actor a : this.model.getActorByInitative()) {
+            if (a instanceof Hero) {
+                tmp.add(a);
+            }
+        }
+        return tmp;
     }
 
     private void manageMonsterTurn() {
@@ -194,9 +269,9 @@ public class GameControllerImpl implements GameObserverController {
         initNewTurn();
         while (initiative.get(0) instanceof Monster) {
             tmpMonster = (Monster) initiative.get(0);
-            //executeCommand(tmpMonster.behave(model.getCurrentRoom()));
-            // TODO - post implementazione mostro
-            //initiative.remove(0);
+            executeCommand(tmpMonster.behave(model.getCurrentRoom(), this.getHeros()));
+            initiative.remove(0);
+            flushView();
             initNewTurn();
         }
     }

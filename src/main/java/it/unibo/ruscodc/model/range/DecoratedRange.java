@@ -35,7 +35,7 @@ public abstract class DecoratedRange implements Range {
     private void commute(final Pair<Integer, Integer> origin, final Pair<Integer, Integer> direction, final Room where) {
         effectiveShape.clear();
         effectiveShape.addAll(uploadShapeDelta(origin, direction).map(s -> Pairs.applyLineDelta(s, origin))
-            .flatMap(s -> s.takeWhile(p -> !where.isAccessible(p)))
+            .flatMap(s -> s.takeWhile(p -> where.isAccessible(p)))
             .collect(Collectors.toSet()));
     }
 
@@ -57,33 +57,32 @@ public abstract class DecoratedRange implements Range {
             final Pair<Integer, Integer> toCheck, 
             final Room where) {
         this.checkIfCommute(by, to, where);
-        return effectiveShape.contains(toCheck) || basicRange.isInRange(by, to, toCheck, where);
+        return effectiveShape.contains(toCheck) 
+            ||
+            basicRange.isInRange(by, to, toCheck, where);
     }
 
     /**
      * 
      */
     @Override
-    public Iterator<Entity> getRange(
+    public Set<Entity> getRange(
             final Pair<Integer, Integer> by, 
             final Pair<Integer, Integer> to, 
             final Room where) {
-        final Iterator<Entity> tmp = this.basicRange.getRange(by, to, where);
-        if (!tmp.hasNext()) {
+        final Set<Entity> tmp = this.basicRange.getRange(by, to, where);
+        if (tmp.isEmpty()) {
             return tmp;
         }
 
-        final Entity res = tmp.next();
-        final Stream<Entity> otherRange = Stream.concat(
-            Stream.of(res), 
-            Stream.generate(() -> tmp.next()).takeWhile(e -> tmp.hasNext())
-        );
+        final Entity res = tmp.stream().findFirst().get();
+        final Stream<Entity> otherRange = tmp.stream();
 
         checkIfCommute(by, to, where);
 
         final Stream<Entity> thisRange = this.effectiveShape.stream().map(p -> byPosToEntity(p, res));
 
-        return Stream.concat(otherRange, thisRange).iterator();
+        return Stream.concat(otherRange, thisRange).collect(Collectors.toSet());
     }
 
     /**

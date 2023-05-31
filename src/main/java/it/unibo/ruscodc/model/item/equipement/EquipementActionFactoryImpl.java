@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model.item.Equipement;
+package it.unibo.ruscodc.model.item.equipement;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
@@ -26,6 +26,11 @@ public class EquipementActionFactoryImpl implements EquipementActionFactory {
                     int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
                     to.modifyActualStat(StatName.HP, - damage);
                 }
+
+                @Override
+                public String toString() {
+                    return "A short range normal Melee Attack";
+                }
             }
         );
     }
@@ -40,6 +45,11 @@ public class EquipementActionFactoryImpl implements EquipementActionFactory {
                 public void applyEffect(Actor from, Actor to) {
                     int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
                     to.modifyActualStat(StatName.HP, - damage);
+                }
+
+                @Override
+                public String toString() {
+                    return "A long range attack";
                 }
             }
         );
@@ -56,7 +66,13 @@ public class EquipementActionFactoryImpl implements EquipementActionFactory {
                     int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
                     to.modifyActualStat(StatName.HP, - damage);
                 }
-            });
+
+                @Override
+                public String toString() {
+                    return "A cone shaped attack";
+                }
+            }
+        );
     }
 
     @Override
@@ -70,7 +86,13 @@ public class EquipementActionFactoryImpl implements EquipementActionFactory {
                     int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
                     to.modifyActualStat(StatName.HP, - damage);
                 }
-            });
+
+                @Override
+                public String toString() {
+                    return "A straight line attack";
+                }
+            }    
+        );
     }
     
 }

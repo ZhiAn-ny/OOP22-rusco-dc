@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model.item.Consumable;
+package it.unibo.ruscodc.model.item.consumable;
 
 import it.unibo.ruscodc.model.effect.SingleTargetEffect;
 import it.unibo.ruscodc.model.item.Item;

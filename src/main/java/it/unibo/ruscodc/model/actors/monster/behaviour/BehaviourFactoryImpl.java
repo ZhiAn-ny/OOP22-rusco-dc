@@ -7,31 +7,22 @@ public class BehaviourFactoryImpl implements BehaviourFactory {
 
     @Override
     public Behaviour makeMeleeAggressive() {
-        return new BehaviourImpl(this.MBFactory.createAggressive(), CBFactory.Melee());
+        return new BehaviourImpl(this.MBFactory.createAggressive(), CBFactory.createMelee());
     }
 
     @Override
     public Behaviour makeMeleeBrainless() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'makeMeleeBrainless'");
+        return new BehaviourImpl(this.MBFactory.createBrainless(), CBFactory.createMelee());
     }
 
     @Override
-    public Behaviour makeMeleeShy() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'makeMeleeShy'");
-    }
-
-    @Override
-    public Behaviour makeRangedAggressive() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'makeRangedAggressive'");
+    public Behaviour makeRangedBrainless() {
+        return new BehaviourImpl(this.MBFactory.createBrainless(), CBFactory.createRanged());
     }
 
     @Override
     public Behaviour makeRangedShy() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'makeRangedShy'");
+        return new BehaviourImpl(this.MBFactory.createShy(), CBFactory.createRanged());
     }
     
 }

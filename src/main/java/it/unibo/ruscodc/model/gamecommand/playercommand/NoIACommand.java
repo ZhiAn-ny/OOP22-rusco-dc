@@ -13,8 +13,9 @@ import it.unibo.ruscodc.utils.Pair;
  * must extend this class, that define witch method cannot be callable for this type of command.
  */
 public abstract class NoIACommand extends ComplexActionAbs {
-
-    private static final String CURSOR_PATH = "";
+    
+    private static final String CURSOR_PATH = "file:src/main/resources/it/unibo/ruscodc/range_res/cursor";
+    private static final int CURSOR_DEPTH = 6;
 
     /**
      * 
@@ -54,6 +55,14 @@ public abstract class NoIACommand extends ComplexActionAbs {
      */
     protected String getCursorPath() {
         return CURSOR_PATH;
+    }
+
+     /**
+     * Identify the depth render of the cursor
+     * @return this ID
+     */
+    protected int getCursorDepth() {
+        return CURSOR_DEPTH;
     }
 
 }
