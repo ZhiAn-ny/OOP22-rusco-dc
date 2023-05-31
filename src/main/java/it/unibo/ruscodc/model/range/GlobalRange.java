@@ -64,4 +64,9 @@ public class GlobalRange extends DecoratedRange {
         return thisRange.iterator(); //TODO - è da testare
     }
 
+    @Override
+    public String toString() {
+        return "[Global Range]";
+    }
+
 }

@@ -27,4 +27,9 @@ public class DirectRowRange extends DecoratedRange {
             final Pair<Integer, Integer> to) {
         return Stream.of(Pairs.computeBoldLineDelta(from, to));
     }
+
+    @Override
+    public String toString() {
+        return "[Direct range]";
+    }
 }

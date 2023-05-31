@@ -68,6 +68,11 @@ public class SingleAbs implements Range {
         return Stream.of(begin).filter(e -> !where.isAccessible(e.getPos())).iterator();
     }
 
+    @Override
+    public String toString() {
+        return "[Single range]";
+    }
+
     // /**
     //  * Let the class that extend this abstract class to specific path resources.
     //  * @return a String rappresentation about the path

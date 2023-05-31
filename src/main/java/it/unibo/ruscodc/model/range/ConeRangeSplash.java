@@ -36,4 +36,9 @@ public class ConeRangeSplash extends DecoratedRange {
         final Pair<Integer, Integer> newTo = Pairs.mirror(to, from);
         return Pairs.computePerpendicularCone(to, newTo, radius, false);
     }
+
+    @Override
+    public String toString() {
+        return "[Cone range (rad=" + this.radius + ")]";
+    }
 }
