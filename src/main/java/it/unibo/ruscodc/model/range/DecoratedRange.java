@@ -42,10 +42,9 @@ public abstract class DecoratedRange implements Range {
 
     private void checkIfCommute(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Room where) {
         //if (!to.equals(lastTo) || !by.equals(lastBy)) {
-        if (!by.equals(lastBy)) {
-            this.commute(by, to, where);
-        }
-        lastBy = by;
+        System.out.println("ahahah");
+        this.commute(by, to, where);
+        //lastBy = by;
         //lastTo = to;
     }
 
@@ -59,9 +58,11 @@ public abstract class DecoratedRange implements Range {
             final Pair<Integer, Integer> toCheck, 
             final Room where) {
         this.checkIfCommute(by, to, where);
-        return effectiveShape.contains(toCheck) 
-            ||
-            basicRange.isInRange(by, to, toCheck, where);
+        boolean okForLast = basicRange.isInRange(by, to, toCheck, where);
+        if (basicRange.getRange(by, toCheck, where).size() == 1){
+            okForLast = !okForLast;
+        }
+        return effectiveShape.contains(toCheck) || okForLast;
     }
 
     /**

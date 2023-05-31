@@ -24,6 +24,11 @@ import it.unibo.ruscodc.utils.exception.Undo;
 
 public class Interact extends NoIACommand {
 
+    private final String T_ERR = "Error during interaction";
+    private final String ERR_NOT_EX = "The tile which you try to interact doesn't exist!";
+    private final String ERR_NOT_R = "Cursor is out of interaction range";
+    private final String NOTHING_TO_INT = "You are tring to interact with an empty tile!";
+
     //private Supplier<Range> rr = () -> new SquareInteraction(new SingleRange());
     private final Range interactableRange = new SquareInteraction(new SingleRange());
     private Pair<Integer, Integer> cursorPos;
@@ -110,14 +115,18 @@ public class Interact extends NoIACommand {
             throw new Undo("");
         }
         
+        if (!interactableRange.isInRange(this.getActor().getPos(), cursorPos, cursorPos, getRoom())) {
+            return Optional.of(new InfoPayloadImpl(T_ERR, ERR_NOT_R));
+        }
+
         Optional<Tile> selected = this.getRoom().get(cursorPos);
         if (selected.isEmpty()) {
-            return Optional.of(new InfoPayloadImpl("ERR", "ERR"));
+            return Optional.of(new InfoPayloadImpl(T_ERR, ERR_NOT_EX));
         }
 
         Optional<Interactable> interac = selected.get().get();
         if (interac.isEmpty()) {
-            return Optional.of(new InfoPayloadImpl("ERR", "ERR"));
+            return Optional.of(new InfoPayloadImpl(T_ERR, NOTHING_TO_INT));
         }
         GameCommand obtained = interac.get().interact();
         obtained.setActor(this.getActor());

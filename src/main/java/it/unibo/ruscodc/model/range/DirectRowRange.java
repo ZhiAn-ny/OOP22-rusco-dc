@@ -25,6 +25,6 @@ public class DirectRowRange extends DecoratedRange {
     protected Stream<Stream<Pair<Integer, Integer>>> uploadShapeDelta(
             final Pair<Integer, Integer> from,
             final Pair<Integer, Integer> to) {
-        return Stream.of(Pairs.computeBoldLineDelta(to, from));
+        return Stream.of(Pairs.computeBoldLineDelta(from, to));
     }
 }

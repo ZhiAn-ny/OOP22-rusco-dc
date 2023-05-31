@@ -86,10 +86,13 @@ final class RangeTest {
     @Test
     void testCircle2() { 
         final Range myRange = new CircleRange(BASIC_R_SIZE, basicR);
+        myRange.getRange(heroPos, cursorPos, r).forEach(p -> System.out.println(p.getPos()));
         final Pair<Integer, Integer> farPos = new Pair<>(0, 0);
         enemys.add(mg.makeMeleeRat(counter.next() + " " + farPos.toString(), farPos));
         final long counted = enemyPos.get()
-            .filter(ep -> myRange.isInRange(heroPos, cursorPos, ep, r)).count();
+            .filter(ep -> 
+            myRange.isInRange(heroPos, cursorPos, ep, r))
+            .count();
         assertEquals(3, counted, ERR_M);
     }
 
