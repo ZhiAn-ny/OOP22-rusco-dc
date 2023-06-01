@@ -197,7 +197,7 @@ public class GameControllerImpl implements GameObserverController {
             view.printGameOver();
             return;
         }
-
+        initNewTurn();
         if (initiative.get(0) instanceof Hero) {
             Hero tmpActor = (Hero) initiative.get(0);
             GameCommand tmpCommand;
@@ -240,8 +240,8 @@ public class GameControllerImpl implements GameObserverController {
                     printCommand();
                 }
             }
-            manageMonsterTurn();
         }
+        manageMonsterTurn();
     }
 
     /**
@@ -277,9 +277,12 @@ public class GameControllerImpl implements GameObserverController {
         while (initiative.get(0) instanceof Monster) {
             tmpMonster = (Monster) initiative.get(0);
             executeCommand(tmpMonster.behave(model.getCurrentRoom(), this.getHeros()));
-            initiative.remove(0);
+            System.out.println("A " + initiative.size());
+            //initiative.remove(0);
+            System.out.println("B " + initiative.size());
             flushView();
             initNewTurn();
+            System.out.println("C " + initiative.size());
         }
     }
 

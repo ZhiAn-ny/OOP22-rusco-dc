@@ -95,12 +95,6 @@ public class Interact extends NoIACommand {
         if (cursorPos == null) {
             cursorPos = this.getActor().getPos();
         }
-        //Iterator<Entity> tmpp = interactableRange.getRange(this.getActor().getPos(), cursorPos, this.getRoom());
-        //System.out.println("################");
-        //System.out.println(tmpp.next().getID());
-        //final Iterator<Entity> tmp = interactableRange.getRange(this.getActor().getPos(), cursorPos, this.getRoom());
-        //Stream<Entity> rangeE = this.interactableRange.getRange(this.getActor().getPos(), cursorPos, getRoom()).stream();
-        //return Stream.concat(rangeE, Stream.of(getCursorAsEntity())).collect(Collectors.toSet());
         Set<Entity> tmp = this.interactableRange.getRange(this.getActor().getPos(), cursorPos, this.getRoom());
         tmp.add(getCursorAsEntity());
         return tmp;
@@ -135,7 +129,12 @@ public class Interact extends NoIACommand {
             throw new IllegalStateException("GameCommand behind interactable must not be complex");
         }
         cursorPos = null;
-        return obtained.execute();
+
+        Optional<InfoPayload> res = obtained.execute();
+        if (res.isEmpty()) {
+            this.getRoom().get(cursorPos).get().empty();
+        }
+        return res;
     }
 
     /**

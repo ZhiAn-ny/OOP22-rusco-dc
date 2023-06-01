@@ -49,7 +49,7 @@ public abstract class MoveCommand extends QuickActionAbs {
         Optional<Tile> arrivedPos = where.get(newPos);
         if (arrivedPos.isPresent()) {
             SingleTargetEffect tmp = arrivedPos.get().getEffect();
-            System.out.println(this.getActor().getStatActual(StatName.HP) + " <--");
+            //System.out.println(this.getActor().getStatActual(StatName.HP) + " <--");
             tmp.applyEffect(actActor);
         }
 

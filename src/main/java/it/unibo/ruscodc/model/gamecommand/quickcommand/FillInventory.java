@@ -13,19 +13,18 @@ import java.util.Set;
 public class FillInventory extends QuickActionAbs {
 
     private final Set<Item> items;
-    private Inventory inventory;
 
     public FillInventory(Set<Item> itemSet){
         this.items = itemSet;
-        final Hero hero = (Hero) this.getActor();
-        this.inventory = hero.getInventory();
     }
 
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
+        final Inventory toFill = ((Hero) this.getActor()).getInventory();
         for (Item item : items) {
-            inventory.addItem(item);
+            toFill.addItem(item);
         }
+
         return Optional.empty();
     }
 
