@@ -276,13 +276,18 @@ public class GameControllerImpl implements GameObserverController {
         initNewTurn();
         while (initiative.get(0) instanceof Monster) {
             tmpMonster = (Monster) initiative.get(0);
-            executeCommand(tmpMonster.behave(model.getCurrentRoom(), this.getHeros()));
-            System.out.println("A " + initiative.size());
-            //initiative.remove(0);
-            System.out.println("B " + initiative.size());
-            flushView();
+            if (tmpMonster.isAlive()) {
+                executeCommand(tmpMonster.behave(model.getCurrentRoom(), this.getHeros()));
+                System.out.println("A " + initiative.size());
+                //initiative.remove(0);
+                //System.out.println("B " + initiative.size());
+                flushView();
+                System.out.println("C " + initiative.size());
+            } else {
+                initiative.remove(0);
+                this.model.getCurrentRoom().getMonsters().remove(tmpMonster);
+            }
             initNewTurn();
-            System.out.println("C " + initiative.size());
         }
     }
 

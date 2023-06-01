@@ -76,7 +76,7 @@ public class GameModelImpl implements GameModel {
         list.add(hero);
         List<Monster> monsters = this.getCurrentRoom().getMonsters();
         list.addAll(monsters);
-        list.sort(Comparator.comparingInt(a -> a.getStatActual(StatName.INT)));
+        list.sort(Comparator.comparingInt(a -> a.getStatActual(StatName.DEX)));
         return list;
     }
 
