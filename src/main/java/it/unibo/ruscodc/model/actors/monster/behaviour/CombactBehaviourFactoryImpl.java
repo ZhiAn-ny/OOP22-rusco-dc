@@ -14,9 +14,23 @@ import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pairs;
 
 /**
- * The implementation of the Comabact Behaviour Factory interface that for ech method returns the specific Combact Behaviour.
+ * The implementation of the Comabact Behaviour Factory interface that for each method returns the specific Combact Behaviour.
  */
 public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
+
+    private Optional<List<GameCommand>> getPossibleAttacks(final Skill skills, List<Actor> actors) {
+        List<GameCommand> attacks = 
+            GameControl.getAttackControls()
+            .stream()
+            .map(a -> skills.getAction(a))
+            .filter(a -> a.isPresent())
+            .map(a -> a.get())
+            .collect(Collectors.toList());
+
+        attacks.removeIf(gc -> !actors.stream().anyMatch(a -> gc.isTargetInRange(a)));
+
+        return Optional.of(attacks);
+    }
 
     /**
      * 
@@ -29,14 +43,7 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
 
                 Skill skills = monster.getSkills();
 
-                List<GameCommand> attacks = 
-                    GameControl.getAttackControls()
-                    .stream()
-                    .map(a -> skills.getAction(a))
-                    .filter(a -> a.isPresent())
-                    .map(a -> a.get())
-                    .collect(Collectors.toList());
-                attacks.removeIf(gc -> !actors.stream().anyMatch(a -> gc.isTargetInRange(a)));
+                List<GameCommand> attacks = getPossibleAttacks(skills, actors).get();
 
                 if (attacks.isEmpty()) {
                     return Optional.empty();
@@ -63,14 +70,7 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
 
                 Skill skills = monster.getSkills();
 
-                List<GameCommand> attacks = 
-                    GameControl.getAttackControls()
-                    .stream()
-                    .map(a -> skills.getAction(a))
-                    .filter(a -> a.isPresent())
-                    .map(a -> a.get())
-                    .collect(Collectors.toList());
-                attacks.removeIf(gc -> !actors.stream().anyMatch(a -> gc.isTargetInRange(a)));
+                List<GameCommand> attacks = getPossibleAttacks(skills, actors).get();
 
                 int closestDistance =
                     actors.stream()
