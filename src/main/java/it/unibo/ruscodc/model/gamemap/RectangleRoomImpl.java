@@ -9,6 +9,8 @@ import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +24,10 @@ import java.util.function.Predicate;
  * The <code>RectangleRoomImpl</code> class creates a basic implementation of the interface <code>Room</code>.
  * The created <code>Room</code> will have a rectangular shape and could have multiple door leading to other rooms.
  */
-public class RectangleRoomImpl implements Room {
+public class RectangleRoomImpl implements Room, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private static final int MAX_DOORS_NUM = 4;
     private final Pair<Integer, Integer> size;
     private final List<Tile> tiles = new ArrayList<>();
@@ -84,7 +89,7 @@ public class RectangleRoomImpl implements Room {
 
         // Items do not represent an obstacle to movement therefore,
         // monsters can be placed on top of an occupied Tile
-        if (tile == null) { // || tile.get().isPresent()) {
+        if (tile == null || (tile.get().isPresent() && !tile.get().get().isTransitable())) {
             return  false;
         }
         this.monsters.add(monster);

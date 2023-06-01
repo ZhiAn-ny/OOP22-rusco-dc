@@ -151,7 +151,7 @@ public class GameModelImpl implements GameModel {
     }
 
     private void respawnParty(final Pair<Integer, Integer> pos) {
-        final int radius = 2;
+        final int radius = 1;
         this.hero.setPos(pos);
         this.getCurrentRoom().clearArea(pos, radius);
     }
