@@ -35,6 +35,11 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
         );
     }
 
+    private void setGameCommand(GameCommand action, Monster monster, Room room) {
+        action.setActor(monster);
+        action.setRoom(room);
+    }
+
     private int getDeltaX(final Pair<Integer, Integer> from, final Pair<Integer, Integer> to) {
         return from.getX() - to.getX();
     }
@@ -88,6 +93,7 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
 
             @Override
             public Optional<GameCommand> chooseMove(final Monster monster, final List<Actor> actors, final Room room) {
+                Optional<GameCommand> action = Optional.empty();
 
                 Optional<Pair<Integer, Integer>> actorPos = getActorTarget(
                     monster.getPos(),
@@ -96,12 +102,13 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
                 );
 
                 Optional<GameControl> gc = computeGameCommand(monster, actors, actorPos.get(), room);
-                return gc.map(
-                    gcc -> 
-                    monster.getSkills().getAction(gcc).isPresent() 
-                        ? monster.getSkills().getAction(gcc).get() 
-                        : null
-                );
+
+                if (gc.isPresent()) {
+                    action = monster.getSkills().getAction(gc.get());
+                    setGameCommand(action.get(), monster, room);
+                }
+
+                return action;
             }
         };
     }
@@ -117,32 +124,41 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
                 Pair<Integer, Integer> monsterPos = monster.getPos();
                 Random rng = new Random();
                 List<Boolean> check = List.of(false, false, false, false);
+                Optional<GameCommand> action = Optional.empty();
                 while (check.contains(false)) {
                     switch (rng.nextInt(4)) {
                         case 0:
                         if (canMove(new Pair<>(monsterPos.getX(), monsterPos.getY() + 1), actors, room)) {
-                            return monster.getSkills().getAction(GameControl.MOVERIGHT);
+                            action = monster.getSkills().getAction(GameControl.MOVERIGHT);
+                            setGameCommand(action.get(), monster, room);
+                            return action;
                         }
                         check.set(0, true);
                         break;
 
                         case 1:
                         if (canMove(new Pair<>(monsterPos.getX(), monsterPos.getY() - 1), actors, room)) {
-                            return monster.getSkills().getAction(GameControl.MOVELEFT);
+                            action = monster.getSkills().getAction(GameControl.MOVELEFT);
+                            setGameCommand(action.get(), monster, room);
+                            return action;
                         }
                         check.set(1, true);
                         break;
 
                         case 2:
                         if (canMove(new Pair<>(monsterPos.getX() - 1, monsterPos.getY()), actors, room)) {
-                            return monster.getSkills().getAction(GameControl.MOVEUP);
+                            action = monster.getSkills().getAction(GameControl.MOVEUP);
+                            setGameCommand(action.get(), monster, room);
+                            return action;
                         }
                         check.set(2, true);
                         break;
 
                         case 3:
                         if (canMove(new Pair<>(monsterPos.getX() + 1, monsterPos.getY()), actors, room)) {
-                            return monster.getSkills().getAction(GameControl.MOVEDOWN);
+                            action = monster.getSkills().getAction(GameControl.MOVEDOWN);
+                            setGameCommand(action.get(), monster, room);
+                            return action;
                         }
                         check.set(3, true);
                         break;
@@ -152,12 +168,6 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
                     }
                 }
                 return Optional.empty();
-            }
-
-            private boolean canMove(final Pair<Integer, Integer> pos, final List<Actor> actors, final Room room) {
-                return room.isAccessible(pos)
-                    && actors.stream().anyMatch(a -> a.getPos() == pos)
-                    && room.getMonsters().stream().anyMatch(a -> a.getPos() == pos);
             }
         };
     }
@@ -170,6 +180,8 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
         return new MovementBehaviour() {
             @Override
             public Optional<GameCommand> chooseMove(final Monster monster, final List<Actor> actors, final Room room) {
+
+                Optional<GameCommand> action = Optional.empty();
 
                 Optional<Pair<Integer, Integer>> actorPos = getActorTarget(
                     monster.getPos(),
@@ -193,14 +205,11 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
                     if (old.equals(GameControl.MOVERIGHT)) {
                         gc = Optional.of(GameControl.MOVELEFT);
                     }
+                    action = monster.getSkills().getAction(gc.get());
+                    setGameCommand(action.get(), monster, room);
                 }
 
-                return gc.map(
-                    gcc -> 
-                    monster.getSkills().getAction(gcc).isPresent() 
-                        ? monster.getSkills().getAction(gcc).get() 
-                        : null
-                );
+                return action;
             };
         };
     }

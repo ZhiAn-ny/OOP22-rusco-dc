@@ -43,10 +43,7 @@ public class BehaviourImpl implements Behaviour {
         action = this.movementBehaviour.chooseMove(monster, actors, room);
 
         if (action.isPresent()) {
-            GameCommand movementAction = action.get();
-            movementAction.setActor(monster);
-            movementAction.setRoom(room);
-            return movementAction;
+            return action.get();
         }
 
         return monster.getSkills().getAction(GameControl.DONOTHING).get();
@@ -65,9 +62,6 @@ public class BehaviourImpl implements Behaviour {
         final Room room,
         final List<Actor> actors
     ) {
-        toOptimize.setActor(monster);
-        toOptimize.setRoom(room);
-
         Pair<Integer, Integer> target = actors
             .stream()
             .sorted((a, b) ->
