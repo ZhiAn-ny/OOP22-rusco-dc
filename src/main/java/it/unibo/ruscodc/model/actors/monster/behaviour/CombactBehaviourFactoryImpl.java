@@ -14,7 +14,7 @@ import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pairs;
 
 /**
- * The implementation of the Comabact Behaviour Factory interface that for ech method returns the specific Combact Behaviour.
+ * The implementation of the Comabact Behaviour Factory interface that for each method returns the specific Combact Behaviour.
  */
 public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
 

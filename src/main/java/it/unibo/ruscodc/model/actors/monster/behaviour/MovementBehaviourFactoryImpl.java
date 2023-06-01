@@ -15,7 +15,7 @@ import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 
 /**
- * The implementation of the Movement Behaviour Factory interface that for ech method returns the specific Movement Behaviour.
+ * The implementation of the Movement Behaviour Factory interface that for each method returns the specific Movement Behaviour.
  */
 public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
 
