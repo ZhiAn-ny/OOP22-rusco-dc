@@ -33,16 +33,15 @@ public class GameControllerImpl implements GameObserverController {
     private List<Actor> initiative = new ArrayList<>();
     private Optional<GameCommand> playerSituation = Optional.empty();
     private final GameView view;
-    private final GameModel model;
+    private GameModel model;
     private boolean automaticSave = false;
-
+    private final SaveManager saveManager = new SaveManagerImpl();
     /**
      * Create the controller of the game.
      * @param args
      */
     public GameControllerImpl(final String... args) {
         this.view = new FXMLMainView();
-        this.model = new GameModelImpl();
     }
 
     /**
@@ -53,23 +52,42 @@ public class GameControllerImpl implements GameObserverController {
         this.view.init(this);
     }
 
+    @Override
+    public void showMainMenu(){
+        this.view.startView();
+    }
+
+    private void refresh(){
+        initNewTurn();
+        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
+        manageMonsterTurn();
+    }
+
+    @Override
+    public void initNewGame() {
+        this.model = new GameModelImpl();
+        refresh();
+    }
+
+    @Override
+    public void loadGame(String fileName) throws Exception {
+        this.model = saveManager.loadGame(fileName);
+        refresh();
+    }
+
     /**
      *
      */
     @Override
-    public void start(final String[] args) {
-        this.view.startView(args);
-        initNewTurn();
-        while (!this.view.isReady()) {
+    public void start() {
+       /* while (!this.view.isReady()) {
             try {
                 Thread.sleep(2);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-
-        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
-        manageMonsterTurn();
+        }*/
+        showMainMenu();
     }
 
     /**
@@ -118,17 +136,15 @@ public class GameControllerImpl implements GameObserverController {
 
     private void changeFloor() {
         model.changeFloor();
-        initNewTurn();
         if (automaticSave) {
             save();
         }
-        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
+        refresh();
     }
 
     private void changeRoom(final ChangeRoomException r) {
         model.changeRoom(r.getDoorPos());
-        initNewTurn();
-        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
+        refresh();
     }
 
     private void flushView() {

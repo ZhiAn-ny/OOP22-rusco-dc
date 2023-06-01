@@ -45,5 +45,10 @@ public interface GameObserverController {
     // void start();
 
 
-    void start(String[] args);
+    void start();
+
+    void showMainMenu();
+
+    void initNewGame();
+    void loadGame(String filename) throws Exception;
 }

@@ -37,11 +37,12 @@ public class FXMLMainView extends Application implements GameView {
     private boolean isReady;
     private final Optional<Pair<Integer, Integer>> dims = Optional.empty();
     private boolean isPrintingInfo = true;
+    private Stage stage;
 
 
     /** {@inheritDoc} */
     @Override
-    public void startView(final String[] args) {
+    public void startView() {
         if (this.controller == null) {
             throw new IllegalStateException(
                     "Error in ViewJFX: The controller has not been initialized."
@@ -51,7 +52,7 @@ public class FXMLMainView extends Application implements GameView {
 
         Platform.startup(() -> {
             // create primary stage
-            Stage stage = new Stage();
+            this.stage = new Stage();
 
             try {
                 this.start(stage);
@@ -67,6 +68,15 @@ public class FXMLMainView extends Application implements GameView {
         this.controller = ctrl;
 
     }
+
+    public void startNewGame() throws IOException {
+        final Scene scene = this.loadGameView();
+        //stage.setUserData(this.controller);
+        //this.isReady = true;
+        stage.setScene(scene);
+
+    }
+
 
     /** {@inheritDoc} */
     @Override
@@ -101,7 +111,6 @@ public class FXMLMainView extends Application implements GameView {
 
     }
 
-
     /** {@inheritDoc} */
     @Override
     public void addEntity(final Entity toAdd) {
@@ -134,8 +143,8 @@ public class FXMLMainView extends Application implements GameView {
     @Override
     public void start(final Stage stage) throws Exception {
         final Scene scene = this.loadMainMenu();
-//        this.handleWindowSize(stage, scene);
-//        this.handleEvents(stage);
+        this.handleWindowSize(stage, scene);
+        this.handleEvents(stage);
 //        this.handleUserInputs(scene);
 
         //stage.setFullScreen(true);
@@ -145,7 +154,9 @@ public class FXMLMainView extends Application implements GameView {
 
         this.isReady = true;
         stage.show();
+        menuController.setGameController();
     }
+
 
     private void uploadView() {
 
@@ -156,7 +167,7 @@ public class FXMLMainView extends Application implements GameView {
         final double scale = 2 / 3.;
         final double width = screenSize.getWidth() * scale;
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("menu-iniziale.fxml"));
-        fxmlLoader.setController(new MainMenuController());
+        //fxmlLoader.setController(new MainMenuController());
         final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
         this.menuController = (MainMenuController) fxmlLoader.getController();
 
@@ -164,19 +175,16 @@ public class FXMLMainView extends Application implements GameView {
     }
 
     private Scene loadGameView() throws IOException {
-        final Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
-        final double scale = 2 / 3.;
-        final double width = screenSize.getWidth() * scale;
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("game-view.fxml"));
         fxmlLoader.setController(new GameViewController());
-        final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
+        final Scene scene = new Scene(fxmlLoader.load());
+        this.handleWindowSize(stage, scene);
+        this.handleEvents(stage);
         this.gameView = (GameViewController) fxmlLoader.getController();
-
+        this.handleUserInputs(scene);
         this.gameView.setEntities(this.printedEntity);
         this.gameView.update();
 
-
-        //this.gameView.setRoomSize();
         return scene;
     }
 

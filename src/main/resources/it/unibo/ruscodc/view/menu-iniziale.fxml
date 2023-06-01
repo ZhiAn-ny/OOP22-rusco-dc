@@ -6,21 +6,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.ruscodc.view.MainMenuController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Label text="Junkrisers: Rusco’s Adventure" VBox.vgrow="NEVER">
+            <Label fx:id="title" text="Junkrisers: Rusco’s Adventure" VBox.vgrow="NEVER">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+            <VBox fx:id="buttons" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="nuovaPartita" mnemonicParsing="false" text="Nuova partita" />
-                  <Button fx:id="caricaPartita" mnemonicParsing="false" text="Carica partita" />
-                  <Button fx:id="impostazioni" mnemonicParsing="false" text="Impostazioni" />
+                  <Button fx:id="nuovaPartita" mnemonicParsing="false" onAction="#startNewGame" text="Nuova partita" />
+                  <Button fx:id="caricaPartita" mnemonicParsing="false" onAction="#loadGame" text="Carica partita" />
+                  <Button fx:id="impostazioni" mnemonicParsing="false" onAction="#settings" text="Impostazioni" />
                </children>
             </VBox>
          </children>

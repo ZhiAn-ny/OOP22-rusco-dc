@@ -36,6 +36,7 @@ public class GameViewController implements Initializable {
     private static final int ACTORS_RENDERING_LEVEL = 3;
     private List<Entity> toRender;
 
+
     @FXML
     private GridPane mainGrid;
     private IntegerProperty unit = new SimpleIntegerProperty();
