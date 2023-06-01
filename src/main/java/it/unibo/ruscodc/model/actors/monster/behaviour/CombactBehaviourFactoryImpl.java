@@ -52,12 +52,9 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
                     return action;
                 }
 
-                action = Optional.of(
-                    attacks.stream()
+                action = attacks.stream()
                     .sorted((a, b) -> b.getAPCost() - a.getAPCost())
-                    .findFirst()
-                    .get()
-                );
+                    .findFirst();
 
                 return action;
             }
