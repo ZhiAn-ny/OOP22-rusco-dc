@@ -43,7 +43,10 @@ public class BehaviourImpl implements Behaviour {
         action = this.movementBehaviour.chooseMove(monster, actors, room);
 
         if (action.isPresent()) {
-            return action.get();
+            GameCommand movementAction = action.get();
+            movementAction.setActor(monster);
+            movementAction.setRoom(room);
+            return movementAction;
         }
 
         return monster.getSkills().getAction(GameControl.DONOTHING).get();
