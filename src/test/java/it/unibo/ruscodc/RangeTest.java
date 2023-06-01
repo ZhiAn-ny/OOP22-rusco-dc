@@ -79,7 +79,8 @@ final class RangeTest {
     void testCircle() { 
         final Range myRange = new CircleRange(BASIC_R_SIZE, basicR);
         final long counted = enemyPos.get()
-            .filter(ep -> myRange.isInRange(heroPos, cursorPos, ep, r)).count();
+            .filter(ep -> 
+                myRange.isInRange(heroPos, cursorPos, ep, r)).count();
         assertEquals(3, counted, ERR_M);
     }
 

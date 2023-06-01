@@ -32,4 +32,9 @@ public class DirectRowRange extends DecoratedRange {
     protected boolean centerToFrom () {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "[Direct range]";
+    }
 }

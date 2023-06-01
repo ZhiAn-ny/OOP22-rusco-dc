@@ -40,4 +40,9 @@ public class ConeRange extends DecoratedRange {
     protected boolean centerToFrom () {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "[Cone range (rad=" + radius + ")]";
+    }
 }

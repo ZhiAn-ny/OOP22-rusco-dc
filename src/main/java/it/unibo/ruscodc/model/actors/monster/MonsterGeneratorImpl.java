@@ -9,6 +9,7 @@ import it.unibo.ruscodc.model.actors.stat.Stat;
 import it.unibo.ruscodc.model.actors.stat.StatFactory;
 import it.unibo.ruscodc.model.actors.stat.StatFactoryImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.DoNothing;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 
@@ -24,6 +25,7 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicMeleeAttack());
         skills.setAction(GameControl.ATTACK1, this.MAFactory.heavyMeleeAttack());
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
 
         Stat stats = this.statFactory.ratStat();
 
@@ -36,7 +38,8 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
     public Monster makeRangedRat(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicRangedAttack());
-
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
+        
         Stat stats = this.statFactory.ratStat();
 
         Behaviour behaviour = this.behaviourFactory.makeRangedBrainless();
@@ -49,6 +52,7 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.ratMagic());
         skills.setAction(GameControl.ATTACK1, this.MAFactory.badSmell());
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
 
         Stat stats = this.statFactory.ratStat();
         stats.setStat(StatName.INT, new Pair<Integer,Integer>(5, 5));
@@ -64,6 +68,7 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicMeleeAttack());
         skills.setAction(GameControl.ATTACK1, this.MAFactory.heavyMeleeAttack());
         skills.setAction(GameControl.ATTACK2, this.MAFactory.backstab());
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
 
         Stat stats = this.statFactory.opossumStat();
 
@@ -76,6 +81,7 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
     public Monster makeRangedOpossum(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicRangedAttack());
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
 
         Stat stats = this.statFactory.opossumStat();
 
@@ -89,6 +95,7 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicMeleeAttack());
         skills.setAction(GameControl.ATTACK1, this.MAFactory.backstab());
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
 
         Stat stats = this.statFactory.seagullStat();
 
@@ -101,6 +108,7 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
     public Monster makeRangedSeagull(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicRangedAttack());
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
 
         Stat stats = this.statFactory.seagullStat();
 
@@ -113,7 +121,8 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
     public Monster makeBombCockroach(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.disgustingDemise());
-
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
+        
         Stat stats = this.statFactory.cockroachStat();
 
         Behaviour behaviour = this.behaviourFactory.makeMeleeBrainless();
