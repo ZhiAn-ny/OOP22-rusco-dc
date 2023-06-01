@@ -89,7 +89,7 @@ public class RectangleRoomImpl implements Room, Serializable {
 
         // Items do not represent an obstacle to movement therefore,
         // monsters can be placed on top of an occupied Tile
-        if (tile == null) { // || tile.get().isPresent()) {
+        if (tile == null || (tile.get().isPresent() && !tile.get().get().isTransitable())) {
             return  false;
         }
         this.monsters.add(monster);
