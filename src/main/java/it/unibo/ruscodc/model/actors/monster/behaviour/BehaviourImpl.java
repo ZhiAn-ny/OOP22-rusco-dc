@@ -62,9 +62,6 @@ public class BehaviourImpl implements Behaviour {
         final Room room,
         final List<Actor> actors
     ) {
-        toOptimize.setActor(monster);
-        toOptimize.setRoom(room);
-
         Pair<Integer, Integer> target = actors
             .stream()
             .sorted((a, b) ->

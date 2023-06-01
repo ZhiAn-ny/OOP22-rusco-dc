@@ -14,9 +14,26 @@ import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pairs;
 
 /**
- * The implementation of the Comabact Behaviour Factory interface that for ech method returns the specific Combact Behaviour.
+ * The implementation of the Comabact Behaviour Factory interface that for each method returns the specific Combact Behaviour.
  */
 public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
+
+    private List<GameCommand> getPossibleAttacks(final Monster monster, final Room room, List<Actor> actors) {
+        Skill skills = monster.getSkills();
+        List<GameCommand> attacks = 
+            GameControl.getAttackControls()
+            .stream()
+            .map(a -> skills.getAction(a))
+            .filter(a -> a.isPresent())
+            .map(a -> a.get())
+            .peek(a -> a.setActor(monster))
+            .peek(a -> a.setRoom(room))
+            .collect(Collectors.toList());
+
+        attacks.removeIf(gc -> !actors.stream().anyMatch(a -> gc.isTargetInRange(a)));
+
+        return attacks;
+    }
 
     /**
      * 
@@ -27,27 +44,22 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
             @Override
             public Optional<GameCommand> choseAttack(final Monster monster, final Room room, final List<Actor> actors) {
 
-                Skill skills = monster.getSkills();
+                Optional<GameCommand> action = Optional.empty();
 
-                List<GameCommand> attacks = 
-                    GameControl.getAttackControls()
-                    .stream()
-                    .map(a -> skills.getAction(a))
-                    .filter(a -> a.isPresent())
-                    .map(a -> a.get())
-                    .collect(Collectors.toList());
-                attacks.removeIf(gc -> !actors.stream().anyMatch(a -> gc.isTargetInRange(a)));
+                List<GameCommand> attacks = getPossibleAttacks(monster, room, actors);
 
                 if (attacks.isEmpty()) {
-                    return Optional.empty();
+                    return action;
                 }
 
-                return Optional.of(
+                action = Optional.of(
                     attacks.stream()
                     .sorted((a, b) -> b.getAPCost() - a.getAPCost())
                     .findFirst()
                     .get()
                 );
+
+                return action;
             }
         };
     }
@@ -61,16 +73,9 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
             @Override
             public Optional<GameCommand> choseAttack(final Monster monster, final Room room, final List<Actor> actors) {
 
-                Skill skills = monster.getSkills();
+                Optional<GameCommand> action = Optional.empty();
 
-                List<GameCommand> attacks = 
-                    GameControl.getAttackControls()
-                    .stream()
-                    .map(a -> skills.getAction(a))
-                    .filter(a -> a.isPresent())
-                    .map(a -> a.get())
-                    .collect(Collectors.toList());
-                attacks.removeIf(gc -> !actors.stream().anyMatch(a -> gc.isTargetInRange(a)));
+                List<GameCommand> attacks = getPossibleAttacks(monster, room, actors);
 
                 int closestDistance =
                     actors.stream()
@@ -83,12 +88,15 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
                     return Optional.empty();
                 }
 
-                return Optional.of(
+                action = Optional.of(
                     attacks.stream()
                     .sorted((a, b) -> b.getAPCost() - a.getAPCost())
                     .findFirst()
                     .get()
                 );
+                
+
+                return action;
             }
         };
     }
