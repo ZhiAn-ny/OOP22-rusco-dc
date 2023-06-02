@@ -19,7 +19,7 @@ public class MonsterImpl extends ActorAbs implements Monster {
     public MonsterImpl(String name, Pair<Integer, Integer> currentPos, Skill skills, Stat stats, Behaviour behaviour) {
         super(name, currentPos, skills, stats);
         this.behaviour = behaviour;
-        this.path = "file:src/main/resources/it/unibo/ruscodc/monster_res/" + this.name;
+        this.path = "file:src/main/resources/it/unibo/ruscodc/monster_res/" + super.getName();
     }
 
     @Override
@@ -34,6 +34,6 @@ public class MonsterImpl extends ActorAbs implements Monster {
 
     @Override
     public String toString() {
-        return this.stats.toString();
+        return super.getStats().toString();
     }
 }

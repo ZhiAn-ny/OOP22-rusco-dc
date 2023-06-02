@@ -10,9 +10,9 @@ import it.unibo.ruscodc.model.effect.SingleTargetEffect;
  */
 public class ConsumableFactoryImpl implements ConsumableFactory {
 
-    private final float percent20 = 20 / 100;
-    private final float percent40 = 40 / 100;
-    private final float percent60 = 60 / 100;
+    private static final float PERCENT20 = 20 / 100;
+    private static final float PERCENT40 = 40 / 100;
+    private static final float PERCENT60 = 60 / 100;
 
     /**
      * 
@@ -29,7 +29,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
                     target.modifyActualStat(
                         StatName.HP,
                         target.getStatActual(StatName.HP)
-                        + (int) (target.getStatMax(StatName.HP) * percent20)
+                        + (int) (target.getStatMax(StatName.HP) * PERCENT20)
                     );
                 }
             }
@@ -51,7 +51,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
                     target.modifyActualStat(
                         StatName.AP,
                         target.getStatActual(StatName.AP)
-                        + (int) (target.getStatMax(StatName.HP) * percent20)
+                        + (int) (target.getStatMax(StatName.HP) * PERCENT20)
                     );
                 }
             }
@@ -136,7 +136,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
                     target.modifyActualStat(
                         StatName.HP,
                         target.getStatActual(StatName.HP)
-                        + (int) (target.getStatMax(StatName.HP) * percent40)
+                        + (int) (target.getStatMax(StatName.HP) * PERCENT40)
                     );
                 }
             }
@@ -158,7 +158,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
                     target.modifyActualStat(
                         StatName.HP,
                         target.getStatActual(StatName.HP)
-                        + (int) (target.getStatMax(StatName.HP) * percent60)
+                        + (int) (target.getStatMax(StatName.HP) * PERCENT60)
                     );
                 }
             }

@@ -23,12 +23,12 @@ public class HeroImpl extends ActorAbs implements Hero {
     public HeroImpl(String name, Pair<Integer, Integer> initialPos, Skill skills, Stat stats) {
         super(name, initialPos, skills, stats);
         this.inventory = new InventoryImpl();
-        this.path = "file:src/main/resources/it/unibo/ruscodc/hero_res/" + this.name;
+        this.path = "file:src/main/resources/it/unibo/ruscodc/hero_res/" + super.getName();
     }
 
     @Override
     public Optional<GameCommand> act(GameControl key) {
-        Optional<GameCommand> command = this.skills.getAction(key);
+        Optional<GameCommand> command = super.getSkills().getAction(key);
         if (command.isEmpty()) {
             return Optional.empty();
         }
