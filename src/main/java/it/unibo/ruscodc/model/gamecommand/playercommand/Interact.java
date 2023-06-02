@@ -105,18 +105,20 @@ public class Interact extends NoIACommand {
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
         isReady = false;
+        final Pair<Integer, Integer> tmpCursor = cursorPos;
+        cursorPos = null;
         if (undo) {
             undo = false;
             cursorPos = null;
             throw new Undo("");
         }
         
-        if (!interactableRange.isInRange(this.getActor().getPos(), cursorPos, cursorPos, getRoom())) {
+        if (!interactableRange.isInRange(this.getActor().getPos(), tmpCursor, tmpCursor, getRoom())) {
             return Optional.of(new InfoPayloadImpl(T_ERR, ERR_NOT_R));
         }
 
         Optional<Monster> selectedM = this.getRoom().getMonsters().stream()
-            .filter(a -> a.getPos().equals(cursorPos))
+            .filter(a -> a.getPos().equals(tmpCursor))
             .findFirst();
         
         if (selectedM.isPresent()) {
@@ -127,15 +129,15 @@ public class Interact extends NoIACommand {
             return Optional.of(new InfoPayloadImpl(text, descr, path));
         }
 
-
-        Optional<Tile> selected = this.getRoom().get(cursorPos);
+        Optional<Tile> selected = this.getRoom().get(tmpCursor);
         if (selected.isEmpty()) {
+            cursorPos = tmpCursor;
             return Optional.of(new InfoPayloadImpl(T_ERR, ERR_NOT_EX));
         }
 
-        
         Optional<Interactable> interac = selected.get().get();
         if (interac.isEmpty()) {
+            cursorPos = tmpCursor;
             return Optional.of(new InfoPayloadImpl(T_ERR, NOTHING_TO_INT));
         }
         GameCommand obtained = interac.get().interact();
@@ -145,12 +147,11 @@ public class Interact extends NoIACommand {
             throw new IllegalStateException("GameCommand behind interactable must not be complex");
         }
         
-
+       
         Optional<InfoPayload> res = obtained.execute();
         if (res.isEmpty()) {
-            this.getRoom().get(cursorPos).get().empty();
+            this.getRoom().get(tmpCursor).get().empty();
         }
-        cursorPos = null;
         return res;
     }
 
