@@ -1,18 +1,12 @@
 package it.unibo.ruscodc.view;
 
-import it.unibo.ruscodc.controller.GameControllerImpl;
 import it.unibo.ruscodc.controller.GameObserverController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,10 +29,6 @@ public class MainMenuController implements Initializable {
     @FXML
     private Label title;
 
-    public MainMenuController(){
-
-    }
-
     @FXML
     private void setTitle() {
         title.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
@@ -46,11 +36,10 @@ public class MainMenuController implements Initializable {
     }
     @FXML
     private void setButtons() {
-       // buttons.spacingProperty().bind();
     }
 
-    public void setGameController(){
-        this.gameController = (GameControllerImpl)this.buttons.getScene().getRoot().getUserData();
+    public void init(final FXMLMainView mainView){
+        this.mainView = mainView;
     }
 
     @Override
@@ -60,7 +49,8 @@ public class MainMenuController implements Initializable {
 
     @FXML
     public void startNewGame(final ActionEvent event) throws Exception {
-        this.gameController.initNewGame();
+        this.mainView.startNewGame();
+
     }
 
     @FXML

@@ -53,7 +53,6 @@ public class FXMLMainView extends Application implements GameView {
         Platform.startup(() -> {
             // create primary stage
             this.stage = new Stage();
-
             try {
                 this.start(stage);
             } catch (Exception e) {
@@ -71,10 +70,10 @@ public class FXMLMainView extends Application implements GameView {
 
     public void startNewGame() throws IOException {
         final Scene scene = this.loadGameView();
+        this.controller.initNewGame();
         //stage.setUserData(this.controller);
         //this.isReady = true;
         stage.setScene(scene);
-
     }
 
 
@@ -142,6 +141,7 @@ public class FXMLMainView extends Application implements GameView {
     /** {@inheritDoc} */
     @Override
     public void start(final Stage stage) throws Exception {
+        this.stage = stage;
         final Scene scene = this.loadMainMenu();
         this.handleWindowSize(stage, scene);
         this.handleEvents(stage);
@@ -154,7 +154,7 @@ public class FXMLMainView extends Application implements GameView {
 
         this.isReady = true;
         stage.show();
-        menuController.setGameController();
+
     }
 
 
@@ -170,7 +170,7 @@ public class FXMLMainView extends Application implements GameView {
         //fxmlLoader.setController(new MainMenuController());
         final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
         this.menuController = (MainMenuController) fxmlLoader.getController();
-
+        this.menuController.init(this);
         return scene;
     }
 
@@ -189,12 +189,16 @@ public class FXMLMainView extends Application implements GameView {
     }
 
     private void handleWindowSize(final Stage stage, final Scene scene) {
-        final double minWidth = Screen.getPrimary().getVisualBounds().getWidth() * MIN_WIDTH_SCALE;
-        stage.setMinWidth(minWidth);
-        stage.setMinHeight(minWidth * ASPECT_RATIO);
-        stage.setMaxHeight(Screen.getPrimary().getVisualBounds().getHeight());
-        stage.minHeightProperty().bind(scene.widthProperty().multiply(ASPECT_RATIO));
-        stage.maxHeightProperty().bind(scene.widthProperty().multiply(ASPECT_RATIO));
+        try {
+            final double minWidth = Screen.getPrimary().getVisualBounds().getWidth() * MIN_WIDTH_SCALE;
+            stage.setMinWidth(minWidth);
+            stage.setMinHeight(minWidth * ASPECT_RATIO);
+            stage.setMaxHeight(Screen.getPrimary().getVisualBounds().getHeight());
+            stage.minHeightProperty().bind(scene.widthProperty().multiply(ASPECT_RATIO));
+            stage.maxHeightProperty().bind(scene.widthProperty().multiply(ASPECT_RATIO));
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void handleEvents(final Stage stage) {
