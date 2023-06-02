@@ -47,7 +47,8 @@ class WallTileImplTest {
     void testObjectPlacement() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final WallTileImpl wallTile = new WallTileImpl(pos, WallType.TOP);
-        assertFalse(wallTile.put(new Chest(Set.of(), pos)));
+        final Interactable obj = new Chest(Set.of(), pos);
+        assertFalse(wallTile.put(obj));
         assertFalse(wallTile.get().isPresent());
         assertFalse(wallTile.empty().isPresent());
     }

@@ -80,12 +80,11 @@ class RectangleRoomImplTest {
     void testAddMonsterEmptySlot() {
         final RectangleRoomImpl rectangleRoomImpl = new RectangleRoomImpl(MIN_ROOM_SIDE, MIN_ROOM_SIDE);
         final Pair<Integer, Integer> currentPos = new Pair<>(2, 3);
-
         final SkillImpl skills = new SkillImpl();
         final StatImpl stats = new StatImpl();
         final BehaviourImpl behaviour = new BehaviourImpl(null, null);
-        assertTrue(rectangleRoomImpl
-                .addMonster(new MonsterImpl(TEST_STR, currentPos, skills, stats, behaviour)));
+        final Monster mst = new MonsterImpl(TEST_STR, currentPos, skills, stats, behaviour);
+        assertTrue(rectangleRoomImpl.addMonster(mst));
         assertEquals(1, rectangleRoomImpl.getMonsters().size());
     }
 

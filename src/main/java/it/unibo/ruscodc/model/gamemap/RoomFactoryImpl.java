@@ -131,7 +131,6 @@ public class RoomFactoryImpl implements RoomFactory {
     @Override
     public void addMonsters(final Room base, final int floor) {
         int monsterNum = this.rnd.nextInt(this.maxMonstersNum(base, floor));
-        monsterNum = monsterNum % (base.getArea() - base.getObjectsInRoom().size());
         final List<Tile> tiles = base.getTilesAsEntity().stream()
                 .filter(tile -> tile instanceof FloorTileImpl)
                 .map(tile -> (Tile) tile).toList();
@@ -150,15 +149,17 @@ public class RoomFactoryImpl implements RoomFactory {
     }
 
     private int maxItemNum(final Room room, final int floor) {
-        int maxNumItems = (int)(room.getArea() / Math.pow(MIN_ROOM_SIZE, 2)) + floor;
-        maxNumItems = maxNumItems % this.maxOccupation(room);
-        return maxNumItems == 0 ? 1 : maxNumItems;
+        int maxNumItems = (int) (room.getArea() / Math.pow(MIN_ROOM_SIZE, 2)) + floor;
+        maxNumItems = (int) (maxNumItems * 0.8) % this.maxOccupation(room);
+        maxNumItems = maxNumItems / MIN_ROOM_SIZE / 2;
+        return maxNumItems == 0 ? 2 : maxNumItems + 1;
     }
 
     private int maxMonstersNum(final Room room, final int floor) {
-        int maxNumItems = (int)(room.getArea() / Math.pow(MIN_ROOM_SIZE, 2)) + floor;
-        maxNumItems = (int)(maxNumItems * 0.6) % this.maxOccupation(room);
-        return maxNumItems == 0 ? 1 : maxNumItems;
+        int maxNumMonster = (int) (room.getArea() / Math.pow(MIN_ROOM_SIZE, 2)) + floor;
+        maxNumMonster = (int) (maxNumMonster * 0.6) % this.maxOccupation(room);
+        maxNumMonster = maxNumMonster / MIN_ROOM_SIZE;
+        return maxNumMonster == 0 ? 2 : maxNumMonster + 1;
     }
 
     private Monster getRandomMonster(final Pair<Integer, Integer> pos, final int level) {
