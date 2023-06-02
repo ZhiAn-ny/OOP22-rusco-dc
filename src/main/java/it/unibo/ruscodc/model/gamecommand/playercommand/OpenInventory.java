@@ -1,6 +1,5 @@
 package it.unibo.ruscodc.model.gamecommand.playercommand;
 
-import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,22 +24,21 @@ public class OpenInventory extends NoIACommand {
 
     private final static int COLS = 7;
 
-    private final Hero hero;
-    private final Inventory inventory;
+    private Hero hero;
+    private Inventory inventory;
     private Optional<InfoPayload> advise;
     private Pair<Integer, Integer> cursorPos;
     private boolean isReady = false;
     private boolean exit = false;
+    private boolean isInit = false;
+    private boolean mustClose = false;
     
     public OpenInventory() {
-        this.hero = (Hero)this.getActor();
-        this.inventory = new InventoryImpl();
     }
 
     private void resetCursor() {
         this.cursorPos = new Pair<Integer,Integer>(0, 0);
     }
-
 
     private int getIndexOfLastItemInARow(final int row) {
         final int amountItem = this.inventory.slotOccupied(); 
@@ -57,17 +55,17 @@ public class OpenInventory extends NoIACommand {
 
     private void moveCursor(Pair<Integer, Integer> newPos) {
         final int amountItem = this.inventory.slotOccupied();
-        if (newPos.getY() == COLS) {
-            newPos = new Pair<Integer,Integer>(cursorPos.getX(), 0); //inizio della i-esima riga
+        if (newPos.getX() == COLS) {
+            newPos = new Pair<Integer,Integer>(0, cursorPos.getY()); //inizio della i-esima riga
         }
-        if (newPos.getY() == -1) {
-            newPos = new Pair<Integer,Integer>(cursorPos.getX(), getIndexOfLastItemInARow(cursorPos.getX())); //bisogna vedere se la riga è piena di oggetti o termina prima
-        } 
         if (newPos.getX() == -1) {
-            newPos = new Pair<Integer,Integer>(getIndexOfLastItemInACol(cursorPos.getY()), cursorPos.getY()); //bisogna vedere se la colonna è l'ultima o la penultima
+            newPos = new Pair<Integer,Integer>(getIndexOfLastItemInARow(cursorPos.getY()), cursorPos.getY()); //bisogna vedere se la riga è piena di oggetti o termina prima
+        } 
+        if (newPos.getY() == -1) {
+            newPos = new Pair<Integer,Integer>(cursorPos.getX(), getIndexOfLastItemInACol(cursorPos.getX())); //bisogna vedere se la colonna è l'ultima o la penultima
         }
-        if ((newPos.getX() * COLS + newPos.getY()) > amountItem) {
-            newPos = new Pair<Integer,Integer>(0, cursorPos.getY());
+        if ((newPos.getY() * COLS + newPos.getY()) > amountItem) {
+            newPos = new Pair<Integer,Integer>(cursorPos.getX(), 0);
         }
         cursorPos = newPos;
     }
@@ -81,7 +79,7 @@ public class OpenInventory extends NoIACommand {
         equipement.equip(hero);
     }
 
-    private void manageUse(){
+    private void manageUse() {
         Item item = this.inventory.getItem(this.cursorPos.getX() * COLS + this.cursorPos.getY());
         if (item.isWearable()) {
             manageEquipement((Equipement) item);
@@ -92,12 +90,12 @@ public class OpenInventory extends NoIACommand {
 
     @Override
     public boolean modify(GameControl input) {
+        
         boolean mustUpdate = true;
-        this.advise = Optional.empty();
 
-        if (this.inventory.isEmpty()) {
+        if (mustClose) {
+            mustClose = false;
             input = GameControl.CANCEL;
-            advise = Optional.of(new InfoPayloadImpl("Errore apertura Inventario", "L'inventario è vuoto"));
         }
 
         switch (input) {
@@ -121,7 +119,7 @@ public class OpenInventory extends NoIACommand {
                 this.isReady = true; 
                 this.advise = Optional.of(
                     this.inventory
-                    .getItem(this.cursorPos.getX() * COLS + this.cursorPos.getY())
+                    .getItem(this.cursorPos.getY() * COLS + this.cursorPos.getX())
                     .getInfo()
                 );
                 mustUpdate = false;
@@ -134,7 +132,7 @@ public class OpenInventory extends NoIACommand {
                 break;
 
             case DELETE:
-                inventory.removeItem(this.cursorPos.getX() * COLS + this.cursorPos.getY());
+                inventory.removeItem(this.cursorPos.getY() * COLS + this.cursorPos.getX());
                 resetCursor();
                 break;
 
@@ -146,6 +144,7 @@ public class OpenInventory extends NoIACommand {
             default:
                 mustUpdate = false;
         }
+        System.out.println("AM: " + cursorPos + " / " + this.inventory.slotOccupied());
         return mustUpdate;
     }
 
@@ -193,23 +192,42 @@ public class OpenInventory extends NoIACommand {
 
     @Override
     public Set<Entity> getEntities() {
-        Stream<Entity> items = this.inventory
+        if (!isInit) {
+            this.hero = (Hero)this.getActor();
+            this.inventory = hero.getInventory();
+            isInit = true;
+            resetCursor();
+        }
+        //this.advise = Optional.empty();
+        Set<Entity> items = this.inventory
             .getAllItems()
             .stream()
             .map(i -> fromItemToEntity(
                 i,
                 new Pair<>(
-                    this.inventory.getAllItems().indexOf(i) / COLS,
-                    this.inventory.getAllItems().indexOf(i) % COLS)
+                    this.inventory.getAllItems().indexOf(i) % COLS,
+                    this.inventory.getAllItems().indexOf(i) / COLS)
                 )
-        );
+        ).collect(Collectors.toSet());
 
-        return items.collect(Collectors.toSet());
+        if (items.isEmpty()) {
+            advise = Optional.of(new InfoPayloadImpl(
+                    "Errore apertura Inventario", 
+                    "L'inventario è vuoto: verrà chiuso al prossimo tasto della tasiera"));
+            mustClose = true;
+            isReady = true;
+        }
+
+        items.add(fromCursorToEntity());
+
+        return items;
     }
 
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
         if (exit) {
+            this.isReady = false;
+            resetCursor();
             throw new Undo("Close inventory");
         }
         this.isReady = false;
