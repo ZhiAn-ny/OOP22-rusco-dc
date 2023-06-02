@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -12,7 +11,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
     <left>
@@ -123,7 +121,7 @@
                   </VBox>
                </children>
             </StackPane>
-            <StackPane prefHeight="150.0" prefWidth="200.0">
+            <StackPane fx:id="invPane" prefHeight="150.0" prefWidth="200.0">
                <children>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
@@ -134,11 +132,7 @@
                         </GridPane>
                      </center>
                      <right>
-                        <TextArea fx:id="heroStat" prefHeight="350.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </TextArea>
+                        <Label fx:id="heroStat" maxHeight="1.7976931348623157E308" prefWidth="100.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
                      </right>
                   </BorderPane>
                </children>

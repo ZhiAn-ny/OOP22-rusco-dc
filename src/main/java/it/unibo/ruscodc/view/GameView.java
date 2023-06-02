@@ -69,4 +69,6 @@ public interface GameView {
     void openInventory();
 
     void closeInventory();
+
+    void printStats(String heroStats);
 }

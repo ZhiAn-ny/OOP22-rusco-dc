@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -20,6 +21,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.Comparator;
@@ -38,16 +40,17 @@ import java.util.stream.IntStream;
  * or to manage the new entities that must be printed.
  */
 public class GameViewController implements Initializable {
-    // private static final int TILES_RENDERING_LEVEL = 1;
-    // private static final int OBJECTS_RENDERING_LEVEL = 2;
-    // private static final int ACTORS_RENDERING_LEVEL = 3;
-    // private List<Entity> toRender;
 
     private boolean isToUpdate = false;
-    private int lastRenderingLevel;
-    private final Map<Integer, List<Entity>> renderedOLD = new HashMap<>();
-    private final Map<Integer, List<FXMLDrawable>> rendered = new HashMap<>();
 
+    private int lastRenderingLevelGame;
+    private final Map<Integer, List<FXMLDrawable>> renderedGame = new HashMap<>();
+
+    private boolean isShowingInv = false;
+
+    private int lastRenderingLevelInv;
+    private final Map<Integer, List<FXMLDrawable>> renderedInv = new HashMap<>();
+    
 
     @FXML
     private GridPane mainGrid;
@@ -56,13 +59,22 @@ public class GameViewController implements Initializable {
     private int cols;
 
     @FXML
+    private StackPane invPane;
+    @FXML
+    private GridPane inventoryGrid;
+    @FXML
+    private Label heroStat;
+
+    @FXML
     private ProgressBar hp;
     @FXML
     private ProgressBar ap;
+
     @FXML
     private Button inventory;
     @FXML
     private Button menu;
+
     @FXML
     private StackPane infoPane;
     @FXML
@@ -71,42 +83,23 @@ public class GameViewController implements Initializable {
     private Label infoTitle;
     @FXML
     private Label infoDescription;
+
     @FXML
     private StackPane mainPane;
 
-    /**
-     * Updates the view with the new entities to print.
-     */
-    public void update() {
+    
 
+    private void updateGame() {
         if (!isToUpdate){
             return;
         }
         this.mainGrid.getChildren().clear();
         final DoubleBinding binding = this.getBindingFunction();
-        //this.mainGrid.getChildren().clear();
         isToUpdate = false;
         
-        //mainPane.clear
-        //rendered.removeAll( (depth, l) -> depth>=lastRenderingLevel);
-        //IntStream.rangeClosed(lastRenderingLevel+1, 10).forEach(i -> renderedOLD.remove(i));
-        IntStream.rangeClosed(lastRenderingLevel+1, 10).forEach(i -> rendered.remove(i));
-        // renderedOLD.entrySet()
-        //     .stream()
-        //     .sorted(Comparator.comparingInt(level -> level.getKey()))
-        //     //.dropWhile(level -> level.getKey() < startRendering)
-        //     .peek(ll -> System.out.println(ll.getKey()))
-        //     //.peek(level -> level.getValue())
-        //     .forEach(level -> {
-        //         level.getValue().forEach(e -> {
-        //             final ImageView image = new ImageView(new Image(e.getPath() + "/Sprite.png"));
-        //             image.fitWidthProperty().bind(binding);
-        //             image.fitHeightProperty().bind(binding);
-        //             final Pair<Integer, Integer> pos = e.getPos();
-        //             this.mainGrid.add(new Pane(image), pos.getX(), pos.getY());
-        //         });
-        //     });
-        rendered.entrySet()
+        IntStream.rangeClosed(lastRenderingLevelGame + 1, 10).forEach(i -> renderedGame.remove(i));
+        
+        renderedGame.entrySet()
             .stream()
             .sorted(Comparator.comparingInt(level -> level.getKey()))
             //.dropWhile(level -> level.getKey() < startRendering)
@@ -121,17 +114,43 @@ public class GameViewController implements Initializable {
                     this.mainGrid.add(new Pane(image), pos.getX(), pos.getY());
                 });
             });
+    }
 
-        //Entity ref = toRender.stream().max(Comparator.comparingInt(e -> e.getID())).get();
+    private void updateInv() {
+        if (!isToUpdate){
+            return;
+        }
+        this.inventoryGrid.getChildren().clear();
+        final DoubleBinding binding = this.getBindingFunction();
+        isToUpdate = false;
+        
+        IntStream.rangeClosed(lastRenderingLevelGame + 1, 10).forEach(i -> renderedInv.remove(i));
+        
+        renderedInv.entrySet()
+            .stream()
+            .sorted(Comparator.comparingInt(level -> level.getKey()))
+            .peek(ll -> System.out.println(ll.getKey()))
+            .forEach(level -> {
+                level.getValue().forEach(e -> {
+                    final ImageView image = e.getRes();
+                    image.fitWidthProperty().bind(binding);
+                    image.fitHeightProperty().bind(binding);
+                    final Pair<Integer, Integer> pos = e.getOnScreenPosition();
+                    this.inventoryGrid.add(new Pane(image), pos.getX(), pos.getY());
+                });
+            });
+    }
 
-        //Stream.iterate(0, i -> i < (ref.getID()+1), i -> i+1).forEach(i -> this.render(i));
+    /**
+     * Updates the view with the new entities to print.
+     */
+    public void update() {
+        if (isShowingInv) {
+            updateInv();
+        } else {
+            updateGame();
+        }
 
-        // this.render(TILES_RENDERING_LEVEL);
-        // this.render(OBJECTS_RENDERING_LEVEL);
-        // this.render(ACTORS_RENDERING_LEVEL);
-        // this.render(4);
-        // this.render(5);
-        // this.render(6);
     }
 
     /**
@@ -150,33 +169,6 @@ public class GameViewController implements Initializable {
     }
 
     /**
-     * Print the specified level.
-     * @param renderingLevel level to render.
-     */
-    private void render(final int renderingLevel) {
-        // final DoubleBinding binding = this.getBindingFunction();
-        // final List<Entity> toRender = this.toRender.stream().filter(e -> e.getID() == renderingLevel).toList();
-
-        // for (int i = 0; i < this.rows; i++) {
-        //     for (int j = 0; j < this.cols; j++) {
-        //         final int x = j;
-        //         final int y = i;
-        //         Optional<Entity> entity =  toRender.stream()
-        //                 .filter(e -> e.getPos().getX() == x && e.getPos().getY() == y)
-        //                 .findFirst();
-        //         if (entity.isEmpty()) {
-        //             continue;
-        //         }
-
-        //         final ImageView image = new ImageView(new Image(entity.get().getPath() + "/Sprite.png"));
-        //         image.fitWidthProperty().bind(binding);
-        //         image.fitHeightProperty().bind(binding);
-        //         this.mainGrid.add(new Pane(image), j, i);
-        //     }
-        // }
-    }
-
-    /**
      * Sets up the actions done in the view's gameloop and starts it.
      */
     private void gameloop() {
@@ -187,19 +179,6 @@ public class GameViewController implements Initializable {
         };
         gameloop.start();
     }
-
-    // /**
-    //  * Return the tile located at the specified position.
-    //  * @param entities list of entities
-    //  * @param x
-    //  * @param y
-    //  * @return
-    //  */
-    // private Optional<Entity> getTileAtPosition(final List<Entity> entities, final int x, final int y) {
-    //     return entities.stream().filter(e -> e.getID() == TILES_RENDERING_LEVEL)
-    //             .filter(t -> t.getPos().getX().equals(x) && t.getPos().getY().equals(y))
-    //             .findFirst();
-    // }
 
     /**
      *
@@ -216,30 +195,11 @@ public class GameViewController implements Initializable {
         this.gameloop();
     }
 
-    // /**
-    //  * Set the entities that need to upload to the view.
-    //  * @param entities list of entities to upload
-    //  */
-    // public void setEntities(final List<Entity> entities) {
-    //     this.toRender = entities;
-    // }
-
      /**
      * Set the entities that need to upload to the view.
      * @param entities list of entities to upload
      */
     public void updateEntities(final List<Entity> entities) {
-        // final Map<Integer, List<Entity>> toUpdateOLD = 
-        //     entities.stream()
-        //     .collect(Collectors.toMap(
-        //         e -> e.getID(), 
-        //         e -> new LinkedList<>(List.of(e)), 
-        //         (l1, l2) -> {
-        //             l1.addAll(l2);
-        //             return new LinkedList<>(l1);
-        //             },
-        //         () -> new HashMap<>()));
-
         final Map<Integer, List<FXMLDrawable>> toUpdate = 
             entities.stream()
             .collect(Collectors.toMap(
@@ -256,19 +216,19 @@ public class GameViewController implements Initializable {
                 () -> new HashMap<>()));
 
         final Optional<Integer> minDepth = toUpdate.keySet().stream().max(Comparator.naturalOrder());
-        if (minDepth.isEmpty()){
+        if (minDepth.isEmpty()) {
             return;
         }
-        
-        // renderedOLD.putAll(toUpdateOLD);
-        rendered.putAll(toUpdate);
-        //entities.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
-        lastRenderingLevel = minDepth.get();
+
+        if (isShowingInv){
+            renderedInv.putAll(toUpdate);
+            lastRenderingLevelInv = minDepth.get();
+        } else {
+            renderedGame.putAll(toUpdate);
+            lastRenderingLevelGame = minDepth.get();
+        }
+
         isToUpdate = true;
-        //update();
-        // this.printedEntity.removeIf(e -> e.getID() >= minDepth);
-        // this.printedEntity.addAll(entities);
-        // this.rendered = entities;
     }
 
     /**
@@ -288,8 +248,6 @@ public class GameViewController implements Initializable {
      * @param desc
      */
     public void printInfoPalyodToScreen(final Image image, final String title, final String desc) {
-        //infoPane.setMaxWidth(mainPane.getWidth() / 2);
-        //infoPane.setMaxHeight(mainPane.getHeight() / 2);
         infoPane.toFront();
         infoImage.setImage(image);
         infoImage.setFitWidth(infoPane.getWidth() * 0.05);
@@ -317,6 +275,20 @@ public class GameViewController implements Initializable {
     @FXML
     public void showInvetoryPane() {
         //errorPane.toBack();
+    }
+
+    public void uploadStatsToScreen(final String toPrint) {
+        this.heroStat.setText(toPrint);
+    }
+
+    public void openInv() {
+        this.isShowingInv = true;
+        this.invPane.toFront();
+    }
+
+    public void closeInv() {
+        this.isShowingInv = false;
+        this.invPane.toBack();
     }
 
 }

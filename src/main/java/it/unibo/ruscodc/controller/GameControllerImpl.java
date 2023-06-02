@@ -36,6 +36,8 @@ public class GameControllerImpl implements GameObserverController {
     private final GameModel model;
     private boolean automaticSave = false;
 
+    private boolean isPrintingInv = false;
+
     /**
      * Create the controller of the game.
      * @param args
@@ -67,7 +69,7 @@ public class GameControllerImpl implements GameObserverController {
                 e.printStackTrace();
             }
         }
-
+        view.closeInventory();
         view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
         updateRuscoInfo();
         manageMonsterTurn();
@@ -143,8 +145,11 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     private void printCommand() {
-        Set<Entity> rangeToPrint = playerSituation.get().getEntities();
-        this.view.resetLevel(new ArrayList<>(rangeToPrint));
+        Set<Entity> infos = playerSituation.get().getEntities();
+        this.view.resetLevel(new ArrayList<>(infos));
+        if (isPrintingInv) {
+            this.view.printStats(this.initiative.get(0).toString());
+        }
     }
 
     private boolean executeCommand(final GameCommand toExec) {
@@ -165,6 +170,7 @@ public class GameControllerImpl implements GameObserverController {
                 if (!this.model.isGameOver()) {
                     flushView();
                 }
+                isPrintingInv = false;
 
             } catch (ChangeFloorException f) {
                 changeFloor();
@@ -175,6 +181,7 @@ public class GameControllerImpl implements GameObserverController {
                 playerSituation = Optional.empty();
 
             } catch (Undo u) {
+                view.closeInventory();
                 playerSituation = Optional.empty();
                 flushView();
 
@@ -210,18 +217,8 @@ public class GameControllerImpl implements GameObserverController {
                     printCommand();
                 }
                 executeCommand(tmpCommand);
-                    // if(!executeCommand(tmpCommand)) {
-                    // }
-                    // //TODO se volevo annullare il comando, annullamelo
-                    // System.out.println(" @@@ " + DOUBLE_EX.contains(input));
-                    // if (DOUBLE_EX.contains(input)) {
-                    //     executeCommand(tmpCommand);
-                    //     flushView();
-                    // }
-                //}
 
             } else {
-                //TODO se input non è presente nelle skill di Rusco esci senza fare niente
                 Optional<GameCommand> result = tmpActor.act(input);
                 if (result.isEmpty()) {
                     return;
@@ -229,12 +226,13 @@ public class GameControllerImpl implements GameObserverController {
                 tmpCommand = result.get();
                 tmpCommand.setRoom(model.getCurrentRoom());
 
-                //TODO settaggio "by" già fatto nel act di Hero
+                if (input.equals(GameControl.INVENTORY)) {
+                    isPrintingInv = true;
+                    view.openInventory();
+                }
 
                 if (tmpCommand.isReady()) { 
-                    //TODO è un comando veloce
                     executeCommand(tmpCommand);
-                    //passTurn();
                 } else {
                     playerSituation = Optional.of(tmpCommand);
                     printCommand();
