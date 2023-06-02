@@ -75,8 +75,8 @@ class FloorTileImplTest {
     void testIsAcccessibleWithNotTransitableObject() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final FloorTileImpl floorTile = new FloorTileImpl(pos, true);
-
-        floorTile.put(new Chest(Set.of(), pos));
+        final Interactable obstacle = new Chest(Set.of(), pos);
+        floorTile.put(obstacle);
         assertFalse(floorTile.isAccessible());
     }
 

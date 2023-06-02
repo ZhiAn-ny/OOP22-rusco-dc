@@ -38,6 +38,11 @@ public class TileFactoryImpl implements TileFactory {
                 : this.createFloorTrap(x, y);
     }
 
+    @Override
+    public Tile createPuddle(int x, int y) {
+        return new FloorPuddleTileImpl(new Pair<>(x, y));
+    }
+
     /** {@inheritDoc} */
     @Override
     public Tile createBaseFloorTile(final int x, final int y) {
@@ -60,7 +65,6 @@ public class TileFactoryImpl implements TileFactory {
         }
         return new WallTileImpl(new Pair<>(x, y), this.getWallType(x, y, size));
     }
-
 
     /**
      * Calculates the type of the room on which the wall will be placed.

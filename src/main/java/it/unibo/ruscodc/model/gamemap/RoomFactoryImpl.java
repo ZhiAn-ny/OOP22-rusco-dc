@@ -12,7 +12,11 @@ import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -33,9 +37,10 @@ public class RoomFactoryImpl implements RoomFactory {
     @Override
     public Room randomRoomNoTraps() {
         final Room base = this.getRandomShapeRoom();
+        this.addPuddle(base);
         this.addDoors(base);
 
-        return this.getRandomShapeRoom();
+        return base;
     }
 
     /** {@inheritDoc} */
@@ -104,6 +109,14 @@ public class RoomFactoryImpl implements RoomFactory {
             if (room.addDoor(dir)) {
                 i = i - 1;
             }
+        }
+    }
+
+    private void addPuddle(final Room base) {
+        final int puddleTileProbability = 10;
+        if (this.rnd.nextInt() % puddleTileProbability == 0) {
+            final Pair<Integer, Integer> pos = base.getTilesAsEntity().stream().map(e -> (Tile) e).filter(t -> t instanceof FloorTileImpl).findAny().get().getPosition();
+            base.replaceTile(pos, new FloorPuddleTileImpl(pos));
         }
     }
 
