@@ -15,6 +15,8 @@ import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.utils.exception.Undo;
 import it.unibo.ruscodc.view.FXMLMainView;
 import it.unibo.ruscodc.view.GameView;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -204,7 +206,11 @@ public class GameControllerImpl implements GameObserverController {
     public void computeInput(final GameControl input) {
         updateRuscoInfo();
         if (model.isGameOver()) {
-            view.printGameOver();
+            try {
+                view.printGameOver();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             return;
         }
         initNewTurn();

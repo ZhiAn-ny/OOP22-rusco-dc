@@ -67,6 +67,6 @@ public interface GameView {
      */
     void resetLevel(List<Entity> entities);
 
-    void printGameOver();
+    void printGameOver() throws IOException;
 
 }

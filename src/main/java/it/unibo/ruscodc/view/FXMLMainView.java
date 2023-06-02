@@ -34,6 +34,7 @@ public class FXMLMainView extends Application implements GameView {
     private GameObserverController controller;
     private GameViewController gameView;
     private MainMenuController menuController;
+    private GameOverController gameOverController;
     private final List<Entity> printedEntity = new ArrayList<>();
     private boolean isReady;
     private final Optional<Pair<Integer, Integer>> dims = Optional.empty();
@@ -146,10 +147,7 @@ public class FXMLMainView extends Application implements GameView {
         gameView.updateEntities(entities);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void start(final Stage stage) throws Exception {
-        this.stage = stage;
+    private void showMainMenu() throws IOException {
         final Scene scene = this.loadMainMenu();
         this.handleWindowSize(stage, scene);
         this.handleEvents(stage);
@@ -166,6 +164,16 @@ public class FXMLMainView extends Application implements GameView {
         stage.show();
     }
 
+    /** {@inheritDoc} */
+    @Override
+    public void start(final Stage stage) throws Exception {
+        this.stage = stage;
+        showMainMenu();
+    }
+
+    public void returnToMainMenu() throws IOException {
+        showMainMenu();
+    }
 
     private void uploadView() {
 
@@ -195,6 +203,15 @@ public class FXMLMainView extends Application implements GameView {
         this.gameView.update();
         this.gameView.clearInfoPalyodToScreen();
 
+        return scene;
+    }
+
+    private Scene loadGameOver() throws IOException {
+        final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("game-over.fxml"));
+        final Scene scene = new Scene(fxmlLoader.load());
+        this.gameOverController = (GameOverController) fxmlLoader.getController();
+        this.gameOverController.init(this);
+        gameOverController.backToMenu();
         return scene;
     }
 
@@ -258,8 +275,11 @@ public class FXMLMainView extends Application implements GameView {
     }
 
     @Override
-    public void printGameOver() {
+    public void printGameOver() throws IOException {
         System.out.println("Game Over");
+        final Scene scene = this.loadGameOver();
+        stage.setScene(scene);
+
     }
 
 }
