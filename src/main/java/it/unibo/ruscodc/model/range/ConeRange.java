@@ -35,4 +35,14 @@ public class ConeRange extends DecoratedRange {
             final Pair<Integer, Integer> to) {
         return Pairs.computePerpendicularCone(to, from, radius, false);
     }
+
+    @Override
+    protected boolean centerToFrom () {
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "[Cone range (rad=" + radius + ")]";
+    }
 }

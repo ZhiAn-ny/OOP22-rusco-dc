@@ -69,4 +69,8 @@ public class SingleAbs implements Range {
         return Set.of(begin);
     }
 
+    @Override
+    public String toString() {
+        return "[Single range]";
+    }
 }

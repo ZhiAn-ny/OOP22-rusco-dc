@@ -80,13 +80,6 @@ public class GameControllerImpl implements GameObserverController {
      */
     @Override
     public void start() {
-       /* while (!this.view.isReady()) {
-            try {
-                Thread.sleep(2);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
         showMainMenu();
     }
 
@@ -135,16 +128,20 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     private void changeFloor() {
-        model.changeFloor();
-        if (automaticSave) {
-            save();
+        this.model.changeFloor();
+        this.initiative.clear();
+        this.initNewTurn();
+
+        if (this.automaticSave) {
+            this.save();
         }
-        refresh();
+        this.refresh();
     }
 
     private void changeRoom(final ChangeRoomException r) {
-        model.changeRoom(r.getDoorPos());
-        refresh();
+        this.model.changeRoom(r.getDoorPos());
+        this.initiative.clear();
+        this.refresh();
     }
 
     private void flushView() {
@@ -161,7 +158,6 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     private boolean executeCommand(final GameCommand toExec) {
-        updateRuscoInfo();
         final boolean ready = toExec.isReady();
         System.out.println(" ### " + ready);
         if (ready) {
@@ -176,7 +172,9 @@ public class GameControllerImpl implements GameObserverController {
 
                 initiative.remove(0);
                 playerSituation = Optional.empty();
-                flushView();
+                if (!this.model.isGameOver()) {
+                    flushView();
+                }
 
             } catch (ChangeFloorException f) {
                 changeFloor();
@@ -194,6 +192,7 @@ public class GameControllerImpl implements GameObserverController {
                 // TODO - gestire eccezioni model
             }
         }
+        updateRuscoInfo();
         return ready;
     }
 
@@ -203,7 +202,12 @@ public class GameControllerImpl implements GameObserverController {
      */
     @Override
     public void computeInput(final GameControl input) {
-
+        updateRuscoInfo();
+        if (model.isGameOver()) {
+            view.printGameOver();
+            return;
+        }
+        initNewTurn();
         if (initiative.get(0) instanceof Hero) {
             Hero tmpActor = (Hero) initiative.get(0);
             GameCommand tmpCommand;
@@ -246,8 +250,8 @@ public class GameControllerImpl implements GameObserverController {
                     printCommand();
                 }
             }
-            manageMonsterTurn();
         }
+        manageMonsterTurn();
     }
 
     /**
@@ -282,9 +286,17 @@ public class GameControllerImpl implements GameObserverController {
         initNewTurn();
         while (initiative.get(0) instanceof Monster) {
             tmpMonster = (Monster) initiative.get(0);
-            executeCommand(tmpMonster.behave(model.getCurrentRoom(), this.getHeros()));
-            initiative.remove(0);
-            flushView();
+            if (tmpMonster.isAlive()) {
+                executeCommand(tmpMonster.behave(model.getCurrentRoom(), this.getHeros()));
+                System.out.println("A " + initiative.size());
+                //initiative.remove(0);
+                //System.out.println("B " + initiative.size());
+                flushView();
+                System.out.println("C " + initiative.size());
+            } else {
+                initiative.remove(0);
+                this.model.getCurrentRoom().getMonsters().remove(tmpMonster);
+            }
             initNewTurn();
         }
     }

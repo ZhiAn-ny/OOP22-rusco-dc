@@ -11,20 +11,29 @@ import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 
-public class BehaviourImpl implements Behaviour{
+/**
+ * Implementation of the interface Behaviour which make the monster choose which action it will do.
+ */
+public class BehaviourImpl implements Behaviour {
 
     private final MovementBehaviour movementBehaviour;
     private final CombactBehaviour combactBehaviour;
 
 
+    /**
+     * @param movementBehaviour the Behavior dedicated to the Movement
+     * @param combactBehaviour the Behavior dedicated to the Combact
+     */
     public BehaviourImpl(final MovementBehaviour movementBehaviour, final CombactBehaviour combactBehaviour) {
         this.movementBehaviour = movementBehaviour;
         this.combactBehaviour = combactBehaviour;
     }
 
-
+    /**
+     * 
+     */
     @Override
-    public GameCommand makeDecision(Monster monster, Room room, List<Actor> actors) {
+    public GameCommand makeDecision(final Monster monster, final Room room, final List<Actor> actors) {
 
         Optional<GameCommand> action = this.combactBehaviour.choseAttack(monster, room, actors);
         if (action.isPresent()) {
@@ -32,7 +41,7 @@ public class BehaviourImpl implements Behaviour{
         }
 
         action = this.movementBehaviour.chooseMove(monster, actors, room);
-        
+
         if (action.isPresent()) {
             return action.get();
         }
@@ -40,21 +49,32 @@ public class BehaviourImpl implements Behaviour{
         return monster.getSkills().getAction(GameControl.DONOTHING).get();
     }
 
-    //TODO: Modifica
-    private GameCommand optimizeComplexAction(GameCommand toOptimize, Monster monster, Room room, List<Actor> actors) {
-        
-        toOptimize.setActor(monster);
-        toOptimize.setRoom(room);
-        
+    /**
+     * @param toOptimize the GameCommand that needs to be optimized
+     * @param monster the Monster that made the attack
+     * @param room the Room in which the Monster is
+     * @param actors the possible targets for this action
+     * @return a GameCommand optimized with all 
+     */
+    private GameCommand optimizeComplexAction(
+        final GameCommand toOptimize,
+        final Monster monster,
+        final Room room,
+        final List<Actor> actors
+    ) {
         Pair<Integer, Integer> target = actors
             .stream()
-            .sorted((a, b) -> (int)(Pairs.computePPLine(monster.getPos(), a.getPos()).count() - Pairs.computePPLine(monster.getPos(), b.getPos()).count()))
+            .sorted((a, b) ->
+                (int) (
+                    Pairs.computePPLine(monster.getPos(), a.getPos()).count()
+                    - Pairs.computePPLine(monster.getPos(), b.getPos()).count()
+                )
+            )
             .findFirst()
             .get()
             .getPos();
-        
-        toOptimize.setCursorPos(target);;
 
+        toOptimize.setCursorPos(target);
         return toOptimize;
     }
 }

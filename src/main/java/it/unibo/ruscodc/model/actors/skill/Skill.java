@@ -16,6 +16,9 @@ public interface Skill {
      */
     Optional<GameCommand> getAction(GameControl key);
 
+    /**
+     * @param key the keybind of the Gamecommand you want to set 
+     * @param action the new GameCommand you want to put
+     */
     void setAction(GameControl key, GameCommand action);
-
 }

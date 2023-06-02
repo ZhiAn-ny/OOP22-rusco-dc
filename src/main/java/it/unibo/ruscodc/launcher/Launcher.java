@@ -9,6 +9,7 @@ import it.unibo.ruscodc.controller.GameObserverController;
 public final class Launcher {
     private Launcher() {
     }
+    
     /**
      *
      * @param args

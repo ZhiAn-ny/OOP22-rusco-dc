@@ -27,9 +27,10 @@ import java.io.IOException;
  * which are the new entities that will then be printed on the screen.
  */
 public class FXMLMainView extends Application implements GameView {
+    final private String iconPath = "file:src/main/resources/it/unibo/ruscodc/view/racoon.png";
+    final private String title = "Rusco DC";
     private static final double ASPECT_RATIO = 3 / 4.;
     private static final double MIN_WIDTH_SCALE = 0.4;
-
     private GameObserverController controller;
     private GameViewController gameView;
     private MainMenuController menuController;
@@ -87,8 +88,8 @@ public class FXMLMainView extends Application implements GameView {
     @Override
     public void printInfo(final InfoPayload toPrint) {
         isPrintingInfo = true;
-        gameView.dummy(
-                new Image("file:src/main/resources/it/unibo/ruscodc/output_res/error/Sprite.png"),
+        gameView.printInfoPalyodToScreen(
+                new Image(toPrint.getPath() + "/Sprite.png"),
                 toPrint.title(),
                 toPrint.text());
     }
@@ -96,17 +97,23 @@ public class FXMLMainView extends Application implements GameView {
     /** {@inheritDoc} */
     @Override
     public void resetView(final List<Entity> toDraw, final Pair<Integer, Integer> roomSize) {
+
         this.printedEntity.clear();
         this.printedEntity.addAll(toDraw);
-        //int effecctiveX = roomSize.getX()+2;
-        //int effectiveY = roomSize.getY()+2;
-        //Pair<Integer, Integer> effectiveDim = new Pair<>(roomSize.getX()+2, roomSize.getY()+2);
-        //dims.map(p -> new Pair<>(roomSize.getX()+2, roomSize.getY()+2));
+        this.gameView.updateEntities(toDraw);
         this.gameView.setRoomSize(roomSize);
-        //javafx.util.Pair<Integer, Integer> effectiveDim2 = new javafx.util.Pair<>(roomSize.getX()+2, roomSize.getY()+2);
 
 
-        //Map<Character, Integer> dim = new HashMap<>();
+        // this.printedEntity.clear();
+        // this.printedEntity.addAll(toDraw);
+        // int effecctiveX = roomSize.getX()+2;
+        // int effectiveY = roomSize.getY()+2;
+        // Pair<Integer, Integer> effectiveDim = new Pair<>(roomSize.getX()+2, roomSize.getY()+2);
+        // dims.map(p -> new Pair<>(roomSize.getX()+2, roomSize.getY()+2));
+        // this.gameView.setRoomSize(roomSize);
+        // javafx.util.Pair<Integer, Integer> effectiveDim2 = new javafx.util.Pair<>(roomSize.getX()+2, roomSize.getY()+2);
+
+        // Map<Character, Integer> dim = new HashMap<>();
 
     }
 
@@ -133,9 +140,10 @@ public class FXMLMainView extends Application implements GameView {
     /** {@inheritDoc} */
     @Override
     public void resetLevel(final List<Entity> entities) {
-        int minDepth = entities.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
-        this.printedEntity.removeIf(e -> e.getID() >= minDepth);
-        this.printedEntity.addAll(entities);
+        //int minDepth = entities.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
+        //this.printedEntity.removeIf(e -> e.getID() >= minDepth);
+        //this.printedEntity.addAll(entities);
+        gameView.updateEntities(entities);
     }
 
     /** {@inheritDoc} */
@@ -145,16 +153,17 @@ public class FXMLMainView extends Application implements GameView {
         final Scene scene = this.loadMainMenu();
         this.handleWindowSize(stage, scene);
         this.handleEvents(stage);
-//        this.handleUserInputs(scene);
+        // this.handleUserInputs(scene);
+
 
         //stage.setFullScreen(true);
-        stage.setTitle("Rusco DC");
+        stage.setTitle(this.title);
+        stage.getIcons().add(new Image(this.iconPath));
         stage.setScene(scene);
         stage.setUserData(this.controller);
 
         this.isReady = true;
         stage.show();
-
     }
 
 
@@ -178,12 +187,13 @@ public class FXMLMainView extends Application implements GameView {
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("game-view.fxml"));
         fxmlLoader.setController(new GameViewController());
         final Scene scene = new Scene(fxmlLoader.load());
-        this.handleWindowSize(stage, scene);
-        this.handleEvents(stage);
+        //this.handleWindowSize(stage, scene);
+        //this.handleEvents(stage);
         this.gameView = (GameViewController) fxmlLoader.getController();
         this.handleUserInputs(scene);
-        this.gameView.setEntities(this.printedEntity);
+        this.gameView.updateEntities(this.printedEntity);
         this.gameView.update();
+        this.gameView.clearInfoPalyodToScreen();
 
         return scene;
     }
@@ -210,7 +220,7 @@ public class FXMLMainView extends Application implements GameView {
     private void handleUserInputs(final Scene scene) {
         scene.setOnKeyPressed((KeyEvent key) -> {
             if (isPrintingInfo) {
-                gameView.dedummy();
+                gameView.clearInfoPalyodToScreen();
                 isPrintingInfo = false;
             } else {
                 System.out.println(key.getText() + " " + this.getInput(key));
@@ -244,8 +254,12 @@ public class FXMLMainView extends Application implements GameView {
     /** {@inheritDoc} */
     @Override
     public void uploadPortrait(final Portrait infos) {
-        // TODO Auto-generated method stub
+        gameView.uploadPortraitToScreen(infos);
+    }
 
+    @Override
+    public void printGameOver() {
+        System.out.println("Game Over");
     }
 
 }

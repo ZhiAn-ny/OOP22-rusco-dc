@@ -11,7 +11,7 @@ import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.Pair;
 
-public class MonsterImpl extends ActorAbs implements Monster{
+public class MonsterImpl extends ActorAbs implements Monster {
 
     private final Behaviour behaviour;
     private final String path;
@@ -32,4 +32,8 @@ public class MonsterImpl extends ActorAbs implements Monster{
         return this.path;
     }
 
+    @Override
+    public String toString() {
+        return this.stats.toString();
+    }
 }

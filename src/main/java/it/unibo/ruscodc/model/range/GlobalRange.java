@@ -67,4 +67,9 @@ public class GlobalRange extends DecoratedRange {
         return thisRange.collect(Collectors.toSet());
     }
 
+    @Override
+    public String toString() {
+        return "[Global Range]";
+    }
+
 }

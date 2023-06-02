@@ -11,23 +11,9 @@ public interface Drawable<X> {
     Pair<Integer, Integer> getOnScreenPosition();
 
     /**
-     * Sets the scale of the object on the game window.
-     * The scale is set to 1 by default.
-     *
-     * @param size the scale to apply to the object.
+     * 
+     * @return the wrapped resource
      */
-    void setSize(double size);
+    X getRes();
 
-    /**
-     * Draws the object into the window created by the view.
-     *
-     * @param context the graphic context in which the object will be rendered.
-     */
-    void render(X context);
-
-    /**
-     * Updates the screen unit used to scale the sprite of the <code>Drawable</code> object.
-     * @param screenUnit the new unit
-     */
-    void updateScreenUnit(double screenUnit);
 }

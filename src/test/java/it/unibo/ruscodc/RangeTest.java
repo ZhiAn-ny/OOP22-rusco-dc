@@ -66,7 +66,7 @@ final class RangeTest {
 
         final List<Pair<Integer, Integer>> positions = List.of(pos1, pos2, pos3);
 
-        positions.forEach(p -> enemys.add(mg.makeMeleeRat(counter.next() + " " + p.toString(), p)));
+        positions.forEach(p -> enemys.add(mg.makeMeleeRat(p)));
 
         enemyPos = () -> enemys.stream().map(a -> a.getPos());
 
@@ -79,7 +79,8 @@ final class RangeTest {
     void testCircle() { 
         final Range myRange = new CircleRange(BASIC_R_SIZE, basicR);
         final long counted = enemyPos.get()
-            .filter(ep -> myRange.isInRange(heroPos, cursorPos, ep, r)).count();
+            .filter(ep -> 
+                myRange.isInRange(heroPos, cursorPos, ep, r)).count();
         assertEquals(3, counted, ERR_M);
     }
 
@@ -88,7 +89,7 @@ final class RangeTest {
         final Range myRange = new CircleRange(BASIC_R_SIZE, basicR);
         myRange.getRange(heroPos, cursorPos, r).forEach(p -> System.out.println(p.getPos()));
         final Pair<Integer, Integer> farPos = new Pair<>(0, 0);
-        enemys.add(mg.makeMeleeRat(counter.next() + " " + farPos.toString(), farPos));
+        enemys.add(mg.makeMeleeRat(farPos));
         final long counted = enemyPos.get()
             .filter(ep -> 
             myRange.isInRange(heroPos, cursorPos, ep, r))
@@ -108,7 +109,7 @@ final class RangeTest {
     void testglobalRange2() { 
         final Range gR = new GlobalRange(basicR);
         final Pair<Integer, Integer> farPos = new Pair<>(0, 0);
-        enemys.add(mg.makeMeleeRat(counter.next() + " " + farPos.toString(), farPos));
+        enemys.add(mg.makeMeleeRat(farPos));
         final long counted = enemyPos.get()
             .filter(ep -> gR.isInRange(heroPos, cursorPos, ep, r)).count();
         assertEquals(4, counted, ERR_M);

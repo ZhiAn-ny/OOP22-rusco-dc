@@ -6,6 +6,7 @@ import it.unibo.ruscodc.model.effect.SingleTargetEffect;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Pair;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 /**
@@ -40,7 +41,7 @@ public abstract class AbstractTile implements Tile, Entity {
     @Override
     public boolean isAccessible() {
         if (this.get().isPresent()) {
-            return this.isAccessible && this.content.isTransitable();
+            return this.isAccessible && this.get().get().isTransitable();
         }
         return this.isAccessible;
     }

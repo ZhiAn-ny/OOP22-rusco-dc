@@ -2,6 +2,8 @@ package it.unibo.ruscodc.model.gamemap;
 
 import it.unibo.ruscodc.utils.Direction;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,7 +12,10 @@ import java.util.Random;
 /**
  * The <code>FloorImpl</code> class represents the basic implementation of the <code>Floor</code> interface.
  */
-public class FloorImpl implements Floor {
+public class FloorImpl implements Floor, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private Room currentRoom;
     private int unusedDoors;
     private boolean readyForNextFloor;

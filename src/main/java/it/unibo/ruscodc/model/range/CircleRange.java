@@ -31,4 +31,9 @@ public class CircleRange extends DecoratedRange {
             final Pair<Integer, Integer> to) {
         return Pairs.computeCircle(from, radius, false);
     }
+
+    @Override
+    public String toString() {
+        return "[Circle range" + this.radius + "]";
+    }
 }

@@ -35,15 +35,21 @@ public abstract class DecoratedRange implements Range {
 
     private void commute(final Pair<Integer, Integer> origin, final Pair<Integer, Integer> direction, final Room where) {
         effectiveShape.clear();
-        effectiveShape.addAll(this.uploadShapeDelta(origin, direction).map(s -> Pairs.applyLineDelta(s, origin))
+        effectiveShape.addAll(this.uploadShapeDelta(origin, direction)
+            .parallel()
+            .map(s -> Pairs.applyLineDelta(s, this.centerToFrom() ? origin : direction))
             .flatMap(s -> s.takeWhile(this.filterToApply(where)))
             .collect(Collectors.toSet()));
     }
 
     private void checkIfCommute(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Room where) {
         //if (!to.equals(lastTo) || !by.equals(lastBy)) {
-        System.out.println("ahahah");
-        this.commute(by, to, where);
+        //System.out.println("ahahah");
+        if (!by.equals(lastBy)){
+            this.commute(by, to, where);
+        }
+        lastBy = by;
+        
         //lastBy = by;
         //lastTo = to;
     }
@@ -60,9 +66,11 @@ public abstract class DecoratedRange implements Range {
         this.checkIfCommute(by, to, where);
         boolean okForLast = basicRange.isInRange(by, to, toCheck, where);
         if (basicRange.getRange(by, toCheck, where).size() == 1){
-            okForLast = !okForLast;
+            return effectiveShape.contains(toCheck);//okForLast = !okForLast;
         }
         return effectiveShape.contains(toCheck) || okForLast;
+        //boolean tmp = effectiveShape.contains(toCheck) && okForLast;
+        //return tmp;
     }
 
     /**
@@ -133,5 +141,9 @@ public abstract class DecoratedRange implements Range {
     
     protected Predicate<Pair<Integer, Integer>> filterToApply (final Room where) {
         return p -> where.isInRoom(p) && where.isAccessible(p);
+    }
+
+    protected boolean centerToFrom () {
+        return true;
     }
 }

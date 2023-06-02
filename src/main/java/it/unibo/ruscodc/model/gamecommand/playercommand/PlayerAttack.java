@@ -181,18 +181,20 @@ public class PlayerAttack extends NoIACommand {
     public Optional<InfoPayload> execute() throws ModelException {
         isReady = false;
         isFirstTime = true;
+        final Pair<Integer, Integer> tmp = cursorPos;
         cursorPos = null;
         if (this.getRoom() == null || this.getActor() == null) {
             throw new IllegalStateException("");
         }
 
         if (undo) {
+            undo = false;
             throw new Undo("");
         }
 
         final Actor from = this.getActor();
 
-        if (!range.isInRange(from.getPos(), cursorPos, cursorPos, this.getRoom())) {
+        if (!range.isInRange(from.getPos(), tmp, tmp, this.getRoom())) {
             return Optional.of(new InfoPayloadImpl(getErrTitle(), R_ERR));
             //throw new NotInRange(R_ERR);
         }
@@ -203,10 +205,11 @@ public class PlayerAttack extends NoIACommand {
         from.modifyActualStat(StatName.AP, -actionToPerform.getAPcost());
 
         final Set<Actor> targets = this.getRoom().getMonsters().stream()
-            .filter(m -> splash.isInRange(from.getPos(), cursorPos, m.getPos(), this.getRoom()))
+            .filter(m -> splash.isInRange(tmp, from.getPos(), m.getPos(), this.getRoom()))
             .collect(Collectors.toSet());
-
+        targets.forEach(m -> System.out.println("LM: P " + m.getStatActual(StatName.HP)));
         targets.forEach(m -> actionToPerform.applyEffect(from, m));
+        targets.forEach(m -> System.out.println("LM: D " + m.getStatActual(StatName.HP)));
         final Random dice = new Random();
         final List<Actor> deadMonsters = targets.stream().filter(m -> !(m.isAlive())).collect(Collectors.toList());
         final List<DropManager> drops = deadMonsters.stream().map(a -> createMonsterDrop(a)).toList();
@@ -215,7 +218,7 @@ public class PlayerAttack extends NoIACommand {
             .forEach(i -> this.getRoom().put(
                 deadMonsters.get(i).getPos(), 
                 new Drop(new HashSet<>(drops.get(i).generateRandomDrop()), deadMonsters.get(i).getPos())));
-
+        cursorPos = null;
         return Optional.empty();
     }
 

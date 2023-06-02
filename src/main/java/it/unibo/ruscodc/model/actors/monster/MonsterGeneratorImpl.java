@@ -9,6 +9,7 @@ import it.unibo.ruscodc.model.actors.stat.Stat;
 import it.unibo.ruscodc.model.actors.stat.StatFactory;
 import it.unibo.ruscodc.model.actors.stat.StatFactoryImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.DoNothing;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 
@@ -19,105 +20,113 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
     private final MonsterActionFactory MAFactory = new MonsterActionFactoryImpl();
 
     @Override
-    public Monster makeMeleeRat(String name, Pair<Integer, Integer> pos) {
+    public Monster makeMeleeRat(Pair<Integer, Integer> pos) {
         
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicMeleeAttack());
         skills.setAction(GameControl.ATTACK1, this.MAFactory.heavyMeleeAttack());
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
 
         Stat stats = this.statFactory.ratStat();
 
         Behaviour behaviour = this.behaviourFactory.makeMeleeAggressive();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("MeleeRat", pos, skills, stats, behaviour);
     }
 
     @Override
-    public Monster makeRangedRat(String name, Pair<Integer, Integer> pos) {
+    public Monster makeRangedRat(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicRangedAttack());
-
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
+        
         Stat stats = this.statFactory.ratStat();
 
         Behaviour behaviour = this.behaviourFactory.makeRangedBrainless();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("RangedRat", pos, skills, stats, behaviour);
     }
 
     @Override
-    public Monster makeMageRat(String name, Pair<Integer, Integer> pos) {
+    public Monster makeMageRat(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.ratMagic());
         skills.setAction(GameControl.ATTACK1, this.MAFactory.badSmell());
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
 
         Stat stats = this.statFactory.ratStat();
         stats.setStat(StatName.INT, new Pair<Integer,Integer>(5, 5));
 
         Behaviour behaviour = this.behaviourFactory.makeRangedShy();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("MagedRat", pos, skills, stats, behaviour);
     }
 
     @Override
-    public Monster makeRogueOpossum(String name, Pair<Integer, Integer> pos) {
+    public Monster makeRogueOpossum(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicMeleeAttack());
         skills.setAction(GameControl.ATTACK1, this.MAFactory.heavyMeleeAttack());
         skills.setAction(GameControl.ATTACK2, this.MAFactory.backstab());
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
 
         Stat stats = this.statFactory.opossumStat();
 
         Behaviour behaviour = this.behaviourFactory.makeMeleeAggressive();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("RogueOpossum", pos, skills, stats, behaviour);
     }
 
     @Override
-    public Monster makeRangedOpossum(String name, Pair<Integer, Integer> pos) {
+    public Monster makeRangedOpossum(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicRangedAttack());
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
 
         Stat stats = this.statFactory.opossumStat();
 
         Behaviour behaviour = this.behaviourFactory.makeRangedShy();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("RangedOpossum", pos, skills, stats, behaviour);
     }
 
     @Override
-    public Monster makeMeleeSeagull(String name, Pair<Integer, Integer> pos) {
+    public Monster makeMeleeSeagull(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicMeleeAttack());
         skills.setAction(GameControl.ATTACK1, this.MAFactory.backstab());
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
 
         Stat stats = this.statFactory.seagullStat();
 
         Behaviour behaviour = this.behaviourFactory.makeMeleeAggressive();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("MeleeSeagull", pos, skills, stats, behaviour);
     }
 
     @Override
-    public Monster makeRangedSeagull(String name, Pair<Integer, Integer> pos) {
+    public Monster makeRangedSeagull(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.basicRangedAttack());
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
 
         Stat stats = this.statFactory.seagullStat();
 
         Behaviour behaviour = this.behaviourFactory.makeRangedShy();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("RangedSeagull", pos, skills, stats, behaviour);
     }
 
     @Override
-    public Monster makeBombCockroach(String name, Pair<Integer, Integer> pos) {
+    public Monster makeBombCockroach(Pair<Integer, Integer> pos) {
         Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.MAFactory.disgustingDemise());
-
+        skills.setAction(GameControl.DONOTHING, new DoNothing());
+        
         Stat stats = this.statFactory.cockroachStat();
 
         Behaviour behaviour = this.behaviourFactory.makeMeleeBrainless();
 
-        return new MonsterImpl(name, pos, skills, stats, behaviour);
+        return new MonsterImpl("BombCockroach", pos, skills, stats, behaviour);
     }
 }
