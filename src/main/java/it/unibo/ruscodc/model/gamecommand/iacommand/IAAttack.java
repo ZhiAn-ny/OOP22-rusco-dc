@@ -17,7 +17,8 @@ public class IAAttack extends NoPlayerCommand {
     private final Range range;
     private final Range splash;
     private final Effect actionToPerform;
-    private Actor target;
+    private Pair<Integer, Integer> cursor;
+    private List<Actor> targes;
 
     public IAAttack(Range r, Range s, Effect eff) {
         this.range = r;
@@ -44,17 +45,33 @@ public class IAAttack extends NoPlayerCommand {
         return actionToPerform.getAPcost();
     }
 
+    /**
+     * 
+     */
+    @Override
+    public void setCursorPos(Pair<Integer, Integer> toFocus) {
+        this.cursor = toFocus;
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void setTarget(List<Actor> targettableActors) {
+        this.targes = targettableActors;
+    }
+
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
         final Actor from = this.getActor();
-        final Set<Actor> targets = this.getRoom().getMonsters().stream()
-            .filter(a -> splash.isInRange(target.getPos(), from.getPos(), a.getPos(), this.getRoom()))
+        final Set<Actor> targets = this.targes.stream()
+            .filter(a -> splash.isInRange(cursor, from.getPos(), a.getPos(), this.getRoom()))
             .collect(Collectors.toSet());
         System.out.println("##########################");
         targets.forEach(t -> System.out.println(t.getName() + " " + t.getPos()));
         System.out.println("##########################");
         targets.remove(from);
-        System.out.println(target);
+        System.out.println(targets);
         targets.forEach(a -> actionToPerform.applyEffect(from, a));
         //targets.forEach(m -> System.out.println("LM: D " + m.getStatActual(StatName.HP)));
         return Optional.empty();
@@ -86,18 +103,4 @@ public class IAAttack extends NoPlayerCommand {
             return false;
         return true;
     }
-
-    @Override
-    public void setCursorPos(Pair<Integer, Integer> toFocus) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setCursorPos'");
-    }
-
-    @Override
-    public void setTarget(List<Actor> targettableActors) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setTarget'");
-    }
-
-    
 }
