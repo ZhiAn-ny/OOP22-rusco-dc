@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 
 class RoomFactoryImplTest {
+    private static final String FLOOR_WAS = "Floor was: ";
     private final RoomFactory roomFactory = new RoomFactoryImpl();
 
     /**
@@ -167,8 +168,8 @@ class RoomFactoryImplTest {
                 maxNumItems = maxNumItems <= 0 ? 2 : maxNumItems + 1;
 
                 System.out.println(maxNumItems);
-                assertTrue(maxNumItems > 0, "Floor was: " + floor);
-                assertTrue(maxNumItems < room.getArea(), "Floor was: " + floor);
+                assertTrue(maxNumItems > 0, FLOOR_WAS + floor);
+                assertTrue(maxNumItems < room.getArea(), FLOOR_WAS + floor);
             }
         }
     }
@@ -193,8 +194,8 @@ class RoomFactoryImplTest {
                 maxMonstNum = maxMonstNum / minRoomSize;
                 maxMonstNum = maxMonstNum == 0 ? 2 : maxMonstNum + 1;
 
-                assertTrue(maxMonstNum > 0, "Floor was: " + floor);
-                assertTrue(maxMonstNum < room.getArea(), "Floor was: " + floor);
+                assertTrue(maxMonstNum > 0, FLOOR_WAS + floor);
+                assertTrue(maxMonstNum < room.getArea(), FLOOR_WAS + floor);
             }
         }
     }
