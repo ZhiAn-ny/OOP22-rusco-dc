@@ -22,8 +22,10 @@ import java.util.stream.Collectors;
 public class RoomFactoryImpl implements RoomFactory {
     private final Random rnd = new Random();
     private static final int MIN_ROOM_SIZE = 3;
-    private static final int MAX_ROOM_SIZE = 18;
+    private static final int MAX_ROOM_SIZE = 15;
     private static final int MAX_DOORS_NUM = 4;
+    private static final int FIRST_LEVEL_RANGED = 30;
+    private static final int FIRST_LEVEL_MAGE = 50;
     private final MonsterGenerator monsterGen = new MonsterGeneratorImpl();
     private final DropFactory dropFactory = new DropFactoryImpl();
 
@@ -41,13 +43,12 @@ public class RoomFactoryImpl implements RoomFactory {
     public Room randomRoomWithTraps() {
         final Room base = this.randomRoomNoTraps();
         final TileFactory tf = new TileFactoryImpl();
-
         base.getTilesAsEntity().stream()
-                .filter(tile -> tile instanceof FloorTileImpl)
-                .forEach(tile -> {
-                    final Tile newTile = tf.createRandomFloorTile(tile.getPos().getX(), tile.getPos().getY());
-                    base.replaceTile(tile.getPos(), newTile);
-                });
+            .filter(tile -> tile instanceof FloorTileImpl)
+            .forEach(tile -> {
+                final Tile newTile = tf.createRandomFloorTile(tile.getPos().getX(), tile.getPos().getY());
+                base.replaceTile(tile.getPos(), newTile);
+            });
 
         return base;
     }
@@ -110,7 +111,6 @@ public class RoomFactoryImpl implements RoomFactory {
     @Override
     public void addItems(final Room base, final int floor) {
         int chestNum = this.rnd.nextInt(this.maxItemNum(base, floor));
-        chestNum = chestNum - 1;
         final DropManager dm = this.dropFactory.createDropForRoom(base.getSize(), floor);
         final List<Tile> tiles = base.getTilesAsEntity().stream()
                 .filter(tile -> tile instanceof FloorTileImpl)
@@ -130,14 +130,13 @@ public class RoomFactoryImpl implements RoomFactory {
     @Override
     public void addMonsters(final Room base, final int floor) {
         int monsterNum = this.rnd.nextInt(this.maxMonstersNum(base, floor));
-        //monsterNum = monsterNum % (base.getArea() - base.getObjectsInRoom().size() - base.getArea()/2);
         final List<Tile> tiles = base.getTilesAsEntity().stream()
                 .filter(tile -> tile instanceof FloorTileImpl)
                 .map(tile -> (Tile) tile).toList();
 
         while (monsterNum > 0) {
             final Tile t = tiles.get(this.rnd.nextInt(tiles.size()));
-            final Monster monster = this.getRandomMonster( t.getPosition());
+            final Monster monster = this.getRandomMonster(t.getPosition(), floor);
             if (base.addMonster(monster)) {
                 monsterNum = monsterNum - 1;
             }
@@ -149,22 +148,32 @@ public class RoomFactoryImpl implements RoomFactory {
     }
 
     private int maxItemNum(final Room room, final int floor) {
-        int maxNumItems = (int)(room.getArea() / Math.pow(MIN_ROOM_SIZE, 2)) + floor;
-        maxNumItems = maxNumItems % this.maxOccupation(room);
-        return maxNumItems == 0 ? 1 : maxNumItems;
+        int maxNumItems = (int) (room.getArea() / Math.pow(MIN_ROOM_SIZE, 2)) + floor;
+        maxNumItems = (int) (maxNumItems * 0.8) % this.maxOccupation(room);
+        maxNumItems = maxNumItems / MIN_ROOM_SIZE / 2;
+        return maxNumItems == 0 ? 2 : maxNumItems + 1;
     }
 
     private int maxMonstersNum(final Room room, final int floor) {
-        int maxNumItems = Math.max(room.getSize().getX(), room.getSize().getY());
-        //int maxNumItems = (int)(room.getArea() / Math.pow(MIN_ROOM_SIZE, 2)) + floor;
-        //maxNumItems = (int)(maxNumItems * 0.6) % this.maxOccupation(room);
-        return maxNumItems == 0 ? 1 : maxNumItems;
+
+        int maxNumMonster = (int) (room.getArea() / Math.pow(MIN_ROOM_SIZE, 2)) + floor;
+        maxNumMonster = (int) (maxNumMonster * 0.6) % this.maxOccupation(room);
+        maxNumMonster = maxNumMonster / MIN_ROOM_SIZE;
+        return maxNumMonster == 0 ? 2 : maxNumMonster + 1;
     }
 
-    private Monster getRandomMonster(final Pair<Integer, Integer> pos) {
-        Set<Method> factoryMethods = Arrays.stream(MonsterGenerator.class.getMethods()).collect(Collectors.toSet());
-        Set<Method> objectMethods = Arrays.stream(Object.class.getMethods()).collect(Collectors.toSet());
+    private Monster getRandomMonster(final Pair<Integer, Integer> pos, final int level) {
+        final Set<Method> factoryMethods = Arrays.stream(MonsterGenerator.class.getMethods()).collect(Collectors.toSet());
+        final Set<Method> objectMethods = Arrays.stream(Object.class.getMethods()).collect(Collectors.toSet());
         factoryMethods.removeAll(objectMethods);
+        factoryMethods.removeIf(m -> m.getName().contains("Bomb")); // TODO: Remove after fix
+
+        if (level < FIRST_LEVEL_RANGED) {
+            factoryMethods.removeIf(m -> m.getName().contains("Ranged"));
+        }
+        if (level < FIRST_LEVEL_MAGE) {
+            factoryMethods.removeIf(m -> m.getName().contains("Mage"));
+        }
 
         try {
             return (Monster) factoryMethods.stream().toList()

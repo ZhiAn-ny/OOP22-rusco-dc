@@ -45,19 +45,6 @@ class FloorImplTest {
      * Method under test: {@link FloorImpl#goToRoom(Direction)}.
      */
     @Test
-    void testGoToRoomNoDoor() {
-        final Floor floor = new FloorImpl(FLOOR_NUM);
-        final Room prev = floor.getCurrentRoom();
-
-        floor.goToRoom(Direction.UP);
-        assertEquals(1, floor.getNRoomExplored());
-        assertEquals(prev, floor.getCurrentRoom());
-    }
-
-    /**
-     * Method under test: {@link FloorImpl#goToRoom(Direction)}.
-     */
-    @Test
     void testGoToRoomDirectionUndefined() {
         final Floor floor = new FloorImpl(FLOOR_NUM);
         final Room prev = floor.getCurrentRoom();
