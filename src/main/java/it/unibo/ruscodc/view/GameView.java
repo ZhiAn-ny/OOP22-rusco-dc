@@ -66,4 +66,7 @@ public interface GameView {
 
     void printGameOver();
 
+    void openInventory();
+
+    void closeInventory();
 }
