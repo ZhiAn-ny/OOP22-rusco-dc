@@ -27,9 +27,10 @@ import java.io.IOException;
  * which are the new entities that will then be printed on the screen.
  */
 public class FXMLMainView extends Application implements GameView {
+    final private String iconPath = "file:src/main/resources/it/unibo/ruscodc/view/racoon.png";
+    final private String title = "Rusco DC";
     private static final double ASPECT_RATIO = 3 / 4.;
     private static final double MIN_WIDTH_SCALE = 0.4;
-
     private GameObserverController controller;
     private GameViewController gameView;
     private final List<Entity> printedEntity = new ArrayList<>();
@@ -77,7 +78,7 @@ public class FXMLMainView extends Application implements GameView {
     public void printInfo(final InfoPayload toPrint) {
         isPrintingInfo = true;
         gameView.printInfoPalyodToScreen(
-                new Image("file:src/main/resources/it/unibo/ruscodc/output_res/error/Sprite.png"),
+                new Image("file:src/main/resources/it/unibo/ruscodc/output_res/error/sprite.png"),
                 toPrint.title(),
                 toPrint.text());
     }
@@ -137,7 +138,8 @@ public class FXMLMainView extends Application implements GameView {
         this.handleUserInputs(scene);
 
         //stage.setFullScreen(true);
-        stage.setTitle("Rusco DC");
+        stage.setTitle(this.title);
+        stage.getIcons().add(new Image(this.iconPath));
         stage.setScene(scene);
         stage.setUserData(this.controller);
 
