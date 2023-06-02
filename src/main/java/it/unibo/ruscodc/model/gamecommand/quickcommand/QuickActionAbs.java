@@ -38,28 +38,6 @@ public abstract class QuickActionAbs extends BasicGameCommand  {
      * 
      */
     @Override
-    public abstract Optional<InfoPayload> execute() throws ModelException;
-
-    /**
-     * 
-     */
-    @Override
-    public Pair<Integer, Integer> getActorPos() {
-        throw new UnsupportedOperationException(this.getGlobalErrMess());
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public void setCursorPos(final Pair<Integer, Integer> newPos) {
-        throw new UnsupportedOperationException(this.getGlobalErrMess());
-    }
-
-    /**
-     * 
-     */
-    @Override
     public boolean modify(final GameControl input) {
         throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
@@ -85,6 +63,14 @@ public abstract class QuickActionAbs extends BasicGameCommand  {
      */
     @Override
     public int getAPCost() {
+        throw new UnsupportedOperationException(this.getGlobalErrMess());
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void setTarget(Actor toFocus) {
         throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 

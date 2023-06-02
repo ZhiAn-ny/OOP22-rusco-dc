@@ -10,27 +10,21 @@ import it.unibo.ruscodc.utils.Pair;
 public interface IAGameCommand {
 
     /**
-     * //TODO - da rifinire con il Behaviour. 
-     * @return
+     * Focus the attack to a specific actor
+     * @param toFocus where the attack start
      */
-    Pair<Integer, Integer> getActorPos();
+    void setTarget(Actor toFocus);
 
     /**
-     * 
-     * @param target
-     * @return
+     * Check if an actor is targetable
+     * @param target who desire to attack
+     * @return if it is possible
      */
     boolean isTargetInRange(Actor target);
 
     /**
-     * //TODO - da rifinire con il Behaviour.
-     * @param newPos
-     */
-    void setCursorPos(Pair<Integer, Integer> newPos);
-
-    /**
-     * 
-     * @return
+     * Get the cost of this action
+     * @return the AP cost
      */
     int getAPCost();
 }

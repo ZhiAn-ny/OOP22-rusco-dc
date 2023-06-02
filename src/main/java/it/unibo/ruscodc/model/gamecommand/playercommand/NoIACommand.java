@@ -2,7 +2,6 @@ package it.unibo.ruscodc.model.gamecommand.playercommand;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamecommand.ComplexActionAbs;
-import it.unibo.ruscodc.utils.Pair;
 
 /**
  * All command that
@@ -17,21 +16,6 @@ public abstract class NoIACommand extends ComplexActionAbs {
     private static final String CURSOR_PATH = "file:src/main/resources/it/unibo/ruscodc/range_res/cursor";
     private static final int CURSOR_DEPTH = 6;
 
-    /**
-     * 
-     */
-    @Override
-    public Pair<Integer, Integer> getActorPos() {
-        throw new UnsupportedOperationException(this.getGlobalErrMess());
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public void setCursorPos(final Pair<Integer, Integer> newPos) {
-        throw new UnsupportedOperationException(this.getGlobalErrMess());
-    }
 
     /**
      * 
@@ -50,6 +34,14 @@ public abstract class NoIACommand extends ComplexActionAbs {
     }
 
     /**
+     * 
+     */
+    @Override
+    public void setTarget(Actor toFocus) {
+        throw new UnsupportedOperationException(this.getGlobalErrMess());
+    }
+
+    /**
      * Identify the path of the cursor's image.
      * @return cursor's image's path, coded as String
      */
@@ -64,5 +56,6 @@ public abstract class NoIACommand extends ComplexActionAbs {
     protected int getCursorDepth() {
         return CURSOR_DEPTH;
     }
+
 
 }
