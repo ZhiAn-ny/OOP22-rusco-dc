@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
+import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamemap.Tile;
 import it.unibo.ruscodc.model.interactable.Interactable;
@@ -113,11 +115,25 @@ public class Interact extends NoIACommand {
             return Optional.of(new InfoPayloadImpl(T_ERR, ERR_NOT_R));
         }
 
+        Optional<Monster> selectedM = this.getRoom().getMonsters().stream()
+            .filter(a -> a.getPos().equals(cursorPos))
+            .findFirst();
+        
+        if (selectedM.isPresent()) {
+            final Monster m = selectedM.get();
+            final String text = m.getName();
+            final String descr = m.toString();
+            final String path = m.getPath() + "/Sprite.png";
+            return Optional.of(new InfoPayloadImpl(text, descr, path));
+        }
+
+
         Optional<Tile> selected = this.getRoom().get(cursorPos);
         if (selected.isEmpty()) {
             return Optional.of(new InfoPayloadImpl(T_ERR, ERR_NOT_EX));
         }
 
+        
         Optional<Interactable> interac = selected.get().get();
         if (interac.isEmpty()) {
             return Optional.of(new InfoPayloadImpl(T_ERR, NOTHING_TO_INT));

@@ -78,7 +78,7 @@ public class FXMLMainView extends Application implements GameView {
     public void printInfo(final InfoPayload toPrint) {
         isPrintingInfo = true;
         gameView.printInfoPalyodToScreen(
-                new Image("file:src/main/resources/it/unibo/ruscodc/output_res/error/sprite.png"),
+                new Image(toPrint.getPath() + "/Sprite.png"),
                 toPrint.title(),
                 toPrint.text());
     }

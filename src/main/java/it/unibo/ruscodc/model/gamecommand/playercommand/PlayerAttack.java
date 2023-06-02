@@ -188,6 +188,7 @@ public class PlayerAttack extends NoIACommand {
         }
 
         if (undo) {
+            undo = false;
             throw new Undo("");
         }
 
@@ -204,7 +205,7 @@ public class PlayerAttack extends NoIACommand {
         from.modifyActualStat(StatName.AP, -actionToPerform.getAPcost());
 
         final Set<Actor> targets = this.getRoom().getMonsters().stream()
-            .filter(m -> splash.isInRange(from.getPos(), tmp, m.getPos(), this.getRoom()))
+            .filter(m -> splash.isInRange(tmp, from.getPos(), m.getPos(), this.getRoom()))
             .collect(Collectors.toSet());
         targets.forEach(m -> System.out.println("LM: P " + m.getStatActual(StatName.HP)));
         targets.forEach(m -> actionToPerform.applyEffect(from, m));
