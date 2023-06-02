@@ -113,16 +113,18 @@ class RectangleRoomImplTest {
     void testAddMonsterOccupiedByItem() {
         final RectangleRoomImpl rectangleRoomImpl = new RectangleRoomImpl(MIN_ROOM_SIDE, MIN_ROOM_SIDE);
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
+        final Pair<Integer, Integer> pos2 = new Pair<>(3, 3);
         final SkillImpl skills = new SkillImpl();
         final StatImpl stats = new StatImpl();
         final BehaviourImpl behaviour = new BehaviourImpl(null, null);
+        final Monster mst1 = new MonsterImpl(TEST_STR, pos, skills, stats, behaviour);
+        final Monster mst2 = new MonsterImpl(TEST_STR, pos2, skills, stats, behaviour);
 
         rectangleRoomImpl.put(pos, new Chest(Set.of(), pos));
+        rectangleRoomImpl.put(pos, new Door(pos2, Direction.UP));
 
-        // Items do not represent an obstacle to movement therefore,
-        // monsters can be placed on top of an occupied Tile
-        assertTrue(rectangleRoomImpl.addMonster(new MonsterImpl(
-                TEST_STR, pos, skills, stats, behaviour)));
+        assertFalse(rectangleRoomImpl.addMonster(mst1));
+        assertTrue(rectangleRoomImpl.addMonster(mst2));
         assertEquals(1, rectangleRoomImpl.getMonsters().size());
     }
 
