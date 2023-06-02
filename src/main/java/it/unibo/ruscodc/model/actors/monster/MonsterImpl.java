@@ -31,4 +31,9 @@ public class MonsterImpl extends ActorAbs implements Monster {
     public String getPath() {
         return this.path;
     }
+
+    @Override
+    public String toString() {
+        return this.stats.toString();
+    }
 }

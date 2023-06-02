@@ -18,10 +18,16 @@ public class StatImpl implements Stat {
         INT;
     }
 
-    private final Map<StatName, Pair<Integer, Integer>> stats = new HashMap<>();
+    private static Pair<Integer, Integer> DEFAULT = new Pair<Integer,Integer>(0, 0);
 
-    //TODO: Constructor default
-    
+    private final Map<StatName, Pair<Integer, Integer>> stats = new HashMap<>();
+   
+    public StatImpl() {
+        for (StatName statName : StatName.values()) {
+            this.stats.put(statName, DEFAULT);
+        }
+    }
+
     @Override
     public void setStatActualValue(StatName toSet, int actualValue) {
         Pair<Integer, Integer> values = this.stats.get(toSet);
@@ -49,4 +55,19 @@ public class StatImpl implements Stat {
         return this.stats.get(statName).getY();
     }
 
+    @Override
+    public String toString() {
+        String info = "";
+        for (StatName statName : StatName.values()) {
+            info.concat(
+                statName
+                +":["
+                +this.getStatActual(statName)
+                +"|"
+                +this.getStatMax(statName)
+                +"], "
+            );
+        }
+        return info;
+    }
 }
