@@ -9,10 +9,11 @@ import it.unibo.ruscodc.model.actors.monster.drop.DropManager;
 import it.unibo.ruscodc.model.interactable.Chest;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
+import it.unibo.ruscodc.utils.Pair;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The <code>RoomFactory</code> class can be used to generate different
@@ -136,8 +137,7 @@ public class RoomFactoryImpl implements RoomFactory {
 
         while (monsterNum > 0) {
             final Tile t = tiles.get(this.rnd.nextInt(tiles.size()));
-            // TODO: change to random
-            final Monster monster = this.monsterGen.makeMeleeRat( t.getPosition());
+            final Monster monster = this.getRandomMonster( t.getPosition());
             if (base.addMonster(monster)) {
                 monsterNum = monsterNum - 1;
             }
@@ -157,7 +157,23 @@ public class RoomFactoryImpl implements RoomFactory {
     private int maxMonstersNum(final Room room, final int floor) {
         int maxNumItems = (int)(room.getArea() / Math.pow(MIN_ROOM_SIZE, 2)) + floor;
         maxNumItems = (int)(maxNumItems * 0.6) % this.maxOccupation(room);
+        maxNumItems = maxNumItems / 4;
         return maxNumItems == 0 ? 1 : maxNumItems;
+    }
+
+    private Monster getRandomMonster(final Pair<Integer, Integer> pos) {
+        Set<Method> factoryMethods = Arrays.stream(MonsterGenerator.class.getMethods()).collect(Collectors.toSet());
+        Set<Method> objectMethods = Arrays.stream(Object.class.getMethods()).collect(Collectors.toSet());
+        factoryMethods.removeAll(objectMethods);
+
+        try {
+            return (Monster) factoryMethods.stream().toList()
+                    .get(this.rnd.nextInt(factoryMethods.size()))
+                    .invoke(this.monsterGen, pos);
+        } catch (Exception e) {
+            // Something went wrong in the random generation... returning a rat!
+            return this.monsterGen.makeMeleeRat(pos);
+        }
     }
 
 }
