@@ -36,6 +36,7 @@ public abstract class DecoratedRange implements Range {
     private void commute(final Pair<Integer, Integer> origin, final Pair<Integer, Integer> direction, final Room where) {
         effectiveShape.clear();
         effectiveShape.addAll(this.uploadShapeDelta(origin, direction)
+            .parallel()
             .map(s -> Pairs.applyLineDelta(s, this.centerToFrom() ? origin : direction))
             .flatMap(s -> s.takeWhile(this.filterToApply(where)))
             .collect(Collectors.toSet()));

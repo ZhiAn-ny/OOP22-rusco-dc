@@ -123,7 +123,7 @@ public class Interact extends NoIACommand {
             final Monster m = selectedM.get();
             final String text = m.getName();
             final String descr = m.toString();
-            final String path = m.getPath() + "/Sprite.png";
+            final String path = m.getPath();
             return Optional.of(new InfoPayloadImpl(text, descr, path));
         }
 
@@ -144,12 +144,13 @@ public class Interact extends NoIACommand {
         if (!obtained.isReady()) {
             throw new IllegalStateException("GameCommand behind interactable must not be complex");
         }
-        cursorPos = null;
+        
 
         Optional<InfoPayload> res = obtained.execute();
         if (res.isEmpty()) {
             this.getRoom().get(cursorPos).get().empty();
         }
+        cursorPos = null;
         return res;
     }
 

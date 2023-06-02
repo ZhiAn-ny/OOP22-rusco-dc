@@ -86,16 +86,23 @@ public class FXMLMainView extends Application implements GameView {
     /** {@inheritDoc} */
     @Override
     public void resetView(final List<Entity> toDraw, final Pair<Integer, Integer> roomSize) {
+
         this.printedEntity.clear();
         this.printedEntity.addAll(toDraw);
-        //int effecctiveX = roomSize.getX()+2;
-        //int effectiveY = roomSize.getY()+2;
-        //Pair<Integer, Integer> effectiveDim = new Pair<>(roomSize.getX()+2, roomSize.getY()+2);
-        //dims.map(p -> new Pair<>(roomSize.getX()+2, roomSize.getY()+2));
+        this.gameView.updateEntities(toDraw);
         this.gameView.setRoomSize(roomSize);
-        //javafx.util.Pair<Integer, Integer> effectiveDim2 = new javafx.util.Pair<>(roomSize.getX()+2, roomSize.getY()+2);
 
-        //Map<Character, Integer> dim = new HashMap<>();
+
+        // this.printedEntity.clear();
+        // this.printedEntity.addAll(toDraw);
+        // int effecctiveX = roomSize.getX()+2;
+        // int effectiveY = roomSize.getY()+2;
+        // Pair<Integer, Integer> effectiveDim = new Pair<>(roomSize.getX()+2, roomSize.getY()+2);
+        // dims.map(p -> new Pair<>(roomSize.getX()+2, roomSize.getY()+2));
+        // this.gameView.setRoomSize(roomSize);
+        // javafx.util.Pair<Integer, Integer> effectiveDim2 = new javafx.util.Pair<>(roomSize.getX()+2, roomSize.getY()+2);
+
+        // Map<Character, Integer> dim = new HashMap<>();
 
     }
 
@@ -123,9 +130,10 @@ public class FXMLMainView extends Application implements GameView {
     /** {@inheritDoc} */
     @Override
     public void resetLevel(final List<Entity> entities) {
-        int minDepth = entities.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
-        this.printedEntity.removeIf(e -> e.getID() >= minDepth);
-        this.printedEntity.addAll(entities);
+        //int minDepth = entities.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
+        //this.printedEntity.removeIf(e -> e.getID() >= minDepth);
+        //this.printedEntity.addAll(entities);
+        gameView.updateEntities(entities);
     }
 
     /** {@inheritDoc} */
@@ -173,8 +181,9 @@ public class FXMLMainView extends Application implements GameView {
         final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
         this.gameView = (GameViewController) fxmlLoader.getController();
 
-        this.gameView.setEntities(this.printedEntity);
-        this.gameView.update();
+        //this.gameView.setEntities(this.printedEntity);
+        //this.gameView.updateEntities(printedEntity);
+        //this.gameView.update();
 
 
         //this.gameView.setRoomSize();

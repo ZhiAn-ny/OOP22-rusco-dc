@@ -56,6 +56,8 @@ public class GameModelImpl implements GameModel {
         final Stat ruscoStat = stats.ratStat();
         ruscoStat.setStatMaxValue(StatName.HP, 20);
         ruscoStat.setStatActualValue(StatName.HP, 20);
+        ruscoStat.setStatMaxValue(StatName.AP, 1000);
+        ruscoStat.setStatActualValue(StatName.AP, 1000);
         //skills.setAction(GameControl.ATTACK1, monsterActionFactory.basicMeleeAttack());
         //skills.setAction(GameControl.ATTACK2, monsterActionFactory.heavyMeleeAttack());
         skills.setAction(GameControl.INTERACT, new Interact());

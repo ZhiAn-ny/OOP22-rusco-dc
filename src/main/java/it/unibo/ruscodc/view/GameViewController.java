@@ -22,9 +22,15 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 
 import java.net.URL;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 /**
@@ -32,10 +38,16 @@ import java.util.ResourceBundle;
  * or to manage the new entities that must be printed.
  */
 public class GameViewController implements Initializable {
-    private static final int TILES_RENDERING_LEVEL = 1;
-    private static final int OBJECTS_RENDERING_LEVEL = 2;
-    private static final int ACTORS_RENDERING_LEVEL = 3;
-    private List<Entity> toRender;
+    // private static final int TILES_RENDERING_LEVEL = 1;
+    // private static final int OBJECTS_RENDERING_LEVEL = 2;
+    // private static final int ACTORS_RENDERING_LEVEL = 3;
+    // private List<Entity> toRender;
+
+    private boolean isToUpdate = false;
+    private int lastRenderingLevel;
+    private final Map<Integer, List<Entity>> renderedOLD = new HashMap<>();
+    private final Map<Integer, List<FXMLDrawable>> rendered = new HashMap<>();
+
 
     @FXML
     private GridPane mainGrid;
@@ -66,19 +78,60 @@ public class GameViewController implements Initializable {
      * Updates the view with the new entities to print.
      */
     public void update() {
-        this.mainGrid.getChildren().clear();
 
+        if (!isToUpdate){
+            return;
+        }
+        this.mainGrid.getChildren().clear();
+        final DoubleBinding binding = this.getBindingFunction();
+        //this.mainGrid.getChildren().clear();
+        isToUpdate = false;
+        
+        //mainPane.clear
+        //rendered.removeAll( (depth, l) -> depth>=lastRenderingLevel);
+        //IntStream.rangeClosed(lastRenderingLevel+1, 10).forEach(i -> renderedOLD.remove(i));
+        IntStream.rangeClosed(lastRenderingLevel+1, 10).forEach(i -> rendered.remove(i));
+        // renderedOLD.entrySet()
+        //     .stream()
+        //     .sorted(Comparator.comparingInt(level -> level.getKey()))
+        //     //.dropWhile(level -> level.getKey() < startRendering)
+        //     .peek(ll -> System.out.println(ll.getKey()))
+        //     //.peek(level -> level.getValue())
+        //     .forEach(level -> {
+        //         level.getValue().forEach(e -> {
+        //             final ImageView image = new ImageView(new Image(e.getPath() + "/Sprite.png"));
+        //             image.fitWidthProperty().bind(binding);
+        //             image.fitHeightProperty().bind(binding);
+        //             final Pair<Integer, Integer> pos = e.getPos();
+        //             this.mainGrid.add(new Pane(image), pos.getX(), pos.getY());
+        //         });
+        //     });
+        rendered.entrySet()
+            .stream()
+            .sorted(Comparator.comparingInt(level -> level.getKey()))
+            //.dropWhile(level -> level.getKey() < startRendering)
+            .peek(ll -> System.out.println(ll.getKey()))
+            //.peek(level -> level.getValue())
+            .forEach(level -> {
+                level.getValue().forEach(e -> {
+                    final ImageView image = e.getRes();
+                    image.fitWidthProperty().bind(binding);
+                    image.fitHeightProperty().bind(binding);
+                    final Pair<Integer, Integer> pos = e.getOnScreenPosition();
+                    this.mainGrid.add(new Pane(image), pos.getX(), pos.getY());
+                });
+            });
 
         //Entity ref = toRender.stream().max(Comparator.comparingInt(e -> e.getID())).get();
 
         //Stream.iterate(0, i -> i < (ref.getID()+1), i -> i+1).forEach(i -> this.render(i));
 
-        this.render(TILES_RENDERING_LEVEL);
-        this.render(OBJECTS_RENDERING_LEVEL);
-        this.render(ACTORS_RENDERING_LEVEL);
-        this.render(4);
-        this.render(5);
-        this.render(6);
+        // this.render(TILES_RENDERING_LEVEL);
+        // this.render(OBJECTS_RENDERING_LEVEL);
+        // this.render(ACTORS_RENDERING_LEVEL);
+        // this.render(4);
+        // this.render(5);
+        // this.render(6);
     }
 
     /**
@@ -101,26 +154,26 @@ public class GameViewController implements Initializable {
      * @param renderingLevel level to render.
      */
     private void render(final int renderingLevel) {
-        final DoubleBinding binding = this.getBindingFunction();
-        final List<Entity> toRender = this.toRender.stream().filter(e -> e.getID() == renderingLevel).toList();
+        // final DoubleBinding binding = this.getBindingFunction();
+        // final List<Entity> toRender = this.toRender.stream().filter(e -> e.getID() == renderingLevel).toList();
 
-        for (int i = 0; i < this.rows; i++) {
-            for (int j = 0; j < this.cols; j++) {
-                final int x = j;
-                final int y = i;
-                Optional<Entity> entity =  toRender.stream()
-                        .filter(e -> e.getPos().getX() == x && e.getPos().getY() == y)
-                        .findFirst();
-                if (entity.isEmpty()) {
-                    continue;
-                }
+        // for (int i = 0; i < this.rows; i++) {
+        //     for (int j = 0; j < this.cols; j++) {
+        //         final int x = j;
+        //         final int y = i;
+        //         Optional<Entity> entity =  toRender.stream()
+        //                 .filter(e -> e.getPos().getX() == x && e.getPos().getY() == y)
+        //                 .findFirst();
+        //         if (entity.isEmpty()) {
+        //             continue;
+        //         }
 
-                final ImageView image = new ImageView(new Image(entity.get().getPath() + "/Sprite.png"));
-                image.fitWidthProperty().bind(binding);
-                image.fitHeightProperty().bind(binding);
-                this.mainGrid.add(new Pane(image), j, i);
-            }
-        }
+        //         final ImageView image = new ImageView(new Image(entity.get().getPath() + "/Sprite.png"));
+        //         image.fitWidthProperty().bind(binding);
+        //         image.fitHeightProperty().bind(binding);
+        //         this.mainGrid.add(new Pane(image), j, i);
+        //     }
+        // }
     }
 
     /**
@@ -135,18 +188,18 @@ public class GameViewController implements Initializable {
         gameloop.start();
     }
 
-    /**
-     * Return the tile located at the specified position.
-     * @param entities list of entities
-     * @param x
-     * @param y
-     * @return
-     */
-    private Optional<Entity> getTileAtPosition(final List<Entity> entities, final int x, final int y) {
-        return entities.stream().filter(e -> e.getID() == TILES_RENDERING_LEVEL)
-                .filter(t -> t.getPos().getX().equals(x) && t.getPos().getY().equals(y))
-                .findFirst();
-    }
+    // /**
+    //  * Return the tile located at the specified position.
+    //  * @param entities list of entities
+    //  * @param x
+    //  * @param y
+    //  * @return
+    //  */
+    // private Optional<Entity> getTileAtPosition(final List<Entity> entities, final int x, final int y) {
+    //     return entities.stream().filter(e -> e.getID() == TILES_RENDERING_LEVEL)
+    //             .filter(t -> t.getPos().getX().equals(x) && t.getPos().getY().equals(y))
+    //             .findFirst();
+    // }
 
     /**
      *
@@ -163,12 +216,59 @@ public class GameViewController implements Initializable {
         this.gameloop();
     }
 
-    /**
+    // /**
+    //  * Set the entities that need to upload to the view.
+    //  * @param entities list of entities to upload
+    //  */
+    // public void setEntities(final List<Entity> entities) {
+    //     this.toRender = entities;
+    // }
+
+     /**
      * Set the entities that need to upload to the view.
      * @param entities list of entities to upload
      */
-    public void setEntities(final List<Entity> entities) {
-        this.toRender = entities;
+    public void updateEntities(final List<Entity> entities) {
+        // final Map<Integer, List<Entity>> toUpdateOLD = 
+        //     entities.stream()
+        //     .collect(Collectors.toMap(
+        //         e -> e.getID(), 
+        //         e -> new LinkedList<>(List.of(e)), 
+        //         (l1, l2) -> {
+        //             l1.addAll(l2);
+        //             return new LinkedList<>(l1);
+        //             },
+        //         () -> new HashMap<>()));
+
+        final Map<Integer, List<FXMLDrawable>> toUpdate = 
+            entities.stream()
+            .collect(Collectors.toMap(
+                e -> e.getID(), 
+                e -> new LinkedList<>(
+                    List.of(
+                        new FXMLDrawable(
+                            new ImageView(new Image(e.getPath() + "/Sprite.png")), 
+                            e.getPos()))), 
+                (l1, l2) -> {
+                    l1.addAll(l2);
+                    return new LinkedList<>(l1);
+                    },
+                () -> new HashMap<>()));
+
+        final Optional<Integer> minDepth = toUpdate.keySet().stream().max(Comparator.naturalOrder());
+        if (minDepth.isEmpty()){
+            return;
+        }
+        
+        // renderedOLD.putAll(toUpdateOLD);
+        rendered.putAll(toUpdate);
+        //entities.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
+        lastRenderingLevel = minDepth.get();
+        isToUpdate = true;
+        //update();
+        // this.printedEntity.removeIf(e -> e.getID() >= minDepth);
+        // this.printedEntity.addAll(entities);
+        // this.rendered = entities;
     }
 
     /**
