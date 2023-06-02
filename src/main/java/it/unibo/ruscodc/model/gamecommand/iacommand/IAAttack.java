@@ -35,13 +35,6 @@ public class IAAttack extends NoPlayerCommand {
         return this.range.isInRange(this.getActor().getPos(), target.getPos(), target.getPos(), this.getRoom());
     }
 
-    /**
-     * 
-     */
-    @Override
-    public void setTarget(Actor toFocus) {
-        this.target = toFocus;
-    }
 
     /**
      * 
@@ -53,16 +46,16 @@ public class IAAttack extends NoPlayerCommand {
 
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
-        final Actor m = this.getActor();
+        final Actor from = this.getActor();
         final Set<Actor> targets = this.getRoom().getMonsters().stream()
-            .filter(a -> splash.isInRange(target.getPos(), m.getPos(), a.getPos(), this.getRoom()))
+            .filter(a -> splash.isInRange(target.getPos(), from.getPos(), a.getPos(), this.getRoom()))
             .collect(Collectors.toSet());
         System.out.println("##########################");
         targets.forEach(t -> System.out.println(t.getName() + " " + t.getPos()));
         System.out.println("##########################");
-        targets.remove(m);
+        targets.remove(from);
         System.out.println(target);
-        targets.forEach(a -> actionToPerform.applyEffect(m, a));
+        targets.forEach(a -> actionToPerform.applyEffect(from, a));
         //targets.forEach(m -> System.out.println("LM: D " + m.getStatActual(StatName.HP)));
         return Optional.empty();
     }
@@ -92,6 +85,18 @@ public class IAAttack extends NoPlayerCommand {
         } else if (!splash.equals(other.splash))
             return false;
         return true;
+    }
+
+    @Override
+    public void setCursorPos(Pair<Integer, Integer> toFocus) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setCursorPos'");
+    }
+
+    @Override
+    public void setTarget(List<Actor> targettableActors) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setTarget'");
     }
 
     

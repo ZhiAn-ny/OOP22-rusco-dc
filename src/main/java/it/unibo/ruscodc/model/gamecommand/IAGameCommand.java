@@ -1,5 +1,7 @@
 package it.unibo.ruscodc.model.gamecommand;
 
+import java.util.List;
+
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.utils.Pair;
 
@@ -13,7 +15,13 @@ public interface IAGameCommand {
      * Focus the attack to a specific actor
      * @param toFocus where the attack start
      */
-    void setTarget(Actor toFocus);
+    void setCursorPos(Pair<Integer, Integer> toFocus);
+
+    /**
+     * Specifies possible actory that can be afflicted by the attack
+     * @param targettableActors these //TODO migliorami
+     */
+    void setTarget(List<Actor> targettableActors);
 
     /**
      * Check if an actor is targetable

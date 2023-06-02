@@ -1,6 +1,7 @@
 package it.unibo.ruscodc.model.gamecommand.quickcommand;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -70,7 +71,15 @@ public abstract class QuickActionAbs extends BasicGameCommand  {
      * 
      */
     @Override
-    public void setTarget(Actor toFocus) {
+    public void setCursorPos(Pair<Integer, Integer> toFocus) {
+        throw new UnsupportedOperationException(this.getGlobalErrMess());
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void setTarget(List<Actor> targettableActors) {
         throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 
