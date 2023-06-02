@@ -57,9 +57,9 @@ public class StatImpl implements Stat {
 
     @Override
     public String toString() {
-        String info = "";
+        StringBuilder info = new StringBuilder();
         for (StatName statName : StatName.values()) {
-            info.concat(
+            info.append(
                 statName
                 +":["
                 +this.getStatActual(statName)
@@ -68,6 +68,6 @@ public class StatImpl implements Stat {
                 +"], "
             );
         }
-        return info;
+        return info.toString();
     }
 }
