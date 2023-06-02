@@ -1,5 +1,7 @@
 package it.unibo.ruscodc.model.gamecommand;
 
+import java.util.List;
+
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.utils.Pair;
 
@@ -10,27 +12,27 @@ import it.unibo.ruscodc.utils.Pair;
 public interface IAGameCommand {
 
     /**
-     * //TODO - da rifinire con il Behaviour. 
-     * @return
+     * Focus the attack to a specific actor
+     * @param toFocus where the attack start
      */
-    Pair<Integer, Integer> getActorPos();
+    void setCursorPos(Pair<Integer, Integer> toFocus);
 
     /**
-     * 
-     * @param target
-     * @return
+     * Specifies possible actory that can be afflicted by the attack
+     * @param targettableActors these //TODO migliorami
+     */
+    void setTarget(List<Actor> targettableActors);
+
+    /**
+     * Check if an actor is targetable
+     * @param target who desire to attack
+     * @return if it is possible
      */
     boolean isTargetInRange(Actor target);
 
     /**
-     * //TODO - da rifinire con il Behaviour.
-     * @param newPos
-     */
-    void setCursorPos(Pair<Integer, Integer> newPos);
-
-    /**
-     * 
-     * @return
+     * Get the cost of this action
+     * @return the AP cost
      */
     int getAPCost();
 }

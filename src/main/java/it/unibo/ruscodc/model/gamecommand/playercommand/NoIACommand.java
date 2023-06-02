@@ -1,8 +1,16 @@
 package it.unibo.ruscodc.model.gamecommand.playercommand;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamecommand.ComplexActionAbs;
+import it.unibo.ruscodc.model.outputinfo.InfoPayload;
+import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
+import it.unibo.ruscodc.utils.exception.ModelException;
 
 /**
  * All command that
@@ -17,21 +25,6 @@ public abstract class NoIACommand extends ComplexActionAbs {
     private static final String CURSOR_PATH = "file:src/main/resources/it/unibo/ruscodc/range_res/cursor";
     private static final int CURSOR_DEPTH = 6;
 
-    /**
-     * 
-     */
-    @Override
-    public Pair<Integer, Integer> getActorPos() {
-        throw new UnsupportedOperationException(this.getGlobalErrMess());
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public void setCursorPos(final Pair<Integer, Integer> newPos) {
-        throw new UnsupportedOperationException(this.getGlobalErrMess());
-    }
 
     /**
      * 
@@ -46,6 +39,22 @@ public abstract class NoIACommand extends ComplexActionAbs {
      */
     @Override
     public int getAPCost() {
+        throw new UnsupportedOperationException(this.getGlobalErrMess());
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void setCursorPos(Pair<Integer, Integer> toFocus) {
+        throw new UnsupportedOperationException(this.getGlobalErrMess());
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void setTarget(List<Actor> targettableActors) {
         throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 

@@ -1,6 +1,9 @@
 package it.unibo.ruscodc.model.gamecommand.iacommand;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.effect.Effect;
@@ -15,6 +18,7 @@ public class IAAttack extends NoPlayerCommand {
     private final Range splash;
     private final Effect actionToPerform;
     private Pair<Integer, Integer> cursor;
+    private List<Actor> targes;
 
     public IAAttack(Range r, Range s, Effect eff) {
         this.range = r;
@@ -26,28 +30,12 @@ public class IAAttack extends NoPlayerCommand {
      * 
      */
     @Override
-    public Pair<Integer, Integer> getActorPos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getActorPos'");
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public void setCursorPos(Pair<Integer, Integer> newPos) {
-        this.cursor = newPos;
-    }
-
-    /**
-     * 
-     */
-    @Override
     public boolean isTargetInRange(Actor target) {
-        System.out.println("$$$ " + this.getActor().getName());
+        //System.out.println("$$$ " + this.getActor().getName());
         System.out.print(" @ " + this.range.isInRange(this.getActor().getPos(), target.getPos(), target.getPos(), this.getRoom()));
         return this.range.isInRange(this.getActor().getPos(), target.getPos(), target.getPos(), this.getRoom());
     }
+
 
     /**
      * 
@@ -57,8 +45,35 @@ public class IAAttack extends NoPlayerCommand {
         return actionToPerform.getAPcost();
     }
 
+    /**
+     * 
+     */
+    @Override
+    public void setCursorPos(Pair<Integer, Integer> toFocus) {
+        this.cursor = toFocus;
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void setTarget(List<Actor> targettableActors) {
+        this.targes = targettableActors;
+    }
+
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
+        final Actor from = this.getActor();
+        final Set<Actor> targets = this.targes.stream()
+            .filter(a -> splash.isInRange(cursor, from.getPos(), a.getPos(), this.getRoom()))
+            .collect(Collectors.toSet());
+        System.out.println("##########################");
+        targets.forEach(t -> System.out.println(t.getName() + " " + t.getPos()));
+        System.out.println("##########################");
+        targets.remove(from);
+        System.out.println(targets);
+        targets.forEach(a -> actionToPerform.applyEffect(from, a));
+        //targets.forEach(m -> System.out.println("LM: D " + m.getStatActual(StatName.HP)));
         return Optional.empty();
     }
 
@@ -88,6 +103,4 @@ public class IAAttack extends NoPlayerCommand {
             return false;
         return true;
     }
-
-    
 }
