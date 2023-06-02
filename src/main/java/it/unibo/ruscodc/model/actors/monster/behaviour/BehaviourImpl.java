@@ -75,6 +75,7 @@ public class BehaviourImpl implements Behaviour {
             .getPos();
 
         toOptimize.setCursorPos(target);
+        toOptimize.setTarget(actors);
         return toOptimize;
     }
 }
