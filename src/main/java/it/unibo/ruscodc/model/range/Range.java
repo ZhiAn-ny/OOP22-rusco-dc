@@ -1,6 +1,6 @@
 package it.unibo.ruscodc.model.range;
 
-import java.util.Iterator;
+import java.util.Set;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.gamemap.Room;
@@ -28,5 +28,5 @@ public interface Range {
      * @param where the room that could modify the naturally shape of the wrapped Area
      * @return an iterator of this things
      */
-    Iterator<Entity> getRange(Pair<Integer, Integer> by, Pair<Integer, Integer> to, Room where);
+    Set<Entity> getRange(Pair<Integer, Integer> by, Pair<Integer, Integer> to, Room where);
 }

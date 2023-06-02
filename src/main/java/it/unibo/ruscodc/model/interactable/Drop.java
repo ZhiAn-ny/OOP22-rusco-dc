@@ -30,6 +30,13 @@ public class Drop extends PickableItem{
     }
 
     @Override
+    public boolean isTransitable() {
+        return false;
+    }
+
+
+
+    @Override
     public String getName() {
         return "drop";
     }

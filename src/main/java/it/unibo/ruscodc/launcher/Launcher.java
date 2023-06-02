@@ -2,8 +2,6 @@ package it.unibo.ruscodc.launcher;
 
 import it.unibo.ruscodc.controller.GameControllerImpl;
 import it.unibo.ruscodc.controller.GameObserverController;
-import it.unibo.ruscodc.view.GameView;
-import javafx.application.Application;
 
 /**
  *
@@ -11,6 +9,7 @@ import javafx.application.Application;
 public final class Launcher {
     private Launcher() {
     }
+    
     /**
      *
      * @param args
@@ -18,8 +17,6 @@ public final class Launcher {
     public static void main(final String[] args) {
         GameObserverController ctrl = new GameControllerImpl(args);
         ctrl.init();
-        ctrl.start();
-
-
+        ctrl.start(args);
     }
 }

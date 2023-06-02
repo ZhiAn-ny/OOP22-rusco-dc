@@ -8,6 +8,7 @@ import it.unibo.ruscodc.model.gamecommand.quickcommand.DoNothing;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Pair;
 
+import java.io.Serial;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
@@ -19,6 +20,9 @@ import java.util.function.Consumer;
  * of damage each time and can be disabled with a simple interaction.
  */
 public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+    private static final int INTERACTABLE_OBJECTS_RENDERING_LEVEL = 2;
     private static final int DEFAULT_DAMAGE = 5;
     private int damage;
     private boolean isReady = true;
@@ -102,6 +106,12 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
 
     /** {@inheritDoc} */
     @Override
+    public boolean isTransitable() {
+        return true;
+    }
+
+    /** {@inheritDoc} */
+    @Override
     public Optional<Interactable> get() {
         return Optional.of(this);
     }
@@ -122,5 +132,17 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
     @Override
     public String toString() {
         return "[*]";
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String getPath() {
+        return super.getPath() + "/trap";
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int getID() {
+        return INTERACTABLE_OBJECTS_RENDERING_LEVEL;
     }
 }

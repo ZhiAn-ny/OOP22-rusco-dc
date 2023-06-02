@@ -3,6 +3,7 @@ package it.unibo.ruscodc.model;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.Room;
+import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.util.List;
@@ -53,4 +54,9 @@ public interface GameModel {
      * @return the current floor.
      */
     Floor getCurrentFloor();
+
+
+    Portrait getRuscoInfo();
+
+    boolean isGameOver();
 }

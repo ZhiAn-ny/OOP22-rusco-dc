@@ -16,14 +16,14 @@ import it.unibo.ruscodc.utils.GameControl;
 
 public class HeroSkill extends SkillImpl {
     
-    HeroSkill(){
+    public HeroSkill(){
         super();
 
         super.setAction(
             GameControl.BASEATTACK,
             new PlayerAttack(
                 new SquareRange(1, new SingleRange()),
-                new SingleRange(),
+                new SingleSplash(),
                 new EffectAbs(0) {
                     @Override
                     public void applyEffect(Actor from, Actor to) {
@@ -43,7 +43,7 @@ public class HeroSkill extends SkillImpl {
             GameControl.ATTACK1,
             new PlayerAttack(
                 new SquareRange(1, new SingleRange()),
-                new SingleRange(),
+                new SingleSplash(),
                 new EffectAbs(3) {
                     @Override
                     public void applyEffect(Actor from, Actor to) {

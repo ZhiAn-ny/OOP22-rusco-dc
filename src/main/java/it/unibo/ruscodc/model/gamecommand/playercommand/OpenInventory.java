@@ -2,11 +2,14 @@ package it.unibo.ruscodc.model.gamecommand.playercommand;
 
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.item.Inventory;
+import it.unibo.ruscodc.model.item.InventoryImpl;
 import it.unibo.ruscodc.model.item.Item;
 import it.unibo.ruscodc.model.item.consumable.Consumable;
 import it.unibo.ruscodc.model.item.equipement.Equipement;
@@ -31,7 +34,7 @@ public class OpenInventory extends NoIACommand {
     
     public OpenInventory() {
         this.hero = (Hero)this.getActor();
-        this.inventory = this.hero.getInventory();
+        this.inventory = new InventoryImpl();
     }
 
     private void resetCursor() {
@@ -189,7 +192,7 @@ public class OpenInventory extends NoIACommand {
     }
 
     @Override
-    public Iterator<Entity> getEntities() {
+    public Set<Entity> getEntities() {
         Stream<Entity> items = this.inventory
             .getAllItems()
             .stream()
@@ -201,7 +204,7 @@ public class OpenInventory extends NoIACommand {
                 )
         );
 
-        return Stream.concat(items, Stream.of(fromCursorToEntity())).iterator();
+        return items.collect(Collectors.toSet());
     }
 
     @Override

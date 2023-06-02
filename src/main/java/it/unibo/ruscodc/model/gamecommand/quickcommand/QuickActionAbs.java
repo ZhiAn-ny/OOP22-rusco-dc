@@ -2,6 +2,7 @@ package it.unibo.ruscodc.model.gamecommand.quickcommand;
 
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.Set;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
@@ -67,7 +68,7 @@ public abstract class QuickActionAbs extends BasicGameCommand  {
      * 
      */
     @Override
-    public Iterator<Entity> getEntities() {
+    public Set<Entity> getEntities() {
         throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 

@@ -50,7 +50,18 @@ class FloorTrapTileImplTest {
         assertTrue(trapTile.isAccessible());
         assertTrue(trapTile.get().isPresent());
         assertEquals("It's a trap!", trapTile.getName());
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/FloorTile", trapTile.getPath());
+        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/FloorTile/trap", trapTile.getPath());
+    }
+
+    /**
+     * Method under test:  {@link FloorTrapTileImpl#isAccessible()}.
+     */
+    @Test
+    void testAccessibility() {
+        final FloorTrapTileImpl trapTile = new FloorTrapTileImpl(new Pair<>(2, 3));
+
+        assertTrue(trapTile.isAccessible());
+        assertTrue(trapTile.isTransitable());
     }
 
     /**

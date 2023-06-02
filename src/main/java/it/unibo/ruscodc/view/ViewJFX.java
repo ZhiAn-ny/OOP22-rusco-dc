@@ -27,7 +27,7 @@
 //
 //    final private String TITLE = "Junkrisers";
 //    final private String BASE_BG_COLOR = "#4e533d";
-//    final private String iconPath = "file:src/main/resources/it/unibo/ruscodc/hero_res/racoon-head.png";
+//    final private String iconPath = "file:src/main/resources/it/unibo/ruscodc/hero_res/Sprite.png";
 //
 //    final private Dimension screen;
 //    /** Width to screen ratio. */
@@ -199,6 +199,10 @@
 //    }
 //
 //    @Override
+//    public void printInfo(String err) {
+//        System.err.println("ERROR: " + err);
+//    }
+//
 //    public void printInfo(InfoPayload toPrint) {
 //
 //    }
@@ -215,11 +219,16 @@
 //    }
 //
 //    @Override
+//    public void removeEntity(Entity toRemove) {
 //    public void uploadEntity(Pair<Integer, Integer> toUpload, Entity updated) {
 //
 //    }
 //
 //    @Override
+//    public void uploadEntity(Entity toUpload) {
+//
+//    }
+//
 //    public void resetLevel(List<Entity> entities) {
 //
 //    }

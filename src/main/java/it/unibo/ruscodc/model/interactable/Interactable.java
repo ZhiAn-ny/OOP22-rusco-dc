@@ -21,4 +21,7 @@ public interface Interactable extends Entity {
      */
     GameCommand interact();
 
+
+    boolean isTransitable();
+
 }

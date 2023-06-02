@@ -9,6 +9,8 @@ import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +24,10 @@ import java.util.function.Predicate;
  * The <code>RectangleRoomImpl</code> class creates a basic implementation of the interface <code>Room</code>.
  * The created <code>Room</code> will have a rectangular shape and could have multiple door leading to other rooms.
  */
-public class RectangleRoomImpl implements Room {
+public class RectangleRoomImpl implements Room, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private static final int MAX_DOORS_NUM = 4;
     private final Pair<Integer, Integer> size;
     private final List<Tile> tiles = new ArrayList<>();
@@ -84,7 +89,7 @@ public class RectangleRoomImpl implements Room {
 
         // Items do not represent an obstacle to movement therefore,
         // monsters can be placed on top of an occupied Tile
-        if (tile == null) { // || tile.get().isPresent()) {
+        if (tile == null || (tile.get().isPresent() && !tile.get().get().isTransitable())) {
             return  false;
         }
         this.monsters.add(monster);
@@ -192,10 +197,31 @@ public class RectangleRoomImpl implements Room {
 
         final Tile tile = onSide.get(rnd.nextInt(onSide.size()));
         this.replaceTile(tile.getPosition(), new FloorTileImpl(tile.getPosition(), true));
-        this.put(tile.getPosition(), new Door(tile.getPosition()));
+        this.put(tile.getPosition(), new Door(tile.getPosition(), this.getSide(tile.getPosition())));
 
         this.connectedRooms.put(dir, null);
         return true;
+    }
+
+    /**
+     * Return on which side is placed the specified position.
+     * @param pos the position to check
+     * @return the side of the room on which lies the specified position
+     */
+    private Direction getSide(final Pair<Integer, Integer> pos) {
+        if (pos.getX() == 0) {
+            return Direction.LEFT;
+        }
+        if (pos.getY() == 0) {
+            return Direction.UP;
+        }
+        if (pos.getX() == this.size.getX() + 1) {
+            return Direction.RIGHT;
+        }
+        if (pos.getY() == this.size.getY() + 1) {
+            return Direction.DOWN;
+        }
+        return Direction.UNDEFINED;
     }
 
     /** {@inheritDoc} */
@@ -215,8 +241,8 @@ public class RectangleRoomImpl implements Room {
                     .filter(this.isNotCorner())
                     .toList();
             tile = onSide.get(new Random().nextInt(onSide.size()));
-            this.tiles.remove(tile);
-            this.tiles.add(new FloorTileImpl(tile.getPosition(), true));
+            tile = new FloorTileImpl(tile.getPosition(), true);
+            this.replaceTile(tile.getPosition(), tile);
         }
         tile.put(new Stair(tile.getPosition()));
         return true;

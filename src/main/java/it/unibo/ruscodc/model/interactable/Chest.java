@@ -30,7 +30,13 @@ public class Chest extends PickableItem{
     }
 
     @Override
+    public boolean isTransitable() {
+        return false;
+    }
+
+
+    @Override
     public String getName() {
-            return "chest";
+        return "chest";
     }
 }

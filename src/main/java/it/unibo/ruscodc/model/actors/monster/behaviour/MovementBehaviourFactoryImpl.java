@@ -50,8 +50,8 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
 
     private boolean canMove(final Pair<Integer, Integer> pos, final List<Actor> actors, final Room room) {
         return room.isAccessible(pos)
-            && actors.stream().anyMatch(a -> a.getPos() == pos)
-            && room.getMonsters().stream().anyMatch(a -> a.getPos() == pos);
+            && !actors.stream().anyMatch(a -> a.getPos().equals(pos))
+            && !room.getMonsters().stream().anyMatch(a -> a.getPos().equals(pos));
     }
 
     private Optional<GameControl> computeGameCommand(final Monster monster, final List<Actor> actors, final Pair<Integer, Integer> actorPos, final Room room) {
@@ -60,22 +60,22 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
         int deltaY = getDeltaY(monster.getPos(), actorPos);
         Pair<Integer, Integer> monsterPos = monster.getPos();
 
-        if (deltaX < 0) {
+        if (deltaX > 0) {
             if (canMove(Pairs.computeLeftPair(monsterPos), actors, room)) {
                 return Optional.of(GameControl.MOVELEFT);
             }
         }
-        if (deltaX > 0) {
+        if (deltaX < 0) {
             if (canMove(Pairs.computeRightPair(monsterPos), actors, room)) {
                 return Optional.of(GameControl.MOVERIGHT);
             }
         }
-        if (deltaY < 0) {
+        if (deltaY > 0) {
             if (canMove(Pairs.computeUpPair(monsterPos), actors, room)) {
                 return Optional.of(GameControl.MOVEUP);
             }
         }
-        if (deltaY > 0) {
+        if (deltaY < 0) {
             if (canMove(Pairs.computeDownPair(monsterPos), actors, room)) {
                 return Optional.of(GameControl.MOVEDOWN);
             }

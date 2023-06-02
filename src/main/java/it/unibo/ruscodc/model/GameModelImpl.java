@@ -3,15 +3,34 @@ package it.unibo.ruscodc.model;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.hero.HeroImpl;
+import it.unibo.ruscodc.model.actors.hero.HeroSkill;
+import it.unibo.ruscodc.model.actors.monster.Monster;
+import it.unibo.ruscodc.model.actors.monster.MonsterActionFactory;
+import it.unibo.ruscodc.model.actors.monster.MonsterActionFactoryImpl;
+import it.unibo.ruscodc.model.actors.skill.Skill;
+import it.unibo.ruscodc.model.actors.skill.SkillImpl;
+import it.unibo.ruscodc.model.actors.stat.Stat;
+import it.unibo.ruscodc.model.actors.stat.StatFactory;
+import it.unibo.ruscodc.model.actors.stat.StatFactoryImpl;
+import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
+import it.unibo.ruscodc.model.gamecommand.playercommand.Interact;
+import it.unibo.ruscodc.model.gamecommand.playercommand.PlayerAttack;
 import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.FloorImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.interactable.Interactable;
+import it.unibo.ruscodc.model.outputinfo.Portrait;
+import it.unibo.ruscodc.model.outputinfo.PortraitImpl;
+import it.unibo.ruscodc.model.range.SingleRange;
+import it.unibo.ruscodc.model.range.SingleSplash;
+import it.unibo.ruscodc.model.range.SquareRange;
 import it.unibo.ruscodc.utils.Direction;
+import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +41,7 @@ public class GameModelImpl implements GameModel {
     private int nFloorsExplored;
     private Floor floor;
     private final Hero hero;
+    private final Pair<Integer, Integer> initialPosition = new Pair<Integer, Integer>(3, 3);
 
     /**
      * Class constructor.
@@ -29,7 +49,17 @@ public class GameModelImpl implements GameModel {
     public GameModelImpl() {
         this.nFloorsExplored = 1;
         this.floor = new FloorImpl(this.nFloorsExplored);
-        this.hero = new HeroImpl(null, null, null, null);
+
+        final StatFactory stats = new StatFactoryImpl();
+        final MonsterActionFactory monsterActionFactory = new MonsterActionFactoryImpl();
+        final Skill skills = new HeroSkill();
+        final Stat ruscoStat = stats.ratStat();
+        ruscoStat.setStatMaxValue(StatName.HP, 20);
+        ruscoStat.setStatActualValue(StatName.HP, 20);
+        //skills.setAction(GameControl.ATTACK1, monsterActionFactory.basicMeleeAttack());
+        //skills.setAction(GameControl.ATTACK2, monsterActionFactory.heavyMeleeAttack());
+        skills.setAction(GameControl.INTERACT, new Interact());
+        this.hero = new HeroImpl("Rusco", this.initialPosition, skills, ruscoStat);
     }
 
     private List<Actor> getParty() {
@@ -44,6 +74,9 @@ public class GameModelImpl implements GameModel {
     public List<Actor> getActorByInitative() {
         List<Actor> list = new ArrayList<>();
         list.add(hero);
+        List<Monster> monsters = this.getCurrentRoom().getMonsters();
+        list.addAll(monsters);
+        list.sort(Comparator.comparingInt(a -> a.getStatActual(StatName.DEX)));
         return list;
     }
 
@@ -118,7 +151,7 @@ public class GameModelImpl implements GameModel {
     }
 
     private void respawnParty(final Pair<Integer, Integer> pos) {
-        final int radius = 2;
+        final int radius = 1;
         this.hero.setPos(pos);
         this.getCurrentRoom().clearArea(pos, radius);
     }
@@ -127,10 +160,24 @@ public class GameModelImpl implements GameModel {
     public void changeFloor() {
         this.nFloorsExplored = this.nFloorsExplored + 1;
         this.floor = new FloorImpl(this.nFloorsExplored);
+
+        this.respawnParty(this.initialPosition);
     }
 
     @Override
     public Floor getCurrentFloor() {
         return this.floor;
+    }
+
+    @Override
+    public Portrait getRuscoInfo() {
+        return new PortraitImpl(hero, 
+            (hero.getStatActual(StatName.HP) * 1.0) / (hero.getStatMax(StatName.HP) * 1.0) , 
+            (hero.getStatActual(StatName.AP) * 1.0) / (hero.getStatMax(StatName.HP) * 1.0));
+    }
+
+    @Override
+    public boolean isGameOver() {
+        return !hero.isAlive();
     }
 }
