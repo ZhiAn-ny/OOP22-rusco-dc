@@ -11,6 +11,8 @@ import it.unibo.ruscodc.utils.Pair;
  */
 public class Door extends InteractableAbs {
 
+    private static final long serialVersionUID = 3001L;
+
     private final Direction doorDirection;
     private String name;
     private String path;

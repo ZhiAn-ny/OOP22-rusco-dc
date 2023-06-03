@@ -10,6 +10,8 @@ import java.util.Set;
  */
 public class Drop extends PickableItem{
 
+    private static final long serialVersionUID = 3002L;
+
     /**
      * This is a constructor class.
      * @param itemSet

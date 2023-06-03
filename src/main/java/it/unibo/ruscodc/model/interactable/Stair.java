@@ -9,6 +9,8 @@ import it.unibo.ruscodc.utils.Pair;
  */
 public class Stair extends InteractableAbs{
 
+    private static final long serialVersionUID = 3006L;
+
     private String name;
     private String path;
     private String info;

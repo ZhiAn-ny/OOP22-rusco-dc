@@ -175,11 +175,11 @@ public class PlayerAttack extends NoIACommand {
 
         System.out.println("\n\n\n" + from.getStatActual(StatName.AP) + "\n\n\n");
 
-        if (from.getStatActual(StatName.AP) < actionToPerform.getAPcost()) {
+        if (from.getStatActual(StatName.AP) < actionToPerform.getEffectAPcost()) {
             return Optional.of(new InfoPayloadImpl(getErrTitle(), AP_ERR));
         }
 
-        from.modifyActualStat(StatName.AP, -actionToPerform.getAPcost());
+        from.modifyActualStat(StatName.AP, -actionToPerform.getEffectAPcost());
 
         final Set<Actor> targets = this.getRoom().getMonsters().stream()
             .filter(m -> splash.isInRange(tmp, from.getPos(), m.getPos(), this.getRoom()))
@@ -207,7 +207,7 @@ public class PlayerAttack extends NoIACommand {
      */
     @Override
     public String toString() {
-        return "Cost : " + actionToPerform.getAPcost() + " AP" 
+        return "Cost : " + actionToPerform.getEffectAPcost() + " AP" 
             + "\nRange: " + range.toString() 
             + "\nSplash: " + splash.toString() 
             + "\nEffect: " + actionToPerform.toString() + "\n\n";
