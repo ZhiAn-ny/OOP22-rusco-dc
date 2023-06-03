@@ -233,6 +233,9 @@ public class GameControllerImpl implements GameObserverController {
 
                 if (tmpCommand.isReady()) { 
                     executeCommand(tmpCommand);
+                    if (isPrintingInv) {
+                        playerSituation = Optional.of(tmpCommand);
+                    }
                 } else {
                     playerSituation = Optional.of(tmpCommand);
                     printCommand();
