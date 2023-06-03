@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class RectangleRoomImplTest {
     private static final String TEST_STR = "test";
     private static final int MIN_ROOM_SIDE = 3;
+    private static final int MAX_ROOM_SIDE = 15;
 
     /**
      * Method under test: {@link RectangleRoomImpl#RectangleRoomImpl(int, int)}.
@@ -388,6 +389,23 @@ class RectangleRoomImplTest {
         final RectangleRoomImpl room = new RectangleRoomImpl(MIN_ROOM_SIDE, MIN_ROOM_SIDE);
         room.addDoor(Direction.UP);
         assertFalse(room.addDoor(Direction.UP));
+    }
+
+    /**
+     * Method under test: {@link RectangleRoomImpl#addStairs(Direction)}
+     */
+    @Test
+    void testAddStairs() {
+        for (int size = MIN_ROOM_SIDE; size <= MAX_ROOM_SIDE; size++) {
+            final Room room = new RectangleRoomImpl(3, 3);
+            for (int i = 0; i < Direction.values().length; i++) {
+                if (Direction.values()[i] == Direction.UNDEFINED) {
+                    assertFalse(room.addStairs(Direction.values()[i]));
+                    continue;
+                }
+                assertTrue(room.addStairs(Direction.values()[i]));
+            }
+        }
     }
 
     /**

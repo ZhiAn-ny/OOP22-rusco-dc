@@ -237,9 +237,13 @@ public class RectangleRoomImpl implements Room, Serializable {
             tile.empty();
         } else {
             final List<Tile> onSide = this.tiles.stream()
+                    .filter(t -> t instanceof WallTileImpl)
                     .filter(this.onSide(dir))
                     .filter(this.isNotCorner())
                     .toList();
+            if (onSide.isEmpty()) {
+                return false;
+            }
             tile = onSide.get(this.rnd.nextInt(onSide.size()));
             tile = new FloorTileImpl(tile.getPosition(), true);
             this.replaceTile(tile.getPosition(), tile);
