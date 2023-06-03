@@ -31,29 +31,49 @@ public class Interact extends NoIACommand {
 
     //private Supplier<Range> rr = () -> new SquareInteraction(new SingleRange());
     private final Range interactableRange = new SquareInteraction(new SingleRange());
-    private Pair<Integer, Integer> cursorPos;
-    private boolean isReady;
-    private boolean undo;
+    private boolean justOpen = true;
+    //private Pair<Integer, Integer> cursorPos;
+    //private boolean isReady;
+    //private boolean undo;
 
     /**
      * //TODO - documentazione!
      */
     public Interact() {
-        cursorPos = null;
+        //cursorPos = null;
         //interactableRange = rr.get();
     }
 
-    private boolean moveCursor(final Pair<Integer, Integer> newPos) {
-        System.out.println(newPos);
-        if (this.getRoom().isInRoom(newPos)) {
-            cursorPos = newPos;
-            return true;
-        } else {
-            return false;
-        }
+    // private boolean moveCursor(final Pair<Integer, Integer> newPos) {
+    //     //System.out.println(newPos);
+    //     if (this.getRoom().isInRoom(newPos)) {
+    //         cursorPos = newPos;
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+
+    /**
+     * 
+     */
+    @Override
+    public boolean modify(final GameControl input) {
+        // boolean mustUpdate = true;
+        // switch (input) {
+        //     case MOVEUP: mustUpdate = moveCursor(Pairs.computeUpPair(cursorPos)); break;
+        //     case MOVEDOWN: mustUpdate = moveCursor(Pairs.computeDownPair(cursorPos)); break;
+        //     case MOVELEFT: mustUpdate = moveCursor(Pairs.computeLeftPair(cursorPos)); break;
+        //     case MOVERIGHT: mustUpdate = moveCursor(Pairs.computeRightPair(cursorPos)); break;
+        //     case CONFIRM: isReady = true; mustUpdate = false; break;
+        //     case CANCEL: isReady = true; undo = true; mustUpdate = false; break;
+        //     default: mustUpdate = false;
+        // }
+        // return mustUpdate;
+        return super.commonModify(input);
     }
 
-     /**
+    /**
      * Compute the {@code}Entity{@code} that wrap for the view the cursor position.
      * @return the cursor position, abstracted into an Entity
      */
@@ -67,7 +87,7 @@ public class Interact extends NoIACommand {
 
             @Override
             public Pair<Integer, Integer> getPos() {
-                return cursorPos;
+                return getCursorPos();
             }
 
             @Override
@@ -81,29 +101,12 @@ public class Interact extends NoIACommand {
      * 
      */
     @Override
-    public boolean modify(final GameControl input) {
-        boolean mustUpdate = true;
-        switch (input) {
-            case MOVEUP: mustUpdate = moveCursor(Pairs.computeUpPair(cursorPos)); break;
-            case MOVEDOWN: mustUpdate = moveCursor(Pairs.computeDownPair(cursorPos)); break;
-            case MOVELEFT: mustUpdate = moveCursor(Pairs.computeLeftPair(cursorPos)); break;
-            case MOVERIGHT: mustUpdate = moveCursor(Pairs.computeRightPair(cursorPos)); break;
-            case CONFIRM: isReady = true; mustUpdate = false; break;
-            case CANCEL: isReady = true; undo = true; mustUpdate = false; break;
-            default: mustUpdate = false;
-        }
-        return mustUpdate;
-    }
-
-    /**
-     * 
-     */
-    @Override
     public Set<Entity> getEntities() {
-        if (cursorPos == null) {
-            cursorPos = this.getActor().getPos();
+        if (justOpen) {
+            reset();
+            justOpen = false;
         }
-        final Set<Entity> tmp = this.interactableRange.getRange(this.getActor().getPos(), cursorPos, this.getRoom());
+        final Set<Entity> tmp = this.interactableRange.getRange(this.getActor().getPos(), super.getCursorPos(), this.getRoom());
         tmp.add(getCursorAsEntity());
         return tmp;
     }
@@ -113,16 +116,15 @@ public class Interact extends NoIACommand {
      */
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
-        isReady = false;
+        super.attempCommand();
 
         //cursorPos = null;
-        if (undo) {
-            undo = false;
-            cursorPos = null;
+        if (super.mustAbortCommand()) {
+            justOpen = true;
             throw new Undo("");
         }
 
-        final Pair<Integer, Integer> tmpCursor = cursorPos;
+        final Pair<Integer, Integer> tmpCursor = super.getCursorPos();
 
         if (!interactableRange.isInRange(this.getActor().getPos(), tmpCursor, tmpCursor, getRoom())) {
             return Optional.of(new InfoPayloadImpl(T_ERR, ERR_NOT_R));
@@ -142,13 +144,13 @@ public class Interact extends NoIACommand {
 
         final Optional<Tile> selected = this.getRoom().get(tmpCursor);
         if (selected.isEmpty()) {
-            cursorPos = tmpCursor;
+            //super.reset();
             return Optional.of(new InfoPayloadImpl(T_ERR, ERR_NOT_EX));
         }
 
         final Optional<Interactable> interac = selected.get().get();
         if (interac.isEmpty()) {
-            cursorPos = tmpCursor;
+            //super.reset();
             return Optional.of(new InfoPayloadImpl(T_ERR, NOTHING_TO_INT));
         }
 
@@ -159,19 +161,12 @@ public class Interact extends NoIACommand {
             throw new IllegalStateException("GameCommand behind interactable must not be complex");
         }
 
-        cursorPos = null;
+        super.reset();
+        justOpen = true;
         final Optional<InfoPayload> res = obtained.execute();
         if (res.isEmpty()) {
             this.getRoom().get(tmpCursor).get().empty();
         }
         return res;
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public boolean isReady() {
-        return isReady;
     }
 }
