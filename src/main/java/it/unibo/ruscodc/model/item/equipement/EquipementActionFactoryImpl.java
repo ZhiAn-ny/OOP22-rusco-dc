@@ -32,7 +32,7 @@ public class EquipementActionFactoryImpl implements EquipementActionFactory {
     private static final Range CONE_ATTACK_SPLASH = new ConeRange(5, new SingleSplash());
 
     private static final int ROW_ATTACK_COST = 0;
-    private static final Range ROW_ATTACK_RANGE = new CircleRange(1, new SingleRange());
+    private static final Range ROW_ATTACK_RANGE = new CircleRange(3, new SingleRange());
     private static final Range ROW_ATTACK_SPLASH = new DirectRowRange(new SingleSplash());
 
     /**

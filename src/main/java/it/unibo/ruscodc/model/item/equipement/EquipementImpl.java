@@ -3,9 +3,10 @@ package it.unibo.ruscodc.model.item.equipement;
 import java.util.Map;
 import java.util.Optional;
 
-import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
+import it.unibo.ruscodc.model.item.Inventory;
 import it.unibo.ruscodc.model.item.InventoryImpl.Slot;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
@@ -84,30 +85,34 @@ public class EquipementImpl implements Equipement {
     }
 
     /**
-     * @param actor the actor that needs to equip the item
+     * @param hero the actor that needs to equip the item
      */
-    public void equip(final Actor actor) {
+    public void equip(final Hero hero) {
         this.stat
             .entrySet()
             .stream()
             .forEach(
-                a -> actor.modifyMaxStat(a.getKey(), actor.getStatMax(a.getKey()) + a.getValue()));
+                a -> hero.modifyMaxStat(a.getKey(), a.getValue()));
 
         if (action.isPresent()) {
-            actor.getSkills().setAction(action.get().getX(), action.get().getY());
+            hero.getSkills().setAction(action.get().getX(), action.get().getY());
         }
+
+        Inventory inventory = hero.getInventory();
+        inventory.removeItem(inventory.getAllItems().indexOf(this));
     }
 
     /**
      * @param actor the actor that needs to unequip the item
      */
-    public void unequip(final Actor actor) {
+    public void unequip(final Hero hero) {
         this.stat
             .entrySet()
             .stream()
             .forEach(
-                a -> actor.modifyMaxStat(a.getKey(), actor.getStatMax(a.getKey()) - a.getValue())
+                a -> hero.modifyMaxStat(a.getKey(), -a.getValue())
             );
+        hero.getInventory().addItem(this);
     }
 
     /**
