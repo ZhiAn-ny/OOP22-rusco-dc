@@ -72,14 +72,6 @@ public class GameViewController implements Initializable {
     private ProgressBar ap;
 
     @FXML
-<<<<<<< HEAD
-=======
-    private Button inventory;
-    @FXML
-    private Button menu;
-
-    @FXML
->>>>>>> develop
     private StackPane infoPane;
     @FXML
     private ImageView infoImage;
@@ -91,29 +83,20 @@ public class GameViewController implements Initializable {
     @FXML
     private StackPane mainPane;
 
-<<<<<<< HEAD
     private NumberBinding bindings;
 
 
     /**
      * Updates the view with the new entities to print.
      */
-    public void update() {
-=======
-    
->>>>>>> develop
 
     private void updateGame() {
         if (!isToUpdate){
             return;
         }
         this.mainGrid.getChildren().clear();
-<<<<<<< HEAD
         //final NumberBinding binding = this.getBindingFunction();
         //this.mainGrid.getChildren().clear();
-=======
-        final DoubleBinding binding = this.getBindingFunction();
->>>>>>> develop
         isToUpdate = false;
         
         IntStream.rangeClosed(lastRenderingLevelGame + 1, 10).forEach(i -> renderedGame.remove(i));
@@ -140,7 +123,7 @@ public class GameViewController implements Initializable {
             return;
         }
         this.inventoryGrid.getChildren().clear();
-        final DoubleBinding binding = this.getBindingFunction();
+        final NumberBinding binding = this.getBindingFunction();
         isToUpdate = false;
         
         IntStream.rangeClosed(lastRenderingLevelGame + 1, 10).forEach(i -> renderedInv.remove(i));
