@@ -19,6 +19,8 @@ import it.unibo.ruscodc.utils.Pairs;
  */
 public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
 
+    private static final Random RNG = new Random();
+
     private Optional<Pair<Integer, Integer>> getActorTarget(final Pair<Integer, Integer> monsterPos, final List<Actor> actors, final Predicate<Actor> filter) {
         return Optional.of(actors
             .stream()
@@ -122,11 +124,10 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
             @Override
             public Optional<GameCommand> chooseMove(final Monster monster, final List<Actor> actors, final Room room) {
                 Pair<Integer, Integer> monsterPos = monster.getPos();
-                Random rng = new Random();
                 List<Boolean> check = List.of(false, false, false, false);
                 Optional<GameCommand> action = Optional.empty();
                 while (check.contains(false)) {
-                    switch (rng.nextInt(4)) {
+                    switch (RNG.nextInt(4)) {
                         case 0:
                         if (canMove(new Pair<>(monsterPos.getX(), monsterPos.getY() + 1), actors, room)) {
                             action = monster.getSkills().getAction(GameControl.MOVERIGHT);

@@ -27,6 +27,6 @@ public class ChangeRoom extends ChangeSituation {
      */
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
-        throw new ChangeRoomException("The room is changing", door);
+        throw new ChangeRoomException(door);
     }
 }

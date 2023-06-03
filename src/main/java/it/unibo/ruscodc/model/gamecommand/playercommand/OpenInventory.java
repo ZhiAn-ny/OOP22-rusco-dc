@@ -235,7 +235,7 @@ public class OpenInventory extends NoIACommand {
             this.mustClose = false;
             this.advise = Optional.empty();
             resetCursor();
-            throw new Undo("Close inventory");
+            throw new Undo();
         }
         this.isReady = false;
         return advise;

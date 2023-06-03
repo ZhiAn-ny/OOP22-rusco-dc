@@ -8,15 +8,15 @@ import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 
 /**
- * TODO - documentazione!.
+ * Create a particular type of Range
  */
 public class SquareInteraction extends DecoratedRange {
 
     private static final int SIZE = 1;
 
     /**
-     * TODO - documentazione!.
-     * @param start TODO - documentazione!.
+     * Create a SquareRange, with some difference in conversion phase
+     * @param start which Range must be decorated by this particular Range
      */
     public SquareInteraction(final Range start) {
         super(start);

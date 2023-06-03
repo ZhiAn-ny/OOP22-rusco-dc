@@ -163,7 +163,7 @@ public class PlayerAttack extends NoIACommand {
         if (super.mustAbortCommand()) {
             isFirstTime = true;
             reset();
-            throw new Undo("Let's do a new interaction");
+            throw new Undo();
         }
 
         final Actor from = this.getActor();

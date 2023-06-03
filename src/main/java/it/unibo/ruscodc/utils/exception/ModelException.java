@@ -12,4 +12,5 @@ package it.unibo.ruscodc.utils.exception;
  */
 public class ModelException extends Exception {
     static final long serialVersionUID = 7002L;
+
 }

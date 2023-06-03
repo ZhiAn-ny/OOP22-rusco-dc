@@ -192,6 +192,7 @@ public class GameViewController implements Initializable {
      */
     @FXML
     public void initialize(final URL location, final ResourceBundle resources) {
+        this.invPane.toBack();
         this.gameloop();
     }
 

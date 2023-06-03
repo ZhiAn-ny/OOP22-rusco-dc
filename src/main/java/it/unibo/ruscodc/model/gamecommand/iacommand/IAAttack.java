@@ -76,7 +76,11 @@ public class IAAttack extends NoPlayerCommand {
      * 
      */
     @Override
-    public Optional<InfoPayload> execute() throws ModelException {
+    public Optional<InfoPayload> execute() throws ModelException {        
+        if (this.targets == null || this.targets.isEmpty()) {
+            return Optional.empty();
+        }
+
         final Actor from = this.getActor();
         final Set<Actor> effectiveTargets = this.targets.stream()
             .filter(a -> splash.isInRange(cursor, from.getPos(), a.getPos(), this.getRoom()))

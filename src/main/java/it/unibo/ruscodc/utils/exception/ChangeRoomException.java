@@ -9,13 +9,14 @@ public class ChangeRoomException extends ModelException {
 
     static final long serialVersionUID = 7001L;
 
-    private final Pair<Integer, Integer> door;
+    private transient final Pair<Integer, Integer> door;
+
     /**
      * Create this type of exception.
      * @param mess the message that advices that the room is changing
      * @param selectedDoor the position of the door used to change room
      */
-    public ChangeRoomException(final String mess, final Pair<Integer, Integer> selectedDoor) {
+    public ChangeRoomException(final Pair<Integer, Integer> selectedDoor) {
         this.door = selectedDoor;
     }
 
@@ -26,6 +27,5 @@ public class ChangeRoomException extends ModelException {
     public Pair<Integer, Integer> getDoorPos() {
         return door;
     }
-
 
 }

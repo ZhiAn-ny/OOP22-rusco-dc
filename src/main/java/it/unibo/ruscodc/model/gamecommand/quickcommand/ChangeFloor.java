@@ -16,6 +16,6 @@ public class ChangeFloor extends ChangeSituation {
      */
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
-        throw new ChangeFloorException("The floor is changing");
+        throw new ChangeFloorException();
     }
 }

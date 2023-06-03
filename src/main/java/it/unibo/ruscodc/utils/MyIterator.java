@@ -11,7 +11,7 @@ import java.util.stream.Stream;
  * getAct method return null, and obviosily "next" method will throw an exception
  * @param <X> the tipe of Iterator's objects
  */
-public class MyIterator<X> implements Iterator<X> {
+final public class MyIterator<X> implements Iterator<X> {
 
     private X act;
     private Iterator<X> myIt;
@@ -23,7 +23,7 @@ public class MyIterator<X> implements Iterator<X> {
      */
     public MyIterator(final Iterator<X> it) {
         source = () -> it;
-        reset();
+        this.reset();
     }
 
     /**
@@ -51,7 +51,7 @@ public class MyIterator<X> implements Iterator<X> {
      * @return <X> the last iterate element
      */
     public X getAct() {
-        return act;
+        return this.act;
     }
 
     /**

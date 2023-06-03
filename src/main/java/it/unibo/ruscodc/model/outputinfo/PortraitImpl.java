@@ -1,5 +1,6 @@
 package it.unibo.ruscodc.model.outputinfo;
 
+import java.util.Collections;
 import java.util.List;
 
 import it.unibo.ruscodc.model.actors.Actor;
@@ -7,7 +8,7 @@ import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
- * TODO documetazione!.
+ * Wrapper-class that lead info about the actual hero by Model to View
  */
 public class PortraitImpl implements Portrait {
 
@@ -17,17 +18,14 @@ public class PortraitImpl implements Portrait {
     private final double percentageHp;
     private final double percentageAp;
 
-    /* private final static String ATT_P = null;
-    private final static String USE_P = null; */
-
     /**
-     * TODO documetazione!.
-     * @param actor TODO documetazione!.
-     * @param hpC TODO documetazione!.
-     * @param apC TODO documetazione!.
+     * Create this object
+     * @param actor the actor by pick some info
+     * @param hpC its coefficent of HealPoint
+     * @param apC its coefficent of ActionPoint
      */
     public PortraitImpl(final Actor actor, final double hpC, final double apC) {
-        this.actor = actor;
+        this.actor = Collections.nCopies(1, actor).get(0);
         this.percentageHp = hpC;
         this.percentageAp = apC;
     }

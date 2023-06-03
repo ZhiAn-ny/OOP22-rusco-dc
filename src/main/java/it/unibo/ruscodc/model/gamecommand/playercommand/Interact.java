@@ -29,47 +29,14 @@ public class Interact extends NoIACommand {
     private static final String ERR_NOT_R = "Cursor is out of interaction range";
     private static final String NOTHING_TO_INT = "You are tring to interact with an empty tile!";
 
-    //private Supplier<Range> rr = () -> new SquareInteraction(new SingleRange());
     private final Range interactableRange = new SquareInteraction(new SingleRange());
     private boolean justOpen = true;
-    //private Pair<Integer, Integer> cursorPos;
-    //private boolean isReady;
-    //private boolean undo;
-
-    /**
-     * //TODO - documentazione!
-     */
-    public Interact() {
-        //cursorPos = null;
-        //interactableRange = rr.get();
-    }
-
-    // private boolean moveCursor(final Pair<Integer, Integer> newPos) {
-    //     //System.out.println(newPos);
-    //     if (this.getRoom().isInRoom(newPos)) {
-    //         cursorPos = newPos;
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
 
     /**
      * 
      */
     @Override
     public boolean modify(final GameControl input) {
-        // boolean mustUpdate = true;
-        // switch (input) {
-        //     case MOVEUP: mustUpdate = moveCursor(Pairs.computeUpPair(cursorPos)); break;
-        //     case MOVEDOWN: mustUpdate = moveCursor(Pairs.computeDownPair(cursorPos)); break;
-        //     case MOVELEFT: mustUpdate = moveCursor(Pairs.computeLeftPair(cursorPos)); break;
-        //     case MOVERIGHT: mustUpdate = moveCursor(Pairs.computeRightPair(cursorPos)); break;
-        //     case CONFIRM: isReady = true; mustUpdate = false; break;
-        //     case CANCEL: isReady = true; undo = true; mustUpdate = false; break;
-        //     default: mustUpdate = false;
-        // }
-        // return mustUpdate;
         return super.commonModify(input);
     }
 
@@ -121,7 +88,7 @@ public class Interact extends NoIACommand {
         //cursorPos = null;
         if (super.mustAbortCommand()) {
             justOpen = true;
-            throw new Undo("");
+            throw new Undo();
         }
 
         final Pair<Integer, Integer> tmpCursor = super.getCursorPos();

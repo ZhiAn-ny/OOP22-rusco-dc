@@ -169,11 +169,8 @@ public final class Pairs {
         final double angCoeff = (deltaRows * 1.0) / (deltaCols * 1.0);
         final double myAngCoeff = reflect ? 1 / angCoeff : angCoeff;
 
-        final Stream<Integer> numbers = increase 
-            ? Stream.iterate(0, i -> i = i + 1)
-            : Stream.iterate(0, i -> i = i - 1);
-
-        return numbers.map(i -> reflect 
+        return Stream.iterate(0, i -> increase ? i + 1 : i - 1)
+            .map(i -> reflect 
                 ? new Pair<Integer, Integer>(i, (int) Math.round(myAngCoeff * i)) 
                 : new Pair<Integer, Integer>((int) Math.round(myAngCoeff * i), i));
     }
@@ -433,15 +430,18 @@ public final class Pairs {
         final int toSkip = radius - 1 <= 1 ? 1 : radius - 1;
         final Pair<Integer, Integer> b = computeInfPPLine(a, bb).skip(toSkip).findFirst().get();
         final Pair<Integer, Integer> c = computeInfPPLine(a, cc).skip(toSkip).findFirst().get();
+
+        if (b.equals(c)) {
+            return Stream.of(Stream.of(b));
+        }
+
         final Pair<Integer, Integer> d = computeInfBoldLine(a, to).skip(radius).findFirst().get();
 
         final Stream<Pair<Integer, Integer>> bd = computeBoldLine(d, b);
         final Stream<Pair<Integer, Integer>> cd = computeBoldLine(d, c);
         final Stream<Pair<Integer, Integer>> cfr = Stream.concat(bd, cd).distinct();
 
-        if (b.equals(c)) {
-            return Stream.of(Stream.of(b));
-        }
+        
 
         final Set<Pair<Integer, Integer>> extremes = Set.of(b, c);
 

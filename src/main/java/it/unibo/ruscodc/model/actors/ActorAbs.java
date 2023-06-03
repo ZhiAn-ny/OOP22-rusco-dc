@@ -1,5 +1,7 @@
 package it.unibo.ruscodc.model.actors;
 
+import java.util.Collections;
+
 import it.unibo.ruscodc.model.actors.skill.Skill;
 import it.unibo.ruscodc.model.actors.stat.Stat;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;

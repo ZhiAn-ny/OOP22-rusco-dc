@@ -137,17 +137,17 @@ public abstract class DecoratedRange implements Range {
         Pair<Integer, Integer> to);
 
     /**
-     * TODO - documentazione!.
-     * @param where TODO - documentazione!.
-     * @return TODO - documentazione!.
+     * Let other class define when stop a single row.
+     * @param where the room, which contains info that define this stop.
+     * @return this type of filter.
      */
     protected Predicate<Pair<Integer, Integer>> filterToApply(final Room where) {
         return p -> where.isInRoom(p) && where.isAccessible(p);
     }
 
     /**
-     * TODO documetazione!.
-     * @return TODO documetazione!.
+     * Let other class define where Range start (if it start in "by" or in "to").
+     * @return true if this start into "by", false otherwise
      */
     protected boolean centerToFrom() {
         return true;

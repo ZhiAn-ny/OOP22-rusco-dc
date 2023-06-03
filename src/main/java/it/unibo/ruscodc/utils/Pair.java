@@ -65,7 +65,7 @@ public final class Pair<X, Y> {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Pair other = (Pair) obj;
+        final Pair other = (Pair) obj;
         if (x == null) {
             if (other.x != null) {
                 return false;
