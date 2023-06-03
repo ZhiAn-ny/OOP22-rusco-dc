@@ -139,7 +139,7 @@ public class GameModelImpl implements GameModel {
     private void respawnParty(final Pair<Integer, Integer> pos) {
         final int radius = 1;
         this.hero.setPos(pos);
-        this.getCurrentRoom().clearArea(pos, radius);
+        this.floor.clearArea(pos, radius);
     }
 
     /** {@inheritDoc} */
@@ -151,10 +151,12 @@ public class GameModelImpl implements GameModel {
         this.respawnParty(this.initialPosition);
     }
 
-    /** {@inheritDoc} */
     @Override
-    public Floor getCurrentFloor() {
-        return this.floor;
+    public void eliminateMonster(final Monster monster) {
+        if (monster.isAlive()) {
+            throw new IllegalArgumentException("The monster is still alive!");
+        }
+        this.floor.eliminateMonster(monster);
     }
 
     /** {@inheritDoc} */

@@ -1,7 +1,7 @@
 package it.unibo.ruscodc.model;
 
 import it.unibo.ruscodc.model.actors.Actor;
-import it.unibo.ruscodc.model.gamemap.Floor;
+import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.utils.Pair;
@@ -50,10 +50,10 @@ public interface GameModel {
     void changeFloor();
 
     /**
-     * Returns the current <code>Floor</code>.
-     * @return the current floor.
+     * Eliminates a monster and removes it from the map.
+     * @param monster the monster to eliminate
      */
-    Floor getCurrentFloor();
+    void eliminateMonster(Monster monster);
 
 
     Portrait getRuscoInfo();

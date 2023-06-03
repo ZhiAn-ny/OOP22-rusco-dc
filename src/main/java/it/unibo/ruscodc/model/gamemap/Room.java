@@ -149,4 +149,9 @@ public interface Room {
      */
     Optional<Interactable> getDoorOnSide(Direction side);
 
+    /**
+     * Eliminates a monster and removes it from the map.
+     * @param monster the monster to eliminate
+     */
+    void eliminateMonster(Monster monster);
 }

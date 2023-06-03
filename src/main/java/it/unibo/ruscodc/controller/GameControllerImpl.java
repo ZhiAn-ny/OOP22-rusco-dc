@@ -287,7 +287,7 @@ public class GameControllerImpl implements GameObserverController {
                 System.out.println("C " + initiative.size());
             } else {
                 initiative.remove(0);
-                this.model.getCurrentRoom().getMonsters().remove(tmpMonster);
+                this.model.eliminateMonster(tmpMonster);
             }
             initNewTurn();
         }

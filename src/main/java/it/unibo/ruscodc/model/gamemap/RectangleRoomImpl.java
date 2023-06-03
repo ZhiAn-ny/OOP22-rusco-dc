@@ -303,6 +303,16 @@ public class RectangleRoomImpl implements Room, Serializable {
         return Optional.empty();
     }
 
+    @Override
+    public void eliminateMonster(final Monster monster) {
+        final Optional<Monster> mst = this.monsters.stream()
+                .filter(m -> m.getPos().equals(monster.getPos()))
+                .findFirst();
+        if (mst.isPresent() && mst.get().getName().equals(monster.getName())) {
+            this.monsters.remove(mst.get());
+        }
+    }
+
     /** {@inheritDoc} */
     @Override
     public void clearArea(final Pair<Integer, Integer> pos, final int rad) {

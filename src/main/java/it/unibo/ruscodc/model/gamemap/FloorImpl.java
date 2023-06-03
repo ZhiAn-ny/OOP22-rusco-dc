@@ -1,5 +1,7 @@
 package it.unibo.ruscodc.model.gamemap;
 
+import com.google.gson.Gson;
+import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.utils.Direction;
 
 import java.io.Serial;
@@ -17,6 +19,8 @@ public class FloorImpl implements Floor, Serializable {
     private static final long serialVersionUID = 1L;
     private static final int ENTRANCE_SIZE = 5;
     private static final int MAX_ROOMS_NUMBER = 20;
+
+    private final Gson gson = new Gson();
 
     private Room currentRoom;
     private int unusedDoors;
@@ -56,7 +60,7 @@ public class FloorImpl implements Floor, Serializable {
     /** {@inheritDoc} */
     @Override
     public Room getCurrentRoom() {
-        return this.currentRoom;
+        return this.gson.fromJson(this.gson.toJson(this.currentRoom), Room.class);
     }
 
     /** {@inheritDoc} */
@@ -84,6 +88,12 @@ public class FloorImpl implements Floor, Serializable {
             this.currentRoom = next;
             this.manageDoors();
         }
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void eliminateMonster(final Monster monster) {
+        this.currentRoom.eliminateMonster(monster);
     }
 
     private Room getNextRoom() {
