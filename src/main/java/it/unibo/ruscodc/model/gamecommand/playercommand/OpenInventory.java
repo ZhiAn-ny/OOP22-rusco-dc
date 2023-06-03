@@ -28,7 +28,7 @@ public class OpenInventory extends NoIACommand {
     private Hero hero;
     private Inventory inventory;
     private Optional<InfoPayload> advise;
-    private Pair<Integer, Integer> cursorPos;
+    private Pair<Integer, Integer> cursorPos = new Pair<>(0, 0);
     private boolean isReady = false;
     private boolean exit = false;
     private boolean isInit = false;
@@ -39,7 +39,9 @@ public class OpenInventory extends NoIACommand {
     }
 
     private void resetCursor() {
-        this.cursorPos = new Pair<Integer, Integer>(0, 0);
+        if (byPtoI(cursorPos) >= this.inventory.slotOccupied()) {
+            this.cursorPos = new Pair<Integer, Integer>(0, 0);
+        }
     }
 
     private int getIndexOfLastItemInARow(final int row) {

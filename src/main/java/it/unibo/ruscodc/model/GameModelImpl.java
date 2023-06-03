@@ -169,7 +169,7 @@ public class GameModelImpl implements GameModel {
     public Portrait getRuscoInfo() {
         return new PortraitImpl(hero, 
             (hero.getStatActual(StatName.HP) * 1.0) / (hero.getStatMax(StatName.HP) * 1.0) , 
-            (hero.getStatActual(StatName.AP) * 1.0) / (hero.getStatMax(StatName.HP) * 1.0));
+            (hero.getStatActual(StatName.AP) * 1.0) / (hero.getStatMax(StatName.AP) * 1.0));
     }
 
     @Override
