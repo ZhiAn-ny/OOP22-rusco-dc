@@ -1,7 +1,6 @@
 package it.unibo.ruscodc.model.range;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -23,7 +22,7 @@ public abstract class DecoratedRange implements Range {
     //private Stream<Stream<Pair<Integer, Integer>>> shapeDelta;
     private final Set<Pair<Integer, Integer>> effectiveShape = new HashSet<>();
     private Pair<Integer, Integer> lastBy;
-    private Pair<Integer, Integer> lastTo;
+    //private Pair<Integer, Integer> lastTo;
 
     /**
      * Save the last decorated Range.
@@ -45,11 +44,10 @@ public abstract class DecoratedRange implements Range {
     private void checkIfCommute(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Room where) {
         //if (!to.equals(lastTo) || !by.equals(lastBy)) {
         //System.out.println("ahahah");
-        if (!by.equals(lastBy)){
+        if (!by.equals(lastBy)) {
             this.commute(by, to, where);
         }
         lastBy = by;
-        
         //lastBy = by;
         //lastTo = to;
     }
@@ -64,10 +62,10 @@ public abstract class DecoratedRange implements Range {
             final Pair<Integer, Integer> toCheck, 
             final Room where) {
         this.checkIfCommute(by, to, where);
-        boolean okForLast = basicRange.isInRange(by, to, toCheck, where);
-        if (basicRange.getRange(by, toCheck, where).size() == 1){
-            return effectiveShape.contains(toCheck);//okForLast = !okForLast;
+        if (basicRange.getRange(by, toCheck, where).size() == 1) {
+            return effectiveShape.contains(toCheck); //okForLast = !okForLast;
         }
+        final boolean okForLast = basicRange.isInRange(by, to, toCheck, where);
         return effectiveShape.contains(toCheck) || okForLast;
         //boolean tmp = effectiveShape.contains(toCheck) && okForLast;
         //return tmp;
@@ -138,12 +136,20 @@ public abstract class DecoratedRange implements Range {
         Pair<Integer, Integer> from, 
         Pair<Integer, Integer> to);
 
-    
-    protected Predicate<Pair<Integer, Integer>> filterToApply (final Room where) {
+    /**
+     * TODO - documentazione!.
+     * @param where TODO - documentazione!.
+     * @return TODO - documentazione!.
+     */
+    protected Predicate<Pair<Integer, Integer>> filterToApply(final Room where) {
         return p -> where.isInRoom(p) && where.isAccessible(p);
     }
 
-    protected boolean centerToFrom () {
+    /**
+     * TODO documetazione!.
+     * @return TODO documetazione!.
+     */
+    protected boolean centerToFrom() {
         return true;
     }
 }

@@ -38,9 +38,11 @@ public class FXMLMainView extends Application implements GameView {
     private final List<Entity> printedEntity = new ArrayList<>();
     private boolean isReady;
     private final Optional<Pair<Integer, Integer>> dims = Optional.empty();
-    private boolean isPrintingInfo = true;
+    //private boolean isPrintingInfo = true;
     private Stage stage;
 
+    private boolean isPrintingInfo = false;
+    private boolean isShowingInv = false;
 
     /** {@inheritDoc} */
     @Override
@@ -67,7 +69,6 @@ public class FXMLMainView extends Application implements GameView {
     @Override
     public void init(final GameObserverController ctrl) {
         this.controller = ctrl;
-
     }
 
     public void startNewGame() throws IOException {
@@ -98,25 +99,17 @@ public class FXMLMainView extends Application implements GameView {
 
     /** {@inheritDoc} */
     @Override
-    public void resetView(final List<Entity> toDraw, final Pair<Integer, Integer> roomSize) {
+    public void resetLevel(final List<Entity> entities) {
+        gameView.updateEntities(entities);
+    }
 
+    /** {@inheritDoc} */
+    @Override
+    public void resetView(final List<Entity> toDraw, final Pair<Integer, Integer> roomSize) {
         this.printedEntity.clear();
         this.printedEntity.addAll(toDraw);
-        this.gameView.updateEntities(toDraw);
         this.gameView.setRoomSize(roomSize);
-
-
-        // this.printedEntity.clear();
-        // this.printedEntity.addAll(toDraw);
-        // int effecctiveX = roomSize.getX()+2;
-        // int effectiveY = roomSize.getY()+2;
-        // Pair<Integer, Integer> effectiveDim = new Pair<>(roomSize.getX()+2, roomSize.getY()+2);
-        // dims.map(p -> new Pair<>(roomSize.getX()+2, roomSize.getY()+2));
-        // this.gameView.setRoomSize(roomSize);
-        // javafx.util.Pair<Integer, Integer> effectiveDim2 = new javafx.util.Pair<>(roomSize.getX()+2, roomSize.getY()+2);
-
-        // Map<Character, Integer> dim = new HashMap<>();
-
+        this.resetLevel(toDraw);
     }
 
     /** {@inheritDoc} */
@@ -139,32 +132,38 @@ public class FXMLMainView extends Application implements GameView {
         }
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public void resetLevel(final List<Entity> entities) {
-        //int minDepth = entities.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
-        //this.printedEntity.removeIf(e -> e.getID() >= minDepth);
-        //this.printedEntity.addAll(entities);
-        gameView.updateEntities(entities);
-    }
+    // /** {@inheritDoc} */
+    // @Override
+    // public void resetLevel(final List<Entity> entities) {
+    //     //int minDepth = entities.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
+    //     //this.printedEntity.removeIf(e -> e.getID() >= minDepth);
+    //     //this.printedEntity.addAll(entities);
+    //     gameView.updateEntities(entities);
+    // }
 
     private void showMainMenu() throws IOException {
         final Scene scene = this.loadMainMenu();
         //this.handleWindowSize(stage, scene);
-        this.handleEvents(stage);
-        // this.handleUserInputs(scene);
-
-
-        //stage.setFullScreen(true);
-        stage.setTitle(this.title);
-        stage.getIcons().add(new Image(this.iconPath));
-        stage.setScene(scene);
-        stage.setUserData(this.controller);
-
-        this.isReady = true;
-        stage.show();
-        this.menuController.setLayout();
     }
+
+    // public void start(final Stage stage) throws Exception {
+    //     System.out.println("FXMLMainView start");
+    //     final Scene scene = this.loadGameView();
+    //     this.handleWindowSize(stage, scene);
+    //     this.handleEvents(stage);
+    //     // this.handleUserInputs(scene);
+
+
+    //     //stage.setFullScreen(true);
+    //     stage.setTitle(this.title);
+    //     stage.getIcons().add(new Image(this.iconPath));
+    //     stage.setScene(scene);
+    //     stage.setUserData(this.controller);
+
+    //     this.isReady = true;
+    //     stage.show();
+    //     this.menuController.setLayout();
+    // }
 
     /** {@inheritDoc} */
     @Override
@@ -177,21 +176,29 @@ public class FXMLMainView extends Application implements GameView {
         showMainMenu();
     }
 
-    private void uploadView() {
-
-    }
-
     private Scene loadMainMenu() throws IOException {
         final Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
         final double scale = 2 / 3.;
         final double width = screenSize.getWidth() * scale;
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("menu-iniziale.fxml"));
-        //fxmlLoader.setController(new MainMenuController());
+        fxmlLoader.setController(new MainMenuController());
         final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
-        this.menuController = (MainMenuController) fxmlLoader.getController();
-        this.menuController.init(this);
+        this.gameView = (GameViewController) fxmlLoader.getController();
+
         return scene;
     }
+
+    // private Scene loadGameView() throws IOException {
+    //     final Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+    //     final double scale = 2 / 3.;
+    //     final double width = screenSize.getWidth() * scale;
+    //     final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("menu-iniziale.fxml"));
+    //     //fxmlLoader.setController(new MainMenuController());
+    //     final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
+    //     this.menuController = (MainMenuController) fxmlLoader.getController();
+    //     this.menuController.init(this);
+    //     return scene;
+    // }
 
     private Scene loadGameView() throws IOException {
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("game-view.fxml"));
@@ -276,12 +283,39 @@ public class FXMLMainView extends Application implements GameView {
         gameView.uploadPortraitToScreen(infos);
     }
 
+    /**
+     * 
+     */
     @Override
     public void printGameOver() throws IOException {
         System.out.println("Game Over");
         final Scene scene = this.loadGameOver();
         stage.setScene(scene);
 
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void openInventory() {
+        this.gameView.openInv();
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void closeInventory() {
+        this.gameView.closeInv();
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public void printStats(String heroStats) {
+        this.gameView.uploadStatsToScreen(heroStats);
     }
 
 }

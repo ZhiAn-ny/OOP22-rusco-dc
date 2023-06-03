@@ -3,7 +3,6 @@ package it.unibo.ruscodc.model.gamecommand.quickcommand;
 import java.util.Optional;
 
 import it.unibo.ruscodc.model.actors.Actor;
-import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.effect.SingleTargetEffect;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
@@ -27,7 +26,7 @@ public abstract class MoveCommand extends QuickActionAbs {
      * Client must not create directly this object.
      */
     protected MoveCommand() { //NOPMD: if i don't add a comment to the costructor, 
-    //checkstyle will generate an error. So i prefer document an empty constructor
+            //checkstyle will generate an error. So i prefer document an empty constructor
     }
 
     /**
@@ -36,7 +35,6 @@ public abstract class MoveCommand extends QuickActionAbs {
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
         final Room where = this.getRoom();
-        final Actor actActor = this.getActor();
         final Pair<Integer, Integer> newPos = this.computeNewPos();
         if (where.getMonsters().stream().map(a -> a.getPos()).anyMatch(p -> p.equals(newPos)) 
             || !where.isAccessible(newPos)) {
@@ -44,16 +42,18 @@ public abstract class MoveCommand extends QuickActionAbs {
             return Optional.of(new InfoPayloadImpl(getErrTitle(), err));
             //throw new UnreacheblePos(err);
         }
+
+        final Actor actActor = this.getActor();
         actActor.setPos(newPos);
 
-        Optional<Tile> arrivedPos = where.get(newPos);
+        final Optional<Tile> arrivedPos = where.get(newPos);
         if (arrivedPos.isPresent()) {
-            SingleTargetEffect tmp = arrivedPos.get().getEffect();
+            final SingleTargetEffect tmp = arrivedPos.get().getEffect();
             //System.out.println(this.getActor().getStatActual(StatName.HP) + " <--");
             tmp.applyEffect(actActor);
         }
 
-        Optional<Interactable> possiblePortal = arrivedPos.get().get();
+        final Optional<Interactable> possiblePortal = arrivedPos.get().get();
         if (possiblePortal.isPresent()) {
             final GameCommand gc = possiblePortal.get().interact();
             gc.setActor(actActor);

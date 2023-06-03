@@ -8,76 +8,84 @@ import it.unibo.ruscodc.utils.Pair;
  */
 public class StatFactoryImpl implements StatFactory {
 
-    private static int none = 0;
-    private static int low = 1;
-    private static int medium = 3;
-    private static int high = 5;
-    private static int max = 1;
+    private static final int NONE = 0;
+    private static final int LOW = 1;
+    private static final int MEDIUM = 3;
+    private static final int HIGH = 5;
 
-    private static int ratHP = 5;
-    private static int ratAP = 3;
-    private static int ratDMG = 2;
+    private static final int RAT_HP = 5;
+    private static final int RAT_AP = 3;
+    private static final int RAT_DMG = 2;
 
-    private static int opossumHP = 10;
-    private static int opossumAP = 7;
-    private static int opossumDMG = 4;
+    private static final int OPOSSUM_HP = 10;
+    private static final int OPOSSUM_AP = 7;
+    private static final int OPOSSUM_DMG = 4;
 
-    private static int seagullHP = 7;
-    private static int seagullAP = 4;
-    private static int seagullDMG = 3;
+    private static final int SEAGULL_HP = 7;
+    private static final int SEAGULL_AP = 4;
+    private static final int SEAGULL_DMG = 3;
 
-    private static int cockroachHP = 2;
-    private static int cockroachAP = 0;
-    private static int cockroachDMG = 15;
+    private static final int COCKROACH_HP = 2;
+    private static final int COCKROACH_AP = 0;
+    private static final int COCKROACH_DMG = 15;
 
+    /**
+     * 
+     */
     @Override
     public Stat ratStat() {
         Stat ratStats = new StatImpl();
-        ratStats.setStat(StatName.HP, new Pair<Integer, Integer>(ratHP, ratHP));
-        ratStats.setStat(StatName.AP, new Pair<Integer, Integer>(ratAP, ratAP));
-        ratStats.setStat(StatName.DMG, new Pair<Integer, Integer>(ratDMG, ratDMG));
-        ratStats.setStat(StatName.STR, new Pair<Integer, Integer>(low, low));
-        ratStats.setStat(StatName.DEX, new Pair<Integer, Integer>(medium, medium));
-        ratStats.setStat(StatName.INT, new Pair<Integer, Integer>(none, none));
+        ratStats.setStat(StatName.HP, new Pair<Integer, Integer>(RAT_HP, RAT_HP));
+        ratStats.setStat(StatName.AP, new Pair<Integer, Integer>(RAT_AP, RAT_AP));
+        ratStats.setStat(StatName.DMG, new Pair<Integer, Integer>(RAT_DMG, RAT_DMG));
+        ratStats.setStat(StatName.STR, new Pair<Integer, Integer>(LOW, LOW));
+        ratStats.setStat(StatName.DEX, new Pair<Integer, Integer>(MEDIUM, MEDIUM));
+        ratStats.setStat(StatName.INT, new Pair<Integer, Integer>(NONE, NONE));
         return ratStats;
     }
 
+    /**
+     * 
+     */
     @Override
     public Stat opossumStat() {
         Stat ratStats = new StatImpl();
-        ratStats.setStat(StatName.HP, new Pair<Integer,Integer>(opossumHP, opossumHP));
-        ratStats.setStat(StatName.AP, new Pair<Integer,Integer>(opossumAP,opossumAP));
-        ratStats.setStat(StatName.DMG, new Pair<Integer,Integer>(opossumDMG, opossumDMG));
-        ratStats.setStat(StatName.STR, new Pair<Integer,Integer>(medium, medium));
-        ratStats.setStat(StatName.DEX, new Pair<Integer,Integer>(high, high));
-        ratStats.setStat(StatName.INT, new Pair<Integer,Integer>(low, low));
+        ratStats.setStat(StatName.HP, new Pair<Integer, Integer>(OPOSSUM_HP, OPOSSUM_HP));
+        ratStats.setStat(StatName.AP, new Pair<Integer, Integer>(OPOSSUM_AP, OPOSSUM_AP));
+        ratStats.setStat(StatName.DMG, new Pair<Integer, Integer>(OPOSSUM_DMG, OPOSSUM_DMG));
+        ratStats.setStat(StatName.STR, new Pair<Integer, Integer>(MEDIUM, MEDIUM));
+        ratStats.setStat(StatName.DEX, new Pair<Integer, Integer>(HIGH, HIGH));
+        ratStats.setStat(StatName.INT, new Pair<Integer, Integer>(LOW, LOW));
         return ratStats;
     }
 
+    /**
+     * 
+     */
     @Override
     public Stat seagullStat() {
         Stat ratStats = new StatImpl();
-        ratStats.setStat(StatName.HP, new Pair<Integer,Integer>(seagullHP, seagullHP));
-        ratStats.setStat(StatName.AP, new Pair<Integer,Integer>(seagullAP, seagullAP));
-        ratStats.setStat(StatName.DMG, new Pair<Integer,Integer>(seagullDMG, seagullDMG));
-        ratStats.setStat(StatName.STR, new Pair<Integer,Integer>(medium, medium));
-        ratStats.setStat(StatName.DEX, new Pair<Integer,Integer>(medium, medium));
-        ratStats.setStat(StatName.INT, new Pair<Integer,Integer>(none, none));
+        ratStats.setStat(StatName.HP, new Pair<Integer, Integer>(SEAGULL_HP, SEAGULL_HP));
+        ratStats.setStat(StatName.AP, new Pair<Integer, Integer>(SEAGULL_AP, SEAGULL_AP));
+        ratStats.setStat(StatName.DMG, new Pair<Integer, Integer>(SEAGULL_DMG, SEAGULL_DMG));
+        ratStats.setStat(StatName.STR, new Pair<Integer, Integer>(MEDIUM, MEDIUM));
+        ratStats.setStat(StatName.DEX, new Pair<Integer, Integer>(MEDIUM, MEDIUM));
+        ratStats.setStat(StatName.INT, new Pair<Integer, Integer>(NONE, NONE));
         return ratStats;
     }
 
+    /**
+     * 
+     */
     @Override
     public Stat cockroachStat() {
         Stat ratStats = new StatImpl();
-        ratStats.setStat(StatName.HP, new Pair<Integer,Integer>(cockroachHP, cockroachHP));
-        ratStats.setStat(StatName.AP, new Pair<Integer,Integer>(cockroachAP, cockroachAP));
-        ratStats.setStat(StatName.DMG, new Pair<Integer,Integer>(cockroachDMG, cockroachDMG));
-        ratStats.setStat(StatName.STR, new Pair<Integer,Integer>(none, none));
-        ratStats.setStat(StatName.DEX, new Pair<Integer,Integer>(none, none));
-        ratStats.setStat(StatName.INT, new Pair<Integer,Integer>(none, none));
+        ratStats.setStat(StatName.HP, new Pair<Integer, Integer>(COCKROACH_HP, COCKROACH_HP));
+        ratStats.setStat(StatName.AP, new Pair<Integer, Integer>(COCKROACH_AP, COCKROACH_AP));
+        ratStats.setStat(StatName.DMG, new Pair<Integer, Integer>(COCKROACH_DMG, COCKROACH_DMG));
+        ratStats.setStat(StatName.STR, new Pair<Integer, Integer>(NONE, NONE));
+        ratStats.setStat(StatName.DEX, new Pair<Integer, Integer>(NONE, NONE));
+        ratStats.setStat(StatName.INT, new Pair<Integer, Integer>(NONE, NONE));
         return ratStats;
     }
-
-    
-    
 }

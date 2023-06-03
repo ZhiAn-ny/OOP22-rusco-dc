@@ -11,10 +11,15 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 
 class RoomFactoryImplTest {
+    private static final String FLOOR_WAS = "Floor was: ";
     private final RoomFactory roomFactory = new RoomFactoryImpl();
 
     /**
@@ -110,7 +115,7 @@ class RoomFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#stairsRoom()}
+     * Method under test: {@link RoomFactoryImpl#stairsRoom()}.
      */
     @Test
     void testStairsRoom() {
@@ -122,7 +127,7 @@ class RoomFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#addDoors(Room)}
+     * Method under test: {@link RoomFactoryImpl#addDoors(Room)}.
      */
     @Test
     void testAddDoors() {
@@ -144,44 +149,54 @@ class RoomFactoryImplTest {
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#addItems(Room, int)}
+     * Method under test: {@link RoomFactoryImpl#addItems(Room, int)}.
      * For this case we are testing the value of maximum number of items per room.
      */
     @Test
     void testAddItems() {
         final int maxLevel = 100;
         final int minRoomSize = 3;
-        for (int floor = 0; floor < maxLevel; floor++) {
-            final Room room = this.roomFactory.emptySquareRoom(28);
+        final int maxRoomSize = 15;
+        for (int s = minRoomSize; s <= maxRoomSize; s++) {
+            for (int floor = 0; floor < maxLevel; floor++) {
+                final Room room = this.roomFactory.emptySquareRoom(15);
+                final int maxOcc = room.getArea() - room.getObjectsInRoom().size() - room.getArea() / 2;
 
-            int maxNumItems = (int)(room.getArea() / Math.pow(minRoomSize, 2)) + floor;
-            final int maxOcc = room.getArea() - room.getObjectsInRoom().size() - room.getArea()/2;
-            maxNumItems = maxNumItems % maxOcc;
-            maxNumItems = maxNumItems == 0 ? 1 : maxNumItems;
+                int maxNumItems = (int) (room.getArea() / Math.pow(minRoomSize, 2)) + floor;
+                maxNumItems = (int) (maxNumItems * 0.8) % maxOcc;
+                maxNumItems = maxNumItems / minRoomSize / 2;
+                maxNumItems = maxNumItems <= 0 ? 2 : maxNumItems + 1;
 
-            assertTrue(maxNumItems > 0, "Floor was: " + floor);
-            assertTrue(maxNumItems < room.getArea(), "Floor was: " + floor);
+                System.out.println(maxNumItems);
+                assertTrue(maxNumItems > 0, FLOOR_WAS + floor);
+                assertTrue(maxNumItems < room.getArea(), FLOOR_WAS + floor);
+            }
         }
     }
 
     /**
-     * Method under test: {@link RoomFactoryImpl#addMonsters(Room, int)}
+     * Method under test: {@link RoomFactoryImpl#addMonsters(Room, int)}.
      * For this case we are testing the value of maximum number of monsters per room.
      */
     @Test
     void testAddMonsters() {
         final int maxLevel = 100;
         final int minRoomSize = 3;
-        for (int floor = 0; floor < maxLevel; floor++) {
-            final Room room = this.roomFactory.emptySquareRoom(28);
+        final int maxRoomSize = 15;
+        final double coeff = 0.6;
+        for (int s = minRoomSize; s <= maxRoomSize; s++) {
+            for (int floor = 0; floor < maxLevel; floor++) {
+                final Room room = this.roomFactory.emptySquareRoom(s);
+                final int maxOcc = room.getArea() - room.getObjectsInRoom().size() - room.getArea() / 2;
 
-            int maxMonstNum = (int)(room.getArea() / Math.pow(minRoomSize, 2)) + floor;
-            final int maxOcc = room.getArea() - room.getObjectsInRoom().size() - room.getArea()/2;
-            maxMonstNum = (int)(maxMonstNum * 0.6) % maxOcc;
-            maxMonstNum = maxMonstNum == 0 ? 1 : maxMonstNum;
+                int maxMonstNum = (int) (room.getArea() / Math.pow(minRoomSize, 2)) + floor;
+                maxMonstNum = (int) (maxMonstNum * coeff) % maxOcc;
+                maxMonstNum = maxMonstNum / minRoomSize;
+                maxMonstNum = maxMonstNum == 0 ? 2 : maxMonstNum + 1;
 
-            assertTrue(maxMonstNum > 0, "Floor was: " + floor);
-            assertTrue(maxMonstNum < room.getArea(), "Floor was: " + floor);
+                assertTrue(maxMonstNum > 0, FLOOR_WAS + floor);
+                assertTrue(maxMonstNum < room.getArea(), FLOOR_WAS + floor);
+            }
         }
     }
 

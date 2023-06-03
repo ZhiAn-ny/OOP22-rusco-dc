@@ -5,12 +5,26 @@ import java.util.List;
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.utils.Pair;
 
+/**
+ * TODO documetazione!.
+ */
 public interface Portrait extends Entity {
-    
+
+    /**
+     * TODO documetazione!.
+     * @return TODO documetazione!.
+     */
     double getHPcoeff();
 
+    /**
+     * TODO documetazione!.
+     * @return TODO documetazione!.
+     */
     double getAPcoeff();
-    
-    List<Pair<String, String>> getAttackInfo();
 
+    /**
+     * TODO documetazione!.
+     * @return TODO documetazione!.
+     */
+    List<Pair<String, String>> getAttackInfo();
 }

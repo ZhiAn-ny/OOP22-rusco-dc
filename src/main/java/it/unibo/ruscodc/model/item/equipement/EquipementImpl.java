@@ -39,11 +39,11 @@ public class EquipementImpl implements Equipement {
     }
     
     public EquipementImpl(
-            String name,
-            String description,
-            String path,
-            Slot slot,
-            Map<StatName, Integer> stat
+            final String name,
+            final String description,
+            final String path,
+            final Slot slot,
+            final Map<StatName, Integer> stat
     ) {
         this(
             name,
@@ -55,23 +55,38 @@ public class EquipementImpl implements Equipement {
         );
     }
 
+    /**
+     * 
+     */
     public boolean isWearable() {
         return true;
     }
 
+    /**
+     * 
+     */
     public String getName() {
         return this.name;
     }
-    
+
+    /**
+     * 
+     */
     public String getPath() {
         return this.path;
     }
-    
+
+    /**
+     * 
+     */
     public InfoPayload getInfo() {
         return this.info;
     }
-    
-    public void equip(Actor actor) {
+
+    /**
+     * @param actor the actor that needs to equip the item
+     */
+    public void equip(final Actor actor) {
         this.stat
             .entrySet()
             .stream()
@@ -83,16 +98,22 @@ public class EquipementImpl implements Equipement {
         }
     }
 
-    public void unequip(Actor actor) {
+    /**
+     * @param actor the actor that needs to unequip the item
+     */
+    public void unequip(final Actor actor) {
         this.stat
             .entrySet()
             .stream()
             .forEach(
-                a -> actor.modifyMaxStat(a.getKey(), actor.getStatMax(a.getKey()) - a.getValue()));
+                a -> actor.modifyMaxStat(a.getKey(), actor.getStatMax(a.getKey()) - a.getValue())
+            );
     }
 
+    /**
+     * @return the Slot occupied by the Equipement
+     */
     public Slot getSlot() {
         return this.slot;
     }
-
 }

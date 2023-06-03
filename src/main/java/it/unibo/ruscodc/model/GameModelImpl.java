@@ -4,6 +4,7 @@ import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.hero.HeroImpl;
 import it.unibo.ruscodc.model.actors.hero.HeroSkill;
+import it.unibo.ruscodc.model.actors.hero.HeroStat;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.actors.monster.MonsterActionFactory;
 import it.unibo.ruscodc.model.actors.monster.MonsterActionFactoryImpl;
@@ -49,19 +50,12 @@ public class GameModelImpl implements GameModel {
     public GameModelImpl() {
         this.nFloorsExplored = 1;
         this.floor = new FloorImpl(this.nFloorsExplored);
-
-        final StatFactory stats = new StatFactoryImpl();
-        final MonsterActionFactory monsterActionFactory = new MonsterActionFactoryImpl();
         final Skill skills = new HeroSkill();
-        final Stat ruscoStat = stats.ratStat();
-        ruscoStat.setStatMaxValue(StatName.HP, 20);
-        ruscoStat.setStatActualValue(StatName.HP, 20);
-        ruscoStat.setStatMaxValue(StatName.AP, 1000);
-        ruscoStat.setStatActualValue(StatName.AP, 1000);
+        final Stat stats = new HeroStat();
         //skills.setAction(GameControl.ATTACK1, monsterActionFactory.basicMeleeAttack());
         //skills.setAction(GameControl.ATTACK2, monsterActionFactory.heavyMeleeAttack());
         skills.setAction(GameControl.INTERACT, new Interact());
-        this.hero = new HeroImpl("Rusco", this.initialPosition, skills, ruscoStat);
+        this.hero = new HeroImpl("Rusco", this.initialPosition, skills, stats);
     }
 
     private List<Actor> getParty() {
@@ -175,7 +169,7 @@ public class GameModelImpl implements GameModel {
     public Portrait getRuscoInfo() {
         return new PortraitImpl(hero, 
             (hero.getStatActual(StatName.HP) * 1.0) / (hero.getStatMax(StatName.HP) * 1.0) , 
-            (hero.getStatActual(StatName.AP) * 1.0) / (hero.getStatMax(StatName.HP) * 1.0));
+            (hero.getStatActual(StatName.AP) * 1.0) / (hero.getStatMax(StatName.AP) * 1.0));
     }
 
     @Override

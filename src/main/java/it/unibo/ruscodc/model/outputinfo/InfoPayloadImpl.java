@@ -3,18 +3,18 @@ package it.unibo.ruscodc.model.outputinfo;
 import java.util.Objects;
 
 /**
- * Implement InfoPayload interface
+ * Implement InfoPayload interface. 
  */
 public class InfoPayloadImpl implements InfoPayload {
 
-    private final static String ERR_IMG_PATH = "file:src/main/resources/it/unibo/ruscodc/output_res/error";
+    private static final String ERR_IMG_PATH = "file:src/main/resources/it/unibo/ruscodc/output_res/error";
 
     private final String title; 
     private final String text;
     private final String path;
 
     /**
-     * Create a generic info-page
+     * Create a generic info-page.
      * @param title the title of info-page
      * @param text their informations
      * @param path the image to match with the info-page
@@ -29,12 +29,13 @@ public class InfoPayloadImpl implements InfoPayload {
     }
 
     /**
-     * Create a info-page with a standard image
+     * Create a info-page with a standard image.
      * (for now, this image is only a warning-image)
      * @param title the title of info-page
      * @param text their informations
      */
-    public InfoPayloadImpl(String title, String text) { //TODO - fare un enum di immagini-utility? per ora 1 costante: quella di errore
+    public InfoPayloadImpl(final String title, final String text) { 
+        //TODO - fare un enum di immagini-utility? per ora 1 costante: quella di errore
         this(title, text, ERR_IMG_PATH);
     }
 

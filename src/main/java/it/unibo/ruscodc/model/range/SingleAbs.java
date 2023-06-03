@@ -19,7 +19,7 @@ public class SingleAbs implements Range {
      * Client must't create this object directly, but it must use the subclasses that 
      * extend this class. In these subclasses's costructor, have to specify:
      * @param path the path where stored the entity information, coded as String
-     * @param info the info about what to print
+     * @param depth the printing depth
      */
     protected SingleAbs(final String path, final int depth) {
         this.path = path;
@@ -69,6 +69,9 @@ public class SingleAbs implements Range {
         return Set.of(begin);
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "[Single range]";

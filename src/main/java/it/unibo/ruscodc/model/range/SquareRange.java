@@ -31,7 +31,10 @@ public class SquareRange extends DecoratedRange {
             final Pair<Integer, Integer> to) {
         return Pairs.computeSquare(to, offset, false);
     }
- 
+
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "[Square range (off=" + offset + ")]";

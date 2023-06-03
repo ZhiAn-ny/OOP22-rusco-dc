@@ -7,7 +7,6 @@ import it.unibo.ruscodc.model.effect.SingleTargetEffect;
 import it.unibo.ruscodc.model.item.consumable.Consumable;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.exception.ModelException;
-import javafx.scene.effect.Effect;
 
 /**
  * Class that wrap other type of QuickAction action, tipically wrapped into Effect interface.
@@ -17,9 +16,14 @@ public class SelfEffect extends QuickActionAbs {
     private final SingleTargetEffect toApply;
     private final int cost;
 
-    public SelfEffect(final SingleTargetEffect toUse, final int APcost) {
+    /**
+     * TODO documetazione!
+     * @param toUse TODO documetazione!
+     * @param costAP TODO documetazione!
+     */
+    public SelfEffect(final SingleTargetEffect toUse, final int costAP) {
         this.toApply = toUse;
-        this.cost = APcost;
+        this.cost = costAP;
     }
 
     /**
@@ -30,8 +34,6 @@ public class SelfEffect extends QuickActionAbs {
         this(toUse.consume(), 0);
     }
 
-    
-
     /**
      * 
      */
@@ -41,5 +43,4 @@ public class SelfEffect extends QuickActionAbs {
         this.getActor().modifyActualStat(StatName.AP, -cost);
         return Optional.empty();
     }
-
 }

@@ -55,7 +55,7 @@ public class MyIterator<X> implements Iterator<X> {
     }
 
     /**
-     * Reset the local iterator to its start
+     * Reset the local iterator to its start.
      */
     public void reset() {
         this.myIt = source.iterator();
@@ -66,8 +66,12 @@ public class MyIterator<X> implements Iterator<X> {
         }
     }
 
+    /**
+     * Create a infiniter "MyIterator" of natural numbers.
+     * @return this type of iterator
+     */
     public static MyIterator<Integer> integerFlow() {
-        return new MyIterator<>(Stream.iterate(0, i -> i+1).iterator());
+        return new MyIterator<>(Stream.iterate(0, i -> i + 1).iterator());
     }
 
 }

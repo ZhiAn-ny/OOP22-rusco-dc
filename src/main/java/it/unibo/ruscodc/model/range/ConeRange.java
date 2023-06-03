@@ -36,11 +36,17 @@ public class ConeRange extends DecoratedRange {
         return Pairs.computePerpendicularCone(to, from, radius, false);
     }
 
+    /**
+     * 
+     */
     @Override
-    protected boolean centerToFrom () {
+    protected boolean centerToFrom() {
         return false;
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "[Cone range (rad=" + radius + ")]";

@@ -69,4 +69,9 @@ public interface GameView {
 
     void printGameOver() throws IOException;
 
+    void openInventory();
+
+    void closeInventory();
+
+    void printStats(String heroStats);
 }

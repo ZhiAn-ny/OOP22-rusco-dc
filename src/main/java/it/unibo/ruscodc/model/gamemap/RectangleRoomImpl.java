@@ -320,7 +320,6 @@ public class RectangleRoomImpl implements Room, Serializable {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        // TODO: remove when view is working
         final StringBuilder str = new StringBuilder("size: " + this.size.getX() + ", " + this.size.getY() + "\n");
         for (int y = 0; y < this.size.getY() + 2; y++) {
             for (int x = 0; x < this.size.getX() + 2; x++) {

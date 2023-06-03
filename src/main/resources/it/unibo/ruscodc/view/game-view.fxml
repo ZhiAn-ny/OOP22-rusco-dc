@@ -5,8 +5,10 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -141,6 +143,30 @@
                         <Label fx:id="infoDescription" text="Label" />
                      </children>
                   </VBox>
+               </children>
+            </StackPane>
+            <StackPane fx:id="invPane" prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <center>
+                        <GridPane fx:id="inventoryGrid" alignment="CENTER" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #4e533d;" BorderPane.alignment="CENTER">
+                           <padding>
+                              <Insets bottom="5.0" left="1.0" />
+                           </padding>
+                           <columnConstraints>
+                              <ColumnConstraints />
+                              <ColumnConstraints />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints />
+                              <RowConstraints />
+                           </rowConstraints>
+                        </GridPane>
+                     </center>
+                     <right>
+                        <Label fx:id="heroStat" maxHeight="1.7976931348623157E308" prefHeight="350.0" prefWidth="150.0" style="-fx-background-color: white;" text="ciao a tutti! Sapevo che ero stato molto occupato ques'oggi ma 10h di pc sono piacevoli tutto sommato&#10;sss" textAlignment="CENTER" textOverrun="CLIP" BorderPane.alignment="CENTER" />
+                     </right>
+                  </BorderPane>
                </children>
             </StackPane>
          </children>

@@ -2,14 +2,12 @@ package it.unibo.ruscodc.model.gamecommand.playercommand;
 
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.Actor;
@@ -156,7 +154,7 @@ public class PlayerAttack extends NoIACommand {
             toPrint.addAll(this.getRange());
             isFirstTime = false;
         }
-        int min = toPrint.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
+        final int min = toPrint.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
         System.out.println("JP : " + min);
         return toPrint;
     }
@@ -181,7 +179,7 @@ public class PlayerAttack extends NoIACommand {
     public Optional<InfoPayload> execute() throws ModelException {
         isReady = false;
         isFirstTime = true;
-        final Pair<Integer, Integer> tmp = cursorPos;
+
         cursorPos = null;
         if (this.getRoom() == null || this.getActor() == null) {
             throw new IllegalStateException("");
@@ -193,13 +191,16 @@ public class PlayerAttack extends NoIACommand {
         }
 
         final Actor from = this.getActor();
+        final Pair<Integer, Integer> tmp = cursorPos;
 
         if (!range.isInRange(from.getPos(), tmp, tmp, this.getRoom())) {
+            cursorPos = tmp;
             return Optional.of(new InfoPayloadImpl(getErrTitle(), R_ERR));
             //throw new NotInRange(R_ERR);
         }
 
         if (from.getStatActual(StatName.AP) < actionToPerform.getAPcost()) {
+            cursorPos = tmp;
             return Optional.of(new InfoPayloadImpl(getErrTitle(), AP_ERR));
         } 
         from.modifyActualStat(StatName.AP, -actionToPerform.getAPcost());

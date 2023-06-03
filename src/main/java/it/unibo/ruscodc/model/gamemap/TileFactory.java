@@ -34,6 +34,14 @@ public interface TileFactory {
     Tile createRandomFloorTrap(int x, int y);
 
     /**
+     * Creates a <code>FloorPuddleTileImpl</code> that restores 5 hp.
+     * @param x the x-axis coordinate at which the <code>Tile</code> will be placed
+     * @param y the y-axis coordinate at which the <code>Tile</code> will be placed
+     * @return the new <code>Tile</code>
+     */
+    Tile createPuddle(int x, int y);
+
+    /**
      * Creates a new <code>Tile</code> representing the floor at the specified position.
      * @param x the x-axis coordinate at which the <code>Tile</code> will be placed
      * @param y the y-axis coordinate at which the <code>Tile</code> will be placed

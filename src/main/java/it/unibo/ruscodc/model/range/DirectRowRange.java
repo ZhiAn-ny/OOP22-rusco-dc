@@ -28,11 +28,17 @@ public class DirectRowRange extends DecoratedRange {
         return Stream.of(Pairs.computeBoldLineDelta(to, from));
     }
 
+    /**
+     * 
+     */
     @Override
-    protected boolean centerToFrom () {
+    protected boolean centerToFrom() {
         return false;
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "[Direct range]";

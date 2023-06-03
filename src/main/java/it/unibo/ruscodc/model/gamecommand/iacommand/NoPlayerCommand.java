@@ -1,6 +1,5 @@
 package it.unibo.ruscodc.model.gamecommand.iacommand;
 
-import java.util.Iterator;
 import java.util.Set;
 
 import it.unibo.ruscodc.model.Entity;
