@@ -161,9 +161,10 @@ class RoomFactoryImplTest {
             for (int floor = 0; floor < maxLevel; floor++) {
                 final Room room = this.roomFactory.emptySquareRoom(15);
                 final int maxOcc = room.getArea() - room.getObjectsInRoom().size() - room.getArea() / 2;
+                final double reductionFactor = 0.8;
 
                 int maxNumItems = (int) (room.getArea() / Math.pow(minRoomSize, 2)) + floor;
-                maxNumItems = (int) (maxNumItems * 0.8) % maxOcc;
+                maxNumItems = (int) (maxNumItems * reductionFactor) % maxOcc;
                 maxNumItems = maxNumItems / minRoomSize / 2;
                 maxNumItems = maxNumItems <= 0 ? 2 : maxNumItems + 1;
 

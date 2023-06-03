@@ -38,7 +38,6 @@ public class RoomFactoryImpl implements RoomFactory {
     public Room randomRoomNoTraps() {
         final Room base = this.getRandomShapeRoom();
         this.addPuddle(base);
-        this.addDoors(base);
 
         return base;
     }
@@ -160,20 +159,21 @@ public class RoomFactoryImpl implements RoomFactory {
     }
 
     private int maxOccupation(final Room base) {
-        return base.getArea() - base.getObjectsInRoom().size() - base.getArea()/2;
+        return base.getArea() - base.getObjectsInRoom().size() - base.getArea() / 2;
     }
 
     private int maxItemNum(final Room room, final int floor) {
+        final double reductionFactor = 0.8;
         int maxNumItems = (int) (room.getArea() / Math.pow(MIN_ROOM_SIZE, 2)) + floor;
-        maxNumItems = (int) (maxNumItems * 0.8) % this.maxOccupation(room);
+        maxNumItems = (int) (maxNumItems * reductionFactor) % this.maxOccupation(room);
         maxNumItems = maxNumItems / MIN_ROOM_SIZE / 2;
         return maxNumItems == 0 ? 2 : maxNumItems + 1;
     }
 
     private int maxMonstersNum(final Room room, final int floor) {
-
+        final double reductionFactor = 0.6;
         int maxNumMonster = (int) (room.getArea() / Math.pow(MIN_ROOM_SIZE, 2)) + floor;
-        maxNumMonster = (int) (maxNumMonster * 0.6) % this.maxOccupation(room);
+        maxNumMonster = (int) (maxNumMonster * reductionFactor) % this.maxOccupation(room);
         maxNumMonster = maxNumMonster / MIN_ROOM_SIZE;
         return maxNumMonster == 0 ? 2 : maxNumMonster + 1;
     }

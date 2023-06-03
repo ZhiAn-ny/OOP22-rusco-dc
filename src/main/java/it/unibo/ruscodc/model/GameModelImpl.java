@@ -96,6 +96,7 @@ public class GameModelImpl implements GameModel {
         return this.floor.getCurrentRoom();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void changeRoom(final Pair<Integer, Integer> pos) {
         if (!this.floor.getCurrentRoom().isInRoom(pos)) {
@@ -141,6 +142,7 @@ public class GameModelImpl implements GameModel {
         this.getCurrentRoom().clearArea(pos, radius);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void changeFloor() {
         this.nFloorsExplored = this.nFloorsExplored + 1;
@@ -149,15 +151,17 @@ public class GameModelImpl implements GameModel {
         this.respawnParty(this.initialPosition);
     }
 
+    /** {@inheritDoc} */
     @Override
     public Floor getCurrentFloor() {
         return this.floor;
     }
 
+    /** {@inheritDoc} */
     @Override
     public Portrait getRuscoInfo() {
-        return new PortraitImpl(hero, 
-            (hero.getStatActual(StatName.HP) * 1.0) / (hero.getStatMax(StatName.HP) * 1.0) , 
+        return new PortraitImpl(hero,
+            (hero.getStatActual(StatName.HP) * 1.0) / (hero.getStatMax(StatName.HP) * 1.0),
             (hero.getStatActual(StatName.AP) * 1.0) / (hero.getStatMax(StatName.AP) * 1.0));
     }
 

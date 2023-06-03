@@ -260,9 +260,10 @@ class FloorTrapTileImplTest {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
         final Actor actor = this.getActor(pos);
         final FloorTrapTileImpl trapTile = new FloorTrapTileImpl(pos);
+        final Consumer<FloorTrapTileImpl> post = FloorTrapTileImpl::interact;
         int hp = actor.getStatActual(StatImpl.StatName.HP);
 
-        trapTile.setPostTriggered(FloorTrapTileImpl::interact);
+        trapTile.setPostTriggered(post);
 
         trapTile.getEffect().applyEffect(actor);
         assertEquals(hp - DEFAULT_DMG, actor.getStatActual(StatImpl.StatName.HP));

@@ -15,16 +15,16 @@ import java.util.Random;
 public class FloorImpl implements Floor, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+    private static final int ENTRANCE_SIZE = 5;
+    private static final int MAX_ROOMS_NUMBER = 20;
 
     private Room currentRoom;
     private int unusedDoors;
     private boolean readyForNextFloor;
     private final int floorNum;
-    private final RoomFactory roomFactory = new RoomFactoryImpl();
     private final Random rnd = new Random();
     private final List<Room> rooms = new ArrayList<>();
-    private static final int ENTRANCE_SIZE = 5;
-    private static final int MAX_ROOMS_NUMBER = 20;
+    private transient final RoomFactory roomFactory = new RoomFactoryImpl();
 
     /**
      * Constructs a <code>Floor</code> with only an initial of size 5.

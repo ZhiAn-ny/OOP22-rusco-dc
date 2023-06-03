@@ -12,13 +12,14 @@ import java.util.function.Predicate;
 public class TileFactoryImpl implements TileFactory {
     private static final int MAX_TRAP_DMG = 10;
     private static final int TRAP_PROBABILITY = 5;
+    private final Random rnd = new Random();
 
     /** {@inheritDoc} */
     @Override
     public Tile createSingleUseFloorTrap(final int x, final int y) {
         final FloorTrapTileImpl base = new FloorTrapTileImpl(new Pair<>(x, y));
         base.setPostTriggered(FloorTrapTileImpl::interact);
-        base.setDamage(new Random().nextInt(1, MAX_TRAP_DMG + 1));
+        base.setDamage(this.rnd.nextInt(1, MAX_TRAP_DMG + 1));
         return base;
     }
 
@@ -26,20 +27,21 @@ public class TileFactoryImpl implements TileFactory {
     @Override
     public Tile createFloorTrap(final int x, final int y) {
         final FloorTrapTileImpl base = new FloorTrapTileImpl(new Pair<>(x, y));
-        base.setDamage(new Random().nextInt(1, MAX_TRAP_DMG + 1));
+        base.setDamage(this.rnd.nextInt(1, MAX_TRAP_DMG + 1));
         return base;
     }
 
     /** {@inheritDoc} */
     @Override
     public Tile createRandomFloorTrap(final int x, final int y) {
-        return (new Random().nextInt() % 2) == 0
+        return (this.rnd.nextInt() % 2) == 0
                 ? this.createSingleUseFloorTrap(x, y)
                 : this.createFloorTrap(x, y);
     }
 
+    /** {@inheritDoc} */
     @Override
-    public Tile createPuddle(int x, int y) {
+    public Tile createPuddle(final int x, final int y) {
         return new FloorPuddleTileImpl(new Pair<>(x, y));
     }
 
@@ -52,7 +54,7 @@ public class TileFactoryImpl implements TileFactory {
     /** {@inheritDoc} */
     @Override
     public Tile createRandomFloorTile(final int x, final int y) {
-        return new Random().nextInt(100) < TRAP_PROBABILITY
+        return this.rnd.nextInt(100) < TRAP_PROBABILITY
                 ? this.createRandomFloorTrap(x, y)
                 : this.createBaseFloorTile(x, y);
     }

@@ -27,8 +27,9 @@ import java.util.function.Predicate;
 public class RectangleRoomImpl implements Room, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-
     private static final int MAX_DOORS_NUM = 4;
+
+    private final Random rnd = new Random();
     private final Pair<Integer, Integer> size;
     private final List<Tile> tiles = new ArrayList<>();
     private final List<Monster> monsters = new ArrayList<>();
@@ -189,13 +190,12 @@ public class RectangleRoomImpl implements Room, Serializable {
                 || this.connectedRooms.containsKey(dir)) {
             return false;
         }
-        final Random rnd = new Random();
         final List<Tile> onSide = this.tiles.stream()
                 .filter(this.onSide(dir))
                 .filter(this.isNotCorner())
                 .toList();
 
-        final Tile tile = onSide.get(rnd.nextInt(onSide.size()));
+        final Tile tile = onSide.get(this.rnd.nextInt(onSide.size()));
         this.replaceTile(tile.getPosition(), new FloorTileImpl(tile.getPosition(), true));
         this.put(tile.getPosition(), new Door(tile.getPosition(), this.getSide(tile.getPosition())));
 
@@ -240,7 +240,7 @@ public class RectangleRoomImpl implements Room, Serializable {
                     .filter(this.onSide(dir))
                     .filter(this.isNotCorner())
                     .toList();
-            tile = onSide.get(new Random().nextInt(onSide.size()));
+            tile = onSide.get(this.rnd.nextInt(onSide.size()));
             tile = new FloorTileImpl(tile.getPosition(), true);
             this.replaceTile(tile.getPosition(), tile);
         }

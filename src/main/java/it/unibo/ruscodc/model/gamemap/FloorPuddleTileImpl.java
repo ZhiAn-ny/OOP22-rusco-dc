@@ -23,7 +23,7 @@ public class FloorPuddleTileImpl extends FloorTileImpl {
      * Creates a puddle on the floor that restores 5 hp.
      * @param pos the position at which place the <code>Tile</code>
      */
-    public FloorPuddleTileImpl(Pair<Integer, Integer> pos) {
+    public FloorPuddleTileImpl(final Pair<Integer, Integer> pos) {
         super(pos, true);
     }
 
@@ -32,7 +32,7 @@ public class FloorPuddleTileImpl extends FloorTileImpl {
     public SingleTargetEffect getEffect() {
         return (Actor target) -> {
             if (target instanceof Hero) {
-                target.modifyActualStat(StatImpl.StatName.HP, hpRestored);
+                target.modifyActualStat(StatImpl.StatName.HP, this.hpRestored);
             }
         };
     }
