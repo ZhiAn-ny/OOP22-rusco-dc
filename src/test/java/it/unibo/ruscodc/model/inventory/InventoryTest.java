@@ -9,7 +9,6 @@ import it.unibo.ruscodc.model.item.equipement.Equipement;
 import it.unibo.ruscodc.model.item.equipement.EquipementFactory;
 import it.unibo.ruscodc.model.item.equipement.EquipementFactoryImpl;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -24,40 +23,39 @@ public class InventoryTest {
     private final EquipementFactory equipementFactory = new EquipementFactoryImpl();
     private Equipement longSword = this.equipementFactory.createLongSword();
     private Equipement swordAndShield = this.equipementFactory.createSwordShield();
-    private Hero hero;
-    private Inventory inventory;
-
-    @BeforeAll
-    void init() {
-        this.hero = new HeroImpl("Test", null, new HeroSkill(), new HeroStat());
-        this.inventory = hero.getInventory();
-        this.inventory.addItem(longSword);
-        this.inventory.addItem(swordAndShield);
-    }
 
     /**
      * Method under test: Method that creates a Long Sword.
      */
     @Test
-    void testGetAllItems() {
+    void testAddItem() {
+        Hero hero = new HeroImpl("Test", null, new HeroSkill(), new HeroStat());
+        Inventory inventory = hero.getInventory();
+        inventory.addItem(longSword);
+        inventory.addItem(swordAndShield);
         assertEquals(inventory.getAllItems(), List.of(this.longSword, this.swordAndShield));
     }
 
     @Test
     void testRemoveItem() {
-        System.out.println(List.of(this.swordAndShield));
-        System.out.println(inventory.getAllItems());
-        System.out.println(this.inventory.getAllItems().indexOf(this.longSword));
-        this.inventory.removeItem(this.inventory.getAllItems().indexOf(this.longSword));
+        Hero hero = new HeroImpl("Test", null, new HeroSkill(), new HeroStat());
+        Inventory inventory = hero.getInventory();
+        inventory.addItem(longSword);
+        inventory.addItem(swordAndShield);
+        inventory.removeItem(inventory.getAllItems().indexOf(this.longSword));
         assertEquals(inventory.getAllItems(), List.of(this.swordAndShield));
     }
 
     @Test
     void testEquip() {
-        this.inventory.equip((Equipement) this.inventory.getItem(0), this.hero);
+        Hero hero = new HeroImpl("Test", null, new HeroSkill(), new HeroStat());
+        Inventory inventory = hero.getInventory();
+        inventory.addItem(longSword);
+        inventory.addItem(swordAndShield);
+        inventory.equip((Equipement) inventory.getItem(0), hero);
 
         assertEquals(
-            this.inventory
+            inventory
                 .getEquipedItems()
                 .stream()
                 .filter(a -> a != null)
@@ -66,18 +64,18 @@ public class InventoryTest {
         );
 
         assertEquals(
-            this.inventory
+            inventory
                 .getAllItems(),
             List.of(this.swordAndShield)
         );
 
-        this.inventory.equip(
-            (Equipement) this.inventory.getItem(0),
-            this.hero
+        inventory.equip(
+            (Equipement) inventory.getItem(0),
+            hero
         );
 
         assertEquals(
-            this.inventory
+            inventory
                 .getEquipedItems()
                 .stream()
                 .filter(a -> a != null)
@@ -86,7 +84,7 @@ public class InventoryTest {
         );
 
         assertEquals(
-            this.inventory
+            inventory
                 .getAllItems(),
             List.of(this.longSword)
         );
