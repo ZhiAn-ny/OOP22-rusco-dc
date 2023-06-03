@@ -8,7 +8,6 @@ import it.unibo.ruscodc.model.actors.stat.Stat;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.item.Inventory;
 import it.unibo.ruscodc.model.item.InventoryImpl;
-import it.unibo.ruscodc.model.item.Item;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 
@@ -46,5 +45,9 @@ public class HeroImpl extends ActorAbs implements Hero {
     public String getPath() {
         return this.path;
     }
-    
+
+    @Override
+    public String toString() {
+        return super.getStats().toString() + "\n" + super.getSkills().toString();
+    }
 }

@@ -4,8 +4,10 @@ import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.skill.SkillImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.effect.EffectAbs;
+import it.unibo.ruscodc.model.gamecommand.playercommand.Interact;
 import it.unibo.ruscodc.model.gamecommand.playercommand.OpenInventory;
 import it.unibo.ruscodc.model.gamecommand.playercommand.PlayerAttack;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.DoNothing;
 import it.unibo.ruscodc.model.gamecommand.quickcommand.SelfEffect;
 import it.unibo.ruscodc.model.range.CircleRange;
 import it.unibo.ruscodc.model.range.GlobalRange;
@@ -108,5 +110,7 @@ public class HeroSkill extends SkillImpl {
         );
 
         super.setAction(GameControl.INVENTORY, new OpenInventory());
+        super.setAction(GameControl.INTERACT, new Interact());
+        super.setAction(GameControl.DONOTHING, new DoNothing());
     }
 }
