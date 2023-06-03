@@ -19,7 +19,7 @@ public class GlobalRange extends DecoratedRange {
     private final Range prevRange;
 
     /**
-     * Create this type of range
+     * Create this type of range.
      * @param start the previous range. This type of range ignore the previous range shape,
      * so this range use this information to be commuted as Entity to print to view
      */
@@ -67,6 +67,9 @@ public class GlobalRange extends DecoratedRange {
         return thisRange.collect(Collectors.toSet());
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         return "[Global Range]";

@@ -3,12 +3,10 @@ package it.unibo.ruscodc.model.gamecommand.playercommand;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.item.Inventory;
-import it.unibo.ruscodc.model.item.InventoryImpl;
 import it.unibo.ruscodc.model.item.Item;
 import it.unibo.ruscodc.model.item.consumable.Consumable;
 import it.unibo.ruscodc.model.item.equipement.Equipement;
@@ -20,9 +18,12 @@ import it.unibo.ruscodc.utils.Pairs;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.utils.exception.Undo;
 
+/**
+ * TODO - documentazione!.
+ */
 public class OpenInventory extends NoIACommand {
 
-    private final static int COLS = 7;
+    private static final int COLS = 7;
 
     private Hero hero;
     private Inventory inventory;
@@ -32,22 +33,19 @@ public class OpenInventory extends NoIACommand {
     private boolean exit = false;
     private boolean isInit = false;
     private boolean mustClose = false;
-    
+
     private int byPtoI(final Pair<Integer, Integer> toConvert) {
         return toConvert.getY() * COLS + toConvert.getX();
     }
 
-    public OpenInventory() {
-    }
-
     private void resetCursor() {
-        this.cursorPos = new Pair<Integer,Integer>(0, 0);
+        this.cursorPos = new Pair<Integer, Integer>(0, 0);
     }
 
     private int getIndexOfLastItemInARow(final int row) {
         final int amountItem = this.inventory.slotOccupied(); 
-        final int nextItem = amountItem-1 - row*COLS;
-        return Math.min(COLS-1, nextItem);
+        final int nextItem = amountItem - row * COLS;
+        return Math.min(COLS - 1, nextItem - 1);
     }
 
     private int getIndexOfLastItemInACol(final int col) {
@@ -57,38 +55,39 @@ public class OpenInventory extends NoIACommand {
         return lastRow + inc;
     }
 
-    private void moveCursor(Pair<Integer, Integer> newPos) {
+    private void moveCursor(final Pair<Integer, Integer> newPos) {
+        Pair<Integer, Integer> tmpNewPos = newPos;
         final int amountItem = this.inventory.slotOccupied();
-        if (newPos.getX() == COLS) {
-            newPos = new Pair<Integer,Integer>(0, cursorPos.getY()); //inizio della i-esima riga
+        if (tmpNewPos.getX() == COLS) {
+            tmpNewPos = new Pair<Integer, Integer>(0, cursorPos.getY());
         } else
-        if (newPos.getX() == -1) {
-            newPos = new Pair<Integer,Integer>(getIndexOfLastItemInARow(cursorPos.getY()), cursorPos.getY()); //bisogna vedere se la riga è piena di oggetti o termina prima
+        if (tmpNewPos.getX() == -1) {
+            tmpNewPos = new Pair<Integer, Integer>(getIndexOfLastItemInARow(cursorPos.getY()), cursorPos.getY());
         } else
-        if (newPos.getY() == -1) {
-            newPos = new Pair<Integer,Integer>(cursorPos.getX(), getIndexOfLastItemInACol(cursorPos.getX())); //bisogna vedere se la colonna è l'ultima o la penultima
+        if (tmpNewPos.getY() == -1) {
+            tmpNewPos = new Pair<Integer, Integer>(cursorPos.getX(), getIndexOfLastItemInACol(cursorPos.getX()));
         } else 
-        if (this.byPtoI(newPos) >= amountItem) {
-            if (newPos.getY() == cursorPos.getY()) {
-                newPos = new Pair<Integer,Integer>(0, cursorPos.getY());
+        if (this.byPtoI(tmpNewPos) >= amountItem) {
+            if (tmpNewPos.getY() == cursorPos.getY()) {
+                tmpNewPos = new Pair<Integer, Integer>(0, cursorPos.getY());
             } else {
-                newPos = new Pair<Integer,Integer>(cursorPos.getX(), 0);
+                tmpNewPos = new Pair<Integer, Integer>(cursorPos.getX(), 0);
             }
         }
-        cursorPos = newPos;
+        cursorPos = tmpNewPos;
     }
 
-    private void manageConsumable(Consumable consumable) {
+    private void manageConsumable(final Consumable consumable) {
         consumable.consume().applyEffect(hero);
         this.inventory.removeItem(this.cursorPos.getY() * COLS + this.cursorPos.getX());
     }
 
-    private void manageEquipement(Equipement equipement) {
+    private void manageEquipement(final Equipement equipement) {
         equipement.equip(hero);
     }
 
     private void manageUse() {
-        Item item = this.inventory.getItem(this.cursorPos.getY() * COLS + this.cursorPos.getX());
+        final Item item = this.inventory.getItem(this.cursorPos.getY() * COLS + this.cursorPos.getX());
         if (item.isWearable()) {
             manageEquipement((Equipement) item);
         } else {
@@ -96,18 +95,21 @@ public class OpenInventory extends NoIACommand {
         }
     }
 
+    /**
+     * 
+     */
     @Override
-    public boolean modify(GameControl input) {
-        
+    public boolean modify(final GameControl input) {
+        GameControl tmpInput = input;
         boolean mustUpdate = true;
         this.advise = Optional.empty();
 
         if (mustClose) {
             mustClose = false;
-            input = GameControl.CANCEL;
+            tmpInput = GameControl.CANCEL;
         }
 
-        switch (input) {
+        switch (tmpInput) {
             case MOVEUP: 
                 this.moveCursor(Pairs.computeUpPair(cursorPos));
                 break;
@@ -176,7 +178,6 @@ public class OpenInventory extends NoIACommand {
             public Pair<Integer, Integer> getPos() {
                 return pos;
             }
-            
         };
     }
 
@@ -197,13 +198,15 @@ public class OpenInventory extends NoIACommand {
             public Pair<Integer, Integer> getPos() {
                 return cursorPos;
             }
-            
         };
     }
 
+    /**
+     * 
+     */
     @Override
     public Set<Entity> getEntities() {
-        Set<Entity> items = this.inventory
+        final Set<Entity> items = this.inventory
             .getAllItems()
             .stream()
             .map(i -> fromItemToEntity(
@@ -219,6 +222,9 @@ public class OpenInventory extends NoIACommand {
         return items;
     }
 
+    /**
+     * 
+     */
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
         if (exit) {
@@ -232,12 +238,15 @@ public class OpenInventory extends NoIACommand {
         this.isReady = false;
         return advise;
     }
-    
+
+    /**
+     * 
+     */
     @Override
     public boolean isReady() {
         System.out.println("oooo" + isInit);
         if (!isInit) {
-            this.hero = (Hero)this.getActor();
+            this.hero = (Hero) this.getActor();
             this.inventory = hero.getInventory();
             isInit = true;
             resetCursor();
