@@ -8,11 +8,11 @@ import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
+import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.exception.ChangeFloorException;
 import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
-import it.unibo.ruscodc.utils.exception.Undo;
 import it.unibo.ruscodc.view.FXMLMainView;
 import it.unibo.ruscodc.view.GameView;
 import java.util.ArrayList;
@@ -30,13 +30,13 @@ public class GameControllerImpl implements GameObserverController {
 
     //private Set<GameControl> DOUBLE_EX = Set.of(GameControl.CANCEL, GameControl.CONFIRM);
 
-    private List<Actor> initiative = new ArrayList<>();
+    private final List<Actor> initiative = new ArrayList<>();
     private Optional<GameCommand> playerSituation = Optional.empty();
     private final GameView view;
     private final GameModel model;
-    private boolean automaticSave = false;
+    private boolean automaticSave; // = false;
 
-    private boolean isPrintingInv = false;
+    private boolean isPrintingInv; // = false;
 
     /**
      * Create the controller of the game.
@@ -66,7 +66,10 @@ public class GameControllerImpl implements GameObserverController {
             try {
                 Thread.sleep(2);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                view.printInfo(new InfoPayloadImpl(
+                    "ERR DURING LOADING VIEW", 
+                    "error unexpected"));
+                //e.printStackTrace();
             }
         }
         view.closeInventory();
@@ -109,7 +112,7 @@ public class GameControllerImpl implements GameObserverController {
      * @return the entity to draw
      */
     private List<Entity> entityToUpload() {
-        List<Entity> tmp = new ArrayList<>(model.getCurrentRoom().getTilesAsEntity());
+        final List<Entity> tmp = new ArrayList<>(model.getCurrentRoom().getTilesAsEntity());
         tmp.addAll(model.getCurrentRoom().getObjectsInRoom());
         tmp.addAll(initiative);
         return tmp;
@@ -145,7 +148,7 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     private void printCommand() {
-        Set<Entity> infos = playerSituation.get().getEntities();
+        final Set<Entity> infos = playerSituation.get().getEntities();
         this.view.resetLevel(new ArrayList<>(infos));
         if (isPrintingInv) {
             this.view.printStats(this.initiative.get(0).toString());
@@ -158,7 +161,7 @@ public class GameControllerImpl implements GameObserverController {
         if (ready) {
             try {
                 //Pair<Integer, Integer> oldActor = initiative.get(0).getPos();
-                Optional<InfoPayload> tmp = toExec.execute();
+                final Optional<InfoPayload> tmp = toExec.execute();
 
                 if (tmp.isPresent()) {
                     view.printInfo(tmp.get());
@@ -181,13 +184,10 @@ public class GameControllerImpl implements GameObserverController {
                 changeRoom(r);
                 playerSituation = Optional.empty();
 
-            } catch (Undo u) {
+            } catch (ModelException u) {
                 view.closeInventory();
                 playerSituation = Optional.empty();
                 flushView();
-
-            } catch (ModelException e) {
-                // TODO - gestire eccezioni model
             }
         }
         updateRuscoInfo();
@@ -207,8 +207,8 @@ public class GameControllerImpl implements GameObserverController {
         }
         initNewTurn();
         if (initiative.get(0) instanceof Hero) {
-            Hero tmpActor = (Hero) initiative.get(0);
-            GameCommand tmpCommand;
+            final Hero tmpActor = (Hero) initiative.get(0);
+            final GameCommand tmpCommand;
             //Pair<Integer, Integer> cod = tmpActor.getPos();
 
             if (playerSituation.isPresent()) {
@@ -220,7 +220,7 @@ public class GameControllerImpl implements GameObserverController {
                 executeCommand(tmpCommand);
 
             } else {
-                Optional<GameCommand> result = tmpActor.act(input);
+                final Optional<GameCommand> result = tmpActor.act(input);
                 if (result.isEmpty()) {
                     return;
                 }
@@ -264,8 +264,8 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     private List<Actor> getHeros() {
-        List<Actor> tmp = new ArrayList<>();
-        for (Actor a : this.model.getActorByInitative()) {
+        final List<Actor> tmp = new ArrayList<>();
+        for (final Actor a : this.model.getActorByInitative()) {
             if (a instanceof Hero) {
                 tmp.add(a);
             }
