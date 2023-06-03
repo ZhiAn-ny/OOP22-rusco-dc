@@ -7,6 +7,8 @@ import it.unibo.ruscodc.utils.Pair;
  */
 public abstract class InteractableAbs implements Interactable{
 
+    private static final long serialVersionUID = 3003L;
+
     private final Pair<Integer, Integer> pos;
 
     /**

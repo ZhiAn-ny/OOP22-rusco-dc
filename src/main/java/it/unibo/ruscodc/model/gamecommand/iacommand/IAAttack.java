@@ -22,7 +22,7 @@ public class IAAttack extends NoPlayerCommand {
     private final Range splash;
     private final Effect actionToPerform;
     private Pair<Integer, Integer> cursor;
-    private List<Actor> targes;
+    private List<Actor> targets;
 
     /**
      * TODO - documentazione!.
@@ -53,7 +53,7 @@ public class IAAttack extends NoPlayerCommand {
      */
     @Override
     public int getAPCost() {
-        return actionToPerform.getAPcost();
+        return actionToPerform.getEffectAPcost();
     }
 
     /**
@@ -69,7 +69,7 @@ public class IAAttack extends NoPlayerCommand {
      */
     @Override
     public void setTarget(final List<Actor> targettableActors) {
-        this.targes = new ArrayList<>(targettableActors);
+        this.targets = new ArrayList<>(targettableActors);
     }
 
     /**
@@ -78,15 +78,15 @@ public class IAAttack extends NoPlayerCommand {
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
         final Actor from = this.getActor();
-        final Set<Actor> targets = this.targes.stream()
+        final Set<Actor> effectiveTargets = this.targets.stream()
             .filter(a -> splash.isInRange(cursor, from.getPos(), a.getPos(), this.getRoom()))
             .collect(Collectors.toSet());
         System.out.println("##########################");
-        targets.forEach(t -> System.out.println(t.getName() + " " + t.getPos()));
+        effectiveTargets.forEach(t -> System.out.println(t.getName() + " " + t.getPos()));
         System.out.println("##########################");
-        targets.remove(from);
-        System.out.println(targets);
-        targets.forEach(a -> actionToPerform.applyEffect(from, a));
+        effectiveTargets.remove(from);
+        System.out.println(effectiveTargets);
+        effectiveTargets.forEach(a -> actionToPerform.applyEffect(from, a));
         //targets.forEach(m -> System.out.println("LM: D " + m.getStatActual(StatName.HP)));
         return Optional.empty();
     }

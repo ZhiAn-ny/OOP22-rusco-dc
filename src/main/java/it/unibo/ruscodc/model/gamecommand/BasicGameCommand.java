@@ -1,5 +1,10 @@
 package it.unibo.ruscodc.model.gamecommand;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamemap.Room;
 
@@ -36,7 +41,8 @@ public abstract class BasicGameCommand implements GameCommand {
     @Override
     public void setActor(final Actor by) {
         //if (this.actActor == null) {
-            actActor = by;
+            actActor = Collections.nCopies(1, by).get(0);
+            //actActor = by;
         //}
     }
 
@@ -46,7 +52,8 @@ public abstract class BasicGameCommand implements GameCommand {
     @Override
     public void setRoom(final Room where) {
         //if (this.where == null) {
-            this.where = where;
+            this.where = Collections.nCopies(1, where).get(0);
+            //this.where = where;
         //}
     }
 

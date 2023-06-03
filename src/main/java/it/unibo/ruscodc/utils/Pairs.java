@@ -169,8 +169,11 @@ public final class Pairs {
         final double angCoeff = (deltaRows * 1.0) / (deltaCols * 1.0);
         final double myAngCoeff = reflect ? 1 / angCoeff : angCoeff;
 
-        return Stream.iterate(0, i -> i = increase ? i + 1 : i - 1)
-            .map(i -> reflect 
+        final Stream<Integer> numbers = increase 
+            ? Stream.iterate(0, i -> i = i + 1)
+            : Stream.iterate(0, i -> i = i - 1);
+
+        return numbers.map(i -> reflect 
                 ? new Pair<Integer, Integer>(i, (int) Math.round(myAngCoeff * i)) 
                 : new Pair<Integer, Integer>((int) Math.round(myAngCoeff * i), i));
     }

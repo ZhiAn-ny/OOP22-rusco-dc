@@ -10,6 +10,8 @@ import java.util.Set;
  */
 public class Chest extends PickableItem{
 
+    private static final long serialVersionUID = 3000L;
+
     /**
      * The constructor of this class build a chest which contains a collection of random objects.
      * @param itemSet

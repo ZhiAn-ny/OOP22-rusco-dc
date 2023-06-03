@@ -11,7 +11,7 @@ public abstract class EffectAbs implements Effect {
     }
 
     @Override
-    public int getAPcost() {
+    public int getEffectAPcost() {
         return cost;
     }
 

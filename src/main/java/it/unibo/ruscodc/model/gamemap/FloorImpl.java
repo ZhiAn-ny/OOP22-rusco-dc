@@ -3,6 +3,7 @@ package it.unibo.ruscodc.model.gamemap;
 import com.google.gson.Gson;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.utils.Direction;
+import it.unibo.ruscodc.utils.Pair;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -94,6 +95,11 @@ public class FloorImpl implements Floor, Serializable {
     @Override
     public void eliminateMonster(final Monster monster) {
         this.currentRoom.eliminateMonster(monster);
+    }
+
+    @Override
+    public void clearArea(final Pair<Integer, Integer> pos, final int radius) {
+        this.currentRoom.clearArea(pos, radius);
     }
 
     private Room getNextRoom() {

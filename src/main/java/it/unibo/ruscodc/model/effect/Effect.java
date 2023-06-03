@@ -18,6 +18,6 @@ public interface Effect {
      * Obtain the cost of the effect
      * @return the cost
      */
-    int getAPcost();
+    int getEffectAPcost();
 
 }

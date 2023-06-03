@@ -70,8 +70,6 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
             @Override
             public Optional<GameCommand> choseAttack(final Monster monster, final Room room, final List<Actor> actors) {
 
-                Optional<GameCommand> action = Optional.empty();
-
                 List<GameCommand> attacks = getPossibleAttacks(monster, room, actors);
 
                 int closestDistance =
@@ -85,7 +83,7 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
                     return Optional.empty();
                 }
 
-                action = Optional.of(
+                Optional<GameCommand> action = Optional.of(
                     attacks.stream()
                     .sorted((a, b) -> b.getAPCost() - a.getAPCost())
                     .findFirst()
