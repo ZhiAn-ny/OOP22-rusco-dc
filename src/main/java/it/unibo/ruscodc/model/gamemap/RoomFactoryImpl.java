@@ -115,7 +115,10 @@ public class RoomFactoryImpl implements RoomFactory {
     private void addPuddle(final Room base) {
         final int puddleTileProbability = 10;
         if (this.rnd.nextInt() % puddleTileProbability == 0) {
-            final Pair<Integer, Integer> pos = base.getTilesAsEntity().stream().map(e -> (Tile) e).filter(t -> t instanceof FloorTileImpl).findAny().get().getPosition();
+            final List<Tile> floor = base.getTilesAsEntity().stream()
+                    .map(e -> (Tile) e)
+                    .filter(t -> t instanceof FloorTileImpl).toList();
+            final Pair<Integer, Integer> pos = floor.get(this.rnd.nextInt(floor.size())).getPosition();
             base.replaceTile(pos, new FloorPuddleTileImpl(pos));
         }
     }
