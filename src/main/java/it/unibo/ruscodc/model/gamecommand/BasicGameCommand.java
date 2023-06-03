@@ -26,7 +26,8 @@ public abstract class BasicGameCommand implements GameCommand {
     /**
      * Client must not create directily this objects.
      */
-    protected BasicGameCommand() { //NOPMD: if i don't add a comment here, checkstyle will generate an error. So i prefer document an empty constructor
+    protected BasicGameCommand() { //NOPMD: if i don't add a comment here, checkstyle will generate an error.
+                        //So i prefer document an empty constructor
     }
 
     /**

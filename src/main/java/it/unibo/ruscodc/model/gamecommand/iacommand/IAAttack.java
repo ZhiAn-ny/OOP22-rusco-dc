@@ -1,5 +1,6 @@
 package it.unibo.ruscodc.model.gamecommand.iacommand;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -68,7 +69,7 @@ public class IAAttack extends NoPlayerCommand {
      */
     @Override
     public void setTarget(final List<Actor> targettableActors) {
-        this.targes = targettableActors;
+        this.targes = new ArrayList<>(targettableActors);
     }
 
     /**

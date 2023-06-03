@@ -64,7 +64,7 @@ public enum GameControl {
      */
     ATTACK4,
     /**
-     *
+     * Generic command for delete something.
      */
     DELETE,
     /**
@@ -72,6 +72,10 @@ public enum GameControl {
      */
     DONOTHING;
 
+    /**
+     * Compute a list of GameControl tipically associed with attack commands
+     * @return this List
+     */
     public static List<GameControl> getAttackControls() {
         return List.of(BASEATTACK, ATTACK1, ATTACK2, ATTACK3, ATTACK4);
     }

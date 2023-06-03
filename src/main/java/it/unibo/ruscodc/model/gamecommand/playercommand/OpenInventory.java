@@ -29,10 +29,10 @@ public class OpenInventory extends NoIACommand {
     private Inventory inventory;
     private Optional<InfoPayload> advise;
     private Pair<Integer, Integer> cursorPos = new Pair<>(0, 0);
-    private boolean isReady = false;
-    private boolean exit = false;
-    private boolean isInit = false;
-    private boolean mustClose = false;
+    private boolean isReady; // = false;
+    private boolean exit; // = false;
+    private boolean isInit; // = false;
+    private boolean mustClose; // = false;
 
     private int byPtoI(final Pair<Integer, Integer> toConvert) {
         return toConvert.getY() * COLS + toConvert.getX();
@@ -61,19 +61,19 @@ public class OpenInventory extends NoIACommand {
         Pair<Integer, Integer> tmpNewPos = newPos;
         final int amountItem = this.inventory.slotOccupied();
         if (tmpNewPos.getX() == COLS) {
-            tmpNewPos = new Pair<Integer, Integer>(0, cursorPos.getY());
+            tmpNewPos = new Pair<>(0, cursorPos.getY());
         } else
         if (tmpNewPos.getX() == -1) {
-            tmpNewPos = new Pair<Integer, Integer>(getIndexOfLastItemInARow(cursorPos.getY()), cursorPos.getY());
+            tmpNewPos = new Pair<>(getIndexOfLastItemInARow(cursorPos.getY()), cursorPos.getY());
         } else
         if (tmpNewPos.getY() == -1) {
-            tmpNewPos = new Pair<Integer, Integer>(cursorPos.getX(), getIndexOfLastItemInACol(cursorPos.getX()));
+            tmpNewPos = new Pair<>(cursorPos.getX(), getIndexOfLastItemInACol(cursorPos.getX()));
         } else 
         if (this.byPtoI(tmpNewPos) >= amountItem) {
-            if (tmpNewPos.getY() == cursorPos.getY()) {
-                tmpNewPos = new Pair<Integer, Integer>(0, cursorPos.getY());
+            if (tmpNewPos.getY().equals(cursorPos.getY())) {
+                tmpNewPos = new Pair<>(0, cursorPos.getY());
             } else {
-                tmpNewPos = new Pair<Integer, Integer>(cursorPos.getX(), 0);
+                tmpNewPos = new Pair<>(cursorPos.getX(), 0);
             }
         }
         cursorPos = tmpNewPos;

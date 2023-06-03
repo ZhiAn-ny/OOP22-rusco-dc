@@ -448,7 +448,7 @@ public final class Pairs {
                 : computeBoldLine(a, p))//: computeBoldLine(p, a))//: computeBoldLine(a, p))
             : cfr.map(p -> extremes.contains(p) 
                 ? computePPLineDelta(a, p) //? computePPLineDelta(p, a) //? computePPLineDelta(a, p) 
-                : computeBoldLineDelta(a, p));//: computeBoldLineDelta(p, a)); //: computeBoldLineDelta(a, p));
+                : computeBoldLineDelta(a, p)); //: computeBoldLineDelta(p, a)); //: computeBoldLineDelta(a, p));
     }
 
     /**

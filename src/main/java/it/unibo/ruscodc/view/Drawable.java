@@ -2,6 +2,9 @@ package it.unibo.ruscodc.view;
 
 import it.unibo.ruscodc.utils.Pair;
 
+/**
+ * TODO documentazione!.
+ */
 public interface Drawable<X> {
 
     /**

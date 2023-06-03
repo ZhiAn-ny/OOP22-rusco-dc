@@ -22,7 +22,7 @@ import it.unibo.ruscodc.utils.MyIterator;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
- * The implementation of DropFactory
+ * The implementation of DropFactory.
  */
 public class DropFactoryImpl implements DropFactory {
 

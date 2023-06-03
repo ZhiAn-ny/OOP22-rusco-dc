@@ -7,18 +7,26 @@ import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
 
+/**
+ * TODO documentazione!.
+ */
 public class ChangeRoom extends ChangeSituation {
 
     private final Pair<Integer, Integer> door;
 
-    public ChangeRoom(final Pair<Integer, Integer> doorPos){
+    /**
+     * TODO documentazione!.
+     * @param doorPos TODO documentazione!.
+     */
+    public ChangeRoom(final Pair<Integer, Integer> doorPos) {
         this.door = doorPos;
     }
 
+    /**
+     * 
+     */
     @Override
-    public Optional<InfoPayload> execute() throws ModelException{
+    public Optional<InfoPayload> execute() throws ModelException {
         throw new ChangeRoomException("The room is changing", door);
     }
-
-
 }

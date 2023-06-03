@@ -36,8 +36,7 @@ public class SquareInteraction extends DecoratedRange {
      * 
      */
     @Override
-    protected Predicate<Pair<Integer, Integer>> filterToApply (final Room where) {
+    protected Predicate<Pair<Integer, Integer>> filterToApply(final Room where) {
         return p -> where.isInRoom(p);
     }
-    
 }

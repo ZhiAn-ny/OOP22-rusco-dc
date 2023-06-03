@@ -28,7 +28,7 @@ import java.util.Set;
  */
 public class GameControllerImpl implements GameObserverController {
 
-    private Set<GameControl> DOUBLE_EX = Set.of(GameControl.CANCEL, GameControl.CONFIRM);
+    //private Set<GameControl> DOUBLE_EX = Set.of(GameControl.CANCEL, GameControl.CONFIRM);
 
     private List<Actor> initiative = new ArrayList<>();
     private Optional<GameCommand> playerSituation = Optional.empty();

@@ -44,6 +44,9 @@ public interface GameObserverController {
     //  */
     // void start();
 
-
+    /**
+     * TODO controllare con start_game.
+     * @param args TODO controllare con start_game.
+     */
     void start(String[] args);
 }
