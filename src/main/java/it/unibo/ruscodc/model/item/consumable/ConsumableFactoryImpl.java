@@ -28,8 +28,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
                 public void applyEffect(final Actor target) {
                     target.modifyActualStat(
                         StatName.HP,
-                        target.getStatActual(StatName.HP)
-                        + (int) (target.getStatMax(StatName.HP) * PERCENT20)
+                        (int) (target.getStatMax(StatName.HP) * PERCENT20)
                     );
                 }
             }
@@ -50,8 +49,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
                 public void applyEffect(final Actor target) {
                     target.modifyActualStat(
                         StatName.AP,
-                        target.getStatActual(StatName.AP)
-                        + (int) (target.getStatMax(StatName.HP) * PERCENT20)
+                        (int) (target.getStatMax(StatName.HP) * PERCENT20)
                     );
                 }
             }
@@ -72,7 +70,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
                 public void applyEffect(final Actor target) {
                     target.modifyMaxStat(
                         StatName.STR,
-                        target.getStatMax(StatName.STR) + 1
+                        1
                     );
                 }
             }
@@ -93,7 +91,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
                 public void applyEffect(final Actor target) {
                     target.modifyMaxStat(
                         StatName.DEX,
-                        target.getStatMax(StatName.DEX) + 1
+                        1
                     );
                 }
             }
@@ -114,7 +112,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
                 public void applyEffect(final Actor target) {
                     target.modifyMaxStat(
                         StatName.INT,
-                        target.getStatMax(StatName.INT) + 1
+                        1
                     );
                 }
             }
@@ -135,8 +133,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
                 public void applyEffect(final Actor target) {
                     target.modifyActualStat(
                         StatName.HP,
-                        target.getStatActual(StatName.HP)
-                        + (int) (target.getStatMax(StatName.HP) * PERCENT40)
+                        (int) (target.getStatMax(StatName.HP) * PERCENT40)
                     );
                 }
             }
@@ -157,8 +154,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
                 public void applyEffect(final Actor target) {
                     target.modifyActualStat(
                         StatName.HP,
-                        target.getStatActual(StatName.HP)
-                        + (int) (target.getStatMax(StatName.HP) * PERCENT60)
+                        (int) (target.getStatMax(StatName.HP) * PERCENT60)
                     );
                 }
             }
