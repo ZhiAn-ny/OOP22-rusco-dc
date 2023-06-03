@@ -4,8 +4,10 @@ import it.unibo.ruscodc.controller.GameObserverController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -30,21 +32,18 @@ public class MainMenuController implements Initializable {
     private Label title;
 
     @FXML
-    private void setTitle() {
-        title.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-
-    }
-    @FXML
-    private void setButtons() {
+    public void setLayout() {
+        this.buttons.spacingProperty().bind(buttons.getScene().getWindow().heightProperty().divide(20));
     }
 
     public void init(final FXMLMainView mainView){
         this.mainView = mainView;
     }
 
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
-
     }
 
     @FXML

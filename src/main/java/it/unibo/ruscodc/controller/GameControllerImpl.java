@@ -67,6 +67,7 @@ public class GameControllerImpl implements GameObserverController {
 
     @Override
     public void initNewGame() {
+        this.initiative.clear();
         this.model = new GameModelImpl();
         refresh();
     }

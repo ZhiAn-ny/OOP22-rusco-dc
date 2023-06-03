@@ -76,6 +76,7 @@ public class FXMLMainView extends Application implements GameView {
         //stage.setUserData(this.controller);
         //this.isReady = true;
         stage.setScene(scene);
+       // stage.show();
     }
 
 
@@ -149,7 +150,7 @@ public class FXMLMainView extends Application implements GameView {
 
     private void showMainMenu() throws IOException {
         final Scene scene = this.loadMainMenu();
-        this.handleWindowSize(stage, scene);
+        //this.handleWindowSize(stage, scene);
         this.handleEvents(stage);
         // this.handleUserInputs(scene);
 
@@ -162,6 +163,7 @@ public class FXMLMainView extends Application implements GameView {
 
         this.isReady = true;
         stage.show();
+        this.menuController.setLayout();
     }
 
     /** {@inheritDoc} */
@@ -211,7 +213,7 @@ public class FXMLMainView extends Application implements GameView {
         final Scene scene = new Scene(fxmlLoader.load());
         this.gameOverController = (GameOverController) fxmlLoader.getController();
         this.gameOverController.init(this);
-        gameOverController.backToMenu();
+        //gameOverController.backToMenu();
         return scene;
     }
 
