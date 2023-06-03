@@ -137,6 +137,7 @@ public class OpenInventory extends NoIACommand {
             case CONFIRM:
                 this.manageUse();
                 this.isReady = false;
+                //this.isReady = true;
                 this.resetCursor();
                 break;
 

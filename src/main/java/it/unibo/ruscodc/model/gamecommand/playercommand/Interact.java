@@ -106,7 +106,7 @@ public class Interact extends NoIACommand {
     public Optional<InfoPayload> execute() throws ModelException {
         isReady = false;
         final Pair<Integer, Integer> tmpCursor = cursorPos;
-        cursorPos = null;
+        //cursorPos = null;
         if (undo) {
             undo = false;
             cursorPos = null;
@@ -147,7 +147,7 @@ public class Interact extends NoIACommand {
             throw new IllegalStateException("GameCommand behind interactable must not be complex");
         }
         
-       
+        cursorPos = null;
         Optional<InfoPayload> res = obtained.execute();
         if (res.isEmpty()) {
             this.getRoom().get(tmpCursor).get().empty();

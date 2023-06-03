@@ -171,6 +171,7 @@ public class GameControllerImpl implements GameObserverController {
                     flushView();
                 }
                 isPrintingInv = false;
+                //view.closeInventory();
 
             } catch (ChangeFloorException f) {
                 changeFloor();

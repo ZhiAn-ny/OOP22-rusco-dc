@@ -195,11 +195,13 @@ public class PlayerAttack extends NoIACommand {
         final Actor from = this.getActor();
 
         if (!range.isInRange(from.getPos(), tmp, tmp, this.getRoom())) {
+            cursorPos = tmp;
             return Optional.of(new InfoPayloadImpl(getErrTitle(), R_ERR));
             //throw new NotInRange(R_ERR);
         }
 
         if (from.getStatActual(StatName.AP) < actionToPerform.getAPcost()) {
+            cursorPos = tmp;
             return Optional.of(new InfoPayloadImpl(getErrTitle(), AP_ERR));
         } 
         from.modifyActualStat(StatName.AP, -actionToPerform.getAPcost());
