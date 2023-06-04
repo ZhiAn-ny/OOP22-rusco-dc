@@ -69,19 +69,4 @@ public class PortraitImpl implements Portrait {
     public double getAPcoeff() {
         return percentageAp;
     }
-
-    /**
-     * 
-     */
-    @Override
-    public List<Pair<String, String>> getAttackInfo() {
-        final List<GameControl> attackControl = GameControl.getAttackControls();
-        return attackControl
-            .stream()
-            .map(gc -> actor.getSkills().getAction(gc))
-            .filter(gc -> gc.isPresent())
-            .map(gc -> gc.get())
-            .map(gc -> new Pair<>("", gc.toString()))
-            .toList();
-    }
 }

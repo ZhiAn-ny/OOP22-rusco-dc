@@ -7,7 +7,7 @@ import it.unibo.ruscodc.utils.exception.ChangeFloorException;
 import it.unibo.ruscodc.utils.exception.ModelException;
 
 /**
- * TODO - documentazione!.
+ * Command that alter the flow of the game due to the changing of the floor
  */
 public class ChangeFloor extends ChangeSituation {
 

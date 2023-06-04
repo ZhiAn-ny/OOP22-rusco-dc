@@ -19,7 +19,7 @@ import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.utils.exception.Undo;
 
 /**
- * TODO - documentazione!.
+ * Command that manage the interaction beetween player and the inventory of a hero
  */
 public class OpenInventory extends NoIACommand {
 

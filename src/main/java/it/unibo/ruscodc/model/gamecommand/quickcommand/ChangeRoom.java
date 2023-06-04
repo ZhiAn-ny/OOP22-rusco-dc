@@ -8,15 +8,15 @@ import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
 
 /**
- * TODO documentazione!.
+ * Command that alter the flow of the game due to the changing of a room
  */
 public class ChangeRoom extends ChangeSituation {
 
     private final Pair<Integer, Integer> door;
 
     /**
-     * TODO documentazione!.
-     * @param doorPos TODO documentazione!.
+     * Create this type of exception of the normal flow of the game.
+     * @param doorPos the position of the travelled door, useful during the mechanism of changing room
      */
     public ChangeRoom(final Pair<Integer, Integer> doorPos) {
         this.door = doorPos;

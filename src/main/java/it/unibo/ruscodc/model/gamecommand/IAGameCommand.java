@@ -18,8 +18,8 @@ public interface IAGameCommand {
     void setCursorPos(Pair<Integer, Integer> toFocus);
 
     /**
-     * Specifies possible actory that can be afflicted by the attack.
-     * @param targettableActors these //TODO migliorami
+     * Specifies possible actors that can be afflicted by the attack.
+     * @param targettableActors the list of actor as described before
      */
     void setTarget(List<Actor> targettableActors);
 

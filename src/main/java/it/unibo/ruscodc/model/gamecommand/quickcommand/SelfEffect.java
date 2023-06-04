@@ -17,9 +17,9 @@ public class SelfEffect extends QuickActionAbs {
     private final int cost;
 
     /**
-     * TODO documetazione!
-     * @param toUse TODO documetazione!
-     * @param costAP TODO documetazione!
+     * Create this type of object
+     * @param toUse the Effect that who invoke this command deside to activate on itself
+     * @param costAP the eventually cost of this action
      */
     public SelfEffect(final SingleTargetEffect toUse, final int costAP) {
         this.toApply = toUse;

@@ -11,15 +11,15 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * TODO documentazione!.
+ * A QuickAction, finalizate to fill the inventory of the actor that invoke this command with some objects
  */
 public class FillInventory extends QuickActionAbs {
 
     private final Set<Item> items;
 
     /**
-     * TODO documentazione!.
-     * @param itemSet TODO documentazione!.
+     * Create this type of command
+     * @param itemSet the set of objects that have to add to the Inventory of the actor
      */
     public FillInventory(final Set<Item> itemSet) {
         this.items = new HashSet<>(itemSet);

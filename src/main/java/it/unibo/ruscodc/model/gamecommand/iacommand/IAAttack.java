@@ -14,7 +14,7 @@ import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
 
 /**
- * TODO - documentazione!.
+ * Class that wrap an IA attack (so an attack that game can manage and use, for example, for mobs)
  */
 public class IAAttack extends NoPlayerCommand {
 
@@ -25,10 +25,10 @@ public class IAAttack extends NoPlayerCommand {
     private List<Actor> targets;
 
     /**
-     * TODO - documentazione!.
-     * @param r TODO - documentazione!.
-     * @param s TODO - documentazione!.
-     * @param eff TODO - documentazione!. 
+     * Create this type of object (see documetation about class)
+     * @param r the Range obj that define the range for this obj
+     * @param s the Range obj that define the spalsh for this obj
+     * @param eff the Effect to apply to future targets
      */
     public IAAttack(final Range r, final Range s, final Effect eff) {
         this.range = r;
@@ -102,26 +102,4 @@ public class IAAttack extends NoPlayerCommand {
     public String toString() {
         return "If a Hero is into a " + range.toString() + ", it can be targetable";
     }
-
-    // @Override
-    // public boolean equals(Object obj) {
-    //     if (this == obj)
-    //         return true;
-    //     if (obj == null)
-    //         return false;
-    //     if (getClass() != obj.getClass())
-    //         return false;
-    //     IAAttack other = (IAAttack) obj;
-    //     if (range == null) {
-    //         if (other.range != null)
-    //             return false;
-    //     } else if (!range.equals(other.range))
-    //         return false;
-    //     if (splash == null) {
-    //         if (other.splash != null)
-    //             return false;
-    //     } else if (!splash.equals(other.splash))
-    //         return false;
-    //     return true;
-    // }
 }

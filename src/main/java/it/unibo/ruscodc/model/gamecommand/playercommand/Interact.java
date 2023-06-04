@@ -15,12 +15,12 @@ import it.unibo.ruscodc.model.range.SingleRange;
 import it.unibo.ruscodc.model.range.SquareInteraction;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
-import it.unibo.ruscodc.utils.Pairs;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.utils.exception.Undo;
 
 /**
- * //TODO - documentazione!.
+ * Command that mange some type of interaction beetween player and things in a room
+ * With this command, it's possible collect some chest and drop, of maybe know the status of mobs
  */
 public class Interact extends NoIACommand {
 
