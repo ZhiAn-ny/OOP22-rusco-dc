@@ -29,7 +29,7 @@ public class RectangleRoomImpl implements Room, Serializable {
     private static final long serialVersionUID = 1L;
     private static final int MAX_DOORS_NUM = 4;
 
-    private final Random rnd = new Random();
+    private transient final Random rnd = new Random();
     private final Pair<Integer, Integer> size;
     private final List<Tile> tiles = new ArrayList<>();
     private final List<Monster> monsters = new ArrayList<>();

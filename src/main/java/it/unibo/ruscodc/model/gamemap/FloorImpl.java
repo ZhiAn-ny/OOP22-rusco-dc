@@ -21,15 +21,15 @@ public class FloorImpl implements Floor, Serializable {
     private static final int ENTRANCE_SIZE = 5;
     private static final int MAX_ROOMS_NUMBER = 20;
 
-    private final Gson gson = new Gson();
+//    private final Gson gson = new Gson();
+    private transient final Random rnd = new Random();
+    private transient final RoomFactory roomFactory = new RoomFactoryImpl();
 
     private Room currentRoom;
     private int unusedDoors;
     private boolean readyForNextFloor;
     private final int floorNum;
-    private final Random rnd = new Random();
     private final List<Room> rooms = new ArrayList<>();
-    private transient final RoomFactory roomFactory = new RoomFactoryImpl();
 
     /**
      * Constructs a <code>Floor</code> with only an initial of size 5.
@@ -61,7 +61,8 @@ public class FloorImpl implements Floor, Serializable {
     /** {@inheritDoc} */
     @Override
     public Room getCurrentRoom() {
-        return this.gson.fromJson(this.gson.toJson(this.currentRoom), Room.class);
+        return this.currentRoom;
+        //return this.gson.fromJson(this.gson.toJson(this.currentRoom), Room.class);
     }
 
     /** {@inheritDoc} */
