@@ -46,7 +46,7 @@ public class EquipementActionFactoryImpl implements EquipementActionFactory {
             new EffectAbs(BASIC_MELEE_COST) {
                 @Override
                 public void applyEffect(final Actor from, final Actor to) {
-                    int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
+                    final int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
                     to.modifyActualStat(StatName.HP, -damage);
                 }
 
@@ -69,7 +69,7 @@ public class EquipementActionFactoryImpl implements EquipementActionFactory {
             new EffectAbs(BASIC_RANGED_COST) {
                 @Override
                 public void applyEffect(final Actor from, final Actor to) {
-                    int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
+                    final int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
                     to.modifyActualStat(StatName.HP, -damage);
                 }
 
@@ -92,7 +92,7 @@ public class EquipementActionFactoryImpl implements EquipementActionFactory {
             new EffectAbs(CONE_ATTACK_COST) {
                 @Override
                 public void applyEffect(final Actor from, final Actor to) {
-                    int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
+                    final int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
                     to.modifyActualStat(StatName.HP, -damage);
                 }
 
@@ -115,7 +115,7 @@ public class EquipementActionFactoryImpl implements EquipementActionFactory {
             new EffectAbs(ROW_ATTACK_COST) {
                 @Override
                 public void applyEffect(final Actor from, final Actor to) {
-                    int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
+                    final int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
                     to.modifyActualStat(StatName.HP, -damage);
                 }
 

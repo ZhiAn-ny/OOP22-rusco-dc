@@ -27,7 +27,7 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new EffectAbs(0) {
                 @Override
                 public void applyEffect(final Actor from, final Actor to) {
-                    int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
+                    final int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
                     to.modifyActualStat(StatName.HP, -damage);
                 }
 
@@ -50,7 +50,7 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new EffectAbs(3) {
                 @Override
                 public void applyEffect(final Actor from, final Actor to) {
-                    int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR) * 2;
+                    final int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR) * 2;
                     to.modifyActualStat(StatName.HP, -damage);
                 }
 
@@ -73,7 +73,7 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new EffectAbs(0) {
                 @Override
                 public void applyEffect(final Actor from, final Actor to) {
-                    int damage = from.getStatActual(StatName.DMG);
+                    final int damage = from.getStatActual(StatName.DMG);
                     to.modifyActualStat(StatName.HP, -damage);
                 }
 
@@ -96,7 +96,7 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new EffectAbs(0) {
                 @Override
                 public void applyEffect(final Actor from, final Actor to) {
-                    int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.INT);
+                    final int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.INT);
                     to.modifyActualStat(StatName.HP, -damage);
                 }
 
@@ -119,7 +119,7 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new EffectAbs(3) {
                 @Override
                 public void applyEffect(final Actor from, final Actor to) {
-                    int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.INT);
+                    final int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.INT);
                     to.modifyActualStat(StatName.HP, -damage);
                 }
 
@@ -142,7 +142,7 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new EffectAbs(4) {
                 @Override
                 public void applyEffect(final Actor from, final Actor to) {
-                    int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.DEX);
+                    final int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.DEX);
                     to.modifyActualStat(StatName.HP, -damage);
                 }
 
@@ -165,7 +165,7 @@ public class MonsterActionFactoryImpl implements MonsterActionFactory {
             new EffectAbs(0) {
                 @Override
                 public void applyEffect(final Actor from, final Actor to) {
-                    int damage = from.getStatActual(StatName.DMG);
+                    final int damage = from.getStatActual(StatName.DMG);
                     to.modifyActualStat(StatName.HP, -damage);
                 }
 

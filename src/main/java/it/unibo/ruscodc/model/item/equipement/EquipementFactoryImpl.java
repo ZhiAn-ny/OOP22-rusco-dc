@@ -58,14 +58,14 @@ public class EquipementFactoryImpl implements EquipementFactory {
 
     private static final int RING_HP = 1;
 
-    private EquipementActionFactory actionFactory = new EquipementActionFactoryImpl();
+    private final EquipementActionFactory actionFactory = new EquipementActionFactoryImpl();
 
     /**
      * 
      */
     @Override
     public Equipement createLongSword() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.DMG, LONG_SWORD_DMG);
         return new EquipementImpl(
             "Long Sword",
@@ -83,7 +83,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createSwordShield() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.DMG, SWORD_SHIELD_DMG);
         stat.put(StatName.HP, SWORD_SHIELD_HP);
         return new EquipementImpl(
@@ -102,7 +102,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createHandbow() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.DMG, HANDBOW_DMG);
         stat.put(StatName.DEX, HANDBOW_DEX);
         return new EquipementImpl(
@@ -121,7 +121,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createShotgun() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.DMG, SHOTGUN_DMG);
         stat.put(StatName.STR, SHOTGUN_STR);
         return new EquipementImpl(
@@ -140,7 +140,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createRocketHammer() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.DMG, ROCKET_HAMMER_DMG);
         stat.put(StatName.STR, ROCKET_HAMMER_STR);
         return new EquipementImpl(
@@ -159,7 +159,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createVikingHelmet() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.HP, VIKING_HELMET_HP);
         stat.put(StatName.STR, VIKING_HELMET_STR);
         return new EquipementImpl(
@@ -177,7 +177,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createWizardHat() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.HP, WIZARD_HAT_HP);
         stat.put(StatName.INT, WIZARD_HAT_INT);
         return new EquipementImpl(
@@ -195,7 +195,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createCrusaderHelmet() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.HP, CRUSADER_HELMET_HP);
         stat.put(StatName.STR, CRUSADER_HELMET_STR);
         return new EquipementImpl(
@@ -213,7 +213,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createTunic() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.HP, TUNIC_HP);
         return new EquipementImpl(
             "Tunic",
@@ -230,7 +230,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createChainmail() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.HP, CHAINMAIL_HP);
         stat.put(StatName.STR, CHAINMAIL_STR);
         return new EquipementImpl(
@@ -248,7 +248,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createLeatherArmor() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.HP, LEATHER_ARMOUR_HP);
         stat.put(StatName.DEX, LEATHER_ARMOUR_DEX);
         return new EquipementImpl(
@@ -266,7 +266,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createHealthRing() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.HP, HEALTH_RING_HP);
         return new EquipementImpl(
             "Health Ring",
@@ -283,7 +283,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createActionRing() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.AP, ACTION_RING_AP);
         return new EquipementImpl(
             "Action Ring",
@@ -300,7 +300,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createStrenghtRing() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.STR, STRENGHT_RING_STR);
         return new EquipementImpl(
             "Strenght Ring",
@@ -317,7 +317,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createDexterityRing() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.DEX, DEXTERITY_RING_DEX);
         return new EquipementImpl(
             "Dexterity Ring",
@@ -334,7 +334,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createInteligenceRing() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.INT, INTELLECT_RING_INT);
         return new EquipementImpl(
             "Inteligence Ring",
@@ -351,7 +351,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
      */
     @Override
     public Equipement createRing() {
-        Map<StatName, Integer> stat = new HashMap<>();
+        final Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.HP, RING_HP);
         return new EquipementImpl(
             "Ring",

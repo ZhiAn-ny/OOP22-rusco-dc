@@ -84,7 +84,7 @@ public abstract class ActorAbs implements Actor {
      */
     @Override
     public void modifyActualStat(final StatName statName, final int value) {
-        int current = this.stats.getStatActual(statName);
+        final int current = this.stats.getStatActual(statName);
         if ((current + value) < 0) {
             this.stats.setStatActualValue(statName, 0);
         } else if ((current + value) > this.stats.getStatMax(statName)) {
@@ -99,7 +99,7 @@ public abstract class ActorAbs implements Actor {
      */
     @Override
     public void modifyMaxStat(final StatName statName, final int value) {
-        int current = this.stats.getStatMax(statName);
+        final int current = this.stats.getStatMax(statName);
         if ((current + value) < 0) {
             this.stats.setStatMaxValue(statName, 0);
         } else {

@@ -36,7 +36,7 @@ public class MonsterStatFactoryImpl implements MonsterStatFactory {
      */
     @Override
     public Stat ratStat() {
-        Stat ratStats = new StatImpl();
+        final Stat ratStats = new StatImpl();
         ratStats.setStat(StatName.HP, new Pair<Integer, Integer>(RAT_HP, RAT_HP));
         ratStats.setStat(StatName.AP, new Pair<Integer, Integer>(RAT_AP, RAT_AP));
         ratStats.setStat(StatName.DMG, new Pair<Integer, Integer>(RAT_DMG, RAT_DMG));
@@ -51,7 +51,7 @@ public class MonsterStatFactoryImpl implements MonsterStatFactory {
      */
     @Override
     public Stat opossumStat() {
-        Stat ratStats = new StatImpl();
+        final Stat ratStats = new StatImpl();
         ratStats.setStat(StatName.HP, new Pair<Integer, Integer>(OPOSSUM_HP, OPOSSUM_HP));
         ratStats.setStat(StatName.AP, new Pair<Integer, Integer>(OPOSSUM_AP, OPOSSUM_AP));
         ratStats.setStat(StatName.DMG, new Pair<Integer, Integer>(OPOSSUM_DMG, OPOSSUM_DMG));
@@ -66,7 +66,7 @@ public class MonsterStatFactoryImpl implements MonsterStatFactory {
      */
     @Override
     public Stat seagullStat() {
-        Stat ratStats = new StatImpl();
+        final Stat ratStats = new StatImpl();
         ratStats.setStat(StatName.HP, new Pair<Integer, Integer>(SEAGULL_HP, SEAGULL_HP));
         ratStats.setStat(StatName.AP, new Pair<Integer, Integer>(SEAGULL_AP, SEAGULL_AP));
         ratStats.setStat(StatName.DMG, new Pair<Integer, Integer>(SEAGULL_DMG, SEAGULL_DMG));
@@ -81,7 +81,7 @@ public class MonsterStatFactoryImpl implements MonsterStatFactory {
      */
     @Override
     public Stat cockroachStat() {
-        Stat ratStats = new StatImpl();
+        final Stat ratStats = new StatImpl();
         ratStats.setStat(StatName.HP, new Pair<Integer, Integer>(COCKROACH_HP, COCKROACH_HP));
         ratStats.setStat(StatName.AP, new Pair<Integer, Integer>(COCKROACH_AP, COCKROACH_AP));
         ratStats.setStat(StatName.DMG, new Pair<Integer, Integer>(COCKROACH_DMG, COCKROACH_DMG));
