@@ -28,8 +28,6 @@ public class MainMenuController implements Initializable {
     @FXML
     private VBox buttons;
 
-    @FXML
-    private TextField nameFile;
 
     @FXML
     public void setLayout() {
@@ -49,7 +47,7 @@ public class MainMenuController implements Initializable {
 
     @FXML
     public void startNewGame(final ActionEvent event) throws Exception {
-        this.mainView.startNewGame(nameFile.getText());
+        this.mainView.startNewGame("");
 
     }
 

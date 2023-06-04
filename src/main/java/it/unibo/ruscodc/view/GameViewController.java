@@ -162,25 +162,7 @@ public class GameViewController implements Initializable {
      */
     private NumberBinding getBindingFunction() {
         final int maxDimension = Math.max(this.cols, this.rows);
-        final int minDimension = Math.min(this.cols, this.rows);
-
-//        DoubleBinding binding = mainGrid.getScene().heightProperty().divide(maxDimension);
-//        if (mainGrid.getScene().getWidth() < mainGrid.getScene().getHeight()) {
-//            binding = mainGrid.getScene().widthProperty().divide(maxDimension + (cols+2));
-//        }
-
-        NumberBinding binding;
-
-        if (this.cols < this.rows) {
-            binding = Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(maxDimension);
-        } else {
-            binding = Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(minDimension);
-        }
-
-        System.out.println(maxDimension + "****************************************************");
-        System.out.println("cols: " + this.cols + " rows: " + this.rows);
-        System.out.println("binding: " + binding);
-        return binding;
+        return Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(maxDimension);
     }
 
 

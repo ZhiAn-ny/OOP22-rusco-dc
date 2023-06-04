@@ -213,6 +213,7 @@ public class FXMLMainView extends Application implements GameView {
     private Scene loadGameOver() throws IOException {
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("game-over.fxml"));
         final Scene scene = new Scene(fxmlLoader.load());
+        handleWindowSize(stage, scene);
         this.gameOverController = (GameOverController) fxmlLoader.getController();
         this.gameOverController.init(this);
         gameOverController.backToMenu();
