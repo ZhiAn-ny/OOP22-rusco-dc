@@ -5,10 +5,10 @@ import it.unibo.ruscodc.model.actors.monster.MonsterActionFactory;
 import it.unibo.ruscodc.model.actors.monster.MonsterActionFactoryImpl;
 import it.unibo.ruscodc.model.actors.monster.MonsterGenerator;
 import it.unibo.ruscodc.model.actors.monster.MonsterGeneratorImpl;
+import it.unibo.ruscodc.model.actors.monster.MonsterStatFactory;
+import it.unibo.ruscodc.model.actors.monster.MonsterStatFactoryImpl;
 import it.unibo.ruscodc.model.actors.skill.Skill;
 import it.unibo.ruscodc.model.actors.stat.Stat;
-import it.unibo.ruscodc.model.actors.stat.StatFactory;
-import it.unibo.ruscodc.model.actors.stat.StatFactoryImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
@@ -27,7 +27,7 @@ final class MonsterGeneratorTest {
     
     private final Pair<Integer, Integer> pos = new Pair<>(0, 0);
     private final MonsterGenerator monsterGenerator = new MonsterGeneratorImpl();
-    private final StatFactory statFactory = new StatFactoryImpl();
+    private final MonsterStatFactory statFactory = new MonsterStatFactoryImpl();
     private final MonsterActionFactory monsterActionFactory = new MonsterActionFactoryImpl();
 
     /**

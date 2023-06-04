@@ -26,7 +26,7 @@ public class EquipementImpl implements Equipement {
     private final InfoPayload info;
 
     /**
-     * Constructor for Equipement
+     * Constructor for Equipement.
      * @param name of the Equipement
      * @param description of the Equipement
      * @param path to the Equipement related info
@@ -49,9 +49,9 @@ public class EquipementImpl implements Equipement {
             this.action = Optional.ofNullable(action);
             this.info = new InfoPayloadImpl(name, description, path);
     }
-    
+
     /**
-     * Alternative Constructor for Equipement
+     * Alternative Constructor for Equipement.
      * @param name of the Equipement
      * @param description of the Equipementn
      * @param path to the Equipement related info

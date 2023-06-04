@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import it.unibo.ruscodc.model.actors.hero.Hero;
@@ -42,7 +41,7 @@ public class InventoryImpl implements Inventory {
     private final Map<Slot, Equipement> equipement;
 
     /**
-     * Basic Constructor for the Inventory
+     * Basic Constructor for the Inventory.
      */
     public InventoryImpl() {
         this.bag = new ArrayList<>();

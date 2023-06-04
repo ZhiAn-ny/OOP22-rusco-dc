@@ -18,9 +18,9 @@ import it.unibo.ruscodc.utils.Pairs;
  */
 public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
 
-    private List<GameCommand> getPossibleAttacks(final Monster monster, final Room room, List<Actor> actors) {
-        Skill skills = monster.getSkills();
-        List<GameCommand> attacks = 
+    private List<GameCommand> getPossibleAttacks(final Monster monster, final Room room, final List<Actor> actors) {
+        final Skill skills = monster.getSkills();
+        final List<GameCommand> attacks = 
             GameControl.getAttackControls()
             .stream()
             .map(a -> skills.getAction(a))
@@ -46,7 +46,7 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
 
                 Optional<GameCommand> action = Optional.empty();
 
-                List<GameCommand> attacks = getPossibleAttacks(monster, room, actors);
+                final List<GameCommand> attacks = getPossibleAttacks(monster, room, actors);
 
                 if (attacks.isEmpty()) {
                     return action;
@@ -70,9 +70,9 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
             @Override
             public Optional<GameCommand> choseAttack(final Monster monster, final Room room, final List<Actor> actors) {
 
-                List<GameCommand> attacks = getPossibleAttacks(monster, room, actors);
+                final List<GameCommand> attacks = getPossibleAttacks(monster, room, actors);
 
-                int closestDistance =
+                final int closestDistance =
                     actors.stream()
                     .map(a -> (int) (Pairs.computePPLine(monster.getPos(), a.getPos()).count()))
                     .sorted((a, b) -> a - b)
@@ -83,13 +83,12 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
                     return Optional.empty();
                 }
 
-                Optional<GameCommand> action = Optional.of(
+                final Optional<GameCommand> action = Optional.of(
                     attacks.stream()
                     .sorted((a, b) -> b.getAPCost() - a.getAPCost())
                     .findFirst()
                     .get()
                 );
-                
 
                 return action;
             }
