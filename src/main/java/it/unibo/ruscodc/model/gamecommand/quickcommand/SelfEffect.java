@@ -17,7 +17,7 @@ public class SelfEffect extends QuickActionAbs {
     private final int cost;
 
     /**
-     * Create this type of object
+     * Create this type of object.
      * @param toUse the Effect that who invoke this command deside to activate on itself
      * @param costAP the eventually cost of this action
      */

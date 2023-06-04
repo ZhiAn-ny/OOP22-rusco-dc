@@ -14,7 +14,7 @@ import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
 
 /**
- * Class that wrap an IA attack (so an attack that game can manage and use, for example, for mobs)
+ * Class that wrap an IA attack (so an attack that game can manage and use, for example, for mobs).
  */
 public class IAAttack extends NoPlayerCommand {
 
@@ -25,7 +25,7 @@ public class IAAttack extends NoPlayerCommand {
     private List<Actor> targets;
 
     /**
-     * Create this type of object (see documetation about class)
+     * Create this type of object (see documetation about class).
      * @param r the Range obj that define the range for this obj
      * @param s the Range obj that define the spalsh for this obj
      * @param eff the Effect to apply to future targets
@@ -76,7 +76,7 @@ public class IAAttack extends NoPlayerCommand {
      * 
      */
     @Override
-    public Optional<InfoPayload> execute() throws ModelException {        
+    public Optional<InfoPayload> execute() throws ModelException {
         if (this.targets == null || this.targets.isEmpty()) {
             return Optional.empty();
         }

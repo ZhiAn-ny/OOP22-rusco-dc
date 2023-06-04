@@ -6,7 +6,7 @@ import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.exception.ModelException;
 
 /**
- * Defines a set of command that tipically alter the classic flow of the game
+ * Defines a set of command that tipically alter the classic flow of the game.
  */
 public abstract class ChangeSituation extends QuickActionAbs {
 

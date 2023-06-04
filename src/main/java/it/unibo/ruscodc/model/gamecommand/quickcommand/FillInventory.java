@@ -11,14 +11,14 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * A QuickAction, finalizate to fill the inventory of the actor that invoke this command with some objects
+ * A QuickAction, finalizate to fill the inventory of the actor that invoke this command with some objects.
  */
 public class FillInventory extends QuickActionAbs {
 
     private final Set<Item> items;
 
     /**
-     * Create this type of command
+     * Create this type of command.
      * @param itemSet the set of objects that have to add to the Inventory of the actor
      */
     public FillInventory(final Set<Item> itemSet) {
@@ -31,7 +31,7 @@ public class FillInventory extends QuickActionAbs {
     @Override
     public Optional<InfoPayload> execute() throws ModelException {
         final Inventory toFill = ((Hero) this.getActor()).getInventory();
-        for (Item item : items) {
+        for (final Item item : items) {
             toFill.addItem(item);
         }
         return Optional.empty();

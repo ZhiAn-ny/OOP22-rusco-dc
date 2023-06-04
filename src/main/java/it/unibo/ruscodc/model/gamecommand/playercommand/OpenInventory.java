@@ -19,7 +19,7 @@ import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.utils.exception.Undo;
 
 /**
- * Command that manage the interaction beetween player and the inventory of a hero
+ * Command that manage the interaction beetween player and the inventory of a hero.
  */
 public class OpenInventory extends NoIACommand {
 
@@ -40,7 +40,7 @@ public class OpenInventory extends NoIACommand {
 
     private void resetCursor() {
         if (byPtoI(cursorPos) >= this.inventory.slotOccupied()) {
-            this.cursorPos = new Pair<Integer, Integer>(0, 0);
+            this.cursorPos = new Pair<>(0, 0);
         }
     }
 

@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 import it.unibo.ruscodc.model.item.Item;
 
 /**
- * Class that wrap a list of item and manage some type of access of these objects
+ * Class that wrap a list of item and manage some type of access of these objects.
  */
 public class DropManagerImpl implements DropManager {
     private static final Random DICE = new Random();
@@ -19,8 +19,8 @@ public class DropManagerImpl implements DropManager {
     private final List<Item> extractedDrop = new ArrayList<>();
 
     /**
-     * Create this managing system
-     * @param extractedDrop TODO.
+     * Create this managing system.
+     * @param extractedDrop the all list of item, on which perform some type of extraction
      */
     public DropManagerImpl(final List<Item> extractedDrop) {
         this.extractedDrop.addAll(extractedDrop);

@@ -5,7 +5,7 @@ import it.unibo.ruscodc.utils.Pair;
 /**
  *
  */
-public abstract class InteractableAbs implements Interactable{
+public abstract class InteractableAbs implements Interactable {
 
     private static final long serialVersionUID = 3003L;
 
@@ -15,7 +15,7 @@ public abstract class InteractableAbs implements Interactable{
      *
      * @param pos
      */
-    protected InteractableAbs(final Pair<Integer, Integer> pos){
+    protected InteractableAbs(final Pair<Integer, Integer> pos) {
         this.pos = pos;
     }
 
@@ -29,8 +29,11 @@ public abstract class InteractableAbs implements Interactable{
         return this.pos;
     }
 
+    /**
+     * 
+     */
     @Override
-    public int getID(){
+    public int getID() {
         return 2;
     }
 

@@ -8,7 +8,7 @@ import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
 
 /**
- * Command that alter the flow of the game due to the changing of a room
+ * Command that alter the flow of the game due to the changing of a room.
  */
 public class ChangeRoom extends ChangeSituation {
 

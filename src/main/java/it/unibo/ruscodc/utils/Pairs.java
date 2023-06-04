@@ -441,13 +441,11 @@ public final class Pairs {
         final Stream<Pair<Integer, Integer>> cd = computeBoldLine(d, c);
         final Stream<Pair<Integer, Integer>> cfr = Stream.concat(bd, cd).distinct();
 
-        
-
         final Set<Pair<Integer, Integer>> extremes = Set.of(b, c);
 
         return concrete
             ? cfr.map(p -> extremes.contains(p) 
-                ? computePPLine(a, p)//? computePPLine(p, a)//? computePPLine(a, p) 
+                ? computePPLine(a, p)//? computePPLine(p, a)//? computePPLine(a, p)
                 : computeBoldLine(a, p))//: computeBoldLine(p, a))//: computeBoldLine(a, p))
             : cfr.map(p -> extremes.contains(p) 
                 ? computePPLineDelta(a, p) //? computePPLineDelta(p, a) //? computePPLineDelta(a, p) 

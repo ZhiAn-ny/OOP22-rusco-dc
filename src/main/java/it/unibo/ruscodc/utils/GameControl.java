@@ -73,7 +73,7 @@ public enum GameControl {
     DONOTHING;
 
     /**
-     * Compute a list of GameControl tipically associed with attack commands
+     * Compute a list of GameControl tipically associed with attack commands.
      * @return this List
      */
     public static List<GameControl> getAttackControls() {

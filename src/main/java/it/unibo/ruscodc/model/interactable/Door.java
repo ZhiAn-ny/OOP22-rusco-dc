@@ -14,16 +14,14 @@ public class Door extends InteractableAbs {
     private static final long serialVersionUID = 3001L;
 
     private final Direction doorDirection;
-    private String name;
-    private String path;
-    private String info;
-    //private final DoorType doorType;
+    private final String name;
+
 
     /**
-     * The constructor of this class build a door.
-     * @param pos is a position where the door spawn.
+     * The constructor of this class.
+     * @param pos where spawn the door.
      */
-    public Door(final Pair<Integer, Integer> pos, final Direction doorDirection ){
+    public Door(final Pair<Integer, Integer> pos, final Direction doorDirection) {
         super(pos);
         this.name = "Door";
         this.doorDirection = doorDirection;
@@ -44,7 +42,7 @@ public class Door extends InteractableAbs {
      */
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 
     /**
@@ -55,6 +53,9 @@ public class Door extends InteractableAbs {
         return new ChangeRoom(getPos());
     }
 
+    /**
+     * 
+     */
     @Override
     public boolean isTransitable() {
         return true;

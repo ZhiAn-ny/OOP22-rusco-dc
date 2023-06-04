@@ -15,7 +15,7 @@ public interface Effect {
     void applyEffect(Actor from, Actor to);
 
     /**
-     * Obtain the cost of the effect
+     * Obtain the cost of the effect.
      * @return the cost
      */
     int getEffectAPcost();

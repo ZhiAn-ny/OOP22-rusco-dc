@@ -8,6 +8,9 @@ import it.unibo.ruscodc.controller.GameObserverController;
  */
 public final class Launcher {
 
+    private Launcher() {
+    }
+
     /**
      * Entry point of the game.
      * @param args some parameter... typically not used in this project

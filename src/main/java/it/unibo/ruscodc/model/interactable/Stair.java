@@ -5,22 +5,22 @@ import it.unibo.ruscodc.model.gamecommand.quickcommand.ChangeFloor;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
- *
+ * This class represents the stairs of the room.
+ * It is used to move from one room to another.
  */
-public class Stair extends InteractableAbs{
+public class Stair extends InteractableAbs {
 
     private static final long serialVersionUID = 3006L;
 
-    private String name;
-    private String path;
-    private String info;
+    private final String name;
 
-    /**
-     *
-     * @param pos
+   /**
+     * The constructor of this class.
+     * @param pos where spawn stairs.
      */
-    public Stair(Pair<Integer, Integer> pos) {
+    public Stair(final Pair<Integer, Integer> pos) {
         super(pos);
+        this.name = "stair";
     }
 
 
@@ -39,7 +39,7 @@ public class Stair extends InteractableAbs{
      */
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     /**
@@ -51,6 +51,9 @@ public class Stair extends InteractableAbs{
         return new ChangeFloor();
     }
 
+    /**
+     * 
+     */
     @Override
     public boolean isTransitable() {
         return true;

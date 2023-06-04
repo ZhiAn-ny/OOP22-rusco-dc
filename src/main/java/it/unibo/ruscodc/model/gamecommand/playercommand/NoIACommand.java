@@ -23,7 +23,7 @@ public abstract class NoIACommand extends ComplexActionAbs {
     private boolean isReady; // = false;
     private boolean undo; // = false;
     private Pair<Integer, Integer> cursorPos;
-    
+
 
     /**
      * 
@@ -92,7 +92,9 @@ public abstract class NoIACommand extends ComplexActionAbs {
     }
 
     /**
-     * 
+     * Basic implementation of modify.
+     * @param input command to compute.
+     * @return if controller must upload view.
      */
     protected boolean commonModify(final GameControl input) {
         boolean mustUpdate = true;
@@ -108,20 +110,34 @@ public abstract class NoIACommand extends ComplexActionAbs {
         return mustUpdate;
     }
 
+    /**
+     * Help to understand if a player desire to abort a command.
+     * @return true if the player want init a new interaction, false otherwise
+     */
     protected boolean mustAbortCommand() {
         return undo;
     }
 
+    /**
+     * Get the actual position of the cursor.
+     * @return cursor pos
+     */
     protected Pair<Integer, Integer> getCursorPos() {
         return cursorPos;
     }
 
+    /**
+     * Reset the status of a command.
+     */
     protected void reset() {
         cursorPos = this.getActor().getPos();
         undo = false;
         isReady = false;
     }
 
+    /**
+     * Try to execute command, so flag "isReady" must to return false.
+     */
     protected void attempCommand() {
         this.isReady = false;
     }

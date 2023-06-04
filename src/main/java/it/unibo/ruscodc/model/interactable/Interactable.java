@@ -11,7 +11,7 @@ public interface Interactable extends Entity {
 
     /**
      * This method return the name of the Intractable entity.
-     * @return
+     * @return the name of interactable thing.
      */
     String getName();
 
@@ -21,7 +21,10 @@ public interface Interactable extends Entity {
      */
     GameCommand interact();
 
-
+    /**
+     * Specific if this interactable could be transitable.
+     * @return true if actors can pass over, false, otherwise.
+     */
     boolean isTransitable();
 
 }

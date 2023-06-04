@@ -9,7 +9,8 @@ import java.util.Set;
 
 
 /**
- *
+ * Define a common implementation about all interactable objects 
+ * that an actor can collect and add into this inventory.
  */
 public abstract class PickableItem extends InteractableAbs {
 
@@ -18,33 +19,30 @@ public abstract class PickableItem extends InteractableAbs {
     private final Set<Item> loot;
 
     /**
-     *
-     * @param itemSet
-     * @param pos
+     * Create a generic "pickable item".
+     * @param itemSet the amount of object that are effectily pickable
+     * @param pos where they are
      */
-    protected PickableItem(Set<Item> itemSet, Pair<Integer, Integer> pos){
+    protected PickableItem(final Set<Item> itemSet, final Pair<Integer, Integer> pos) {
         super(pos);
         this.loot = itemSet;
     }
 
 
     /**
-     *
-     * @return
+     * 
      */
     @Override
     public abstract String getPath();
 
     /**
      *
-     * @return
      */
     @Override
     public abstract String getName();
 
     /**
      *
-     * @return
      */
     @Override
     public GameCommand interact() {

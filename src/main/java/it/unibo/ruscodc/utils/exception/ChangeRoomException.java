@@ -7,13 +7,12 @@ import it.unibo.ruscodc.utils.Pair;
  */
 public class ChangeRoomException extends ModelException {
 
-    static final long serialVersionUID = 7001L;
+    private static final long serialVersionUID = 7001L;
 
-    private transient final Pair<Integer, Integer> door;
+    private final transient Pair<Integer, Integer> door;
 
     /**
      * Create this type of exception.
-     * @param mess the message that advices that the room is changing
      * @param selectedDoor the position of the door used to change room
      */
     public ChangeRoomException(final Pair<Integer, Integer> selectedDoor) {

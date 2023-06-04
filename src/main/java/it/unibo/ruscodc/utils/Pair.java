@@ -1,11 +1,15 @@
 package it.unibo.ruscodc.utils;
 
+import java.io.Serializable;
+
 /**
  * Class that wrap the concept of 2D tupla.
  * @param <X> the first component
  * @param <Y> the second component
  */
-public final class Pair<X, Y> {
+public final class Pair<X, Y> implements Serializable {
+
+    private static final long serialVersionUID = 123L;
 
     private final X x;
     private final Y y;
