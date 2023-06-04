@@ -225,7 +225,7 @@ class FloorTrapTileImplTest {
         trapTile.setDisableSuccessRate(upperOutOfBound);
         trapTile.interact();
         trapTile.getEffect().applyEffect(actor);
-        assertEquals(hp - DEFAULT_DMG, actor.getStatActual(StatImpl.StatName.HP));
+        assertEquals(Math.max(hp - DEFAULT_DMG, 0), actor.getStatActual(StatImpl.StatName.HP));
 
         hp = actor.getStatActual(StatImpl.StatName.HP);
         trapTile.setDisableSuccessRate(100);
