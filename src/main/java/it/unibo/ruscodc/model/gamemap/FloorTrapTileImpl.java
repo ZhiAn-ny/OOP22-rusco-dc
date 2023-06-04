@@ -28,7 +28,7 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
     private boolean isReady = true;
     private final Random rnd = new Random();
     private int disableSuccessRate = 100;
-    private transient Consumer<FloorTrapTileImpl> postTriggered = (self) -> { };
+    private transient Consumer<FloorTrapTileImpl> postTriggered;
 
     /**
      * Constructs a floor trap with 5 as default damage produced.
@@ -37,6 +37,7 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
     public FloorTrapTileImpl(final Pair<Integer, Integer> pos) {
         super(pos, true);
         this.damage = DEFAULT_DAMAGE;
+        this.postTriggered = (self) -> { };
     }
 
     /**

@@ -61,7 +61,8 @@ class TileFactoryImplTest {
         for (int i = 0; i < 3; i++) {
             final int hp = actor.getStatActual(StatImpl.StatName.HP);
             floorTrap.getEffect().applyEffect(actor);
-            assertTrue(hp > actor.getStatActual(StatImpl.StatName.HP));
+            assertTrue(hp > actor.getStatActual(StatImpl.StatName.HP)
+                    || actor.getStatActual(StatImpl.StatName.HP) == 0);
         }
     }
 

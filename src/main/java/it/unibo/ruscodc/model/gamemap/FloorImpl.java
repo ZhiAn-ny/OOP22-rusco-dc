@@ -1,6 +1,5 @@
 package it.unibo.ruscodc.model.gamemap;
 
-import com.google.gson.Gson;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
@@ -21,9 +20,8 @@ public class FloorImpl implements Floor, Serializable {
     private static final int ENTRANCE_SIZE = 5;
     private static final int MAX_ROOMS_NUMBER = 20;
 
-//    private final Gson gson = new Gson();
-    private transient final Random rnd = new Random();
-    private transient final RoomFactory roomFactory = new RoomFactoryImpl();
+    private final transient Random rnd;
+    private final transient RoomFactory roomFactory;
 
     private Room currentRoom;
     private int unusedDoors;
@@ -37,6 +35,8 @@ public class FloorImpl implements Floor, Serializable {
      */
     public FloorImpl(final int floorNum) {
         this.floorNum = floorNum;
+        this.rnd = new Random();
+        this.roomFactory = new RoomFactoryImpl();
         this.currentRoom = this.roomFactory.emptySquareRoom(ENTRANCE_SIZE);
         this.roomFactory.addDoors(this.currentRoom);
 
@@ -98,6 +98,7 @@ public class FloorImpl implements Floor, Serializable {
         this.currentRoom.eliminateMonster(monster);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void clearArea(final Pair<Integer, Integer> pos, final int radius) {
         this.currentRoom.clearArea(pos, radius);

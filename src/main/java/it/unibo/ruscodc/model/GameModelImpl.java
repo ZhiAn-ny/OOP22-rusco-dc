@@ -151,6 +151,7 @@ public class GameModelImpl implements GameModel {
         this.respawnParty(this.initialPosition);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void eliminateMonster(final Monster monster) {
         if (monster.isAlive()) {
@@ -167,6 +168,7 @@ public class GameModelImpl implements GameModel {
             (hero.getStatActual(StatName.AP) * 1.0) / (hero.getStatMax(StatName.AP) * 1.0));
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isGameOver() {
         return !hero.isAlive();

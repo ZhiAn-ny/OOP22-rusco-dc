@@ -29,7 +29,7 @@ public class RectangleRoomImpl implements Room, Serializable {
     private static final long serialVersionUID = 1L;
     private static final int MAX_DOORS_NUM = 4;
 
-    private transient final Random rnd = new Random();
+    private final transient Random rnd;
     private final Pair<Integer, Integer> size;
     private final List<Tile> tiles = new ArrayList<>();
     private final List<Monster> monsters = new ArrayList<>();
@@ -41,6 +41,7 @@ public class RectangleRoomImpl implements Room, Serializable {
      * @param height the height of the room
      */
     public RectangleRoomImpl(final int width, final int height) {
+        this.rnd = new Random();
         if (width < 3 || height < 3) {
             throw new InvalidParameterException();
         }
@@ -303,6 +304,7 @@ public class RectangleRoomImpl implements Room, Serializable {
         return Optional.empty();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void eliminateMonster(final Monster monster) {
         final Optional<Monster> mst = this.monsters.stream()

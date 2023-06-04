@@ -17,7 +17,7 @@ import java.io.Serial;
 public class FloorPuddleTileImpl extends FloorTileImpl {
     @Serial
     private static final long serialVersionUID = 1L;
-    private final int hpRestored = 5;
+    private static final int HP_RESTORED = 5;
 
     /**
      * Creates a puddle on the floor that restores 5 hp.
@@ -32,7 +32,7 @@ public class FloorPuddleTileImpl extends FloorTileImpl {
     public SingleTargetEffect getEffect() {
         return (Actor target) -> {
             if (target instanceof Hero) {
-                target.modifyActualStat(StatImpl.StatName.HP, this.hpRestored);
+                target.modifyActualStat(StatImpl.StatName.HP, HP_RESTORED);
             }
         };
     }

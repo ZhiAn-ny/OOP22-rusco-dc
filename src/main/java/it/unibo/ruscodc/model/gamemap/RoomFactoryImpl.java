@@ -11,6 +11,7 @@ import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -182,21 +183,19 @@ public class RoomFactoryImpl implements RoomFactory {
         final Set<Method> factoryMethods = Arrays.stream(MonsterGenerator.class.getMethods()).collect(Collectors.toSet());
         final Set<Method> objectMethods = Arrays.stream(Object.class.getMethods()).collect(Collectors.toSet());
         factoryMethods.removeAll(objectMethods);
-        factoryMethods.removeIf(m -> m.getName().contains("Bomb")); // TODO: Remove after fix
 
         if (level < FIRST_LEVEL_RANGED) {
             factoryMethods.removeIf(m -> m.getName().contains("Ranged"));
         }
         if (level < FIRST_LEVEL_MAGE) {
-            factoryMethods.removeIf(m -> m.getName().contains("Mage"));
+            factoryMethods.removeIf(m -> m.getName().contains("Mage") ||  m.getName().contains("Bomb"));
         }
 
         try {
             return (Monster) factoryMethods.stream().toList()
                     .get(this.rnd.nextInt(factoryMethods.size()))
                     .invoke(this.monsterGen, pos);
-        } catch (Exception e) {
-            // Something went wrong in the random generation... returning a rat!
+        } catch (IllegalAccessException | InvocationTargetException e) {
             return this.monsterGen.makeMeleeRat(pos);
         }
     }

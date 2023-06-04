@@ -249,7 +249,7 @@ class FloorTrapTileImplTest {
         trapTile.setDamage(newDmg);
         trapTile.getEffect().applyEffect(actor);
 
-        assertEquals(hp - newDmg, actor.getStatActual(StatImpl.StatName.HP));
+        assertEquals(Math.max(hp - newDmg, 0), actor.getStatActual(StatImpl.StatName.HP));
     }
 
     /**

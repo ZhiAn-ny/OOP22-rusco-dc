@@ -392,7 +392,7 @@ class RectangleRoomImplTest {
     }
 
     /**
-     * Method under test: {@link RectangleRoomImpl#addStairs(Direction)}
+     * Method under test: {@link RectangleRoomImpl#addStairs(Direction)}.
      */
     @Test
     void testAddStairs() {
