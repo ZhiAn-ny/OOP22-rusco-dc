@@ -10,7 +10,6 @@ import java.util.Set;
  */
 public class Chest extends PickableItem {
 
-    private static final long serialVersionUID = 3000L;
 
     /**
      * The constructor of this class build a chest which contains a collection of random objects.
@@ -28,7 +27,7 @@ public class Chest extends PickableItem {
      */
     @Override
     public String getPath() {
-        return "file:src/main/resources/it/unibo/ruscodc/pickable_item/chest";
+        return "it/unibo/ruscodc/pickable_item/chest";
     }
 
     /**

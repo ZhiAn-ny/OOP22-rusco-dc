@@ -11,8 +11,6 @@ import it.unibo.ruscodc.utils.Pair;
  */
 public class Door extends InteractableAbs {
 
-    private static final long serialVersionUID = 3001L;
-
     private final Direction doorDirection;
     private final String name;
 
@@ -33,7 +31,7 @@ public class Door extends InteractableAbs {
      */
     @Override
     public String getPath() {
-        return "file:src/main/resources/it/unibo/ruscodc/map_res/DoorTile/"
+        return "it/unibo/ruscodc/map_res/DoorTile/"
                 + this.doorDirection.name();
     }
 
@@ -54,7 +52,7 @@ public class Door extends InteractableAbs {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public boolean isTransitable() {
