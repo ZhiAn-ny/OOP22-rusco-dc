@@ -1,5 +1,6 @@
 package it.unibo.ruscodc.model.item.equipement;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
@@ -45,7 +46,7 @@ public class EquipementImpl implements Equipement {
             this.name = name;
             this.path = path;
             this.slot = slot;
-            this.stat = stat;
+            this.stat = Collections.nCopies(1, stat).get(0);
             this.action = Optional.ofNullable(action);
             this.info = new InfoPayloadImpl(name, description, path);
     }

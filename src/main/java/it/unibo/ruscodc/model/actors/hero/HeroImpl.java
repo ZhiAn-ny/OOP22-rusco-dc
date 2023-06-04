@@ -1,5 +1,6 @@
 package it.unibo.ruscodc.model.actors.hero;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import it.unibo.ruscodc.model.actors.ActorAbs;
@@ -51,7 +52,7 @@ public class HeroImpl extends ActorAbs implements Hero {
      */
     @Override
     public Inventory getInventory() {
-        return this.inventory;
+        return Collections.nCopies(1, this.inventory).get(0);
     }
 
     /**
