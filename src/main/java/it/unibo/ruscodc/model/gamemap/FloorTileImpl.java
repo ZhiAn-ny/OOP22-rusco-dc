@@ -1,8 +1,5 @@
 package it.unibo.ruscodc.model.gamemap;
 
-import it.unibo.ruscodc.model.interactable.Chest;
-import it.unibo.ruscodc.model.interactable.Door;
-import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Pair;
 
 import java.io.Serial;
