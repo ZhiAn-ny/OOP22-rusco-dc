@@ -194,8 +194,8 @@ public class FXMLMainView extends Application implements GameView {
         this.gameView = (GameViewController) fxmlLoader.getController();
         this.gameView.init(this);
         this.handleUserInputs(scene);
-        this.gameView.updateEntities(this.printedEntity);
-        this.gameView.update();
+        //this.gameView.updateEntities(this.printedEntity);
+        //this.gameView.update();
         this.gameView.clearInfoPalyodToScreen();
         return scene;
     }

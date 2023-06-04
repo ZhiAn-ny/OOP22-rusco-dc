@@ -119,11 +119,11 @@ public class DropFactoryImpl implements DropFactory {
     } 
 
     private DropManager creationManager(final int amountValue) {
-        if (amountValue < 0) {
-            throw new IllegalStateException("amountValue cannot be negative!");
-        }
         final int total = byValueToAmountItems(amountValue);
-        if (amountValue % 2 == 1) { //TODO warning spotBugs su "op non definita se n è neg" ma check fatto prima
+        // if (total < 0) {
+        //     throw new IllegalStateException("amountValue cannot be negative!");
+        // }
+        if (total > 0 && total % 2 == 1) { //TODO warning spotBugs su "op non definita se n è neg" ma check fatto prima
             return createOnlyConsumable(total);
         } else {
             return createMischellaneus(total);

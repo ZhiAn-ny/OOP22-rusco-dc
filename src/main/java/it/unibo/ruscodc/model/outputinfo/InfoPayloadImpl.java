@@ -7,7 +7,7 @@ import java.util.Objects;
  */
 public class InfoPayloadImpl implements InfoPayload {
 
-    private static final String ERR_IMG_PATH = "file:src/main/resources/it/unibo/ruscodc/output_res/error";
+    private static final String ERR_IMG_PATH = "it/unibo/ruscodc/output_res/error";
 
     private final String title; 
     private final String text;
@@ -35,7 +35,6 @@ public class InfoPayloadImpl implements InfoPayload {
      * @param text their informations
      */
     public InfoPayloadImpl(final String title, final String text) { 
-        //TODO - fare un enum di immagini-utility? per ora 1 costante: quella di errore
         this(title, text, ERR_IMG_PATH);
     }
 

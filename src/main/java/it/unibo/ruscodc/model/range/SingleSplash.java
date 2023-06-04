@@ -8,7 +8,7 @@ import it.unibo.ruscodc.utils.Pair;
  */
 public class SingleSplash extends SingleAbs {
 
-    private static final String PATH = "file:src/main/resources/it/unibo/ruscodc/range_res/splash";
+    private static final String PATH = "it/unibo/ruscodc/range_res/splash";
     private static final int DEPTH = 5;
 
     /**

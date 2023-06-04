@@ -5,7 +5,7 @@ package it.unibo.ruscodc.model.range;
  */
 public final class SingleRange extends SingleAbs {
 
-    private static final String PATH = "file:src/main/resources/it/unibo/ruscodc/range_res/range";
+    private static final String PATH = "it/unibo/ruscodc/range_res/range";
     private static final int DEPTH = 4;
 
     /**

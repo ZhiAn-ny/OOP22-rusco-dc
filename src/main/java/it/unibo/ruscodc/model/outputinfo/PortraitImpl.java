@@ -10,8 +10,6 @@ import it.unibo.ruscodc.utils.Pair;
  */
 public class PortraitImpl implements Portrait {
 
-    private static final long serialVersionUID = 10000L;
-
     private final Actor actor;
     private final double percentageHp;
     private final double percentageAp;

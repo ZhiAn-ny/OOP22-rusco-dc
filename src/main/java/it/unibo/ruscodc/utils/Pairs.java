@@ -279,9 +279,8 @@ public final class Pairs {
                     } else {
                         return Stream.of(p);
                     }
-                } //TODO - snellire questa lambda
+                } 
             });
-        //return bold;
     }
 
     /**

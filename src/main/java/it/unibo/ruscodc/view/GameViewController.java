@@ -85,7 +85,7 @@ public class GameViewController implements Initializable {
     private StackPane mainPane;
 
 
-    private static NumberBinding bindings;
+    private NumberBinding bindings;
 
     /**
      * Common implementation of the first two fuction below.
@@ -194,7 +194,8 @@ public class GameViewController implements Initializable {
                                 e -> new LinkedList<>(
                                         List.of(
                                                 new DrawableImpl<>(
-                                                        new ImageView(new Image(e.getPath() + "/Sprite.png")),
+                                                        new ImageView(
+                                                            new Image(ClassLoader.getSystemResource(e.getPath() + "/Sprite.png").toString())),
                                                         e.getPos()))),
                                 (l1, l2) -> {
                                     l1.addAll(l2);

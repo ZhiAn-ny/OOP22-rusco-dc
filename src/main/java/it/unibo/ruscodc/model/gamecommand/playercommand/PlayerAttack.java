@@ -208,7 +208,7 @@ public class PlayerAttack extends NoIACommand {
      */
     @Override
     public String toString() {
-        return "Cost : " + actionToPerform.getEffectAPcost() + " AP" 
+        return "\nCost : " + actionToPerform.getEffectAPcost() + " AP" 
             + "\nRange: " + range.toString() 
             + "\nSplash: " + splash.toString() 
             + "\nEffect: " + actionToPerform.toString() + "\n\n";
