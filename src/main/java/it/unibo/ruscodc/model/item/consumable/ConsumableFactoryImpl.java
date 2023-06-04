@@ -10,9 +10,9 @@ import it.unibo.ruscodc.model.effect.SingleTargetEffect;
  */
 public class ConsumableFactoryImpl implements ConsumableFactory {
 
-    private static final float PERCENT20 = 20 / 100;
-    private static final float PERCENT40 = 40 / 100;
-    private static final float PERCENT60 = 60 / 100;
+    private static final double PERCENT20 = 20.0 / 100.0;
+    private static final double PERCENT40 = 40.0 / 100.0;
+    private static final double PERCENT60 = 60.0 / 100.0;
 
     /**
      * 

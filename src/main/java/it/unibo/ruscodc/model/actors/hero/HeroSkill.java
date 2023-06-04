@@ -34,7 +34,7 @@ public class HeroSkill extends SkillImpl {
     private static final Range ATTACK2_SPLASH = new SingleSplash();
 
     private static final int ATTACK3_AP = 5;
-    private static final float ATTACK3_PERCENT = 20 / 100;
+    private static final double ATTACK3_PERCENT = 20.0 / 100.0;
 
     private static final int ATTACK4_AP = 10;
     private static final Range ATTACK4_RANGE = new GlobalRange(new SingleRange());
