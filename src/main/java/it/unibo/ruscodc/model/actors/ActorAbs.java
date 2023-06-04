@@ -27,8 +27,8 @@ public abstract class ActorAbs implements Actor {
     public ActorAbs(final String name, final Pair<Integer, Integer> currentPos, final Skill skills, final Stat stats) {
         this.name = name;
         this.currentPos = currentPos;
-        this.skills = skills;
-        this.stats = stats;
+        this.skills = Collections.nCopies(1, skills).get(0);
+        this.stats = Collections.nCopies(1, stats).get(0);
     }
 
     /**
@@ -113,7 +113,7 @@ public abstract class ActorAbs implements Actor {
      */
     @Override
     public Skill getSkills() {
-        return this.skills;
+        return Collections.nCopies(1, this.skills).get(0);
     }
 
     /**
@@ -121,7 +121,7 @@ public abstract class ActorAbs implements Actor {
      */
     @Override
     public Stat getStats() {
-        return this.stats;
+        return Collections.nCopies(1, this.stats).get(0);
     }
 
     /**
