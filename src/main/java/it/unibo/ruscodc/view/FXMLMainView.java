@@ -16,10 +16,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.io.IOException;
+import java.util.concurrent.ExecutorCompletionService;
+import java.util.concurrent.ExecutorService;
 
 /**
  * This class is used to see which entities have changed their position or,
@@ -224,8 +227,11 @@ public class FXMLMainView extends Application implements GameView {
 
     private void handleEvents(final Stage stage) {
         stage.setOnCloseRequest(event -> {
-            this.controller.quit();
-            //System.exit(0);
+            try {
+                Platform.exit();
+            } catch (IllegalStateException e) {
+                // Yes.
+            }
         });
     }
 
