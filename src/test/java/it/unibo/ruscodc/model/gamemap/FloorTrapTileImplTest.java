@@ -138,7 +138,7 @@ class FloorTrapTileImplTest {
         for (int i = 0; i < 3; i++) {
             final int hp = actor.getStatActual(StatImpl.StatName.HP);
             trapTile.getEffect().applyEffect(actor);
-            assertEquals(hp - DEFAULT_DMG, actor.getStatActual(StatImpl.StatName.HP));
+            assertEquals(Math.max(hp - DEFAULT_DMG, 0), actor.getStatActual(StatImpl.StatName.HP));
         }
     }
 
