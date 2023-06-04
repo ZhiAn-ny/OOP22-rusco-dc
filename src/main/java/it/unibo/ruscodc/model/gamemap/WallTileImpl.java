@@ -32,7 +32,7 @@ public class WallTileImpl extends AbstractTile {
     /** {@inheritDoc} */
     @Override
     public String getPath() {
-        return "file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/"
+        return "it/unibo/ruscodc/map_res/WallTile/"
                 + this.side.name();
     }
 

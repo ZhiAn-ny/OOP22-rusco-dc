@@ -22,7 +22,7 @@ public class FloorTileImpl extends AbstractTile {
     /** {@inheritDoc} */
     @Override
     public String getPath() {
-        return "file:src/main/resources/it/unibo/ruscodc/map_res/FloorTile";
+        return "it/unibo/ruscodc/map_res/FloorTile";
     }
 
 }
