@@ -176,7 +176,9 @@ public class RectangleRoomImpl implements Room {
             return false;
         }
         this.connectedRooms.put(dir, other);
-        other.addDoor(dir.getOpposite());
+        while (other.getDoorOnSide(dir.getOpposite()).isEmpty()) {
+            other.addDoor(dir.getOpposite());
+        }
         other.addConnectedRoom(dir.getOpposite(), this);
         return true;
     }
@@ -195,10 +197,11 @@ public class RectangleRoomImpl implements Room {
 
         final Tile tile = onSide.get(this.rnd.nextInt(onSide.size()));
         this.replaceTile(tile.getPosition(), new FloorTileImpl(tile.getPosition(), true));
-        this.put(tile.getPosition(), new Door(tile.getPosition(), this.getSide(tile.getPosition())));
-
-        this.connectedRooms.put(dir, null);
-        return true;
+        if (this.put(tile.getPosition(), new Door(tile.getPosition(), this.getSide(tile.getPosition())))) {
+            this.connectedRooms.put(dir, null);
+            return true;
+        }
+        return false;
     }
 
     /**
