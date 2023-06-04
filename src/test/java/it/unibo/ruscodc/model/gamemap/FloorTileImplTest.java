@@ -46,7 +46,7 @@ class FloorTileImplTest {
         assertFalse(floorTile.isTrap());
         assertFalse(floorTile.get().isPresent());
         assertEquals(1, floorTile.getID());
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/FloorTile", floorTile.getPath());
+        assertEquals("it/unibo/ruscodc/map_res/FloorTile", floorTile.getPath());
     }
 
     /**

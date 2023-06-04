@@ -98,13 +98,13 @@ class TileFactoryImplTest {
             assertFalse(wall.isAccessible());
 
             if (x == 0) {
-                assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/TOP_LEFT",
+                assertEquals("it/unibo/ruscodc/map_res/WallTile/TOP_LEFT",
                         ((WallTileImpl) wall).getPath());
             } else if (x == roomSize.getX() + 1) {
-                assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/TOP_RIGHT",
+                assertEquals("it/unibo/ruscodc/map_res/WallTile/TOP_RIGHT",
                         ((WallTileImpl) wall).getPath());
             } else {
-                assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/TOP",
+                assertEquals("it/unibo/ruscodc/map_res/WallTile/TOP",
                         ((WallTileImpl) wall).getPath());
             }
         }
@@ -123,13 +123,13 @@ class TileFactoryImplTest {
             assertFalse(wall.isAccessible());
 
             if (x == 0) {
-                assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/BOTTOM_LEFT",
+                assertEquals("it/unibo/ruscodc/map_res/WallTile/BOTTOM_LEFT",
                         ((WallTileImpl) wall).getPath());
             } else if (x == roomSize.getX() + 1) {
-                assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/BOTTOM_RIGHT",
+                assertEquals("it/unibo/ruscodc/map_res/WallTile/BOTTOM_RIGHT",
                         ((WallTileImpl) wall).getPath());
             } else {
-                assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/BOTTOM",
+                assertEquals("it/unibo/ruscodc/map_res/WallTile/BOTTOM",
                         ((WallTileImpl) wall).getPath());
             }
         }
@@ -148,13 +148,13 @@ class TileFactoryImplTest {
             assertFalse(wall.isAccessible());
 
             if (y == 0) {
-                assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/TOP_LEFT",
+                assertEquals("it/unibo/ruscodc/map_res/WallTile/TOP_LEFT",
                         ((WallTileImpl) wall).getPath());
             } else if (y == roomSize.getX() + 1) {
-                assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/BOTTOM_LEFT",
+                assertEquals("it/unibo/ruscodc/map_res/WallTile/BOTTOM_LEFT",
                         ((WallTileImpl) wall).getPath());
             } else {
-                assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/LEFT",
+                assertEquals("it/unibo/ruscodc/map_res/WallTile/LEFT",
                         ((WallTileImpl) wall).getPath());
             }
         }
@@ -173,13 +173,13 @@ class TileFactoryImplTest {
             assertFalse(wall.isAccessible());
 
             if (y == 0) {
-                assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/TOP_RIGHT",
+                assertEquals("it/unibo/ruscodc/map_res/WallTile/TOP_RIGHT",
                         ((WallTileImpl) wall).getPath());
             } else if (y == roomSize.getX() + 1) {
-                assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/BOTTOM_RIGHT",
+                assertEquals("it/unibo/ruscodc/map_res/WallTile/BOTTOM_RIGHT",
                         ((WallTileImpl) wall).getPath());
             } else {
-                assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/RIGHT",
+                assertEquals("it/unibo/ruscodc/map_res/WallTile/RIGHT",
                         ((WallTileImpl) wall).getPath());
             }
         }
@@ -195,7 +195,7 @@ class TileFactoryImplTest {
         final Tile wall = tf.createBaseWallTile(3, 2, roomSize);
 
         assertFalse(wall.isAccessible());
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/UNDEFINED",
+        assertEquals("it/unibo/ruscodc/map_res/WallTile/UNDEFINED",
                 ((WallTileImpl) wall).getPath());
     }
 
@@ -209,7 +209,7 @@ class TileFactoryImplTest {
         final Tile wall = tf.createBaseWallTile(-9, 9, roomSize);
 
         assertFalse(wall.isAccessible());
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/UNDEFINED",
+        assertEquals("it/unibo/ruscodc/map_res/WallTile/UNDEFINED",
                 ((WallTileImpl) wall).getPath());
     }
 
@@ -223,7 +223,7 @@ class TileFactoryImplTest {
         final Tile wall = tf.createBaseWallTile(4, 5, roomSize);
 
         assertFalse(wall.isAccessible());
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/UNDEFINED",
+        assertEquals("it/unibo/ruscodc/map_res/WallTile/UNDEFINED",
                 ((WallTileImpl) wall).getPath());
     }
 

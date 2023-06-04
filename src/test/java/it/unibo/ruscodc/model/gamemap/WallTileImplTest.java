@@ -59,22 +59,22 @@ class WallTileImplTest {
     @Test
     void testGetPath() {
         final Pair<Integer, Integer> pos = new Pair<>(2, 3);
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/TOP",
+        assertEquals("it/unibo/ruscodc/map_res/WallTile/TOP",
                 new WallTileImpl(pos, WallType.TOP).getPath());
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/LEFT",
+        assertEquals("it/unibo/ruscodc/map_res/WallTile/LEFT",
                 new WallTileImpl(pos, WallType.LEFT).getPath());
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/RIGHT",
+        assertEquals("it/unibo/ruscodc/map_res/WallTile/RIGHT",
                 new WallTileImpl(pos, WallType.RIGHT).getPath());
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/BOTTOM",
+        assertEquals("it/unibo/ruscodc/map_res/WallTile/BOTTOM",
                 new WallTileImpl(pos, WallType.BOTTOM).getPath());
 
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/BOTTOM_LEFT",
+        assertEquals("it/unibo/ruscodc/map_res/WallTile/BOTTOM_LEFT",
                 new WallTileImpl(pos, WallType.BOTTOM_LEFT).getPath());
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/BOTTOM_RIGHT",
+        assertEquals("it/unibo/ruscodc/map_res/WallTile/BOTTOM_RIGHT",
                 new WallTileImpl(pos, WallType.BOTTOM_RIGHT).getPath());
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/TOP_LEFT",
+        assertEquals("it/unibo/ruscodc/map_res/WallTile/TOP_LEFT",
                 new WallTileImpl(pos, WallType.TOP_LEFT).getPath());
-        assertEquals("file:src/main/resources/it/unibo/ruscodc/map_res/WallTile/TOP_RIGHT",
+        assertEquals("it/unibo/ruscodc/map_res/WallTile/TOP_RIGHT",
                 new WallTileImpl(pos, WallType.TOP_RIGHT).getPath());
     }
 }
