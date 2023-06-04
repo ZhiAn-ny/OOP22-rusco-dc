@@ -12,14 +12,7 @@ public interface GameObserverController {
      * Save the game.
      */
     void save();
-    /**
-     * Pause the game.
-     */
-    void pause();
-    /**
-     * Return in to the game.
-     */
-    void resume();
+
     /**
      * Enable/disable the automatic save of the game.
      * If it is enable, every time the player change __ the file that save the game will override with a new save
@@ -44,9 +37,11 @@ public interface GameObserverController {
     //  */
     // void start();
 
-    /**
-     * TODO controllare con start_game.
-     * @param args TODO controllare con start_game.
-     */
-    void start(String[] args);
+
+    void start();
+
+    void showMainMenu();
+
+    void initNewGame(String filename);
+    void loadGame(String filename) throws Exception;
 }

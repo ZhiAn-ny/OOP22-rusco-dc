@@ -4,7 +4,9 @@ import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.utils.Pair;
 import javafx.animation.AnimationTimer;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
@@ -15,14 +17,13 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -50,14 +51,14 @@ public class GameViewController implements Initializable {
 
     private int lastRenderingLevelInv;
     private final Map<Integer, List<FXMLDrawable>> renderedInv = new HashMap<>();
-    
 
-    @FXML
-    private GridPane mainGrid;
+
     private IntegerProperty unit = new SimpleIntegerProperty();
     private int rows;
     private int cols;
-
+    private FXMLMainView mainView;
+    @FXML
+    private GridPane mainGrid;
     @FXML
     private StackPane invPane;
     @FXML
@@ -71,11 +72,6 @@ public class GameViewController implements Initializable {
     private ProgressBar ap;
 
     @FXML
-    private Button inventory;
-    @FXML
-    private Button menu;
-
-    @FXML
     private StackPane infoPane;
     @FXML
     private ImageView infoImage;
@@ -87,14 +83,21 @@ public class GameViewController implements Initializable {
     @FXML
     private StackPane mainPane;
 
-    
+
+    private static NumberBinding bindings;
+
+
+    /**
+     * Updates the view with the new entities to print.
+     */
 
     private void updateGame() {
         if (!isToUpdate){
             return;
         }
         this.mainGrid.getChildren().clear();
-        final DoubleBinding binding = this.getBindingFunction();
+        //final NumberBinding binding = this.getBindingFunction();
+        //this.mainGrid.getChildren().clear();
         isToUpdate = false;
         
         IntStream.rangeClosed(lastRenderingLevelGame + 1, 10).forEach(i -> renderedGame.remove(i));
@@ -108,8 +111,8 @@ public class GameViewController implements Initializable {
             .forEach(level -> {
                 level.getValue().forEach(e -> {
                     final ImageView image = e.getRes();
-                    image.fitWidthProperty().bind(binding);
-                    image.fitHeightProperty().bind(binding);
+                    image.fitWidthProperty().bind(this.bindings);
+                    image.setPreserveRatio(true);
                     final Pair<Integer, Integer> pos = e.getOnScreenPosition();
                     this.mainGrid.add(new Pane(image), pos.getX(), pos.getY());
                 });
@@ -121,7 +124,7 @@ public class GameViewController implements Initializable {
             return;
         }
         this.inventoryGrid.getChildren().clear();
-        final DoubleBinding binding = this.getBindingFunction();
+        final NumberBinding binding = this.getBindingFunction();
         isToUpdate = false;
         
         IntStream.rangeClosed(lastRenderingLevelGame + 1, 10).forEach(i -> renderedInv.remove(i));
@@ -157,16 +160,29 @@ public class GameViewController implements Initializable {
      * Set the size of the grid.
      * @return
      */
-    private DoubleBinding getBindingFunction() {
+    private NumberBinding getBindingFunction() {
         final int maxDimension = Math.max(this.cols, this.rows);
+        final int minDimension = Math.min(this.cols, this.rows);
 
-        DoubleBinding binding = mainGrid.getScene().heightProperty().divide(maxDimension);
-        if (mainGrid.getScene().getWidth() < mainGrid.getScene().getHeight()) {
-            binding = mainGrid.getScene().widthProperty().divide(maxDimension);
+//        DoubleBinding binding = mainGrid.getScene().heightProperty().divide(maxDimension);
+//        if (mainGrid.getScene().getWidth() < mainGrid.getScene().getHeight()) {
+//            binding = mainGrid.getScene().widthProperty().divide(maxDimension + (cols+2));
+//        }
+
+        NumberBinding binding;
+
+        if (this.cols < this.rows) {
+            binding = Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(maxDimension);
+        } else {
+            binding = Bindings.min(mainGrid.getScene().widthProperty(), mainGrid.getScene().heightProperty()).divide(minDimension);
         }
 
+        System.out.println(maxDimension + "****************************************************");
+        System.out.println("cols: " + this.cols + " rows: " + this.rows);
+        System.out.println("binding: " + binding);
         return binding;
     }
+
 
     /**
      * Sets up the actions done in the view's gameloop and starts it.
@@ -239,6 +255,7 @@ public class GameViewController implements Initializable {
     public void setRoomSize(final Pair<Integer, Integer> roomSize) {
         this.cols = roomSize.getX() + 2;
         this.rows = roomSize.getY() + 2;
+        this.bindings = getBindingFunction();
     }
 
 
@@ -291,5 +308,25 @@ public class GameViewController implements Initializable {
         this.isShowingInv = false;
         this.invPane.toBack();
     }
+
+    public void init(final FXMLMainView view) {
+        this.mainView = view;
+    }
+
+    @FXML
+    public void saveActGame() {
+        this.mainView.saveGame();
+    }
+
+    @FXML
+    public void exit() throws IOException {
+        this.mainView.returnToMainMenu();
+    }
+
+    @FXML
+    public void changeAutomaticSave() {
+        this.mainView.changeAutomaticSave();
+    }
+
 
 }

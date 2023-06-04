@@ -6,19 +6,22 @@ import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.utils.Pair;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface GameView {
     /**
      * Starts the game view creating a new window.
      */
-    void startView(String[] args);
+    void startView();
 
     /**
      * Initializes the view.
      * @param ctrl the controller that will communicate with the view
      */
     void init(GameObserverController ctrl);
+
+    void startNewGame(final String gameName) throws IOException;
 
     /**
      *
@@ -64,7 +67,7 @@ public interface GameView {
      */
     void resetLevel(List<Entity> entities);
 
-    void printGameOver();
+    void printGameOver() throws IOException;
 
     void openInventory();
 

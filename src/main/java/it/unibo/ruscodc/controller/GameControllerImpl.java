@@ -15,10 +15,14 @@ import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.view.FXMLMainView;
 import it.unibo.ruscodc.view.GameView;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * Class GameControllerImpl.
@@ -30,11 +34,25 @@ public class GameControllerImpl implements GameObserverController {
 
     //private Set<GameControl> DOUBLE_EX = Set.of(GameControl.CANCEL, GameControl.CONFIRM);
 
+    private final static Supplier<String> STANDARD_NAME = () -> {
+        var t = ZonedDateTime.now();
+        return "Game_of_"
+                + t.getYear() + "_"
+                + t.getMonth() + "_"
+                + t.getDayOfMonth() + "___"
+                + t.getHour() + "_"
+                + t.getMinute() + "_"
+                + t.getSecond();
+    };
+
+    private String actualGameName;
+
     private final List<Actor> initiative = new ArrayList<>();
     private Optional<GameCommand> playerSituation = Optional.empty();
     private final GameView view;
-    private final GameModel model;
-    private boolean automaticSave; // = false;
+    private GameModel model;
+    private boolean automaticSave;
+    private final SaveManager saveManager = new SaveManagerImpl();
 
     private boolean isPrintingInv; // = false;
 
@@ -44,7 +62,6 @@ public class GameControllerImpl implements GameObserverController {
      */
     public GameControllerImpl(final String... args) {
         this.view = new FXMLMainView();
-        this.model = new GameModelImpl();
     }
 
     /**
@@ -55,27 +72,53 @@ public class GameControllerImpl implements GameObserverController {
         this.view.init(this);
     }
 
+    @Override
+    public void showMainMenu(){
+        this.view.startView();
+    }
+
+    private void refresh(){
+        initNewTurn();
+        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
+        manageMonsterTurn();
+    }
+
+    @Override
+    public void initNewGame(final String filename) {
+        String tmp = filename;
+        if (tmp.isEmpty()) {
+            tmp = STANDARD_NAME.get();
+        }
+        this.actualGameName = tmp;
+        this.initiative.clear();
+        this.model = new GameModelImpl();
+        refresh();
+    }
+
+    @Override
+    public void loadGame(String fileName) {
+        try {
+            this.model = saveManager.loadGame(fileName);
+            this.actualGameName = fileName;
+            final InfoPayload err = new InfoPayloadImpl(
+                    "Game loaded with successfull",
+                    "Continue yout adventure!");
+            this.view.printInfo(err);
+            refresh();
+        } catch (Exception e) {
+            final InfoPayload err = new InfoPayloadImpl(
+                    "Error during loading of the file",
+                    "Maybe you missed the correct file?");
+            this.view.printInfo(err);
+        }
+    }
+
     /**
      *
      */
     @Override
-    public void start(final String[] args) {
-        this.view.startView(args);
-        initNewTurn();
-        while (!this.view.isReady()) {
-            try {
-                Thread.sleep(2);
-            } catch (InterruptedException e) {
-                view.printInfo(new InfoPayloadImpl(
-                    "ERR DURING LOADING VIEW", 
-                    "error unexpected"));
-                //e.printStackTrace();
-            }
-        }
-        view.closeInventory();
-        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
-        updateRuscoInfo();
-        manageMonsterTurn();
+    public void start() {
+        showMainMenu();
     }
 
     /**
@@ -83,20 +126,19 @@ public class GameControllerImpl implements GameObserverController {
      */
     @Override
     public void save() {
-    }
-
-    /**
-     *
-     */
-    @Override
-    public void pause() {
-    }
-
-    /**
-     *
-     */
-    @Override
-    public void resume() {
+        try {
+            this.saveManager.saveGame(actualGameName, model);
+            final InfoPayload err = new InfoPayloadImpl(
+                    "Game saved with successfull",
+                    "Continue yout adventure!");
+            this.view.printInfo(err);
+        } catch (Exception e) {
+            final InfoPayload err = new InfoPayloadImpl(
+                    "Error during saving of the file",
+                    "Maybe your memory is full?");
+            e.printStackTrace();
+            this.view.printInfo(err);
+        }
     }
 
     /**
@@ -105,6 +147,8 @@ public class GameControllerImpl implements GameObserverController {
     @Override
     public void changeAutomaticSave() {
         automaticSave = !automaticSave;
+        System.out.println("Automatic save: " + automaticSave);
+        System.out.println(this.actualGameName);
     }
 
     /**
@@ -123,20 +167,20 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     private void changeFloor() {
-        model.changeFloor();
-        initiative.clear();
-        initNewTurn();
-        if (automaticSave) {
-            save();
+        this.model.changeFloor();
+        this.initiative.clear();
+        this.initNewTurn();
+
+        if (this.automaticSave) {
+            this.save();
         }
-        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
+        this.refresh();
     }
 
     private void changeRoom(final ChangeRoomException r) {
-        model.changeRoom(r.getDoorPos());
-        initiative.clear();
-        initNewTurn();
-        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
+        this.model.changeRoom(r.getDoorPos());
+        this.initiative.clear();
+        this.refresh();
     }
 
     private void flushView() {
@@ -157,6 +201,10 @@ public class GameControllerImpl implements GameObserverController {
 
     private boolean executeCommand(final GameCommand toExec) {
         final boolean ready = toExec.isReady();
+        // if (this.model.isGameOver()) {
+        //     view.printGameOver();
+        // }
+
         System.out.println(" ### " + ready);
         if (ready) {
             try {
@@ -202,7 +250,11 @@ public class GameControllerImpl implements GameObserverController {
     public void computeInput(final GameControl input) {
         updateRuscoInfo();
         if (model.isGameOver()) {
-            view.printGameOver();
+            try {
+                view.printGameOver();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             return;
         }
         initNewTurn();
@@ -232,7 +284,7 @@ public class GameControllerImpl implements GameObserverController {
                     view.openInventory();
                 }
 
-                if (tmpCommand.isReady()) { 
+                if (tmpCommand.isReady()) {
                     executeCommand(tmpCommand);
                     if (isPrintingInv) {
                         playerSituation = Optional.of(tmpCommand);
