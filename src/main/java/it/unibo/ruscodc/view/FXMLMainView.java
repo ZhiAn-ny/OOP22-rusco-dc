@@ -17,7 +17,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.io.IOException;
@@ -27,8 +26,8 @@ import java.io.IOException;
  * which are the new entities that will then be printed on the screen.
  */
 public class FXMLMainView extends Application implements GameView {
-    final private String iconPath = "file:src/main/resources/it/unibo/ruscodc/view/racoon.png";
-    final private String title = "Rusco DC";
+    private final String iconPath = "file:src/main/resources/it/unibo/ruscodc/view/racoon.png";
+    private final String title = "Rusco DC";
     private static final double ASPECT_RATIO = 3 / 4.;
     private static final double MIN_WIDTH_SCALE = 0.4;
     private GameObserverController controller;
@@ -71,6 +70,11 @@ public class FXMLMainView extends Application implements GameView {
         this.controller = ctrl;
     }
 
+    /**
+     * Start a new game.
+     * @param gameName the name of the file.
+     * @throws IOException when the file is not found.
+     */
     public void startNewGame(final String gameName) throws IOException {
         final Scene scene = this.loadGameView();
         this.controller.initNewGame(gameName);
@@ -132,14 +136,6 @@ public class FXMLMainView extends Application implements GameView {
         }
     }
 
-    // /** {@inheritDoc} */
-    // @Override
-    // public void resetLevel(final List<Entity> entities) {
-    //     //int minDepth = entities.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
-    //     //this.printedEntity.removeIf(e -> e.getID() >= minDepth);
-    //     //this.printedEntity.addAll(entities);
-    //     gameView.updateEntities(entities);
-    // }
 
     private void showMainMenu() throws IOException {
         final Scene scene = this.loadMainMenu();
@@ -167,6 +163,10 @@ public class FXMLMainView extends Application implements GameView {
         showMainMenu();
     }
 
+    /**
+     * Returns in to the main menu.
+     * @throws IOException when the file is not found.
+     */
     public void returnToMainMenu() throws IOException {
         showMainMenu();
     }
@@ -183,17 +183,6 @@ public class FXMLMainView extends Application implements GameView {
         return scene;
     }
 
-    // private Scene loadGameView() throws IOException {
-    //     final Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
-    //     final double scale = 2 / 3.;
-    //     final double width = screenSize.getWidth() * scale;
-    //     final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("menu-iniziale.fxml"));
-    //     //fxmlLoader.setController(new MainMenuController());
-    //     final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
-    //     this.menuController = (MainMenuController) fxmlLoader.getController();
-    //     this.menuController.init(this);
-    //     return scene;
-    // }
 
     private Scene loadGameView() throws IOException {
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("game-view.fxml"));
@@ -279,9 +268,7 @@ public class FXMLMainView extends Application implements GameView {
         gameView.uploadPortraitToScreen(infos);
     }
 
-    /**
-     * 
-     */
+    /** {@inheritDoc} */
     @Override
     public void printGameOver() throws IOException {
         System.out.println("Game Over");
@@ -290,34 +277,34 @@ public class FXMLMainView extends Application implements GameView {
 
     }
 
-    /**
-     * 
-     */
+    /** {@inheritDoc} */
     @Override
     public void openInventory() {
         this.gameView.openInv();
     }
 
-    /**
-     * 
-     */
+    /** {@inheritDoc} */
     @Override
     public void closeInventory() {
         this.gameView.closeInv();
     }
 
-    /**
-     * 
-     */
+    /** {@inheritDoc} */
     @Override
-    public void printStats(String heroStats) {
+    public void printStats(final String heroStats) {
         this.gameView.uploadStatsToScreen(heroStats);
     }
 
+    /**
+     * Save the game.
+     */
     public void saveGame() {
         this.controller.save();
     }
 
+    /**
+     * Choose whether to save the game automatically or not.
+     */
     public void changeAutomaticSave() {
         this.controller.changeAutomaticSave();
     }

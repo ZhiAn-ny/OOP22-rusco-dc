@@ -1,56 +1,70 @@
 package it.unibo.ruscodc.view;
 
-import it.unibo.ruscodc.controller.GameObserverController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Thiss class manage the main menu.
+ * Main menu is a first screen of the game.
+ */
 public class MainMenuController implements Initializable {
-
 
     private FXMLMainView mainView;
     @FXML
     private Button nuovaPartita;
-    @FXML
-    private Button caricaPartita;
 
+    private static final int SPACE = 20;
 
     @FXML
     private VBox buttons;
 
 
+    /**
+     * Set the layout of the buttons.
+     */
     @FXML
     public void setLayout() {
-        this.buttons.spacingProperty().bind(buttons.getScene().getWindow().heightProperty().divide(20));
+        this.buttons.spacingProperty().bind(buttons.getScene().getWindow().heightProperty().divide(SPACE));
 
     }
 
-    public void init(final FXMLMainView mainView){
+    /**
+     * Initialize the mainview.
+     * @param mainView for initialization
+     */
+    public void init(final FXMLMainView mainView) {
         this.mainView = mainView;
     }
 
 
-
+    /** {@inheritDoc} */
     @Override
-    public void initialize(URL location, ResourceBundle resources){
+    public void initialize(final URL location, final ResourceBundle resources) {
     }
 
+    /**
+     * Start new game.
+     * @param event of the button.
+     * @throws Exception when the fxml file is not found.
+     */
     @FXML
     public void startNewGame(final ActionEvent event) throws Exception {
         this.mainView.startNewGame("");
 
     }
 
+    /**
+     * Load game by the name of the file.
+     * @param event of the button.
+     * @throws IOException when the file is not found.
+     */
     @FXML
     public void loadGame(final ActionEvent event) throws IOException {
 

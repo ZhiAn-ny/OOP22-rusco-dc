@@ -8,7 +8,6 @@ import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
-import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.exception.ChangeFloorException;
 import it.unibo.ruscodc.utils.exception.ChangeRoomException;
@@ -21,7 +20,6 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -32,7 +30,7 @@ import java.util.function.Supplier;
  */
 public class GameControllerImpl implements GameObserverController {
 
-    private final static Supplier<String> STANDARD_NAME = () -> {
+    private static final Supplier<String> STANDARD_NAME = () -> {
         var t = ZonedDateTime.now();
         return "Game_of_"
                 + t.getYear() + "_"
@@ -62,25 +60,25 @@ public class GameControllerImpl implements GameObserverController {
         this.view = new FXMLMainView();
     }
 
-    /**
-     *
-     */
+    /** {@inheritDoc} */
     @Override
     public void init() {
         this.view.init(this);
     }
 
+    /** {@inheritDoc} */
     @Override
-    public void showMainMenu(){
+    public void showMainMenu() {
         this.view.startView();
     }
 
-    private void refresh(){
+    private void refresh() {
         initNewTurn();
         view.resetView(entityToUpload(), this.model.getCurrentRoom().getSize());
         manageMonsterTurn();
     }
 
+    /** {@inheritDoc} */
     @Override
     public void initNewGame(final String filename) {
         String tmp = filename;
@@ -113,17 +111,13 @@ public class GameControllerImpl implements GameObserverController {
         // }
     }
 
-    /**
-     *
-     */
+    /** {@inheritDoc} */
     @Override
     public void start() {
         showMainMenu();
     }
 
-    /**
-     *
-     */
+    /** {@inheritDoc} */
     @Override
     public void save() {
         // try { 
@@ -141,9 +135,7 @@ public class GameControllerImpl implements GameObserverController {
         // }
     }
 
-    /**
-     *
-     */
+    /** {@inheritDoc} */
     @Override
     public void changeAutomaticSave() {
         automaticSave = !automaticSave;
@@ -242,10 +234,7 @@ public class GameControllerImpl implements GameObserverController {
         return ready;
     }
 
-    /**
-     * Compute the input of user and execute a specific action according to it.
-     * @param input input of the user
-     */
+    /** {@inheritDoc} */
     @Override
     public void computeInput(final GameControl input) {
         updateRuscoInfo();
@@ -298,9 +287,7 @@ public class GameControllerImpl implements GameObserverController {
         manageMonsterTurn();
     }
 
-    /**
-     *
-     */
+    /** {@inheritDoc} */
     @Override
     public void quit() {
         System.exit(0);

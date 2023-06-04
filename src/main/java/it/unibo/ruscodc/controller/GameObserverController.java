@@ -15,7 +15,7 @@ public interface GameObserverController {
 
     /**
      * Enable/disable the automatic save of the game.
-     * If it is enable, every time the player change __ the file that save the game will override with a new save
+     * If it is enable, every time the player change floor the file that save the game will override with a new save.
      */
     void changeAutomaticSave();
 
@@ -24,24 +24,37 @@ public interface GameObserverController {
      * @param input to compute
      */
     void computeInput(GameControl input);
+
     /**
      * To exit the game.
      */
     void quit();
+
     /**
      * Initialize the view with the controller.
      */
     void init();
-    // /**
-    //  * Start the view and the game.
-    //  */
-    // void start();
 
-
+    /**
+     * Start the view and the game.
+     */
     void start();
 
+    /**
+     * Return to main menu of the game.
+     */
     void showMainMenu();
 
+    /**
+     * Asset a new Model.
+     * @param filename
+     */
     void initNewGame(String filename);
+
+    /**
+     * Asset Model taking info by a file.
+     * @param filename
+     * @throws Exception
+     */
     void loadGame(String filename) throws Exception;
 }
