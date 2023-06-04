@@ -6,8 +6,6 @@ import it.unibo.ruscodc.model.actors.monster.behaviour.BehaviourFactoryImpl;
 import it.unibo.ruscodc.model.actors.skill.Skill;
 import it.unibo.ruscodc.model.actors.skill.SkillImpl;
 import it.unibo.ruscodc.model.actors.stat.Stat;
-import it.unibo.ruscodc.model.actors.stat.StatFactory;
-import it.unibo.ruscodc.model.actors.stat.StatFactoryImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.gamecommand.quickcommand.DoNothing;
 import it.unibo.ruscodc.utils.GameControl;
@@ -19,7 +17,7 @@ import it.unibo.ruscodc.utils.Pair;
 public class MonsterGeneratorImpl implements MonsterGenerator {
 
     private final BehaviourFactory behaviourFactory = new BehaviourFactoryImpl();
-    private final StatFactory statFactory = new StatFactoryImpl();
+    private final MonsterStatFactory statFactory = new MonsterStatFactoryImpl();
     private final MonsterActionFactory maFactory = new MonsterActionFactoryImpl();
 
     private static final int MAGE_INTELLECT_BONUS = 5;

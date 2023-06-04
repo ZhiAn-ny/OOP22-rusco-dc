@@ -21,7 +21,11 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
 
     private static final Random RNG = new Random();
 
-    private Optional<Pair<Integer, Integer>> getActorTarget(final Pair<Integer, Integer> monsterPos, final List<Actor> actors, final Predicate<Actor> filter) {
+    private Optional<Pair<Integer, Integer>> getActorTarget(
+        final Pair<Integer, Integer> monsterPos,
+        final List<Actor> actors,
+        final Predicate<Actor> filter
+    ) {
         return Optional.of(actors
             .stream()
             .sorted((a, b) ->
@@ -37,7 +41,7 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
         );
     }
 
-    private void setGameCommand(GameCommand action, Monster monster, Room room) {
+    private void setGameCommand(final GameCommand action, final Monster monster, final Room room) {
         action.setActor(monster);
         action.setRoom(room);
     }
@@ -56,11 +60,15 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
             && !room.getMonsters().stream().anyMatch(a -> a.getPos().equals(pos));
     }
 
-    private Optional<GameControl> computeGameCommand(final Monster monster, final List<Actor> actors, final Pair<Integer, Integer> actorPos, final Room room) {
-
-        int deltaX = getDeltaX(monster.getPos(), actorPos);
-        int deltaY = getDeltaY(monster.getPos(), actorPos);
-        Pair<Integer, Integer> monsterPos = monster.getPos();
+    private Optional<GameControl> computeGameCommand(
+        final Monster monster,
+        final List<Actor> actors,
+        final Pair<Integer, Integer> actorPos,
+        final Room room
+    ) {
+        final int deltaX = getDeltaX(monster.getPos(), actorPos);
+        final int deltaY = getDeltaY(monster.getPos(), actorPos);
+        final Pair<Integer, Integer> monsterPos = monster.getPos();
 
         if (deltaX > 0) {
             if (canMove(Pairs.computeLeftPair(monsterPos), actors, room)) {
@@ -97,13 +105,13 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
             public Optional<GameCommand> chooseMove(final Monster monster, final List<Actor> actors, final Room room) {
                 Optional<GameCommand> action = Optional.empty();
 
-                Optional<Pair<Integer, Integer>> actorPos = getActorTarget(
+                final Optional<Pair<Integer, Integer>> actorPos = getActorTarget(
                     monster.getPos(),
                     actors,
                     (a) -> true
                 );
 
-                Optional<GameControl> gc = computeGameCommand(monster, actors, actorPos.get(), room);
+                final Optional<GameControl> gc = computeGameCommand(monster, actors, actorPos.get(), room);
 
                 if (gc.isPresent()) {
                     action = monster.getSkills().getAction(gc.get());
@@ -123,8 +131,8 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
         return new MovementBehaviour() {
             @Override
             public Optional<GameCommand> chooseMove(final Monster monster, final List<Actor> actors, final Room room) {
-                Pair<Integer, Integer> monsterPos = monster.getPos();
-                List<Boolean> check = List.of(false, false, false, false);
+                final Pair<Integer, Integer> monsterPos = monster.getPos();
+                final List<Boolean> check = List.of(false, false, false, false);
                 Optional<GameCommand> action = Optional.empty();
                 while (check.contains(false)) {
                     switch (RNG.nextInt(4)) {
@@ -184,7 +192,7 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
 
                 Optional<GameCommand> action = Optional.empty();
 
-                Optional<Pair<Integer, Integer>> actorPos = getActorTarget(
+                final Optional<Pair<Integer, Integer>> actorPos = getActorTarget(
                     monster.getPos(),
                     actors,
                     (a) ->  (int) Pairs.computePPLine(monster.getPos(), a.getPos()).count() < monster.getStatActual(StatName.DEX)
@@ -193,7 +201,7 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
                 Optional<GameControl> gc = computeGameCommand(monster, actors, actorPos.get(), room);
 
                 if (gc.isPresent()) {
-                    GameControl old = gc.get();
+                    final GameControl old = gc.get();
                     if (old.equals(GameControl.MOVEDOWN)) {
                         gc = Optional.of(GameControl.MOVEUP);
                     }

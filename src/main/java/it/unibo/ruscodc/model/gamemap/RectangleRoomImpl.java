@@ -9,10 +9,9 @@ import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +23,7 @@ import java.util.function.Predicate;
  * The <code>RectangleRoomImpl</code> class creates a basic implementation of the interface <code>Room</code>.
  * The created <code>Room</code> will have a rectangular shape and could have multiple door leading to other rooms.
  */
-public class RectangleRoomImpl implements Room, Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class RectangleRoomImpl implements Room {
     private static final int MAX_DOORS_NUM = 4;
 
     private final transient Random rnd;
@@ -101,7 +98,7 @@ public class RectangleRoomImpl implements Room, Serializable {
     /** {@inheritDoc} */
     @Override
     public List<Monster> getMonsters() {
-        return this.monsters;
+        return Collections.unmodifiableList(this.monsters);
     }
 
     /** {@inheritDoc} */
@@ -166,7 +163,7 @@ public class RectangleRoomImpl implements Room, Serializable {
     /** {@inheritDoc} */
     @Override
     public Map<Direction, Room> getConnectedRooms() {
-        return this.connectedRooms;
+        return Collections.unmodifiableMap(this.connectedRooms);
     }
 
     /** {@inheritDoc} */

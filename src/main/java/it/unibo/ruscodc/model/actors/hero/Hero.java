@@ -18,5 +18,8 @@ public interface Hero extends Actor {
      */
     Optional<GameCommand> act(GameControl key);
 
+    /**
+     * @return the Hero Inventory
+     */
     Inventory getInventory();
 }

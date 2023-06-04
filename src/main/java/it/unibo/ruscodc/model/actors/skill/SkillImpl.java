@@ -48,6 +48,9 @@ public class SkillImpl implements Skill {
         return Optional.empty();
     }
 
+    /**
+     * 
+     */
     @Override
     public String toString() {
         StringBuilder info = new StringBuilder();

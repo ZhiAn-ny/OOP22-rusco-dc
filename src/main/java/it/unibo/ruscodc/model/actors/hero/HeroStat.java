@@ -4,7 +4,7 @@ import it.unibo.ruscodc.model.actors.stat.StatImpl;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
- * Class that creates Stat for the Hero
+ * Class that creates Stat for the Hero.
  */
 public class HeroStat extends StatImpl {
 
@@ -14,7 +14,7 @@ public class HeroStat extends StatImpl {
     private static final int BASIC_STAT = 5;
 
     /**
-     * Constructor for HeroStat
+     * Constructor for HeroStat.
      */
     public HeroStat() {
         super();

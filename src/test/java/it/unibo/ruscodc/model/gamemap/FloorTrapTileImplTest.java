@@ -4,10 +4,10 @@ import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.HeroImpl;
 import it.unibo.ruscodc.model.actors.monster.MonsterActionFactory;
 import it.unibo.ruscodc.model.actors.monster.MonsterActionFactoryImpl;
+import it.unibo.ruscodc.model.actors.monster.MonsterStatFactory;
+import it.unibo.ruscodc.model.actors.monster.MonsterStatFactoryImpl;
 import it.unibo.ruscodc.model.actors.skill.Skill;
 import it.unibo.ruscodc.model.actors.skill.SkillImpl;
-import it.unibo.ruscodc.model.actors.stat.StatFactory;
-import it.unibo.ruscodc.model.actors.stat.StatFactoryImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl;
 import it.unibo.ruscodc.model.interactable.Chest;
 import it.unibo.ruscodc.model.interactable.Interactable;
@@ -29,7 +29,7 @@ class FloorTrapTileImplTest {
     private static final int DEFAULT_DMG = 5;
 
     private Actor getActor(final Pair<Integer, Integer> pos) {
-        final StatFactory stats = new StatFactoryImpl();
+        final MonsterStatFactory stats = new MonsterStatFactoryImpl();
         final MonsterActionFactory monsterActionFactory = new MonsterActionFactoryImpl();
         final Skill skills = new SkillImpl();
         skills.setAction(GameControl.ATTACK1, monsterActionFactory.basicMeleeAttack());
@@ -138,7 +138,7 @@ class FloorTrapTileImplTest {
         for (int i = 0; i < 3; i++) {
             final int hp = actor.getStatActual(StatImpl.StatName.HP);
             trapTile.getEffect().applyEffect(actor);
-            assertEquals(hp - DEFAULT_DMG, actor.getStatActual(StatImpl.StatName.HP));
+            assertEquals(Math.max(hp - DEFAULT_DMG, 0), actor.getStatActual(StatImpl.StatName.HP));
         }
     }
 

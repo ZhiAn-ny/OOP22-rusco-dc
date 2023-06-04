@@ -1,12 +1,14 @@
-package it.unibo.ruscodc.model.actors.stat;
+package it.unibo.ruscodc.model.actors.monster;
 
+import it.unibo.ruscodc.model.actors.stat.Stat;
+import it.unibo.ruscodc.model.actors.stat.StatImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
  * The implementation of the Stat Factory interface that for each method returns the specific Stat.
  */
-public class StatFactoryImpl implements StatFactory {
+public class MonsterStatFactoryImpl implements MonsterStatFactory {
 
     private static final int NONE = 0;
     private static final int LOW = 1;

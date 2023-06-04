@@ -7,7 +7,7 @@ import it.unibo.ruscodc.utils.Pair;
 /**
  * Interface common for all object that must follow and stay on an orthogonal dominion.
  */
-public interface Entity extends Serializable {
+public interface Entity {
 
     /**
      * @return a string used as ID for the entity
