@@ -56,6 +56,10 @@ public interface GameModel {
     void eliminateMonster(Monster monster);
 
 
+    /**
+     * Help to get some info about hero.
+     * @return this infos
+     */
     Portrait getRuscoInfo();
 
     /**

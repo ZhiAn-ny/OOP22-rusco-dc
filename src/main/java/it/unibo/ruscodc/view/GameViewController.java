@@ -125,57 +125,10 @@ public class GameViewController implements Initializable {
      */
     private void updateGame() {
         updateDefinedGrid(mainGrid, renderedGame, lastRenderingLevelGame);
-        // if (!isToUpdate){
-        //     return;
-        // }
-        // this.mainGrid.getChildren().clear();
-        // //final NumberBinding binding = this.getBindingFunction();
-        // //this.mainGrid.getChildren().clear();
-        // isToUpdate = false;
-
-        // IntStream.rangeClosed(lastRenderingLevelGame + 1, 10).forEach(i -> renderedGame.remove(i));
-
-        // renderedGame.entrySet()
-        //     .stream()
-        //     .sorted(Comparator.comparingInt(level -> level.getKey()))
-        //     //.dropWhile(level -> level.getKey() < startRendering)
-        //     .peek(ll -> System.out.println(ll.getKey()))
-        //     //.peek(level -> level.getValue())
-        //     .forEach(level -> {
-        //         level.getValue().forEach(e -> {
-        //             final ImageView image = e.getRes();
-        //             image.fitWidthProperty().bind(bindings);
-        //             image.setPreserveRatio(true);
-        //             final Pair<Integer, Integer> pos = e.getOnScreenPosition();
-        //             this.mainGrid.add(new Pane(image), pos.getX(), pos.getY());
-        //         });
-        //     });
     }
 
     private void updateInv() {
         updateDefinedGrid(inventoryGrid, renderedInv, lastRenderingLevelInv);
-        // if (!isToUpdate){
-        //     return;
-        // }
-        // this.inventoryGrid.getChildren().clear();
-        // final NumberBinding binding = this.getBindingFunction();
-        // isToUpdate = false;
-
-        // IntStream.rangeClosed(lastRenderingLevelGame + 1, 10).forEach(i -> renderedInv.remove(i));
-
-        // renderedInv.entrySet()
-        //     .stream()
-        //     .sorted(Comparator.comparingInt(level -> level.getKey()))
-        //     .peek(ll -> System.out.println(ll.getKey()))
-        //     .forEach(level -> {
-        //         level.getValue().forEach(e -> {
-        //             final ImageView image = e.getRes();
-        //             image.fitWidthProperty().bind(binding);
-        //             image.fitHeightProperty().bind(binding);
-        //             final Pair<Integer, Integer> pos = e.getOnScreenPosition();
-        //             this.inventoryGrid.add(new Pane(image), pos.getX(), pos.getY());
-        //         });
-        //     });
     }
 
     /**

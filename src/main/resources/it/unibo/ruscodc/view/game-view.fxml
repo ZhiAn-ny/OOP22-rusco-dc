@@ -165,7 +165,7 @@
                         </GridPane>
                      </center>
                      <right>
-                        <Label fx:id="heroStat" maxHeight="1.7976931348623157E308" prefHeight="350.0" prefWidth="150.0" style="-fx-background-color: white;" text="ciao a tutti! Sapevo che ero stato molto occupato ques'oggi ma 10h di pc sono piacevoli tutto sommato&#10;sss" textAlignment="CENTER" textOverrun="CLIP" BorderPane.alignment="CENTER" />
+                        <Label fx:id="heroStat" maxHeight="1.7976931348623157E308" prefHeight="350.0" prefWidth="150.0" style="-fx-background-color: white;" textAlignment="CENTER" textOverrun="CLIP" BorderPane.alignment="CENTER" />
                      </right>
                   </BorderPane>
                </children>

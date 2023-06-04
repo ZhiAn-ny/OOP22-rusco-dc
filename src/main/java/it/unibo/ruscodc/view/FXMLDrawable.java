@@ -5,7 +5,9 @@ import java.util.Collections;
 import it.unibo.ruscodc.utils.Pair;
 import javafx.scene.image.ImageView;
 
-
+/**
+ * Implementation of Drawable for a FXML view.
+ */
 public class FXMLDrawable implements Drawable<ImageView> {
 
     private final Pair<Integer, Integer> pos;

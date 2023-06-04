@@ -16,11 +16,11 @@ public class Door extends InteractableAbs {
     private final Direction doorDirection;
     private final String name;
 
-
     /**
      * The constructor of this class.
-     * @param pos where spawn the door.
-     */
+    * @param pos where spawn the door.
+    * @param doorDirection the direction of the door.
+    */
     public Door(final Pair<Integer, Integer> pos, final Direction doorDirection) {
         super(pos);
         this.name = "Door";

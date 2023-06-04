@@ -3,7 +3,8 @@ package it.unibo.ruscodc.view;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
- * TODO documentazione!.
+ * Help view to speed up (a bit) the process of printing.
+ * @param <X> the type of image supported by the implemented view
  */
 public interface Drawable<X> {
 

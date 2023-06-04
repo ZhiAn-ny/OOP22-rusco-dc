@@ -48,7 +48,6 @@ public class GameControllerImpl implements GameObserverController {
     private final GameView view;
     private GameModel model;
     private boolean automaticSave;
-    private final SaveManager saveManager = new SaveManagerImpl();
 
     private boolean isPrintingInv; // = false;
 

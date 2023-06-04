@@ -24,7 +24,4 @@ public class ChangeRoomException extends ModelException {
     public Pair<Integer, Integer> getDoorPos() {
         return door;
     }
-
-    
-
 }
