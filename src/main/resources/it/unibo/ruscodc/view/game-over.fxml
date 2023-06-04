@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unibo.ruscodc.view.GameOverController">
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0">
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
             <Label text="GAME OVER" VBox.vgrow="NEVER">
                <font>
@@ -18,7 +17,7 @@
             </Label>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button fx:id="menu" onAction="#backToMenu" mnemonicParsing="false" text="Torna al menu principale" />
+                  <Button fx:id="menu" mnemonicParsing="false" onAction="#backToMenu" text="Torna al menu principale" />
                </children>
             </VBox>
          </children>

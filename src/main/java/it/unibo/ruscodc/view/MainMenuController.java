@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -16,24 +17,24 @@ import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
 
-    private GameObserverController gameController;
+
     private FXMLMainView mainView;
     @FXML
     private Button nuovaPartita;
     @FXML
     private Button caricaPartita;
-    @FXML
-    private Button impostazioni;
+
 
     @FXML
     private VBox buttons;
 
     @FXML
-    private Label title;
+    private TextField nameFile;
 
     @FXML
     public void setLayout() {
         this.buttons.spacingProperty().bind(buttons.getScene().getWindow().heightProperty().divide(20));
+
     }
 
     public void init(final FXMLMainView mainView){
@@ -48,7 +49,7 @@ public class MainMenuController implements Initializable {
 
     @FXML
     public void startNewGame(final ActionEvent event) throws Exception {
-        this.mainView.startNewGame();
+        this.mainView.startNewGame(nameFile.getText());
 
     }
 
@@ -56,10 +57,6 @@ public class MainMenuController implements Initializable {
     public void loadGame(final ActionEvent event) throws IOException {
 
 
-    }
-
-    @FXML
-    public void settings(final ActionEvent event) {
     }
 
 

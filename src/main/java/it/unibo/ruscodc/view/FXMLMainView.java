@@ -71,9 +71,9 @@ public class FXMLMainView extends Application implements GameView {
         this.controller = ctrl;
     }
 
-    public void startNewGame() throws IOException {
+    public void startNewGame(final String gameName) throws IOException {
         final Scene scene = this.loadGameView();
-        this.controller.initNewGame();
+        this.controller.initNewGame(gameName);
         //stage.setUserData(this.controller);
         //this.isReady = true;
         stage.setScene(scene);
@@ -197,11 +197,12 @@ public class FXMLMainView extends Application implements GameView {
 
     private Scene loadGameView() throws IOException {
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("game-view.fxml"));
-        fxmlLoader.setController(new GameViewController());
+        //fxmlLoader.setController(new GameViewController());
         final Scene scene = new Scene(fxmlLoader.load());
         //this.handleWindowSize(stage, scene);
         //this.handleEvents(stage);
         this.gameView = (GameViewController) fxmlLoader.getController();
+        this.gameView.init(this);
         this.handleUserInputs(scene);
         this.gameView.updateEntities(this.printedEntity);
         this.gameView.update();
@@ -233,7 +234,8 @@ public class FXMLMainView extends Application implements GameView {
 
     private void handleEvents(final Stage stage) {
         stage.setOnCloseRequest(event -> {
-            System.exit(0);
+            this.controller.quit();
+            //System.exit(0);
         });
     }
 
@@ -312,4 +314,11 @@ public class FXMLMainView extends Application implements GameView {
         this.gameView.uploadStatsToScreen(heroStats);
     }
 
+    public void saveGame() {
+        this.controller.save();
+    }
+
+    public void changeAutomaticSave() {
+        this.controller.changeAutomaticSave();
+    }
 }

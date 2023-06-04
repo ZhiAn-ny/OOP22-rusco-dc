@@ -21,7 +21,7 @@ public interface GameView {
      */
     void init(GameObserverController ctrl);
 
-    void startNewGame() throws IOException;
+    void startNewGame(final String gameName) throws IOException;
 
     /**
      *

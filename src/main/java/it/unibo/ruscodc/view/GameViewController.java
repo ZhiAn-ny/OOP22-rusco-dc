@@ -23,6 +23,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -50,13 +51,12 @@ public class GameViewController implements Initializable {
 
     private int lastRenderingLevelInv;
     private final Map<Integer, List<FXMLDrawable>> renderedInv = new HashMap<>();
-    
-
 
 
     private IntegerProperty unit = new SimpleIntegerProperty();
     private int rows;
     private int cols;
+    private FXMLMainView mainView;
     @FXML
     private GridPane mainGrid;
     @FXML
@@ -83,7 +83,8 @@ public class GameViewController implements Initializable {
     @FXML
     private StackPane mainPane;
 
-    private NumberBinding bindings;
+
+    private static NumberBinding bindings;
 
 
     /**
@@ -307,5 +308,25 @@ public class GameViewController implements Initializable {
         this.isShowingInv = false;
         this.invPane.toBack();
     }
+
+    public void init(final FXMLMainView view) {
+        this.mainView = view;
+    }
+
+    @FXML
+    public void saveActGame() {
+        this.mainView.saveGame();
+    }
+
+    @FXML
+    public void exit() throws IOException {
+        this.mainView.returnToMainMenu();
+    }
+
+    @FXML
+    public void changeAutomaticSave() {
+        this.mainView.changeAutomaticSave();
+    }
+
 
 }
