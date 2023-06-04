@@ -3,16 +3,12 @@ package it.unibo.ruscodc.model.gamemap;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Pair;
 
-import java.io.Serial;
-
 
 /**
  * The <code>WallTileImpl</code> class represents the basic implementation of
  * the concept of wall.
  */
 public class WallTileImpl extends AbstractTile {
-    @Serial
-    private static final long serialVersionUID = 1L;
     private final WallType side;
 
     /**
