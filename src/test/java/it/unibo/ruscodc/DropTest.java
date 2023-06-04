@@ -10,7 +10,6 @@ import java.util.Random;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -37,16 +36,7 @@ final class DropTest {
 
     private final DropFactory dropGenerator = new DropFactoryImpl();
     private final MonsterGenerator mg = new MonsterGeneratorImpl();
-    private final DropManager dm;
-
-    private DropTest() {
-        this.dm = dropGenerator.createGenericBasicDrop(mg.makeMeleeRat(null));
-    }
-
-    @BeforeAll
-    void startTest() {
-        new DropTest();
-    }
+    private final DropManager dm = dropGenerator.createGenericBasicDrop(mg.makeMeleeRat(null));
 
     /**
      * Not a very test.

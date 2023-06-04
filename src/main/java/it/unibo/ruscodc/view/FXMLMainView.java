@@ -3,6 +3,7 @@ package it.unibo.ruscodc.view;
 import it.unibo.ruscodc.controller.GameObserverController;
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
+import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
@@ -18,7 +19,6 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.io.IOException;
 
 /**
@@ -26,22 +26,24 @@ import java.io.IOException;
  * which are the new entities that will then be printed on the screen.
  */
 public class FXMLMainView extends Application implements GameView {
-    private final String iconPath = "file:src/main/resources/it/unibo/ruscodc/view/racoon.png";
-    private final String title = "Rusco DC";
+
+    private static final String GLOBAL_ERR_TITLE = "Error in view tecnology";
+
+    private static final String ICONPATH = "file:src/main/resources/it/unibo/ruscodc/view/racoon.png";
+    private static final String TITLE = "Rusco DC";
     private static final double ASPECT_RATIO = 3 / 4.;
     private static final double MIN_WIDTH_SCALE = 0.4;
     private GameObserverController controller;
+    
     private GameViewController gameView;
     private MainMenuController menuController;
     private GameOverController gameOverController;
+
     private final List<Entity> printedEntity = new ArrayList<>();
     private boolean isReady;
-    private final Optional<Pair<Integer, Integer>> dims = Optional.empty();
-    //private boolean isPrintingInfo = true;
     private Stage stage;
 
-    private boolean isPrintingInfo = false;
-    private boolean isShowingInv = false;
+    private boolean isPrintingInfo;
 
     /** {@inheritDoc} */
     @Override
@@ -54,13 +56,8 @@ public class FXMLMainView extends Application implements GameView {
         }
 
         Platform.startup(() -> {
-            // create primary stage
             this.stage = new Stage();
-            try {
-                this.start(stage);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            this.start(stage);
         });
     }
 
@@ -71,17 +68,21 @@ public class FXMLMainView extends Application implements GameView {
     }
 
     /**
-     * Start a new game.
-     * @param gameName the name of the file.
-     * @throws IOException when the file is not found.
+     * 
      */
-    public void startNewGame(final String gameName) throws IOException {
-        final Scene scene = this.loadGameView();
+    @Override
+    public void startNewGame(final String gameName) {
+        Scene scene;
+        try {
+            scene = this.loadGameView();
+        } catch (IOException e) {
+            printInfo( new InfoPayloadImpl(
+                GLOBAL_ERR_TITLE, 
+                "Cannot load main menu view"));
+            return;
+        }
         this.controller.initNewGame(gameName);
-        //stage.setUserData(this.controller);
-        //this.isReady = true;
         stage.setScene(scene);
-       // stage.show();
     }
 
 
@@ -128,46 +129,47 @@ public class FXMLMainView extends Application implements GameView {
     @Override
     public void uploadEntity(final Pair<Integer, Integer> toUpload, final Entity updated) {
         for (int i = 0; i < this.printedEntity.size(); i++) {
-            if (this.printedEntity.get(i).getID() == updated.getID()) {
-                if (!this.printedEntity.get(i).getPos().equals(toUpload)) {
+            if (this.printedEntity.get(i).getID() == updated.getID()
+                && !this.printedEntity.get(i).getPos().equals(toUpload)) {
                     this.printedEntity.set(i, updated);
-                }
             }
         }
     }
 
+    private void showMainMenu() {
+        Scene scene;
+        try {
+            scene = this.loadMainMenu();
+        } catch (IOException e) {
+            printInfo( new InfoPayloadImpl(
+                GLOBAL_ERR_TITLE, 
+                "Cannot load main menu view"));
+            return;
+        }
 
-    private void showMainMenu() throws IOException {
-        final Scene scene = this.loadMainMenu();
-        //this.handleWindowSize(stage, scene);
+        this.handleEvents(stage);
 
-         this.handleEvents(stage);
-         // this.handleUserInputs(scene);
+        stage.setTitle(TITLE);
+        stage.getIcons().add(new Image(ICONPATH));
+        stage.setScene(scene);
+        stage.setUserData(this.controller);
 
-
-         //stage.setFullScreen(true);
-         stage.setTitle(this.title);
-         stage.getIcons().add(new Image(this.iconPath));
-         stage.setScene(scene);
-         stage.setUserData(this.controller);
-
-         this.isReady = true;
-         stage.show();
-         this.menuController.setLayout();
-     }
+        this.isReady = true;
+        stage.show();
+        this.menuController.setLayout();
+    }
 
     /** {@inheritDoc} */
     @Override
-    public void start(final Stage stage) throws Exception {
+    public void start(final Stage stage) {
         this.stage = stage;
         showMainMenu();
     }
 
     /**
      * Returns in to the main menu.
-     * @throws IOException when the file is not found.
      */
-    public void returnToMainMenu() throws IOException {
+    public void returnToMainMenu() {
         showMainMenu();
     }
 
@@ -176,20 +178,18 @@ public class FXMLMainView extends Application implements GameView {
         final double scale = 2 / 3.;
         final double width = screenSize.getWidth() * scale;
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("menu-iniziale.fxml"));
-        //fxmlLoader.setController(new MainMenuController());
+
         final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
         this.menuController = (MainMenuController) fxmlLoader.getController();
         this.menuController.init(this);
         return scene;
     }
 
-
     private Scene loadGameView() throws IOException {
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("game-view.fxml"));
-        //fxmlLoader.setController(new GameViewController());
+
         final Scene scene = new Scene(fxmlLoader.load());
-        //this.handleWindowSize(stage, scene);
-        //this.handleEvents(stage);
+
         this.gameView = (GameViewController) fxmlLoader.getController();
         this.gameView.init(this);
         this.handleUserInputs(scene);
@@ -209,23 +209,19 @@ public class FXMLMainView extends Application implements GameView {
         return scene;
     }
 
+
     private void handleWindowSize(final Stage stage, final Scene scene) {
-        try {
-            final double minWidth = Screen.getPrimary().getVisualBounds().getWidth() * MIN_WIDTH_SCALE;
-            stage.setMinWidth(minWidth);
-            stage.setMinHeight(minWidth * ASPECT_RATIO);
-            stage.setMaxHeight(Screen.getPrimary().getVisualBounds().getHeight());
-            stage.minHeightProperty().bind(scene.widthProperty().multiply(ASPECT_RATIO));
-            stage.maxHeightProperty().bind(scene.widthProperty().multiply(ASPECT_RATIO));
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+        final double minWidth = Screen.getPrimary().getVisualBounds().getWidth() * MIN_WIDTH_SCALE;
+        stage.setMinWidth(minWidth);
+        stage.setMinHeight(minWidth * ASPECT_RATIO);
+        stage.setMaxHeight(Screen.getPrimary().getVisualBounds().getHeight());
+        stage.minHeightProperty().bind(scene.widthProperty().multiply(ASPECT_RATIO));
+        stage.maxHeightProperty().bind(scene.widthProperty().multiply(ASPECT_RATIO));
     }
 
     private void handleEvents(final Stage stage) {
         stage.setOnCloseRequest(event -> {
             this.controller.quit();
-            //System.exit(0);
         });
     }
 
@@ -242,7 +238,6 @@ public class FXMLMainView extends Application implements GameView {
     }
 
     private GameControl getInput(final KeyEvent e) {
-        //System.out.println(e.getText());
         return switch (e.getCode()) {
             case W -> GameControl.MOVEUP;
             case A -> GameControl.MOVELEFT;
@@ -270,11 +265,17 @@ public class FXMLMainView extends Application implements GameView {
 
     /** {@inheritDoc} */
     @Override
-    public void printGameOver() throws IOException {
-        System.out.println("Game Over");
-        final Scene scene = this.loadGameOver();
+    public void printGameOver() {
+        Scene scene;
+        try {
+            scene = this.loadGameOver();
+        } catch (IOException e) {
+            this.printInfo(new InfoPayloadImpl(
+                GLOBAL_ERR_TITLE,
+                "... but you are died!"));
+            return;
+        }
         stage.setScene(scene);
-
     }
 
     /** {@inheritDoc} */

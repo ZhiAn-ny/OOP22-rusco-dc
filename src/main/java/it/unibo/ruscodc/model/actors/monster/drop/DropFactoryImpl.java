@@ -52,7 +52,7 @@ public class DropFactoryImpl implements DropFactory {
             try {
                 toFill.put(myIt.getAct(), (Item) m.invoke(receiver));
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                e.printStackTrace(); // TODO eventuale modo diverso di gestire questa cosa?
+                return;
             }
             myIt.next();
         });

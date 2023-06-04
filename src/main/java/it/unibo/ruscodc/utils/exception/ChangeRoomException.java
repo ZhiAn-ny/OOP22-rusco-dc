@@ -7,6 +7,8 @@ import it.unibo.ruscodc.utils.Pair;
  */
 public class ChangeRoomException extends ModelException {
 
+    private static final long serialVersionUID = 432L;
+
     private final Pair<Integer, Integer> door;
 
     /**

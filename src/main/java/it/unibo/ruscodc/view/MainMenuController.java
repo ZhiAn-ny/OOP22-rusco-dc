@@ -55,9 +55,8 @@ public class MainMenuController implements Initializable {
      * @throws Exception when the fxml file is not found.
      */
     @FXML
-    public void startNewGame(final ActionEvent event) throws Exception {
+    public void startNewGame(final ActionEvent event) {
         this.mainView.startNewGame("");
-
     }
 
     /**
@@ -67,8 +66,6 @@ public class MainMenuController implements Initializable {
      */
     @FXML
     public void loadGame(final ActionEvent event) throws IOException {
-
-
     }
 
 

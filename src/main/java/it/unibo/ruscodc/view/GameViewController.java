@@ -156,7 +156,7 @@ public class GameViewController implements Initializable {
      * Sets up the actions done in the view's gameloop and starts it.
      */
     private void gameloop() {
-        AnimationTimer gameloop = new AnimationTimer() {
+        final AnimationTimer gameloop = new AnimationTimer() {
             @Override
             public void handle(final long nanotime) {
                 update();

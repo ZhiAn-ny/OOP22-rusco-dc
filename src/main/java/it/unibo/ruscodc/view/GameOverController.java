@@ -39,7 +39,7 @@ public class GameOverController implements Initializable {
      * @throws IOException when the file is not found.
      */
     @FXML
-    public void backToMenu() throws IOException {
+    public void backToMenu() {
         this.mainView.returnToMainMenu();
     }
 }
