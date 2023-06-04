@@ -1,5 +1,6 @@
 package it.unibo.ruscodc.model.gamecommand.playercommand;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -118,11 +119,11 @@ public class PlayerAttack extends NoIACommand {
      * 
      */
     @Override
-    public Set<Entity> getEntities() {
+    public List<Entity> getEntities() {
         if (isFirstTime) {
             reset();
         }
-        final Set<Entity> toPrint = new HashSet<>();
+        final List<Entity> toPrint = new ArrayList<>();
         toPrint.add(getCursorAsEntity());
         if (this.isCursorInRange()) {
             toPrint.addAll(this.getSplash());

@@ -32,8 +32,6 @@ import java.util.function.Supplier;
  */
 public class GameControllerImpl implements GameObserverController {
 
-    //private Set<GameControl> DOUBLE_EX = Set.of(GameControl.CANCEL, GameControl.CONFIRM);
-
     private final static Supplier<String> STANDARD_NAME = () -> {
         var t = ZonedDateTime.now();
         return "Game_of_"
@@ -79,38 +77,40 @@ public class GameControllerImpl implements GameObserverController {
 
     private void refresh(){
         initNewTurn();
-        view.resetView(entityToUpload(), model.getCurrentRoom().getSize());
+        view.resetView(entityToUpload(), this.model.getCurrentRoom().getSize());
         manageMonsterTurn();
     }
 
     @Override
     public void initNewGame(final String filename) {
         String tmp = filename;
+        playerSituation = Optional.empty();
         if (tmp.isEmpty()) {
             tmp = STANDARD_NAME.get();
         }
         this.actualGameName = tmp;
         this.initiative.clear();
         this.model = new GameModelImpl();
+        updateRuscoInfo();
         refresh();
     }
 
     @Override
-    public void loadGame(String fileName) {
-        try {
-            this.model = saveManager.loadGame(fileName);
-            this.actualGameName = fileName;
-            final InfoPayload err = new InfoPayloadImpl(
-                    "Game loaded with successfull",
-                    "Continue yout adventure!");
-            this.view.printInfo(err);
-            refresh();
-        } catch (Exception e) {
-            final InfoPayload err = new InfoPayloadImpl(
-                    "Error during loading of the file",
-                    "Maybe you missed the correct file?");
-            this.view.printInfo(err);
-        }
+    public void loadGame(final String fileName) {
+        // try {
+        //     this.model = saveManager.loadGame(fileName);
+        //     this.actualGameName = fileName;
+        //     final InfoPayload err = new InfoPayloadImpl(
+        //             "Game loaded with successfull",
+        //             "Continue yout adventure!");
+        //     this.view.printInfo(err);
+        //     refresh();
+        // } catch (Exception e) {
+        //     final InfoPayload err = new InfoPayloadImpl(
+        //             "Error during loading of the file",
+        //             "Maybe you missed the correct file?");
+        //     this.view.printInfo(err);
+        // }
     }
 
     /**
@@ -126,19 +126,19 @@ public class GameControllerImpl implements GameObserverController {
      */
     @Override
     public void save() {
-        try {
-            this.saveManager.saveGame(actualGameName, model);
-            final InfoPayload err = new InfoPayloadImpl(
-                    "Game saved with successfull",
-                    "Continue yout adventure!");
-            this.view.printInfo(err);
-        } catch (Exception e) {
-            final InfoPayload err = new InfoPayloadImpl(
-                    "Error during saving of the file",
-                    "Maybe your memory is full?");
-            e.printStackTrace();
-            this.view.printInfo(err);
-        }
+        // try { 
+        //     this.saveManager.saveGame(actualGameName, model);
+        //     final InfoPayload err = new InfoPayloadImpl(
+        //             "Game saved with successfull",
+        //             "Continue yout adventure!");
+        //     this.view.printInfo(err);
+        // } catch (Exception e) {
+        //     final InfoPayload err = new InfoPayloadImpl(
+        //             "Error during saving of the file",
+        //             "Maybe your memory is full?");
+        //     e.printStackTrace();
+        //     this.view.printInfo(err);
+        // }
     }
 
     /**
@@ -192,7 +192,7 @@ public class GameControllerImpl implements GameObserverController {
     }
 
     private void printCommand() {
-        final Set<Entity> infos = playerSituation.get().getEntities();
+        final List<Entity> infos = playerSituation.get().getEntities();
         this.view.resetLevel(new ArrayList<>(infos));
         if (isPrintingInv) {
             this.view.printStats(this.initiative.get(0).toString());

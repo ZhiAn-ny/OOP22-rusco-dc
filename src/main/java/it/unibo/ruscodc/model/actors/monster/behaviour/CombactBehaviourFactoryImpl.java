@@ -83,14 +83,12 @@ public class CombactBehaviourFactoryImpl implements CombactBehaviourFactory {
                     return Optional.empty();
                 }
 
-                final Optional<GameCommand> action = Optional.of(
+                return Optional.of(
                     attacks.stream()
                     .sorted((a, b) -> b.getAPCost() - a.getAPCost())
                     .findFirst()
                     .get()
                 );
-
-                return action;
             }
         };
     }

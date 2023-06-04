@@ -37,7 +37,7 @@ public class BehaviourImpl implements Behaviour {
 
         Optional<GameCommand> action = this.combactBehaviour.choseAttack(monster, room, actors);
         if (action.isPresent()) {
-            return this.optimizeComplexAction(action.get(), monster, room, actors);
+            return this.optimizeComplexAction(action.get(), monster, actors);
         }
 
         action = this.movementBehaviour.chooseMove(monster, actors, room);
@@ -52,17 +52,15 @@ public class BehaviourImpl implements Behaviour {
     /**
      * @param toOptimize the GameCommand that needs to be optimized
      * @param monster the Monster that made the attack
-     * @param room the Room in which the Monster is
      * @param actors the possible targets for this action
      * @return a GameCommand optimized with all 
      */
     private GameCommand optimizeComplexAction(
         final GameCommand toOptimize,
         final Monster monster,
-        final Room room,
         final List<Actor> actors
     ) {
-        Pair<Integer, Integer> target = actors
+        final Pair<Integer, Integer> target = actors
             .stream()
             .sorted((a, b) ->
                 (int) (

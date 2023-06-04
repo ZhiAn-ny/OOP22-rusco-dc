@@ -28,14 +28,14 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
     @Override
     public Monster makeMeleeRat(final Pair<Integer, Integer> pos) {
 
-        Skill skills = new SkillImpl();
+        final Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.maFactory.basicMeleeAttack());
         skills.setAction(GameControl.ATTACK1, this.maFactory.heavyMeleeAttack());
         skills.setAction(GameControl.DONOTHING, new DoNothing());
 
-        Stat stats = this.statFactory.ratStat();
+        final Stat stats = this.statFactory.ratStat();
 
-        Behaviour behaviour = this.behaviourFactory.makeMeleeAggressive();
+        final Behaviour behaviour = this.behaviourFactory.makeMeleeAggressive();
 
         return new MonsterImpl("MeleeRat", pos, skills, stats, behaviour);
     }
@@ -45,13 +45,13 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
      */
     @Override
     public Monster makeRangedRat(final Pair<Integer, Integer> pos) {
-        Skill skills = new SkillImpl();
+        final Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.maFactory.basicRangedAttack());
         skills.setAction(GameControl.DONOTHING, new DoNothing());
 
-        Stat stats = this.statFactory.ratStat();
+        final Stat stats = this.statFactory.ratStat();
 
-        Behaviour behaviour = this.behaviourFactory.makeRangedBrainless();
+        final Behaviour behaviour = this.behaviourFactory.makeRangedBrainless();
 
         return new MonsterImpl("RangedRat", pos, skills, stats, behaviour);
     }
@@ -61,18 +61,18 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
      */
     @Override
     public Monster makeMageRat(final Pair<Integer, Integer> pos) {
-        Skill skills = new SkillImpl();
+        final Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.maFactory.ratMagic());
         skills.setAction(GameControl.ATTACK1, this.maFactory.badSmell());
         skills.setAction(GameControl.DONOTHING, new DoNothing());
 
-        Stat stats = this.statFactory.ratStat();
+        final Stat stats = this.statFactory.ratStat();
         stats.setStat(
             StatName.INT,
             new Pair<Integer, Integer>(MAGE_INTELLECT_BONUS, MAGE_INTELLECT_BONUS)
         );
 
-        Behaviour behaviour = this.behaviourFactory.makeRangedShy();
+        final Behaviour behaviour = this.behaviourFactory.makeRangedShy();
 
         return new MonsterImpl("MageRat", pos, skills, stats, behaviour);
     }
@@ -82,15 +82,15 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
      */
     @Override
     public Monster makeRogueOpossum(final Pair<Integer, Integer> pos) {
-        Skill skills = new SkillImpl();
+        final Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.maFactory.basicMeleeAttack());
         skills.setAction(GameControl.ATTACK1, this.maFactory.heavyMeleeAttack());
         skills.setAction(GameControl.ATTACK2, this.maFactory.backstab());
         skills.setAction(GameControl.DONOTHING, new DoNothing());
 
-        Stat stats = this.statFactory.opossumStat();
+        final Stat stats = this.statFactory.opossumStat();
 
-        Behaviour behaviour = this.behaviourFactory.makeMeleeAggressive();
+        final Behaviour behaviour = this.behaviourFactory.makeMeleeAggressive();
 
         return new MonsterImpl("RogueOpossum", pos, skills, stats, behaviour);
     }
@@ -100,13 +100,13 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
      */
     @Override
     public Monster makeRangedOpossum(final Pair<Integer, Integer> pos) {
-        Skill skills = new SkillImpl();
+        final Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.maFactory.basicRangedAttack());
         skills.setAction(GameControl.DONOTHING, new DoNothing());
 
-        Stat stats = this.statFactory.opossumStat();
+        final Stat stats = this.statFactory.opossumStat();
 
-        Behaviour behaviour = this.behaviourFactory.makeRangedShy();
+        final Behaviour behaviour = this.behaviourFactory.makeRangedShy();
 
         return new MonsterImpl("RangedOpossum", pos, skills, stats, behaviour);
     }
@@ -116,14 +116,14 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
      */
     @Override
     public Monster makeMeleeSeagull(final Pair<Integer, Integer> pos) {
-        Skill skills = new SkillImpl();
+        final Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.maFactory.basicMeleeAttack());
         skills.setAction(GameControl.ATTACK1, this.maFactory.backstab());
         skills.setAction(GameControl.DONOTHING, new DoNothing());
 
-        Stat stats = this.statFactory.seagullStat();
+        final Stat stats = this.statFactory.seagullStat();
 
-        Behaviour behaviour = this.behaviourFactory.makeMeleeAggressive();
+        final Behaviour behaviour = this.behaviourFactory.makeMeleeAggressive();
 
         return new MonsterImpl("MeleeSeagull", pos, skills, stats, behaviour);
     }
@@ -133,13 +133,13 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
      */
     @Override
     public Monster makeRangedSeagull(final Pair<Integer, Integer> pos) {
-        Skill skills = new SkillImpl();
+        final Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.maFactory.basicRangedAttack());
         skills.setAction(GameControl.DONOTHING, new DoNothing());
 
-        Stat stats = this.statFactory.seagullStat();
+        final Stat stats = this.statFactory.seagullStat();
 
-        Behaviour behaviour = this.behaviourFactory.makeRangedShy();
+        final Behaviour behaviour = this.behaviourFactory.makeRangedShy();
 
         return new MonsterImpl("RangedSeagull", pos, skills, stats, behaviour);
     }
@@ -149,13 +149,13 @@ public class MonsterGeneratorImpl implements MonsterGenerator {
      */
     @Override
     public Monster makeBombCockroach(final Pair<Integer, Integer> pos) {
-        Skill skills = new SkillImpl();
+        final Skill skills = new SkillImpl();
         skills.setAction(GameControl.BASEATTACK, this.maFactory.disgustingDemise());
         skills.setAction(GameControl.DONOTHING, new DoNothing());
 
-        Stat stats = this.statFactory.cockroachStat();
+        final Stat stats = this.statFactory.cockroachStat();
 
-        Behaviour behaviour = this.behaviourFactory.makeMeleeBrainless();
+        final Behaviour behaviour = this.behaviourFactory.makeMeleeBrainless();
 
         return new MonsterImpl("BombCockroach", pos, skills, stats, behaviour);
     }

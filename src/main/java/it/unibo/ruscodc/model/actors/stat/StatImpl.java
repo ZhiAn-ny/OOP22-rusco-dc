@@ -39,7 +39,7 @@ public class StatImpl implements Stat {
         INT;
     }
 
-    private static final Pair<Integer, Integer> DEFAULT = new Pair<Integer, Integer>(0, 0);
+    private static final Pair<Integer, Integer> DEFAULT = new Pair<>(0, 0);
 
     private final Map<StatName, Pair<Integer, Integer>> stats = new HashMap<>();
 
@@ -47,7 +47,7 @@ public class StatImpl implements Stat {
      * Basic Constructor for StatImpl.
      */
     public StatImpl() {
-        for (StatName statName : StatName.values()) {
+        for (final StatName statName : StatName.values()) {
             this.stats.put(statName, DEFAULT);
         }
     }
@@ -57,7 +57,7 @@ public class StatImpl implements Stat {
      */
     @Override
     public void setStatActualValue(final StatName toSet, final int actualValue) {
-        Pair<Integer, Integer> values = this.stats.get(toSet);
+        final Pair<Integer, Integer> values = this.stats.get(toSet);
         this.stats.put(toSet, new Pair<Integer, Integer>(actualValue, values.getY()));
     }
 
@@ -66,7 +66,7 @@ public class StatImpl implements Stat {
      */
     @Override
     public void setStatMaxValue(final StatName toSet, final int maxValue) {
-        Pair<Integer, Integer> values = this.stats.get(toSet);
+        final Pair<Integer, Integer> values = this.stats.get(toSet);
         this.stats.put(toSet, new Pair<Integer, Integer>(values.getX(), maxValue));
     }
 
@@ -99,8 +99,8 @@ public class StatImpl implements Stat {
      */
     @Override
     public String toString() {
-        StringBuilder info = new StringBuilder();
-        for (StatName statName : StatName.values()) {
+        final StringBuilder info = new StringBuilder();
+        for (final StatName statName : StatName.values()) {
             info.append(
                 statName
                 + ":["

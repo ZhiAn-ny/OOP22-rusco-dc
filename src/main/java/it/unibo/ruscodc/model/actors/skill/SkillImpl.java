@@ -33,7 +33,7 @@ public class SkillImpl implements Skill {
      * 
      */
     @Override
-    public void setAction(final GameControl key, final GameCommand action) {
+    public final void setAction(final GameControl key, final GameCommand action) {
         this.skills.put(key, action);
     }
 
@@ -53,8 +53,8 @@ public class SkillImpl implements Skill {
      */
     @Override
     public String toString() {
-        StringBuilder info = new StringBuilder();
-        for (GameControl gameCommand : GameControl.getAttackControls()) {
+        final StringBuilder info = new StringBuilder();
+        for (final GameControl gameCommand : GameControl.getAttackControls()) {
             info.append(gameCommand.toString() + this.skills.get(gameCommand).toString());
         }
         return info.toString();

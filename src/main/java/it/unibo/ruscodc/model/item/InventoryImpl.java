@@ -46,7 +46,7 @@ public class InventoryImpl implements Inventory {
     public InventoryImpl() {
         this.bag = new ArrayList<>();
         this.equipement = new HashMap<>();
-        for (Slot slot : Slot.values()) {
+        for (final Slot slot : Slot.values()) {
             equipement.put(slot, null);
         }
     }
@@ -76,7 +76,7 @@ public class InventoryImpl implements Inventory {
      */
     @Override
     public void equip(final Equipement equip, final Hero hero) {
-        Equipement toUnequip = this.equipement.get(equip.getSlot());
+        final Equipement toUnequip = this.equipement.get(equip.getSlot());
         if (toUnequip != null) {
             toUnequip.unequip(hero);
         }

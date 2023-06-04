@@ -1,7 +1,7 @@
 package it.unibo.ruscodc.model.gamecommand.playercommand;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import it.unibo.ruscodc.model.Entity;
@@ -85,7 +85,7 @@ public class OpenInventory extends NoIACommand {
     }
 
     private void manageEquipement(final Equipement equipement) {
-        equipement.equip(hero);
+        this.inventory.equip(equipement, hero);
     }
 
     private void manageUse() {
@@ -207,8 +207,8 @@ public class OpenInventory extends NoIACommand {
      * 
      */
     @Override
-    public Set<Entity> getEntities() {
-        final Set<Entity> items = this.inventory
+    public List<Entity> getEntities() {
+        final List<Entity> items = this.inventory
             .getAllItems()
             .stream()
             .map(i -> fromItemToEntity(
@@ -217,7 +217,7 @@ public class OpenInventory extends NoIACommand {
                     this.inventory.getAllItems().indexOf(i) % COLS,
                     this.inventory.getAllItems().indexOf(i) / COLS)
                 )
-        ).collect(Collectors.toSet());
+        ).collect(Collectors.toList());
 
         items.add(fromCursorToEntity());
 

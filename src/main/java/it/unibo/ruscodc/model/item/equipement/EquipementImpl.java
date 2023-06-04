@@ -78,6 +78,7 @@ public class EquipementImpl implements Equipement {
     /**
      * @return if the item is Wearable
      */
+    @Override
     public boolean isWearable() {
         return true;
     }
@@ -85,6 +86,7 @@ public class EquipementImpl implements Equipement {
     /**
      * @return the Name of the Equipement
      */
+    @Override
     public String getName() {
         return this.name;
     }
@@ -92,6 +94,7 @@ public class EquipementImpl implements Equipement {
     /**
      * @return the Path related to the Equipement information
      */
+    @Override
     public String getPath() {
         return this.path;
     }
@@ -99,6 +102,7 @@ public class EquipementImpl implements Equipement {
     /**
      * @return return the InfoPayload of the Equipement
      */
+    @Override
     public InfoPayload getInfo() {
         return this.info;
     }
@@ -106,6 +110,7 @@ public class EquipementImpl implements Equipement {
     /**
      * @param hero the actor that needs to equip the item
      */
+    @Override
     public void equip(final Hero hero) {
         this.stat
             .entrySet()
@@ -124,6 +129,7 @@ public class EquipementImpl implements Equipement {
     /**
      * @param hero the Hero that needs to unequip the item
      */
+    @Override
     public void unequip(final Hero hero) {
         this.stat
             .entrySet()
@@ -137,6 +143,7 @@ public class EquipementImpl implements Equipement {
     /**
      * @return the Slot occupied by the Equipement
      */
+    @Override
     public Slot getSlot() {
         return this.slot;
     }

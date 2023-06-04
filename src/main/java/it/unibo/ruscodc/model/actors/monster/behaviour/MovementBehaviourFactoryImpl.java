@@ -67,28 +67,23 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
         final Room room
     ) {
         final int deltaX = getDeltaX(monster.getPos(), actorPos);
-        final int deltaY = getDeltaY(monster.getPos(), actorPos);
         final Pair<Integer, Integer> monsterPos = monster.getPos();
 
-        if (deltaX > 0) {
-            if (canMove(Pairs.computeLeftPair(monsterPos), actors, room)) {
-                return Optional.of(GameControl.MOVELEFT);
-            }
+        if (deltaX > 0 && canMove(Pairs.computeLeftPair(monsterPos), actors, room)) {
+            return Optional.of(GameControl.MOVELEFT);
         }
-        if (deltaX < 0) {
-            if (canMove(Pairs.computeRightPair(monsterPos), actors, room)) {
-                return Optional.of(GameControl.MOVERIGHT);
-            }
+        if (deltaX < 0 && canMove(Pairs.computeRightPair(monsterPos), actors, room)) {
+            return Optional.of(GameControl.MOVERIGHT);
         }
-        if (deltaY > 0) {
-            if (canMove(Pairs.computeUpPair(monsterPos), actors, room)) {
-                return Optional.of(GameControl.MOVEUP);
-            }
+
+        final int deltaY = getDeltaY(monster.getPos(), actorPos);
+
+        if (deltaY > 0 && canMove(Pairs.computeUpPair(monsterPos), actors, room)) {
+            return Optional.of(GameControl.MOVEUP);
         }
-        if (deltaY < 0) {
-            if (canMove(Pairs.computeDownPair(monsterPos), actors, room)) {
-                return Optional.of(GameControl.MOVEDOWN);
-            }
+
+        if (deltaY < 0 && canMove(Pairs.computeDownPair(monsterPos), actors, room)) {
+            return Optional.of(GameControl.MOVEDOWN);
         }
 
         return Optional.empty();
@@ -133,7 +128,7 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
             public Optional<GameCommand> chooseMove(final Monster monster, final List<Actor> actors, final Room room) {
                 final Pair<Integer, Integer> monsterPos = monster.getPos();
                 final List<Boolean> check = List.of(false, false, false, false);
-                Optional<GameCommand> action = Optional.empty();
+                Optional<GameCommand> action;
                 while (check.contains(false)) {
                     switch (RNG.nextInt(4)) {
                         case 0:
@@ -219,7 +214,7 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
                 }
 
                 return action;
-            };
+            }
         };
     }
 }

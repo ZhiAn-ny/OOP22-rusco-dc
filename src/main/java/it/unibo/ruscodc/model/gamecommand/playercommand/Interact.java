@@ -1,7 +1,8 @@
 package it.unibo.ruscodc.model.gamecommand.playercommand;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.actors.monster.Monster;
@@ -68,12 +69,13 @@ public class Interact extends NoIACommand {
      * 
      */
     @Override
-    public Set<Entity> getEntities() {
+    public List<Entity> getEntities() {
         if (justOpen) {
             reset();
             justOpen = false;
         }
-        final Set<Entity> tmp = this.interactableRange.getRange(this.getActor().getPos(), super.getCursorPos(), this.getRoom());
+        final List<Entity> tmp = new ArrayList<>(
+            this.interactableRange.getRange(this.getActor().getPos(), super.getCursorPos(), this.getRoom()));
         tmp.add(getCursorAsEntity());
         return tmp;
     }
