@@ -36,7 +36,7 @@ public class MonsterImpl extends ActorAbs implements Monster {
     ) {
         super(name, currentPos, skills, stats);
         this.behaviour = behaviour;
-        this.path = "file:src/main/resources/it/unibo/ruscodc/monster_res/" + super.getName();
+        this.path = "it/unibo/ruscodc/monster_res/" + super.getName();
     }
 
     /**

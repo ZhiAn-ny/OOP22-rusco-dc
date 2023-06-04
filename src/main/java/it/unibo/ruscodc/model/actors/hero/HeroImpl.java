@@ -30,7 +30,7 @@ public class HeroImpl extends ActorAbs implements Hero {
     public HeroImpl(final String name, final Pair<Integer, Integer> initialPos, final Skill skills, final Stat stats) {
         super(name, initialPos, skills, stats);
         this.inventory = new InventoryImpl();
-        this.path = "file:src/main/resources/it/unibo/ruscodc/hero_res/" + super.getName();
+        this.path = "it/unibo/ruscodc/hero_res/" + super.getName();
     }
 
     /**

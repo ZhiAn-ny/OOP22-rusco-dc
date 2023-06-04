@@ -22,7 +22,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
         return new ConsumableImpl(
             "Health Potion",
             "A standard healing potion that heals 20% of the user HP",
-            "file:src/main/resources/it/unibo/ruscodc/consumable_res/HP_Potion",
+            "it/unibo/ruscodc/consumable_res/HP_Potion",
             new SingleTargetEffect() {
                 @Override
                 public void applyEffect(final Actor target) {
@@ -43,7 +43,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
         return new ConsumableImpl(
             "Action potion",
             "A standard energetic brew to charge you up",
-            "file:src/main/resources/it/unibo/ruscodc/consumable_res/AP_Potion",
+            "it/unibo/ruscodc/consumable_res/AP_Potion",
             new SingleTargetEffect() {
                 @Override
                 public void applyEffect(final Actor target) {
@@ -64,7 +64,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
         return new ConsumableImpl(
             "Strenght potion",
             "A potion that permanently increase your STR by 1",
-            "file:src/main/resources/it/unibo/ruscodc/consumable_res/STR_Potion",
+            "it/unibo/ruscodc/consumable_res/STR_Potion",
             new SingleTargetEffect() {
                 @Override
                 public void applyEffect(final Actor target) {
@@ -85,7 +85,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
         return new ConsumableImpl(
             "Dexterity potion",
             "A potion that permanently increase your DEX by 1",
-            "file:src/main/resources/it/unibo/ruscodc/consumable_res/DEX_Potion",
+            "it/unibo/ruscodc/consumable_res/DEX_Potion",
             new SingleTargetEffect() {
                 @Override
                 public void applyEffect(final Actor target) {
@@ -106,7 +106,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
         return new ConsumableImpl(
             "Intellect potion",
             "A potion that permanently increase your INT by 1",
-            "file:src/main/resources/it/unibo/ruscodc/consumable_res/INT_Potion",
+            "it/unibo/ruscodc/consumable_res/INT_Potion",
             new SingleTargetEffect() {
                 @Override
                 public void applyEffect(final Actor target) {
@@ -127,7 +127,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
         return new ConsumableImpl(
             "Mega Health potion",
             "A slightly larger healing potion that heals 40% of the user HP",
-            "file:src/main/resources/it/unibo/ruscodc/consumable_res/Mega_HP_Potion",
+            "it/unibo/ruscodc/consumable_res/Mega_HP_Potion",
             new SingleTargetEffect() {
                 @Override
                 public void applyEffect(final Actor target) {
@@ -148,7 +148,7 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
         return new ConsumableImpl(
             "Super Health potion",
             "A large healing potion that heals 60% of the user HP",
-            "file:src/main/resources/it/unibo/ruscodc/consumable_res/Super_HP_Potion",
+            "it/unibo/ruscodc/consumable_res/Super_HP_Potion",
             new SingleTargetEffect() {
                 @Override
                 public void applyEffect(final Actor target) {

@@ -70,7 +70,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Long Sword",
             "That thing was too big to be called a sword. It was more like a large hunk of Iron",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/LongSword",
+            "it/unibo/ruscodc/item_res/LongSword",
             Slot.WEAPON,
             stat,
             new Pair<GameControl, GameCommand>(
@@ -89,7 +89,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Sword and Shield",
             "A simple weapon set from a far away land, where even the smallest fighter can hunt the biggest monster",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/SwordShield",
+            "it/unibo/ruscodc/item_res/SwordShield",
             Slot.WEAPON,
             stat,
             new Pair<GameControl, GameCommand>(
@@ -108,7 +108,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Handbow",
             "A perfect weapon for vampire hunting",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/Handbow",
+            "it/unibo/ruscodc/item_res/Handbow",
             Slot.WEAPON,
             stat,
             new Pair<GameControl, GameCommand>(
@@ -127,7 +127,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Shotgun",
             "You see this? This is my Boomstick!",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/Shotgun",
+            "it/unibo/ruscodc/item_res/Shotgun",
             Slot.WEAPON,
             stat,
             new Pair<GameControl, GameCommand>(
@@ -146,7 +146,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Rocket Hammer",
             "Hammer down!",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/RocketHammer",
+            "it/unibo/ruscodc/item_res/RocketHammer",
             Slot.WEAPON,
             stat,
             new Pair<GameControl, GameCommand>(
@@ -165,7 +165,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Viking Helmet",
             "Oh! You are finally awake!",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/VikingHelmet",
+            "it/unibo/ruscodc/item_res/VikingHelmet",
             Slot.HEAD,
             stat,
             null
@@ -183,7 +183,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Wizard Hat",
             "You are a wizard Harry!",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/WizardHat",
+            "it/unibo/ruscodc/item_res/WizardHat",
             Slot.HEAD,
             stat,
             null
@@ -201,7 +201,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Crusader Helmet",
             "Deus lo Vult!",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/CrusaderHelmet",
+            "it/unibo/ruscodc/item_res/CrusaderHelmet",
             Slot.HEAD,
             stat,
             null
@@ -218,7 +218,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Tunic",
             "100% pure cotton",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/Tunic",
+            "it/unibo/ruscodc/item_res/Tunic",
             Slot.ARMOR,
             stat,
             null
@@ -236,7 +236,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Chainmail",
             "You just got CHAIN-Mailed!",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/Chainmail",
+            "it/unibo/ruscodc/item_res/Chainmail",
             Slot.ARMOR,
             stat,
             null
@@ -254,7 +254,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Leather Armor",
             "I think it is worth 15 emeralds",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/LeatherArmor",
+            "it/unibo/ruscodc/item_res/LeatherArmor",
             Slot.ARMOR,
             stat,
             null
@@ -271,7 +271,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Health Ring",
             "A ring with the shape of an heart",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/HealthRing",
+            "it/unibo/ruscodc/item_res/HealthRing",
             Slot.SPECIAL,
             stat,
             null
@@ -288,7 +288,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Action Ring",
             "A ring made of feathers",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/ActionRing",
+            "it/unibo/ruscodc/item_res/ActionRing",
             Slot.SPECIAL,
             stat,
             null
@@ -305,7 +305,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Strenght Ring",
             "A ring with the shape of a flame",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/StrenghtRing",
+            "it/unibo/ruscodc/item_res/StrenghtRing",
             Slot.SPECIAL,
             stat,
             null
@@ -322,7 +322,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Dexterity Ring",
             "A ring with the shape of a leaf",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/DexterityRing",
+            "it/unibo/ruscodc/item_res/DexterityRing",
             Slot.SPECIAL,
             stat,
             null
@@ -339,7 +339,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Inteligence Ring",
             "A ring with the shape of a harp",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/InteligenceRing",
+            "it/unibo/ruscodc/item_res/InteligenceRing",
             Slot.SPECIAL,
             stat,
             null
@@ -356,7 +356,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         return new EquipementImpl(
             "Ring",
             "A ring",
-            "file:src/main/resources/it/unibo/ruscodc/item_res/Ring",
+            "it/unibo/ruscodc/item_res/Ring",
             Slot.SPECIAL,
             stat,
             null
