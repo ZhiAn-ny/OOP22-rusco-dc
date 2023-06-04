@@ -1,6 +1,8 @@
 package it.unibo.ruscodc.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import it.unibo.ruscodc.model.GameModel;
 
 import java.io.FileWriter;
@@ -14,7 +16,8 @@ public class SaveManagerImpl implements SaveManager{
 
     @Override
     public void saveGame(final String filename, final GameModel toSave) throws Exception {
-        String json = gson.toJson(toSave);
+        
+        String json = gson.toJson(gson.toJsonTree(toSave), new TypeToken<GameModel>(){}.getType());
         try (FileWriter writer = new FileWriter(filename)) {
             writer.write(json);
         }

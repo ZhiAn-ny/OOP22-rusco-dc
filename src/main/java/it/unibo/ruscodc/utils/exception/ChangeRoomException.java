@@ -9,7 +9,7 @@ public class ChangeRoomException extends ModelException {
 
     private static final long serialVersionUID = 7001L;
 
-    private final transient Pair<Integer, Integer> door;
+    private final Pair<Integer, Integer> door;
 
     /**
      * Create this type of exception.
@@ -26,5 +26,7 @@ public class ChangeRoomException extends ModelException {
     public Pair<Integer, Integer> getDoorPos() {
         return door;
     }
+
+    
 
 }
