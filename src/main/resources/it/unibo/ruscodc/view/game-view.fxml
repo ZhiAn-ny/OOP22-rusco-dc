@@ -21,12 +21,12 @@
             <HBox prefHeight="33.0" prefWidth="111.0">
                <children>
                   <Button fx:id="salva" mnemonicParsing="false" onAction="#saveActGame" text="Salva" />
-                  <Button fx:id="esci" onAction="#exit" mnemonicParsing="false" text="Esci" />
+                  <Button fx:id="esci" mnemonicParsing="false" onAction="#exit" text="Esci" />
                </children>
             </HBox>
             <HBox prefHeight="29.0" prefWidth="111.0">
                <children>
-                  <CheckBox onAction="#changeAutomaticSave" mnemonicParsing="false" text="Salvataggio automatico" />
+                  <CheckBox mnemonicParsing="false" onAction="#changeAutomaticSave" text="Salvataggio automatico" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
@@ -88,12 +88,6 @@
             </HBox>
             <HBox prefHeight="21.0" prefWidth="155.0">
                <children>
-                  <Label prefHeight="18.0" prefWidth="47.0" text="P" />
-                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="PAUSE" />
-               </children>
-            </HBox>
-            <HBox prefHeight="21.0" prefWidth="155.0">
-               <children>
                   <Label prefHeight="18.0" prefWidth="47.0" text="F" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="INTERACT" />
                </children>
@@ -106,7 +100,7 @@
             </HBox>
             <HBox prefHeight="21.0" prefWidth="155.0">
                <children>
-                  <Label prefHeight="18.0" prefWidth="65.0" text="SPAZIO" />
+                  <Label prefHeight="18.0" prefWidth="65.0" text="BACK" />
                   <Label alignment="CENTER" prefHeight="18.0" prefWidth="80.0" text="DELETE" />
                </children>
             </HBox>

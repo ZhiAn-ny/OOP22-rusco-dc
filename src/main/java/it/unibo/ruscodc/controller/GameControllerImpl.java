@@ -136,6 +136,7 @@ public class GameControllerImpl implements GameObserverController {
             final InfoPayload err = new InfoPayloadImpl(
                     "Error during saving of the file",
                     "Maybe your memory is full?");
+            e.printStackTrace();
             this.view.printInfo(err);
         }
     }

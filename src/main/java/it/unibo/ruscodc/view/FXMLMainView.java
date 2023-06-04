@@ -259,7 +259,6 @@ public class FXMLMainView extends Application implements GameView {
             case S -> GameControl.MOVEDOWN;
             case D -> GameControl.MOVERIGHT;
             case I -> GameControl.INVENTORY;
-            case P -> GameControl.PAUSE;
             case F -> GameControl.INTERACT;
             case ESCAPE -> GameControl.CANCEL;
             case C -> GameControl.CONFIRM;
