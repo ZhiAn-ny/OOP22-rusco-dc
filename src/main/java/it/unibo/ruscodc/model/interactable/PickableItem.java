@@ -14,8 +14,6 @@ import java.util.Set;
  */
 public abstract class PickableItem extends InteractableAbs {
 
-    private static final long serialVersionUID = 3005L;
-
     private final Set<Item> loot;
 
     /**

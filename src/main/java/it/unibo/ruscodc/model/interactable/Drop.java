@@ -10,7 +10,6 @@ import java.util.Set;
  */
 public class Drop extends PickableItem {
 
-    private static final long serialVersionUID = 3002L;
     private static final String NAME = "drop";
 
     /**
@@ -27,11 +26,11 @@ public class Drop extends PickableItem {
      */
     @Override
     public String getPath() {
-        return "file:src/main/resources/it/unibo/ruscodc/pickable_item/drop";
+        return "it/unibo/ruscodc/pickable_item/drop";
     }
 
     /**
-     * 
+     *
      */
     @Override
     public boolean isTransitable() {
@@ -39,7 +38,7 @@ public class Drop extends PickableItem {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public String getName() {

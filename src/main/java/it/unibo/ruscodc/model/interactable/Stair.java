@@ -10,8 +10,6 @@ import it.unibo.ruscodc.utils.Pair;
  */
 public class Stair extends InteractableAbs {
 
-    private static final long serialVersionUID = 3006L;
-
     private final String name;
 
    /**
@@ -30,7 +28,7 @@ public class Stair extends InteractableAbs {
      */
     @Override
     public String getPath() {
-        return "file:src/main/resources/it/unibo/ruscodc/map_res/StairTile";
+        return "it/unibo/ruscodc/map_res/StairTile";
     }
 
     /**
