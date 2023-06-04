@@ -203,7 +203,7 @@ public class FXMLMainView extends Application implements GameView {
     private Scene loadGameOver() throws IOException {
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("game-over.fxml"));
         final Scene scene = new Scene(fxmlLoader.load());
-        handleWindowSize(stage, scene);
+        //handleWindowSize(stage, scene);
         final GameOverController gameOverController = (GameOverController) fxmlLoader.getController();
         gameOverController.init(this);
         // this.gameOverController = (GameOverController) fxmlLoader.getController();
@@ -225,7 +225,8 @@ public class FXMLMainView extends Application implements GameView {
     private void handleEvents(final Stage stage) {
         stage.setOnCloseRequest(event -> {
             //try {
-                Platform.exit();
+                System.exit(0);
+                //Platform.exit();
             //} catch (IllegalStateException e) {
                 // Yes.
             //}
