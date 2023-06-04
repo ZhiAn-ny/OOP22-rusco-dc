@@ -21,6 +21,7 @@ import javafx.scene.text.FontWeight;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -45,12 +46,12 @@ public class GameViewController implements Initializable {
     private boolean isToUpdate;
 
     private int lastRenderingLevelGame;
-    private final Map<Integer, List<FXMLDrawable>> renderedGame = new HashMap<>();
+    private final Map<Integer, List<DrawableImpl<ImageView>>> renderedGame = new HashMap<>();
 
     private boolean isShowingInv;
 
     private int lastRenderingLevelInv;
-    private final Map<Integer, List<FXMLDrawable>> renderedInv = new HashMap<>();
+    private final Map<Integer, List<DrawableImpl<ImageView>>> renderedInv = new HashMap<>();
 
     private int upperBound;
 
@@ -94,7 +95,7 @@ public class GameViewController implements Initializable {
      */
     private void updateDefinedGrid(
             final GridPane toUpload,
-            final Map<Integer, List<FXMLDrawable>> infos,
+            final Map<Integer, List<DrawableImpl<ImageView>>> infos,
             final int lastRendering) {
         if (!isToUpdate) {
             return;
@@ -186,13 +187,13 @@ public class GameViewController implements Initializable {
      * @param entities list of entities to upload
      */
     public void updateEntities(final List<Entity> entities) {
-        final Map<Integer, List<FXMLDrawable>> toUpdate =
+        final Map<Integer, List<DrawableImpl<ImageView>>> toUpdate =
                 entities.stream()
                         .collect(Collectors.toMap(
                                 e -> e.getID(),
                                 e -> new LinkedList<>(
                                         List.of(
-                                                new FXMLDrawable(
+                                                new DrawableImpl<>(
                                                         new ImageView(new Image(e.getPath() + "/Sprite.png")),
                                                         e.getPos()))),
                                 (l1, l2) -> {
@@ -292,7 +293,7 @@ public class GameViewController implements Initializable {
      * @param view the view-controller
      */
     public void init(final FXMLMainView view) {
-        this.mainView = view;
+        this.mainView = Collections.nCopies(1, view).get(0);
     }
 
     /**

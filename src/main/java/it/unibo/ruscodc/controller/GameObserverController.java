@@ -1,6 +1,5 @@
 package it.unibo.ruscodc.controller;
 
-
 import it.unibo.ruscodc.utils.GameControl;
 
 /**
@@ -47,14 +46,14 @@ public interface GameObserverController {
 
     /**
      * Asset a new Model.
-     * @param filename
+     * @param filename the file name where will save game
      */
     void initNewGame(String filename);
 
     /**
      * Asset Model taking info by a file.
-     * @param filename
-     * @throws Exception
+     * @param filename the file name where take infos
+     * @throws Exception if opening and reading of the file don't finish correctly
      */
-    void loadGame(String filename) throws Exception;
+    void loadGame(String filename);
 }

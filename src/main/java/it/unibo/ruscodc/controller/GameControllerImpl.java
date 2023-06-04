@@ -15,7 +15,6 @@ import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.view.FXMLMainView;
 import it.unibo.ruscodc.view.GameView;
 
-import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ import java.util.function.Supplier;
 public class GameControllerImpl implements GameObserverController {
 
     private static final Supplier<String> STANDARD_NAME = () -> {
-        var t = ZonedDateTime.now();
+        final var t = ZonedDateTime.now();
         return "Game_of_"
                 + t.getYear() + "_"
                 + t.getMonth() + "_"
@@ -237,11 +236,7 @@ public class GameControllerImpl implements GameObserverController {
     public void computeInput(final GameControl input) {
         updateRuscoInfo();
         if (model.isGameOver()) {
-            try {
-                view.printGameOver();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            view.printGameOver();
             return;
         }
         initNewTurn();

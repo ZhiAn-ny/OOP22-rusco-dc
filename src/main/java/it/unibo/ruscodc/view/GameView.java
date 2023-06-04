@@ -6,7 +6,6 @@ import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.utils.Pair;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -24,13 +23,6 @@ public interface GameView {
      * @param ctrl the controller that will communicate with the view
      */
     void init(GameObserverController ctrl);
-
-    /**
-     * Start the view for a new game.
-     * @param gameName //TODO non servo!
-     * @throws IOException //TODO non servo!
-     */
-    void startNewGame(String gameName) throws IOException;
 
     /**
      * Advise the controller if the view is ready to be showed.
@@ -79,7 +71,7 @@ public interface GameView {
     /**
      * Print to the view the gameover view.
      */
-    void printGameOver() throws IOException;
+    void printGameOver();
 
     /**
      * Open the inventory view.

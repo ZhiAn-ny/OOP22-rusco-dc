@@ -1,12 +1,12 @@
 package it.unibo.ruscodc.view;
 
+import java.net.URL;
+import java.util.Collections;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * This class manage the game over screen.
@@ -24,7 +24,7 @@ public class GameOverController implements Initializable {
      * @param mainView for initialization.
      */
     public void init(final FXMLMainView mainView) {
-        this.mainView = mainView;
+        this.mainView = Collections.nCopies(1, mainView).get(0);
     }
 
 

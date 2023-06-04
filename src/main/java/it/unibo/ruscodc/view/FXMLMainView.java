@@ -17,12 +17,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.io.IOException;
-import java.util.concurrent.ExecutorCompletionService;
-import java.util.concurrent.ExecutorService;
 
 /**
  * This class is used to see which entities have changed their position or,
@@ -37,10 +35,10 @@ public class FXMLMainView extends Application implements GameView {
     private static final double ASPECT_RATIO = 3 / 4.;
     private static final double MIN_WIDTH_SCALE = 0.4;
     private GameObserverController controller;
-    
+
     private GameViewController gameView;
     private MainMenuController menuController;
-    private GameOverController gameOverController;
+    //private GameOverController gameOverController;
 
     private final List<Entity> printedEntity = new ArrayList<>();
     private boolean isReady;
@@ -71,20 +69,20 @@ public class FXMLMainView extends Application implements GameView {
     }
 
     /**
-     * 
+     * Init a new game.
+     * @param filename the name of the file where the saves will take place
      */
-    @Override
-    public void startNewGame(final String gameName) {
+    public void startNewGame(final String filename) {
         Scene scene;
         try {
             scene = this.loadGameView();
         } catch (IOException e) {
-            printInfo( new InfoPayloadImpl(
+            printInfo(new InfoPayloadImpl(
                 GLOBAL_ERR_TITLE, 
                 "Cannot load main menu view"));
             return;
         }
-        this.controller.initNewGame(gameName);
+        this.controller.initNewGame("");
         stage.setScene(scene);
     }
 
@@ -144,7 +142,7 @@ public class FXMLMainView extends Application implements GameView {
         try {
             scene = this.loadMainMenu();
         } catch (IOException e) {
-            printInfo( new InfoPayloadImpl(
+            printInfo(new InfoPayloadImpl(
                 GLOBAL_ERR_TITLE, 
                 "Cannot load main menu view"));
             return;
@@ -165,7 +163,7 @@ public class FXMLMainView extends Application implements GameView {
     /** {@inheritDoc} */
     @Override
     public void start(final Stage stage) {
-        this.stage = stage;
+        this.stage = Collections.nCopies(1, stage).get(0);
         showMainMenu();
     }
 
@@ -206,8 +204,10 @@ public class FXMLMainView extends Application implements GameView {
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("game-over.fxml"));
         final Scene scene = new Scene(fxmlLoader.load());
         handleWindowSize(stage, scene);
-        this.gameOverController = (GameOverController) fxmlLoader.getController();
-        this.gameOverController.init(this);
+        final GameOverController gameOverController = (GameOverController) fxmlLoader.getController();
+        gameOverController.init(this);
+        // this.gameOverController = (GameOverController) fxmlLoader.getController();
+        // this.gameOverController.init(this);
         gameOverController.backToMenu();
         return scene;
     }
@@ -224,11 +224,11 @@ public class FXMLMainView extends Application implements GameView {
 
     private void handleEvents(final Stage stage) {
         stage.setOnCloseRequest(event -> {
-            try {
+            //try {
                 Platform.exit();
-            } catch (IllegalStateException e) {
+            //} catch (IllegalStateException e) {
                 // Yes.
-            }
+            //}
         });
     }
 

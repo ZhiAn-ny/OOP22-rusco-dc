@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 /**
@@ -40,7 +41,7 @@ public class MainMenuController implements Initializable {
      * @param mainView for initialization
      */
     public void init(final FXMLMainView mainView) {
-        this.mainView = mainView;
+        this.mainView = Collections.nCopies(1, mainView).get(0);
     }
 
 
