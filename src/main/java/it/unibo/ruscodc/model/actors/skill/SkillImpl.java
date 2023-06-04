@@ -50,4 +50,12 @@ public class SkillImpl implements Skill {
         return this.skills.get(key);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder info = new StringBuilder();
+        for (GameControl gameCommand : GameControl.getAttackControls()) {
+            info.append(gameCommand.toString() + this.skills.get(gameCommand).get().toString());
+        }
+        return info.toString();
+    }
 }

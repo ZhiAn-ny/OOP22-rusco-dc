@@ -178,6 +178,7 @@ public class GameViewController implements Initializable {
 
         System.out.println(maxDimension + "****************************************************");
         System.out.println("cols: " + this.cols + " rows: " + this.rows);
+        System.out.println("binding: " + binding);
         return binding;
     }
 
@@ -206,6 +207,7 @@ public class GameViewController implements Initializable {
      */
     @FXML
     public void initialize(final URL location, final ResourceBundle resources) {
+        this.invPane.toBack();
         this.gameloop();
     }
 

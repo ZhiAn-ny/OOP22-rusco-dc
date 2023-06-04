@@ -150,9 +150,6 @@
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
                         <GridPane fx:id="inventoryGrid" alignment="CENTER" gridLinesVisible="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #4e533d;" BorderPane.alignment="CENTER">
-                           <padding>
-                              <Insets bottom="5.0" left="1.0" />
-                           </padding>
                            <columnConstraints>
                               <ColumnConstraints />
                               <ColumnConstraints />

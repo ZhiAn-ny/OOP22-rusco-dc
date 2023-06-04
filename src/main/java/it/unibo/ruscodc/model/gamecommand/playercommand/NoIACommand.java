@@ -4,7 +4,9 @@ import java.util.List;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamecommand.ComplexActionAbs;
+import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
+import it.unibo.ruscodc.utils.Pairs;
 
 /**
  * All command that
@@ -18,7 +20,10 @@ public abstract class NoIACommand extends ComplexActionAbs {
 
     private static final String CURSOR_PATH = "file:src/main/resources/it/unibo/ruscodc/range_res/cursor";
     private static final int CURSOR_DEPTH = 6;
-
+    private boolean isReady; // = false;
+    private boolean undo; // = false;
+    private Pair<Integer, Integer> cursorPos;
+    
 
     /**
      * 
@@ -52,6 +57,14 @@ public abstract class NoIACommand extends ComplexActionAbs {
         throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 
+     /**
+     * 
+     */
+    @Override
+    public boolean isReady() {
+        return isReady;
+    }
+
     /**
      * Identify the path of the cursor's image.
      * @return cursor's image's path, coded as String
@@ -66,6 +79,51 @@ public abstract class NoIACommand extends ComplexActionAbs {
      */
     protected int getCursorDepth() {
         return CURSOR_DEPTH;
+    }
+
+    private boolean commonMoveCursor(final Pair<Integer, Integer> newPos) {
+        //System.out.println(newPos);
+        if (this.getRoom().isInRoom(newPos)) {
+            cursorPos = newPos;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 
+     */
+    protected boolean commonModify(final GameControl input) {
+        boolean mustUpdate = true;
+        switch (input) {
+            case MOVEUP: mustUpdate = commonMoveCursor(Pairs.computeUpPair(cursorPos)); break;
+            case MOVEDOWN: mustUpdate = commonMoveCursor(Pairs.computeDownPair(cursorPos)); break;
+            case MOVELEFT: mustUpdate = commonMoveCursor(Pairs.computeLeftPair(cursorPos)); break;
+            case MOVERIGHT: mustUpdate = commonMoveCursor(Pairs.computeRightPair(cursorPos)); break;
+            case CONFIRM: isReady = true; mustUpdate = false; break;
+            case CANCEL: isReady = true; undo = true; mustUpdate = false; break;
+            default: mustUpdate = false;
+        }
+        return mustUpdate;
+    }
+
+    protected boolean mustAbortCommand() {
+        return undo;
+    }
+
+    protected Pair<Integer, Integer> getCursorPos() {
+        return cursorPos;
+    }
+
+    protected void reset() {
+        cursorPos = this.getActor().getPos();
+        undo = false;
+        isReady = false;
+    }
+
+    protected void attempCommand() {
+        this.isReady = false;
     }
 
 }

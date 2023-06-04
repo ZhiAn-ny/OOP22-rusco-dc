@@ -6,25 +6,16 @@ import it.unibo.ruscodc.model.actors.hero.HeroImpl;
 import it.unibo.ruscodc.model.actors.hero.HeroSkill;
 import it.unibo.ruscodc.model.actors.hero.HeroStat;
 import it.unibo.ruscodc.model.actors.monster.Monster;
-import it.unibo.ruscodc.model.actors.monster.MonsterActionFactory;
-import it.unibo.ruscodc.model.actors.monster.MonsterActionFactoryImpl;
 import it.unibo.ruscodc.model.actors.skill.Skill;
-import it.unibo.ruscodc.model.actors.skill.SkillImpl;
 import it.unibo.ruscodc.model.actors.stat.Stat;
-import it.unibo.ruscodc.model.actors.stat.StatFactory;
-import it.unibo.ruscodc.model.actors.stat.StatFactoryImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.gamecommand.playercommand.Interact;
-import it.unibo.ruscodc.model.gamecommand.playercommand.PlayerAttack;
 import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.FloorImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.model.outputinfo.PortraitImpl;
-import it.unibo.ruscodc.model.range.SingleRange;
-import it.unibo.ruscodc.model.range.SingleSplash;
-import it.unibo.ruscodc.model.range.SquareRange;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
@@ -42,7 +33,7 @@ public class GameModelImpl implements GameModel {
     private int nFloorsExplored;
     private Floor floor;
     private final Hero hero;
-    private final Pair<Integer, Integer> initialPosition = new Pair<Integer, Integer>(3, 3);
+    private final Pair<Integer, Integer> initialPosition = new Pair<>(3, 3);
 
     /**
      * Class constructor.
@@ -52,8 +43,6 @@ public class GameModelImpl implements GameModel {
         this.floor = new FloorImpl(this.nFloorsExplored);
         final Skill skills = new HeroSkill();
         final Stat stats = new HeroStat();
-        //skills.setAction(GameControl.ATTACK1, monsterActionFactory.basicMeleeAttack());
-        //skills.setAction(GameControl.ATTACK2, monsterActionFactory.heavyMeleeAttack());
         skills.setAction(GameControl.INTERACT, new Interact());
         this.hero = new HeroImpl("Rusco", this.initialPosition, skills, stats);
     }
@@ -68,9 +57,9 @@ public class GameModelImpl implements GameModel {
      */
     @Override
     public List<Actor> getActorByInitative() {
-        List<Actor> list = new ArrayList<>();
+        final List<Actor> list = new ArrayList<>();
         list.add(hero);
-        List<Monster> monsters = this.getCurrentRoom().getMonsters();
+        final List<Monster> monsters = this.getCurrentRoom().getMonsters();
         list.addAll(monsters);
         list.sort(Comparator.comparingInt(a -> a.getStatActual(StatName.DEX)));
         return list;
@@ -93,7 +82,7 @@ public class GameModelImpl implements GameModel {
     @Override
     public List<Entity> getInfo(final Entity toGet) {
         if (toGet instanceof Hero) {
-            return getParty().stream().map(A -> (Entity) A).toList();
+            return getParty().stream().map(a -> (Entity) a).toList();
         }
         return List.of();
     }
@@ -115,7 +104,7 @@ public class GameModelImpl implements GameModel {
         final Direction dir = this.getDoorDirection(pos.getX(), pos.getY());
         this.floor.goToRoom(dir);
 
-        Optional<Interactable> door = this.floor.getCurrentRoom()
+        final Optional<Interactable> door = this.floor.getCurrentRoom()
                                           .getDoorOnSide(dir.getOpposite());
         if (door.isEmpty()) {
             throw new IllegalStateException("Door not found");

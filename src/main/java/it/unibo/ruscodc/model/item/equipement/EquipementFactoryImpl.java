@@ -286,7 +286,7 @@ public class EquipementFactoryImpl implements EquipementFactory {
         Map<StatName, Integer> stat = new HashMap<>();
         stat.put(StatName.AP, ACTION_RING_AP);
         return new EquipementImpl(
-            "Actio Ring",
+            "Action Ring",
             "A ring made of feathers",
             "file:src/main/resources/it/unibo/ruscodc/item_res/ActionRing",
             Slot.SPECIAL,

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
-import it.unibo.ruscodc.model.actors.Actor;
+import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.item.equipement.Equipement;
 
 /**
@@ -45,6 +47,9 @@ public class InventoryImpl implements Inventory {
     public InventoryImpl() {
         this.bag = new ArrayList<>();
         this.equipement = new HashMap<>();
+        for (Slot slot : Slot.values()) {
+            equipement.put(slot, null);
+        }
     }
 
     /**
@@ -64,17 +69,20 @@ public class InventoryImpl implements Inventory {
             .entrySet()
             .stream()
             .map(a -> a.getValue())
-            .toList();
+            .collect(Collectors.toList());
     }
 
     /**
      * 
      */
     @Override
-    public void equip(final Equipement equip, final Actor actor) {
-        this.equipement.get(equip.getSlot()).unequip(actor);
+    public void equip(final Equipement equip, final Hero hero) {
+        Equipement toUnequip = this.equipement.get(equip.getSlot());
+        if (toUnequip != null) {
+            toUnequip.unequip(hero);
+        }
         this.equipement.put(equip.getSlot(), equip);
-        equip.equip(actor);
+        equip.equip(hero);
     }
 
     /**

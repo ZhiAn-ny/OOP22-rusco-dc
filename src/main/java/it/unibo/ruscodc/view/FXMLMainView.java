@@ -144,26 +144,21 @@ public class FXMLMainView extends Application implements GameView {
     private void showMainMenu() throws IOException {
         final Scene scene = this.loadMainMenu();
         //this.handleWindowSize(stage, scene);
-    }
 
-    // public void start(final Stage stage) throws Exception {
-    //     System.out.println("FXMLMainView start");
-    //     final Scene scene = this.loadGameView();
-    //     this.handleWindowSize(stage, scene);
-    //     this.handleEvents(stage);
-    //     // this.handleUserInputs(scene);
+         this.handleEvents(stage);
+         // this.handleUserInputs(scene);
 
 
-    //     //stage.setFullScreen(true);
-    //     stage.setTitle(this.title);
-    //     stage.getIcons().add(new Image(this.iconPath));
-    //     stage.setScene(scene);
-    //     stage.setUserData(this.controller);
+         //stage.setFullScreen(true);
+         stage.setTitle(this.title);
+         stage.getIcons().add(new Image(this.iconPath));
+         stage.setScene(scene);
+         stage.setUserData(this.controller);
 
-    //     this.isReady = true;
-    //     stage.show();
-    //     this.menuController.setLayout();
-    // }
+         this.isReady = true;
+         stage.show();
+         this.menuController.setLayout();
+     }
 
     /** {@inheritDoc} */
     @Override
@@ -181,10 +176,10 @@ public class FXMLMainView extends Application implements GameView {
         final double scale = 2 / 3.;
         final double width = screenSize.getWidth() * scale;
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("menu-iniziale.fxml"));
-        fxmlLoader.setController(new MainMenuController());
+        //fxmlLoader.setController(new MainMenuController());
         final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
-        this.gameView = (GameViewController) fxmlLoader.getController();
-
+        this.menuController = (MainMenuController) fxmlLoader.getController();
+        this.menuController.init(this);
         return scene;
     }
 
@@ -211,7 +206,6 @@ public class FXMLMainView extends Application implements GameView {
         this.gameView.updateEntities(this.printedEntity);
         this.gameView.update();
         this.gameView.clearInfoPalyodToScreen();
-
         return scene;
     }
 
@@ -220,7 +214,7 @@ public class FXMLMainView extends Application implements GameView {
         final Scene scene = new Scene(fxmlLoader.load());
         this.gameOverController = (GameOverController) fxmlLoader.getController();
         this.gameOverController.init(this);
-        //gameOverController.backToMenu();
+        gameOverController.backToMenu();
         return scene;
     }
 
