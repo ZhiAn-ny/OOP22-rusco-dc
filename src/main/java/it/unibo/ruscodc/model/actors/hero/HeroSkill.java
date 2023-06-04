@@ -11,26 +11,51 @@ import it.unibo.ruscodc.model.gamecommand.quickcommand.DoNothing;
 import it.unibo.ruscodc.model.gamecommand.quickcommand.SelfEffect;
 import it.unibo.ruscodc.model.range.CircleRange;
 import it.unibo.ruscodc.model.range.GlobalRange;
+import it.unibo.ruscodc.model.range.Range;
 import it.unibo.ruscodc.model.range.SingleRange;
 import it.unibo.ruscodc.model.range.SingleSplash;
 import it.unibo.ruscodc.model.range.SquareRange;
 import it.unibo.ruscodc.utils.GameControl;
 
+/**
+ * Custom extension of SkillImpl used to create the Hero skill set.
+ */
 public class HeroSkill extends SkillImpl {
-    
-    public HeroSkill(){
+    private static final int BASEATTACK_AP = 0;
+    private static final Range BASEATTACK_RANGE = new SquareRange(1, new SingleRange());
+    private static final Range BASEATTACK_SPLASH = new SingleSplash();
+
+    private static final int ATTACK1_AP = 3;
+    private static final Range ATTACK1_RANGE = new SquareRange(1, new SingleRange());
+    private static final Range ATTACK1_SPLASH = new SingleSplash();
+
+    private static final int ATTACK2_AP = 1;
+    private static final Range ATTACK2_RANGE = new GlobalRange(new SingleRange());
+    private static final Range ATTACK2_SPLASH = new SingleSplash();
+
+    private static final int ATTACK3_AP = 5;
+    private static final float ATTACK3_PERCENT = 20 / 100;
+
+    private static final int ATTACK4_AP = 10;
+    private static final Range ATTACK4_RANGE = new GlobalRange(new SingleRange());
+    private static final Range ATTACK4_SPLASH = new CircleRange(2, new SingleSplash());
+
+    /**
+     * Custom constructor that instaciate the Hero skills.
+     */
+    public HeroSkill() {
         super();
 
         super.setAction(
             GameControl.BASEATTACK,
             new PlayerAttack(
-                new SquareRange(1, new SingleRange()),
-                new SingleSplash(),
-                new EffectAbs(0) {
+                BASEATTACK_RANGE,
+                BASEATTACK_SPLASH,
+                new EffectAbs(BASEATTACK_AP) {
                     @Override
-                    public void applyEffect(Actor from, Actor to) {
-                        int damage = from.getStatActual(StatName.DMG);
-                        to.modifyActualStat(StatName.HP, - damage);
+                    public void applyEffect(final Actor from, final Actor to) {
+                        final int damage = from.getStatActual(StatName.DMG);
+                        to.modifyActualStat(StatName.HP, -damage);
                     }
 
                     @Override
@@ -44,13 +69,13 @@ public class HeroSkill extends SkillImpl {
         super.setAction(
             GameControl.ATTACK1,
             new PlayerAttack(
-                new SquareRange(1, new SingleRange()),
-                new SingleSplash(),
-                new EffectAbs(3) {
+                ATTACK1_RANGE,
+                ATTACK1_SPLASH,
+                new EffectAbs(ATTACK1_AP) {
                     @Override
-                    public void applyEffect(Actor from, Actor to) {
-                        int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
-                        to.modifyActualStat(StatName.HP, - damage);
+                    public void applyEffect(final Actor from, final Actor to) {
+                        final int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
+                        to.modifyActualStat(StatName.HP, -damage);
                     }
 
                     @Override
@@ -64,13 +89,13 @@ public class HeroSkill extends SkillImpl {
         super.setAction(
             GameControl.ATTACK2,
             new PlayerAttack(
-                new GlobalRange(new SingleRange()),
-                new SingleSplash(),
-                new EffectAbs(0) {
+                ATTACK2_RANGE,
+                ATTACK2_SPLASH,
+                new EffectAbs(ATTACK2_AP) {
                     @Override
-                    public void applyEffect(Actor from, Actor to) {
-                        int damage = from.getStatActual(StatName.DEX);
-                        to.modifyActualStat(StatName.HP, - damage);
+                    public void applyEffect(final Actor from, final Actor to) {
+                        final int damage = from.getStatActual(StatName.DEX);
+                        to.modifyActualStat(StatName.HP, -damage);
                     }
 
                     @Override
@@ -84,21 +109,21 @@ public class HeroSkill extends SkillImpl {
         super.setAction(
             GameControl.ATTACK3,
             new SelfEffect(
-                a -> a.modifyActualStat(StatName.HP, a.getStatMax(StatName.HP) * 20 / 100),
-                5
+                a -> a.modifyActualStat(StatName.HP, (int) (a.getStatMax(StatName.HP) * ATTACK3_PERCENT)),
+                ATTACK3_AP
             )
         );
 
         super.setAction(
             GameControl.ATTACK4,
             new PlayerAttack(
-                new GlobalRange( new SingleRange()),
-                new CircleRange(2, new SingleSplash()),
-                new EffectAbs(8) {
+                ATTACK4_RANGE,
+                ATTACK4_SPLASH,
+                new EffectAbs(ATTACK4_AP) {
                     @Override
-                    public void applyEffect(Actor from, Actor to) {
-                        int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
-                        to.modifyActualStat(StatName.HP, - damage);
+                    public void applyEffect(final Actor from, final Actor to) {
+                        final int damage = from.getStatActual(StatName.DMG) + from.getStatActual(StatName.STR);
+                        to.modifyActualStat(StatName.HP, -damage);
                     }
 
                     @Override

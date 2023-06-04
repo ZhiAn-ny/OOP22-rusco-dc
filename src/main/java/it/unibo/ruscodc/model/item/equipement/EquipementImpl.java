@@ -13,6 +13,9 @@ import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 
+/**
+ * Implementation of the interface Equipement.
+ */
 public class EquipementImpl implements Equipement {
 
     private final String name;
@@ -22,14 +25,22 @@ public class EquipementImpl implements Equipement {
     private final Optional<Pair<GameControl, GameCommand>> action;
     private final InfoPayload info;
 
-    
+    /**
+     * Constructor for Equipement
+     * @param name of the Equipement
+     * @param description of the Equipement
+     * @param path to the Equipement related info
+     * @param slot of the Equipement
+     * @param stat modified by the Equipement
+     * @param action changed by Equipement
+     */
     public EquipementImpl(
-        String name,
-        String description,
-        String path,
-        Slot slot,
-        Map<StatName, Integer> stat,
-        Pair<GameControl, GameCommand> action
+        final String name,
+        final String description,
+        final String path,
+        final Slot slot,
+        final Map<StatName, Integer> stat,
+        final Pair<GameControl, GameCommand> action
         ) {
             this.name = name;
             this.path = path;
@@ -39,6 +50,14 @@ public class EquipementImpl implements Equipement {
             this.info = new InfoPayloadImpl(name, description, path);
     }
     
+    /**
+     * Alternative Constructor for Equipement
+     * @param name of the Equipement
+     * @param description of the Equipementn
+     * @param path to the Equipement related info
+     * @param slot of the Equipement
+     * @param stat modified by the Equipement
+     */
     public EquipementImpl(
             final String name,
             final String description,
@@ -57,28 +76,28 @@ public class EquipementImpl implements Equipement {
     }
 
     /**
-     * 
+     * @return if the item is Wearable
      */
     public boolean isWearable() {
         return true;
     }
 
     /**
-     * 
+     * @return the Name of the Equipement
      */
     public String getName() {
         return this.name;
     }
 
     /**
-     * 
+     * @return the Path related to the Equipement information
      */
     public String getPath() {
         return this.path;
     }
 
     /**
-     * 
+     * @return return the InfoPayload of the Equipement
      */
     public InfoPayload getInfo() {
         return this.info;
@@ -98,12 +117,12 @@ public class EquipementImpl implements Equipement {
             hero.getSkills().setAction(action.get().getX(), action.get().getY());
         }
 
-        Inventory inventory = hero.getInventory();
+        final Inventory inventory = hero.getInventory();
         inventory.removeItem(inventory.getAllItems().indexOf(this));
     }
 
     /**
-     * @param actor the actor that needs to unequip the item
+     * @param hero the Hero that needs to unequip the item
      */
     public void unequip(final Hero hero) {
         this.stat
