@@ -1,6 +1,6 @@
 package it.unibo.ruscodc.model.gamecommand.iacommand;
 
-import java.util.Set;
+import java.util.List;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.model.gamecommand.ComplexActionAbs;
@@ -28,7 +28,7 @@ public abstract class NoPlayerCommand extends ComplexActionAbs {
      * 
      */
     @Override
-    public Set<Entity> getEntities() {
+    public List<Entity> getEntities() {
         throw new UnsupportedOperationException(this.getGlobalErrMess());
     }
 

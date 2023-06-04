@@ -1,6 +1,6 @@
 package it.unibo.ruscodc.model.gamecommand;
 
-import java.util.Set;
+import java.util.List;
 
 import it.unibo.ruscodc.model.Entity;
 import it.unibo.ruscodc.utils.GameControl;
@@ -28,5 +28,5 @@ public interface HandlebleGameCommand {
      * An iterable collection of thing to be printed, updated at the actual moment.
      * @return an Iterator of some {@code}Entity{@code}
      */
-    Set<Entity> getEntities();
+    List<Entity> getEntities();
 } 
