@@ -53,9 +53,8 @@ public class GameControllerImpl implements GameObserverController {
 
     /**
      * Create the controller of the game.
-     * @param args
      */
-    public GameControllerImpl(final String... args) {
+    public GameControllerImpl() {
         this.view = new FXMLMainView();
     }
 
@@ -113,7 +112,7 @@ public class GameControllerImpl implements GameObserverController {
     /** {@inheritDoc} */
     @Override
     public void start() {
-        showMainMenu();
+        this.showMainMenu();
     }
 
     /** {@inheritDoc} */
@@ -289,7 +288,7 @@ public class GameControllerImpl implements GameObserverController {
     /** {@inheritDoc} */
     @Override
     public void quit() {
-        System.exit(0);
+
     }
 
     /**
