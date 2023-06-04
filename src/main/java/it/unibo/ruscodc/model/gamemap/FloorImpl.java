@@ -124,9 +124,4 @@ public class FloorImpl implements Floor, Serializable {
         this.roomFactory.addMonsters(base, this.floorNum);
     }
 
-    /** {@inheritDoc} */
-    @Override
-    public String toString() {
-        return "FLOOR: " + this.floorNum + "\nUNUSED DOORS: " + this.unusedDoors;
-    }
 }

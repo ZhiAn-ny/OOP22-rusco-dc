@@ -48,11 +48,4 @@ public class FloorPuddleTileImpl extends FloorTileImpl {
     public String getPath() {
         return super.getPath() + "/puddle";
     }
-
-
-    /** {@inheritDoc} */
-    @Override
-    public String toString() {
-        return "[o]";
-    }
 }

@@ -91,7 +91,7 @@ public class RectangleRoomImpl implements Room, Serializable {
 
         // Items do not represent an obstacle to movement therefore,
         // monsters can be placed on top of an occupied Tile
-        if (tile == null || (tile.get().isPresent() && !tile.get().get().isTransitable())) {
+        if (tile == null || tile.get().isPresent() && !tile.get().get().isTransitable()) {
             return  false;
         }
         this.monsters.add(monster);
@@ -331,31 +331,6 @@ public class RectangleRoomImpl implements Room, Serializable {
                 })
                 .map(Tile::getPosition).toList();
         this.monsters.removeIf(m -> positions.contains(m.getPos()));
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String toString() {
-        final StringBuilder str = new StringBuilder("size: " + this.size.getX() + ", " + this.size.getY() + "\n");
-        for (int y = 0; y < this.size.getY() + 2; y++) {
-            for (int x = 0; x < this.size.getX() + 2; x++) {
-                final Tile t = this.get(new Pair<>(x, y)).orElse(null);
-                if (t == null) {
-                    str.append("NIL");
-                    continue;
-                }
-                final String tileStr = t.toString();
-                if (t.get().isPresent()) {
-                    str.append(tileStr);
-                } else if (this.monsters.stream().anyMatch(m -> m.getPos().equals(t.getPosition()))) {
-                    str.append("[M]");
-                } else {
-                    str.append(tileStr);
-                }
-            }
-            str.append("\n");
-        }
-        return str.toString();
     }
 
 }

@@ -12,6 +12,7 @@ import java.util.Optional;
  * The <code>BaseFloorTileImpl</code> creates a base implementation of a tile.
  */
 public abstract class AbstractTile implements Tile, Entity {
+
     private final Pair<Integer, Integer> position;
     private final boolean isAccessible;
     private Interactable content;

@@ -132,12 +132,6 @@ public class FloorTrapTileImpl extends FloorTileImpl implements Interactable {
 
     /** {@inheritDoc} */
     @Override
-    public String toString() {
-        return "[*]";
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public String getPath() {
         return super.getPath() + "/trap";
     }
