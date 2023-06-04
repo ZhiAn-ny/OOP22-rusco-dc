@@ -1,11 +1,6 @@
 package it.unibo.ruscodc.model.gamemap;
 
-import it.unibo.ruscodc.model.interactable.Chest;
-import it.unibo.ruscodc.model.interactable.Door;
-import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Pair;
-
-import java.io.Serial;
 
 
 /**
@@ -13,8 +8,6 @@ import java.io.Serial;
  * the concept of floor.
  */
 public class FloorTileImpl extends AbstractTile {
-    @Serial
-    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a <code>FloorTile</code> at the specified position and sets its accessibility.

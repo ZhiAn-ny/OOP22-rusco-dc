@@ -4,9 +4,8 @@ import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.Pair;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -14,9 +13,7 @@ import java.util.Random;
 /**
  * The <code>FloorImpl</code> class represents the basic implementation of the <code>Floor</code> interface.
  */
-public class FloorImpl implements Floor, Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class FloorImpl implements Floor {
     private static final int ENTRANCE_SIZE = 5;
     private static final int MAX_ROOMS_NUMBER = 20;
 
@@ -61,8 +58,7 @@ public class FloorImpl implements Floor, Serializable {
     /** {@inheritDoc} */
     @Override
     public Room getCurrentRoom() {
-        return this.currentRoom;
-        //return this.gson.fromJson(this.gson.toJson(this.currentRoom), Room.class);
+        return Collections.nCopies(1, this.currentRoom).get(0);
     }
 
     /** {@inheritDoc} */

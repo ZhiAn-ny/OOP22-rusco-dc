@@ -7,7 +7,6 @@ import it.unibo.ruscodc.model.effect.SingleTargetEffect;
 import it.unibo.ruscodc.model.interactable.Interactable;
 import it.unibo.ruscodc.utils.Pair;
 
-import java.io.Serial;
 
 /**
  * The <code>FloorPuddleTileImpl</code> class represents a special <code>Tile</code>
@@ -15,8 +14,6 @@ import java.io.Serial;
  * Works only on <code>Heros</code>.
  */
 public class FloorPuddleTileImpl extends FloorTileImpl {
-    @Serial
-    private static final long serialVersionUID = 1L;
     private static final int HP_RESTORED = 5;
 
     /**
