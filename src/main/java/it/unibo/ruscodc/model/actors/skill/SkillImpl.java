@@ -17,17 +17,12 @@ import it.unibo.ruscodc.utils.GameControl;
  */
 public class SkillImpl implements Skill {
 
-    private final Map<GameControl, Optional<GameCommand>> skills = new HashMap<>();
+    private final Map<GameControl, GameCommand> skills = new HashMap<>();
 
     /**
      * 
      */
     public SkillImpl() {
-
-        for (GameControl gameControl : GameControl.values()) {
-            this.skills.put(gameControl, Optional.empty());
-        }
-
         this.setAction(GameControl.MOVEUP, new MoveUpCommand());
         this.setAction(GameControl.MOVEDOWN, new MoveDownCommand());
         this.setAction(GameControl.MOVERIGHT, new MoveRightCommand());
@@ -39,7 +34,7 @@ public class SkillImpl implements Skill {
      */
     @Override
     public void setAction(final GameControl key, final GameCommand action) {
-        this.skills.put(key, Optional.of(action));
+        this.skills.put(key, action);
     }
 
     /**
@@ -47,14 +42,17 @@ public class SkillImpl implements Skill {
      */
     @Override
     public Optional<GameCommand> getAction(final GameControl key) {
-        return this.skills.get(key);
+        if (this.skills.containsKey(key)) {
+            return Optional.of(this.skills.get(key));
+        }
+        return Optional.empty();
     }
 
     @Override
     public String toString() {
         StringBuilder info = new StringBuilder();
         for (GameControl gameCommand : GameControl.getAttackControls()) {
-            info.append(gameCommand.toString() + this.skills.get(gameCommand).get().toString());
+            info.append(gameCommand.toString() + this.skills.get(gameCommand).toString());
         }
         return info.toString();
     }
