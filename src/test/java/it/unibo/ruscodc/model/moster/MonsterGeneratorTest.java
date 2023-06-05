@@ -23,9 +23,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 final class MonsterGeneratorTest {
     
     private final static int ID = 3;
-    private final static String GENERIC_PATH = "file:src/main/resources/it/unibo/ruscodc/monster_res/";
+    private final static String GENERIC_PATH = "it/unibo/ruscodc/monster_res/";
     
-    private final Pair<Integer, Integer> pos = new Pair<>(0, 0);
+    private static final Pair<Integer, Integer> CENTRE_POS = new Pair<>(3, 3);
     private final MonsterGenerator monsterGenerator = new MonsterGeneratorImpl();
     private final MonsterStatFactory statFactory = new MonsterStatFactoryImpl();
     private final MonsterActionFactory monsterActionFactory = new MonsterActionFactoryImpl();
@@ -35,12 +35,12 @@ final class MonsterGeneratorTest {
      */
     @Test
     void testMeleeRat() {
-        final Monster meleeRat = this.monsterGenerator.makeMeleeRat(this.pos);
+        final Monster meleeRat = this.monsterGenerator.makeMeleeRat(CENTRE_POS);
         final Skill meleeRatSkill = meleeRat.getSkills();
         assertEquals(meleeRat.getID(), ID);
         assertEquals(meleeRat.getName(), "MeleeRat");
         assertEquals(meleeRat.getPath(), GENERIC_PATH + "MeleeRat");
-        assertEquals(meleeRat.getPos(), this.pos);
+        assertEquals(meleeRat.getPos(), CENTRE_POS);
 
         final Stat toCheck = this.statFactory.ratStat();
         for (StatName stat : StatName.values()) {
