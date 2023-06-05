@@ -50,4 +50,9 @@ public interface Inventory {
      * @return if a Equipement Slot is occupied by something
      */
     int slotOccupied();
+
+    /**
+     * @return if the inventory is full or not
+     */
+    boolean isFull();
 }

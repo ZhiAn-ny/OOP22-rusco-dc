@@ -37,6 +37,8 @@ public class InventoryImpl implements Inventory {
         SPECIAL;
     }
 
+    private static final int INV_SPACE = 30;
+
     private final List<Item> bag;
     private final Map<Slot, Equipement> equipement;
 
@@ -122,5 +124,10 @@ public class InventoryImpl implements Inventory {
     @Override
     public int slotOccupied() {
         return this.bag.size();
+    }
+
+    @Override
+    public boolean isFull() {
+        return this.bag.size() < INV_SPACE;
     }
 }
