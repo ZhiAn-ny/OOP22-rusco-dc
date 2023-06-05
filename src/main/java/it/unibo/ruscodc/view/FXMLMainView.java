@@ -38,10 +38,8 @@ public class FXMLMainView extends Application implements GameView {
 
     private GameViewController gameView;
     private MainMenuController menuController;
-    //private GameOverController gameOverController;
 
     private final List<Entity> printedEntity = new ArrayList<>();
-    private boolean isReady;
     private Stage stage;
 
     private boolean isPrintingInfo;
@@ -129,7 +127,6 @@ public class FXMLMainView extends Application implements GameView {
         stage.setScene(scene);
         stage.setUserData(this.controller);
 
-        this.isReady = true;
         stage.show();
         this.menuController.setLayout();
     }
