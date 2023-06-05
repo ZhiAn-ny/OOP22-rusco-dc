@@ -29,7 +29,8 @@ import java.io.IOException;
  * This class is used to see which entities have changed their position or,
  * which are the new entities that will then be printed on the screen.
  */
-@SuppressWarnings("FB_EXIT")
+@SuppressFBWarnings(value = "DM_EXIT", 
+justification = "https://virtuale.unibo.it/mod/forum/discuss.php?d=139525#p199052")
 public class FXMLMainView extends Application implements GameView {
 
     private static final String GLOBAL_ERR_TITLE = "Error in view tecnology";
@@ -193,10 +194,9 @@ public class FXMLMainView extends Application implements GameView {
     /**
      * @param stage
      */
-    @SuppressFBWarnings
     private void handleEvents(final Stage stage) {
         stage.setOnCloseRequest(event -> {
-                System.exit(0);
+            System.exit(0);
         });
     }
 
