@@ -22,7 +22,7 @@
                   <Button fx:id="esci" mnemonicParsing="false" onAction="#exit" text="Esci" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                       <ImageView fitHeight="89.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
                           <image>
@@ -31,97 +31,97 @@
                       </ImageView>
                </children>
             </HBox>
-                <HBox prefHeight="20.0" prefWidth="110.0">
+                <HBox alignment="CENTER" prefHeight="20.0" prefWidth="110.0">
                     <children>
                         <Label text="HP" />
                         <ProgressBar fx:id="hp" prefHeight="20.0" prefWidth="89.0" progress="0.76" />
                     </children>
                 </HBox>
-                <HBox prefHeight="17.0" prefWidth="110.0">
+                <HBox alignment="CENTER" prefHeight="17.0" prefWidth="110.0">
                     <children>
                         <Label text="AP" />
                         <ProgressBar fx:id="ap" prefHeight="20.0" prefWidth="89.0" progress="0.42" />
                     </children>
                 </HBox>
-            <HBox prefHeight="21.0" prefWidth="155.0">
+            <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="47.0" text="W" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="MOVE UP" />
                </children>
             </HBox>
-            <HBox prefHeight="21.0" prefWidth="155.0">
+            <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="47.0" text="A" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="MOVE LEFT" />
                </children>
             </HBox>
-            <HBox prefHeight="21.0" prefWidth="155.0">
+            <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="47.0" text="S" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="MOVE DOWN" />
                </children>
             </HBox>
-            <HBox prefHeight="21.0" prefWidth="155.0">
+            <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="47.0" text="D" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="MOVE RIGHT" />
                </children>
             </HBox>
-            <HBox prefHeight="21.0" prefWidth="155.0">
+            <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="47.0" text="C" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="CONFIRM" />
                </children>
             </HBox>
-            <HBox prefHeight="21.0" prefWidth="155.0">
+            <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="47.0" text="I" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="INVENTORY" />
                </children>
             </HBox>
-            <HBox prefHeight="21.0" prefWidth="155.0">
+            <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="47.0" text="F" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="INTERACT" />
                </children>
             </HBox>
-            <HBox prefHeight="21.0" prefWidth="155.0">
+            <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="73.0" text="ESC" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="CANCEL" />
                </children>
             </HBox>
-            <HBox prefHeight="21.0" prefWidth="155.0">
+            <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="65.0" text="BACK" />
                   <Label alignment="CENTER" prefHeight="18.0" prefWidth="80.0" text="DELETE" />
                </children>
             </HBox>
-                <HBox prefHeight="21.0" prefWidth="155.0">
+                <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                     <children>
                         <Label text="1" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="BASE ATTACK" />
                     </children>
                 </HBox>
-                <HBox prefHeight="21.0" prefWidth="155.0">
+                <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                     <children>
                         <Label text="2" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="ABILITY 1" />
                     </children>
                 </HBox>
-                <HBox prefHeight="21.0" prefWidth="155.0">
+                <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                     <children>
                         <Label text="3" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="ABILITY 2" />
                     </children>
                 </HBox>
-                <HBox prefHeight="21.0" prefWidth="155.0">
+                <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                     <children>
                         <Label text="4" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="ABILITY 3" />
                     </children>
                 </HBox>
-                <HBox prefHeight="21.0" prefWidth="155.0">
+                <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                     <children>
                         <Label text="5" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="ABILITY 4" />

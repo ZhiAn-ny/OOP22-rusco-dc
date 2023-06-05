@@ -187,9 +187,12 @@ public class FXMLMainView extends Application implements GameView {
     }
 
     private Scene loadGameView() throws IOException {
+        final Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+        final double scale = 2 / 3.;
+        final double width = screenSize.getWidth() * scale;
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("game-view.fxml"));
 
-        final Scene scene = new Scene(fxmlLoader.load());
+        final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
 
         this.gameView = (GameViewController) fxmlLoader.getController();
         this.gameView.init(this);
@@ -201,13 +204,14 @@ public class FXMLMainView extends Application implements GameView {
     }
 
     private Scene loadGameOver() throws IOException {
+        final Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+        final double scale = 2 / 3.;
+        final double width = screenSize.getWidth() * scale;
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("game-over.fxml"));
-        final Scene scene = new Scene(fxmlLoader.load());
+        final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
         //handleWindowSize(stage, scene);
         final GameOverController gameOverController = (GameOverController) fxmlLoader.getController();
         gameOverController.init(this);
-        // this.gameOverController = (GameOverController) fxmlLoader.getController();
-        // this.gameOverController.init(this);
         gameOverController.backToMenu();
         return scene;
     }
