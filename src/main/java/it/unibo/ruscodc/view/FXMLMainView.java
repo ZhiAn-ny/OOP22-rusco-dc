@@ -86,13 +86,6 @@ public class FXMLMainView extends Application implements GameView {
         stage.setScene(scene);
     }
 
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean isReady() {
-        return this.isReady;
-    }
-
     /** {@inheritDoc} */
     @Override
     public void printInfo(final InfoPayload toPrint) {
@@ -116,25 +109,6 @@ public class FXMLMainView extends Application implements GameView {
         this.printedEntity.addAll(toDraw);
         this.gameView.setRoomSize(roomSize);
         this.resetLevel(toDraw);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void addEntity(final Entity toAdd) {
-        if (!this.printedEntity.contains(toAdd)) {
-            this.printedEntity.add(toAdd);
-        }
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void uploadEntity(final Pair<Integer, Integer> toUpload, final Entity updated) {
-        for (int i = 0; i < this.printedEntity.size(); i++) {
-            if (this.printedEntity.get(i).getID() == updated.getID()
-                && !this.printedEntity.get(i).getPos().equals(toUpload)) {
-                    this.printedEntity.set(i, updated);
-            }
-        }
     }
 
     private void showMainMenu() {

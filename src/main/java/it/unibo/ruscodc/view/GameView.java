@@ -25,12 +25,6 @@ public interface GameView {
     void init(GameObserverController ctrl);
 
     /**
-     * Advise the controller if the view is ready to be showed.
-     * @return whether the view has already been initialized or not.
-     */
-    boolean isReady();
-
-    /**
      * Prints a message on the errors stream.
      * @param toPrint the message to visualize as error.
      */
@@ -48,19 +42,6 @@ public interface GameView {
      * @param roomSize size of the room.
      */
     void resetView(List<Entity> toDraw, Pair<Integer, Integer> roomSize);
-
-    /**
-     * Add a new entity in the room.
-     * @param toAdd entity to add.
-     */
-    void addEntity(Entity toAdd);
-
-    /**
-     * Upload the entity with the new position.
-     * @param toUpload new position.
-     * @param updated entity that needs to be updated.
-     */
-    void uploadEntity(Pair<Integer, Integer> toUpload, Entity updated);
 
     /**
      * Reset the level of the game with the new entities.
