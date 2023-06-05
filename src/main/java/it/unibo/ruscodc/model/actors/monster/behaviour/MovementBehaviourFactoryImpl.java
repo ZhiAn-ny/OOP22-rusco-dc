@@ -190,7 +190,7 @@ public class MovementBehaviourFactoryImpl implements MovementBehaviourFactory {
                 final Optional<Pair<Integer, Integer>> actorPos = getActorTarget(
                     monster.getPos(),
                     actors,
-                    (a) ->  (int) Pairs.computePPLine(monster.getPos(), a.getPos()).count() < monster.getStatActual(StatName.DEX)
+                    (a) ->  (int) Pairs.computePPLine(monster.getPos(), a.getPos()).count() <= monster.getStatActual(StatName.DEX)
                 );
 
                 Optional<GameControl> gc = computeGameCommand(monster, actors, actorPos.get(), room);

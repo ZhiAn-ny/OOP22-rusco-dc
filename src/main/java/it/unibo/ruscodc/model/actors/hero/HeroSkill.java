@@ -4,6 +4,7 @@ import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.skill.SkillImpl;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.effect.EffectAbs;
+import it.unibo.ruscodc.model.effect.SingleTargetEffect;
 import it.unibo.ruscodc.model.gamecommand.playercommand.Interact;
 import it.unibo.ruscodc.model.gamecommand.playercommand.OpenInventory;
 import it.unibo.ruscodc.model.gamecommand.playercommand.PlayerAttack;
@@ -109,7 +110,21 @@ public class HeroSkill extends SkillImpl {
         super.setAction(
             GameControl.ATTACK3,
             new SelfEffect(
-                a -> a.modifyActualStat(StatName.HP, (int) (a.getStatMax(StatName.HP) * ATTACK3_PERCENT)),
+                new SingleTargetEffect() {
+
+                    @Override
+                    public void applyEffect(Actor target) {
+                        target.modifyActualStat(
+                            StatName.HP,
+                            (int) (target.getStatMax(StatName.HP) * ATTACK3_PERCENT)
+                        );
+                    }
+
+                    @Override
+                    public String toString() {
+                        return "The Hero take some time to patch his wounds";
+                    }
+                },
                 ATTACK3_AP
             )
         );
