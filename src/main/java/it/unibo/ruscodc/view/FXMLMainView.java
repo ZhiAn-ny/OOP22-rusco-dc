@@ -20,6 +20,9 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.io.IOException;
 
 /**
@@ -34,7 +37,7 @@ public class FXMLMainView extends Application implements GameView {
     private static final String ICONPATH = "file:src/main/resources/it/unibo/ruscodc/view/racoon.png";
     private static final String TITLE = "Rusco DC";
     private static final double ASPECT_RATIO = 3 / 4.;
-    private static final double MIN_WIDTH_SCALE = 0.4;
+    //private static final double MIN_WIDTH_SCALE = 0.4;
     private GameObserverController controller;
 
     private GameViewController gameView;
@@ -187,9 +190,13 @@ public class FXMLMainView extends Application implements GameView {
         return scene;
     }
 
+    /**
+     * @param stage
+     */
+    @SuppressFBWarnings
     private void handleEvents(final Stage stage) {
         stage.setOnCloseRequest(event -> {
-            System.exit(0);
+                System.exit(0);
         });
     }
 

@@ -31,8 +31,6 @@ public class OpenInventory extends NoIACommand {
     private boolean isReady; // = false;
     private boolean exit; // = false;
     private boolean isInit; // = false;
-    //private boolean mustClose; // = false;
-    //private boolean needAbort;
 
     private int byPtoI(final Pair<Integer, Integer> toConvert) {
         return toConvert.getY() * COLS + toConvert.getX();
@@ -105,19 +103,6 @@ public class OpenInventory extends NoIACommand {
         GameControl tmpInput = input;
         boolean mustUpdate = true;
 
-        // if (!needAbort) {
-        //     this.advise = Optional.empty();
-        // } else if (needAbort) {
-        //     mustClose = true;
-        //     isReady = true;
-        //     tmpInput = GameControl.DONOTHING;
-        // } 
-        
-        // if (mustClose) {
-        //     needAbort = false;
-        //     mustClose = false;
-        //     tmpInput = GameControl.CANCEL;
-        // }
         if (this.inventory.isEmpty()) {
             tmpInput = GameControl.CANCEL;
         }
@@ -152,7 +137,6 @@ public class OpenInventory extends NoIACommand {
             case CONFIRM:
                 this.manageUse();
                 this.isReady = false;
-                //this.isReady = true;
                 this.resetCursor();
                 break;
 
@@ -232,7 +216,7 @@ public class OpenInventory extends NoIACommand {
 
         if (!items.isEmpty()) {
             items.add(fromCursorToEntity());
-        }      
+        }
 
         return items;
     }
@@ -267,16 +251,6 @@ public class OpenInventory extends NoIACommand {
             isInit = true;
             resetCursor();
         }
-        // if (this.inventory.isEmpty()) {
-        //     advise = Optional.of(new InfoPayloadImpl(
-        //             "Errore apertura Inventario", 
-        //             "L'inventario è vuoto: verrà chiuso al prossimo tasto della tasiera"));
-        //     //isReady = true;
-        //     //this.mustClose = true;
-        //     if (!this.needAbort) {
-        //         this.needAbort = true;
-        //     }
-        // }
         return isReady;
     }
 }

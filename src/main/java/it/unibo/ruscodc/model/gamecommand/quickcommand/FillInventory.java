@@ -16,7 +16,8 @@ import java.util.Set;
  */
 public class FillInventory extends QuickActionAbs {
 
-    private static final String ERR_MESS = "Your inventory is full! Take even one more item will cause you a sever back pain. Try delete something from your inventory!";
+    private static final String ERR_MESS = "Your inventory is full!" 
+     + "Take even one more item will cause you a sever back pain. Try delete something from your inventory!";
 
     private final Set<Item> items;
 

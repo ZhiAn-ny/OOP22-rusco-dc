@@ -130,7 +130,6 @@ public class Interact extends NoIACommand {
             throw new IllegalStateException("GameCommand behind interactable must not be complex");
         }
 
-        
         final Optional<InfoPayload> res;
         try {
             res = obtained.execute();
@@ -138,7 +137,7 @@ public class Interact extends NoIACommand {
             super.reset();
             throw e;
         }
-        
+
         if (res.isEmpty()) {
             this.getRoom().get(tmpCursor).get().empty();
             super.reset();
