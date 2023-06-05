@@ -143,27 +143,6 @@ final class MonsterGeneratorTest {
     }
 
     @Test
-    void testrangedOpossum() {
-        final Monster rangedOpossum = this.monsterGenerator.makeRangedOpossum(CENTRE_POS);
-        final Skill rangedOpossumSkill = rangedOpossum.getSkills();
-        assertEquals(ID, rangedOpossum.getID());
-        assertEquals("RangedOpossum", rangedOpossum.getName());
-        assertEquals(GENERIC_PATH + "RangedOpossum", rangedOpossum.getPath());
-        assertEquals(CENTRE_POS, rangedOpossum.getPos());
-
-        final Stat toCheck = this.statFactory.opossumStat();
-        for (StatName stat : StatName.values()) {
-            assertEquals(toCheck.getStatActual(stat), rangedOpossum.getStatActual(stat));
-            assertEquals(toCheck.getStatMax(stat), rangedOpossum.getStatActual(stat));
-        }
-
-        assertEquals(
-            this.monsterActionFactory.basicRangedAttack().toString(),
-            rangedOpossumSkill.getAction(GameControl.BASEATTACK).get().toString()
-        );
-    }
-
-    @Test
     void testRangedOpossum() {
         final Monster rangedOpossum = this.monsterGenerator.makeRangedOpossum(CENTRE_POS);
         final Skill rangedOpossumSkill = rangedOpossum.getSkills();
