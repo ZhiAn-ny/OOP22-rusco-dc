@@ -26,6 +26,7 @@ import java.io.IOException;
  * This class is used to see which entities have changed their position or,
  * which are the new entities that will then be printed on the screen.
  */
+@SuppressWarnings("FB_EXIT")
 public class FXMLMainView extends Application implements GameView {
 
     private static final String GLOBAL_ERR_TITLE = "Error in view tecnology";
@@ -180,31 +181,15 @@ public class FXMLMainView extends Application implements GameView {
         final double width = screenSize.getWidth() * scale;
         final FXMLLoader fxmlLoader = new FXMLLoader(FXMLMainView.class.getResource("game-over.fxml"));
         final Scene scene = new Scene(fxmlLoader.load(), width, width * ASPECT_RATIO);
-        //handleWindowSize(stage, scene);
         final GameOverController gameOverController = (GameOverController) fxmlLoader.getController();
         gameOverController.init(this);
         gameOverController.backToMenu();
         return scene;
     }
 
-
-    private void handleWindowSize(final Stage stage, final Scene scene) {
-        final double minWidth = Screen.getPrimary().getVisualBounds().getWidth() * MIN_WIDTH_SCALE;
-        stage.setMinWidth(minWidth);
-        stage.setMinHeight(minWidth * ASPECT_RATIO);
-        stage.setMaxHeight(Screen.getPrimary().getVisualBounds().getHeight());
-        stage.minHeightProperty().bind(scene.widthProperty().multiply(ASPECT_RATIO));
-        stage.maxHeightProperty().bind(scene.widthProperty().multiply(ASPECT_RATIO));
-    }
-
     private void handleEvents(final Stage stage) {
         stage.setOnCloseRequest(event -> {
-            //try {
-                System.exit(0);
-                //Platform.exit();
-            //} catch (IllegalStateException e) {
-                // Yes.
-            //}
+            System.exit(0);
         });
     }
 
