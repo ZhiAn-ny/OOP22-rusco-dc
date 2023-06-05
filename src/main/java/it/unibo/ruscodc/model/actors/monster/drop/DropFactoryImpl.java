@@ -3,10 +3,12 @@ package it.unibo.ruscodc.model.actors.monster.drop;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -32,8 +34,9 @@ public class DropFactoryImpl implements DropFactory {
     private static final double GOLDEN_RATIO = (Math.sqrt(5) + 1) / 2;
     private static final int FLOOR_CYCLE = 5;
     private static final List<Double> STAT_COEFF = List.of(1.0, 1.0, 1.5, 1.0, 1.0, 1.0);
-    private static final Map<Integer, Item> TAB_E = new HashMap<>();
-    private static final Map<Integer, Item> TAB_C = new HashMap<>();
+
+    private static final Map<Integer, Supplier<Item>> TAB_E = new HashMap<>();
+    private static final Map<Integer, Supplier<Item>> TAB_C = new HashMap<>();
 
     private static boolean isInit;
 
@@ -46,16 +49,22 @@ public class DropFactoryImpl implements DropFactory {
         }
     }
 
-    private void fillTable(final Set<Method> itemsToAdd, final Object receiver, final Map<Integer, Item> toFill) {
-        final MyIterator<Integer> myIt = new MyIterator<>(Stream.iterate(0, i -> i + 1).iterator());
-        itemsToAdd.forEach(m -> {
-            try {
-                toFill.put(myIt.getAct(), (Item) m.invoke(receiver));
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                return;
-            }
-            myIt.next();
-        });
+    private void fillTable(final Set<Method> itemsToAdd, final Object receiver, final Map<Integer, Supplier<Item>> toFill) {
+        final Iterator<Integer> myIt = Stream.iterate(0, i -> i + 1).iterator();
+        itemsToAdd.forEach(
+            m -> toFill.put(
+                myIt.next(), 
+                () -> {
+                        try {
+                            return (Item) m.invoke(receiver);
+                        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+                    
+                }
+            )
+        );
     }
 
     private void init() {
@@ -72,6 +81,8 @@ public class DropFactoryImpl implements DropFactory {
 
         equipMethods.removeAll(objMethods);
         consMethods.removeAll(objMethods);
+
+        consMethods.forEach(o -> System.out.println(o.toString()));
 
         fillTable(equipMethods, new EquipementFactoryImpl(), TAB_E);
         fillTable(consMethods, new ConsumableFactoryImpl(), TAB_C);
@@ -99,10 +110,10 @@ public class DropFactoryImpl implements DropFactory {
         return finValue < 0 ? 0 : finValue;
     }
 
-    private List<Item> createDrop(final List<Pair<Map<Integer, Item>, Integer>> tables) {
+    private List<Item> createDrop(final List<Pair<Map<Integer, Supplier<Item>>, Integer>> tables) {
         return tables.stream()
             .flatMap(p -> Stream.iterate(0, i -> i < p.getY(), i -> i + 1)
-                .map(i -> p.getX().get(DICE.nextInt(p.getX().size())))
+                .map(i -> p.getX().get(DICE.nextInt(p.getX().size())).get())
                 )
             .collect(Collectors.toList());
     }

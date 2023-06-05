@@ -101,6 +101,7 @@ public class GameViewController implements Initializable {
             return;
         }
         toUpload.getChildren().clear();
+        System.out.print("\n\n\n cols:" + toUpload.getColumnCount() + " / rows: " + toUpload.getRowCount() + "\n\n");
 
         isToUpdate = false;
 
@@ -116,7 +117,9 @@ public class GameViewController implements Initializable {
                         image.fitWidthProperty().bind(bindings);
                         image.setPreserveRatio(true);
                         final Pair<Integer, Integer> pos = e.getOnScreenPosition();
+                        //System.out.println(pos.getX() + " / " + pos.getY());
                         toUpload.add(new Pane(image), pos.getX(), pos.getY());
+                        System.out.println("Added item at (X,Y) = " + pos.getX() + " / " + pos.getY());
                     });
                 });
     }
@@ -141,7 +144,6 @@ public class GameViewController implements Initializable {
         } else {
             updateGame();
         }
-
     }
 
     /**
