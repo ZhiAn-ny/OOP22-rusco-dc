@@ -120,13 +120,13 @@ public class DropFactoryImpl implements DropFactory {
 
     private DropManager creationManager(final int amountValue) {
         final int total = byValueToAmountItems(amountValue);
-        // if (total < 0) {
-        //     throw new IllegalStateException("amountValue cannot be negative!");
-        // }
-        if (total > 0 && total % 2 == 1) { //TODO warning spotBugs su "op non definita se n è neg" ma check fatto prima
-            return createOnlyConsumable(total);
+        if (total < 0) {
+            throw new IllegalStateException("amountValue cannot be negative!");
+        }
+        if (total % 2 == 0) {
+            return createMischellaneus(total);    
         } else {
-            return createMischellaneus(total);
+            return createOnlyConsumable(total);    
         }
     }
 

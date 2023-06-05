@@ -39,9 +39,9 @@ import java.util.stream.IntStream;
  */
 public class GameViewController implements Initializable {
 
-    private static final int FONT_SIZE = 20;
-    private static final double SCALE1 = 0.05;
-
+    private static final int TITLE_SIZE = 25;
+    private static final int DESC_SIZE = 16;
+    private static final double SCALE1 = 0.09;
 
     private boolean isToUpdate;
 
@@ -200,7 +200,7 @@ public class GameViewController implements Initializable {
                                                         e.getPos()))),
                                 (l1, l2) -> {
                                     l1.addAll(l2);
-                                    return new LinkedList<>(l1);
+                                    return l1;
                                 },
                                 () -> new HashMap<>()));
 
@@ -249,8 +249,9 @@ public class GameViewController implements Initializable {
         infoImage.setImage(image);
         infoImage.setFitWidth(infoPane.getWidth() * SCALE1);
         infoTitle.setText(title);
-        infoTitle.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, FONT_SIZE));
+        infoTitle.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, TITLE_SIZE));
         infoDescription.setText(desc);
+        infoDescription.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, DESC_SIZE));
     }
 
     /**

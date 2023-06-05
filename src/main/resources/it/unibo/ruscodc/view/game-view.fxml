@@ -165,7 +165,7 @@
                         </GridPane>
                      </center>
                      <right>
-                        <Label fx:id="heroStat" maxHeight="1.7976931348623157E308" prefHeight="350.0" prefWidth="150.0" style="-fx-background-color: white;" textAlignment="CENTER" textOverrun="CLIP" BorderPane.alignment="CENTER" />
+                        <Label fx:id="heroStat" maxHeight="1.7976931348623157E308" prefHeight="350.0" prefWidth="150.0" style="-fx-background-color: white;" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" BorderPane.alignment="CENTER" />
                      </right>
                   </BorderPane>
                </children>
