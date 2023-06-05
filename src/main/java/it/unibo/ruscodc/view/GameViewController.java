@@ -89,7 +89,7 @@ public class GameViewController implements Initializable {
     @FXML
     private StackPane mainPane;
     @FXML
-    private Button esci;
+    private Button quit;
     private NumberBinding bindings;
 
     /**
@@ -135,13 +135,8 @@ public class GameViewController implements Initializable {
      */
     private void manageButton() {
         check.setSelected(true);
-        esci.setDisable(check.isSelected());
-        check.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                esci.setDisable(newValue);
-            }
-        });
+        quit.setDisable(check.isSelected());
+        check.selectedProperty().addListener((observable, oldValue, newValue) -> quit.setDisable(newValue));
     }
 
     /**
