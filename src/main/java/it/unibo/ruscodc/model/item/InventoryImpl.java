@@ -7,11 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import it.unibo.ruscodc.model.actors.hero.Hero;
-import it.unibo.ruscodc.model.item.consumable.ConsumableFactory;
-import it.unibo.ruscodc.model.item.consumable.ConsumableFactoryImpl;
 import it.unibo.ruscodc.model.item.equipement.Equipement;
-import it.unibo.ruscodc.model.item.equipement.EquipementFactory;
-import it.unibo.ruscodc.model.item.equipement.EquipementFactoryImpl;
 
 /**
  * Implementation of Inventory that is used by the 
@@ -41,7 +37,7 @@ public class InventoryImpl implements Inventory {
         SPECIAL;
     }
 
-    private static final int INV_SPACE = 30;
+    private static final int INV_SPACE = 35;
 
     private final List<Item> bag;
     private final Map<Slot, Equipement> equipement;
@@ -55,17 +51,6 @@ public class InventoryImpl implements Inventory {
         for (final Slot slot : Slot.values()) {
             equipement.put(slot, null);
         }
-
-        //TODO: leva
-        final EquipementFactory equipementFactory = new EquipementFactoryImpl();
-        final ConsumableFactory consumableFactory = new ConsumableFactoryImpl();
-        this.bag.add(equipementFactory.createActionRing());
-        this.bag.add(equipementFactory.createChainmail());
-        this.bag.add(equipementFactory.createCrusaderHelmet());
-        this.bag.add(equipementFactory.createDexterityRing());
-        this.bag.add(consumableFactory.createDEXPotion());
-        this.bag.add(consumableFactory.createDEXPotion());
-        this.bag.add(consumableFactory.createDEXPotion());
     }
 
     /**
@@ -146,6 +131,6 @@ public class InventoryImpl implements Inventory {
      */
     @Override
     public boolean isFull() {
-        return this.bag.size() < INV_SPACE;
+        return this.bag.size() >= INV_SPACE;
     }
 }
