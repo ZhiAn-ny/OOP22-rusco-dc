@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class InventoryTest {
+class InventoryTest {
     private final EquipementFactory equipementFactory = new EquipementFactoryImpl();
     private Equipement longSword = this.equipementFactory.createLongSword();
     private Equipement swordAndShield = this.equipementFactory.createSwordShield();

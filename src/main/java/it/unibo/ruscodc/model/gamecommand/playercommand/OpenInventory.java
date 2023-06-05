@@ -11,7 +11,6 @@ import it.unibo.ruscodc.model.item.Item;
 import it.unibo.ruscodc.model.item.consumable.Consumable;
 import it.unibo.ruscodc.model.item.equipement.Equipement;
 import it.unibo.ruscodc.model.outputinfo.InfoPayload;
-import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
@@ -32,14 +31,15 @@ public class OpenInventory extends NoIACommand {
     private boolean isReady; // = false;
     private boolean exit; // = false;
     private boolean isInit; // = false;
-    private boolean mustClose; // = false;
+    //private boolean mustClose; // = false;
+    //private boolean needAbort;
 
     private int byPtoI(final Pair<Integer, Integer> toConvert) {
         return toConvert.getY() * COLS + toConvert.getX();
     }
 
     private void resetCursor() {
-        if (byPtoI(cursorPos) >= this.inventory.slotOccupied()) {
+        if (this.cursorPos == null || byPtoI(this.cursorPos) >= this.inventory.slotOccupied()) {
             this.cursorPos = new Pair<>(0, 0);
         }
     }
@@ -104,10 +104,21 @@ public class OpenInventory extends NoIACommand {
     public boolean modify(final GameControl input) {
         GameControl tmpInput = input;
         boolean mustUpdate = true;
-        this.advise = Optional.empty();
 
-        if (mustClose) {
-            mustClose = false;
+        // if (!needAbort) {
+        //     this.advise = Optional.empty();
+        // } else if (needAbort) {
+        //     mustClose = true;
+        //     isReady = true;
+        //     tmpInput = GameControl.DONOTHING;
+        // } 
+        
+        // if (mustClose) {
+        //     needAbort = false;
+        //     mustClose = false;
+        //     tmpInput = GameControl.CANCEL;
+        // }
+        if (this.inventory.isEmpty()) {
             tmpInput = GameControl.CANCEL;
         }
 
@@ -219,7 +230,9 @@ public class OpenInventory extends NoIACommand {
                 )
         ).collect(Collectors.toList());
 
-        items.add(fromCursorToEntity());
+        if (!items.isEmpty()) {
+            items.add(fromCursorToEntity());
+        }      
 
         return items;
     }
@@ -232,7 +245,8 @@ public class OpenInventory extends NoIACommand {
         if (exit) {
             this.isReady = false;
             this.exit = false;
-            this.mustClose = false;
+            //this.mustClose = false;
+            //this.needAbort = false;
             this.advise = Optional.empty();
             resetCursor();
             throw new Undo();
@@ -253,13 +267,16 @@ public class OpenInventory extends NoIACommand {
             isInit = true;
             resetCursor();
         }
-        if (this.inventory.isEmpty()) {
-            advise = Optional.of(new InfoPayloadImpl(
-                    "Errore apertura Inventario", 
-                    "L'inventario è vuoto: verrà chiuso al prossimo tasto della tasiera"));
-            this.isReady = true;
-            this.mustClose = true;
-        }
-        return this.isReady;
+        // if (this.inventory.isEmpty()) {
+        //     advise = Optional.of(new InfoPayloadImpl(
+        //             "Errore apertura Inventario", 
+        //             "L'inventario è vuoto: verrà chiuso al prossimo tasto della tasiera"));
+        //     //isReady = true;
+        //     //this.mustClose = true;
+        //     if (!this.needAbort) {
+        //         this.needAbort = true;
+        //     }
+        // }
+        return isReady;
     }
 }

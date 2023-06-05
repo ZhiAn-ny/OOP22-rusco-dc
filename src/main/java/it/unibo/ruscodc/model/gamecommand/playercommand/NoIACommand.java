@@ -62,7 +62,7 @@ public abstract class NoIACommand extends ComplexActionAbs {
      */
     @Override
     public boolean isReady() {
-        return isReady;
+        return this.isReady;
     }
 
     /**
@@ -84,7 +84,7 @@ public abstract class NoIACommand extends ComplexActionAbs {
     private boolean commonMoveCursor(final Pair<Integer, Integer> newPos) {
         //System.out.println(newPos);
         if (this.getRoom().isInRoom(newPos)) {
-            cursorPos = newPos;
+            this.cursorPos = newPos;
             return true;
         } else {
             return false;
