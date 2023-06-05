@@ -116,9 +116,8 @@ public class EquipementImpl implements Equipement {
         this.stat
             .entrySet()
             .stream()
-            .forEach(
-                a -> hero.modifyMaxStat(a.getKey(), a.getValue()));
-
+            .peek(a -> hero.modifyMaxStat(a.getKey(), a.getValue()))
+            .forEach(a -> hero.modifyActualStat(a.getKey(), a.getValue()));
         if (action.isPresent()) {
             hero.getSkills().setAction(action.get().getX(), action.get().getY());
         }
@@ -135,6 +134,7 @@ public class EquipementImpl implements Equipement {
         this.stat
             .entrySet()
             .stream()
+            .peek(a -> hero.modifyActualStat(a.getKey(), -a.getValue()))
             .forEach(
                 a -> hero.modifyMaxStat(a.getKey(), -a.getValue())
             );

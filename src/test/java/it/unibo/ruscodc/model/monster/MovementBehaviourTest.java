@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model.moster;
+package it.unibo.ruscodc.model.monster;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
