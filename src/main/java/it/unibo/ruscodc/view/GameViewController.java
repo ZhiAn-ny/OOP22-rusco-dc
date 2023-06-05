@@ -195,7 +195,8 @@ public class GameViewController implements Initializable {
                                         List.of(
                                                 new DrawableImpl<>(
                                                         new ImageView(
-                                                            new Image(ClassLoader.getSystemResource(e.getPath() + "/Sprite.png").toString())),
+                                                            new Image(ClassLoader.getSystemResource(
+                                                                    e.getPath() + "/Sprite.png").toString())),
                                                         e.getPos()))),
                                 (l1, l2) -> {
                                     l1.addAll(l2);
@@ -205,6 +206,9 @@ public class GameViewController implements Initializable {
 
         final Optional<Integer> minDepth = toUpdate.keySet().stream().max(Comparator.naturalOrder());
         if (minDepth.isEmpty()) {
+            lastRenderingLevelInv = -1;
+            lastRenderingLevelGame = -1;
+            isToUpdate = true;
             return;
         }
 
@@ -286,6 +290,8 @@ public class GameViewController implements Initializable {
      */
     public void closeInv() {
         this.isShowingInv = false;
+        this.renderedInv.clear();
+        this.inventoryGrid.getChildren().clear();
         this.invPane.toBack();
     }
 

@@ -43,4 +43,13 @@ public class SelfEffect extends QuickActionAbs {
         this.getActor().modifyActualStat(StatName.AP, -cost);
         return Optional.empty();
     }
+
+    /**
+     * 
+     */
+    @Override
+    public String toString() {
+        return "\nCost : " + cost + " AP" 
+        + "\nEffect: " + toApply.toString() + "\n\n";
+    }
 }
