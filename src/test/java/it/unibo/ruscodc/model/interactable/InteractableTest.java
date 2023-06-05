@@ -18,38 +18,39 @@ import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 @TestInstance(Lifecycle.PER_CLASS)
 class InteractableTest {
 
-    private static final DropFactory dropFactory = new DropFactoryImpl();
-    private static final DropManager dropManager = dropFactory.createDropForRoom(new Pair<>(100, 100), 4);
+    private static final DropFactory DROP_FACTORY = new DropFactoryImpl();
+    private static final DropManager DROP_MANAGER = DROP_FACTORY.createDropForRoom(new Pair<>(100, 100), 4);
     private int bounds;
 
     @BeforeAll
     void init() {
-        bounds = dropManager.generateConsumableDrop().size();
+        bounds = DROP_MANAGER.generateConsumableDrop().size();
     }
 
     /**
-     * Method under test: {@link Interactable#interact()}
+     * Method under test: {@link Interactable#interact()}.
      */
     @Test
     void chestInteract() {
-        final Interactable chest = new Chest(new HashSet<>(dropManager.generateConsumableDrop()), new Pair<>(1,1));
-        final Hero hero = new HeroImpl("Rusco", new Pair<>(2,2), null, null);
+        final Interactable chest = new Chest(new HashSet<>(DROP_MANAGER.generateConsumableDrop()), new Pair<>(1, 1));
+        final Hero hero = new HeroImpl("Rusco", new Pair<>(2, 2), null, null);
         final GameCommand command = chest.interact();
         command.setActor(hero);
         try {
             command.execute();
         } catch (ModelException e) {
-            throw new RuntimeException(e);
+            fail();
         }
         assertEquals(hero.getInventory().getAllItems().size(), bounds);
 
     }
 
     /**
-     * Method under test: {@link Door#isTransitable()}
+     * Method under test: {@link Door#isTransitable()}.
      */
     @Test
     void isTransitableDoor() {
@@ -58,7 +59,7 @@ class InteractableTest {
     }
 
     /**
-     * Method under test: {@link Stair#isTransitable()}
+     * Method under test: {@link Stair#isTransitable()}.
      */
     @Test
     void isTransitableStair() {
@@ -67,20 +68,20 @@ class InteractableTest {
     }
 
     /**
-     * Method under test: {@link Drop#isTransitable()}
+     * Method under test: {@link Drop#isTransitable()}.
      */
     @Test
     void isTransitableDrop() {
-        final Interactable drop = new Drop(new HashSet<>(dropManager.generateConsumableDrop()), new Pair<>(8,5));
+        final Interactable drop = new Drop(new HashSet<>(DROP_MANAGER.generateConsumableDrop()), new Pair<>(8, 5));
         assertFalse(drop.isTransitable());
     }
 
     /**
-     * Method under test: {@link Chest#isTransitable()}
+     * Method under test: {@link Chest#isTransitable()}.
      */
     @Test
     void isTransitableChest() {
-        final Interactable chest = new Chest(new HashSet<>(dropManager.generateConsumableDrop()), new Pair<>(4,6));
+        final Interactable chest = new Chest(new HashSet<>(DROP_MANAGER.generateConsumableDrop()), new Pair<>(4, 6));
         assertFalse(chest.isTransitable());
     }
 
