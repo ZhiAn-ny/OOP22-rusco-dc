@@ -113,7 +113,7 @@ public class HeroSkill extends SkillImpl {
                 new SingleTargetEffect() {
 
                     @Override
-                    public void applyEffect(Actor target) {
+                    public void applyEffect(final Actor target) {
                         target.modifyActualStat(
                             StatName.HP,
                             (int) (target.getStatMax(StatName.HP) * ATTACK3_PERCENT)

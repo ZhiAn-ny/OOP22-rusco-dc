@@ -126,6 +126,9 @@ public class InventoryImpl implements Inventory {
         return this.bag.size();
     }
 
+    /**
+     * 
+     */
     @Override
     public boolean isFull() {
         return this.bag.size() < INV_SPACE;

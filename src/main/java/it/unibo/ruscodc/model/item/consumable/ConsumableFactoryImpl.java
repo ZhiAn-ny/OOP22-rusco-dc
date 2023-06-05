@@ -72,11 +72,6 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
                         StatName.STR,
                         1
                     );
-
-                    target.modifyActualStat(
-                        StatName.STR,
-                        1
-                    );
                 }
             }
         );
@@ -98,11 +93,6 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
                         StatName.DEX,
                         1
                     );
-
-                    target.modifyActualStat(
-                        StatName.DEX,
-                        1
-                    );
                 }
             }
         );
@@ -121,11 +111,6 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
                 @Override
                 public void applyEffect(final Actor target) {
                     target.modifyMaxStat(
-                        StatName.INT,
-                        1
-                    );
-
-                    target.modifyActualStat(
                         StatName.INT,
                         1
                     );
