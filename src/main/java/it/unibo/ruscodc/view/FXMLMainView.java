@@ -39,6 +39,8 @@ public class FXMLMainView extends Application implements GameView {
     private static final String TITLE = "Rusco DC";
     private static final double ASPECT_RATIO = 3 / 4.;
     //private static final double MIN_WIDTH_SCALE = 0.4;
+    private static final double MIN_WIDTH = 800;
+    private static final double MIN_HEIGHT = 600;
     private GameObserverController controller;
 
     private GameViewController gameView;
@@ -61,6 +63,8 @@ public class FXMLMainView extends Application implements GameView {
 
         Platform.startup(() -> {
             this.stage = new Stage();
+            stage.setMinWidth(MIN_WIDTH);
+            stage.setMinHeight(MIN_HEIGHT);
             this.start(stage);
         });
     }
