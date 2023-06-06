@@ -63,8 +63,14 @@ public interface GameModel {
     Portrait getRuscoInfo();
 
     /**
-     * Check if the game is over.
+     * Check if the game is over, and the player lost.
      * @return <code>True</code> if the hero has died, <code>False</code> otherwise.
      */
     boolean isGameOver();
+
+    /**
+     * Check if the game is over, and the player win.
+     * @return <code>True</code> if the hero has died, <code>False</code> otherwise.
+     */
+    boolean isGameWin();
 }

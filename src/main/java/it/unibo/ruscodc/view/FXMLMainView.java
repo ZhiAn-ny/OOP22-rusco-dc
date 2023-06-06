@@ -29,8 +29,8 @@ import java.io.IOException;
  * This class is used to see which entities have changed their position or,
  * which are the new entities that will then be printed on the screen.
  */
-@SuppressFBWarnings(value = "DM_EXIT", 
-justification = "https://virtuale.unibo.it/mod/forum/discuss.php?d=139525#p199052")
+@SuppressFBWarnings(value = "DM_EXIT",
+        justification = "https://virtuale.unibo.it/mod/forum/discuss.php?d=139525#p199052")
 public class FXMLMainView extends Application implements GameView {
 
     private static final String GLOBAL_ERR_TITLE = "Error in view tecnology";
@@ -81,8 +81,8 @@ public class FXMLMainView extends Application implements GameView {
             scene = this.loadGameView();
         } catch (IOException e) {
             printInfo(new InfoPayloadImpl(
-                GLOBAL_ERR_TITLE, 
-                "Cannot load main menu view"));
+                    GLOBAL_ERR_TITLE,
+                    "Cannot load main menu view"));
             return;
         }
         this.controller.initNewGame("");
@@ -120,8 +120,8 @@ public class FXMLMainView extends Application implements GameView {
             scene = this.loadMainMenu();
         } catch (IOException e) {
             printInfo(new InfoPayloadImpl(
-                GLOBAL_ERR_TITLE, 
-                "Cannot load main menu view"));
+                    GLOBAL_ERR_TITLE,
+                    "Cannot load main menu view"));
             return;
         }
 
@@ -179,7 +179,7 @@ public class FXMLMainView extends Application implements GameView {
         return scene;
     }
 
-    private Scene loadGameOver() throws IOException {
+    private Scene loadGameOver(final boolean isOver) throws IOException {
         final Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
         final double scale = 2 / 3.;
         final double width = screenSize.getWidth() * scale;
@@ -188,6 +188,7 @@ public class FXMLMainView extends Application implements GameView {
         final GameOverController gameOverController = (GameOverController) fxmlLoader.getController();
         gameOverController.init(this);
         gameOverController.backToMenu();
+        gameOverController.setTitle(isOver);
         return scene;
     }
 
@@ -240,21 +241,6 @@ public class FXMLMainView extends Application implements GameView {
 
     /** {@inheritDoc} */
     @Override
-    public void printGameOver() {
-        Scene scene;
-        try {
-            scene = this.loadGameOver();
-        } catch (IOException e) {
-            this.printInfo(new InfoPayloadImpl(
-                GLOBAL_ERR_TITLE,
-                "... but you are died!"));
-            return;
-        }
-        stage.setScene(scene);
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public void openInventory() {
         this.gameView.openInv();
     }
@@ -283,5 +269,32 @@ public class FXMLMainView extends Application implements GameView {
      */
     public void changeAutomaticSave() {
         this.controller.changeAutomaticSave();
+    }
+
+    private void loadOverInterface(final boolean isOver, final String suppMess) {
+        Scene scene;
+        try {
+            scene = this.loadGameOver(isOver);
+        } catch (IOException e) {
+            this.printInfo(new InfoPayloadImpl(
+                    GLOBAL_ERR_TITLE,
+                    suppMess));
+            return;
+        }
+        stage.setScene(scene);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public void printGameOver() {
+        loadOverInterface(true, "... but you are died!");
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void printGameWin() {
+        loadOverInterface(false, "... but you won!");
     }
 }

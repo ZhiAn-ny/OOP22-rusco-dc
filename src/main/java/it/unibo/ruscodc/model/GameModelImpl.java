@@ -34,6 +34,7 @@ public class GameModelImpl implements GameModel {
     private Floor floor;
     private final Hero hero;
     private final Pair<Integer, Integer> initialPosition = new Pair<>(3, 3);
+    private static final int FLOOR_TO_WIN = 1;
 
     /**
      * Class constructor.
@@ -106,7 +107,7 @@ public class GameModelImpl implements GameModel {
         this.floor.goToRoom(dir);
 
         final Optional<Interactable> door = this.floor.getCurrentRoom()
-                                          .getDoorOnSide(dir.getOpposite());
+                .getDoorOnSide(dir.getOpposite());
         if (door.isEmpty()) {
             throw new IllegalStateException("Door not found");
         }
@@ -164,13 +165,21 @@ public class GameModelImpl implements GameModel {
     @Override
     public Portrait getRuscoInfo() {
         return new PortraitImpl(hero,
-            (hero.getStatActual(StatName.HP) * 1.0) / (hero.getStatMax(StatName.HP) * 1.0),
-            (hero.getStatActual(StatName.AP) * 1.0) / (hero.getStatMax(StatName.AP) * 1.0));
+                (hero.getStatActual(StatName.HP) * 1.0) / (hero.getStatMax(StatName.HP) * 1.0),
+                (hero.getStatActual(StatName.AP) * 1.0) / (hero.getStatMax(StatName.AP) * 1.0));
     }
 
     /** {@inheritDoc} */
     @Override
     public boolean isGameOver() {
         return !hero.isAlive();
+    }
+
+    /**
+     *
+     */
+    @Override
+    public boolean isGameWin() {
+        return nFloorsExplored > FLOOR_TO_WIN;
     }
 }

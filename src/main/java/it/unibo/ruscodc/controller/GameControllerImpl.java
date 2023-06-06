@@ -117,7 +117,7 @@ public class GameControllerImpl implements GameObserverController {
     /** {@inheritDoc} */
     @Override
     public void save() {
-        // try { 
+        // try {
         //     this.saveManager.saveGame(actualGameName, model);
         //     final InfoPayload err = new InfoPayloadImpl(
         //             "Game saved with successfull",
@@ -216,6 +216,9 @@ public class GameControllerImpl implements GameObserverController {
             } catch (ChangeFloorException f) {
                 changeFloor();
                 playerSituation = Optional.empty();
+                if (this.model.isGameWin()) {
+                    this.view.printGameWin();
+                }
 
             } catch (ChangeRoomException r) {
                 changeRoom(r);
@@ -236,7 +239,7 @@ public class GameControllerImpl implements GameObserverController {
     public void computeInput(final GameControl input) {
         updateRuscoInfo();
         if (model.isGameOver()) {
-            view.printGameOver();
+            this.view.printGameOver();
             return;
         }
         initNewTurn();
@@ -269,7 +272,7 @@ public class GameControllerImpl implements GameObserverController {
                 if (tmpCommand.isReady()) {
                     executeCommand(tmpCommand);
                     //if (isPrintingInv) {
-                        //playerSituation = Optional.of(tmpCommand);
+                    //playerSituation = Optional.of(tmpCommand);
                     //}
                 } else {
                     playerSituation = Optional.of(tmpCommand);
