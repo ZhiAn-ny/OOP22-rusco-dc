@@ -57,7 +57,6 @@ public class GameOverController implements Initializable {
 
     /**
      * Return to the main menu.
-     * @throws IOException when the file is not found.
      */
     @FXML
     public void backToMenu() {
