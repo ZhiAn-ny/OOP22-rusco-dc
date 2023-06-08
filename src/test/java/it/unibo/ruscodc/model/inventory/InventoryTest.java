@@ -21,16 +21,16 @@ import java.util.stream.Collectors;
 @TestInstance(Lifecycle.PER_CLASS)
 class InventoryTest {
     private final EquipementFactory equipementFactory = new EquipementFactoryImpl();
-    private Equipement longSword = this.equipementFactory.createLongSword();
-    private Equipement swordAndShield = this.equipementFactory.createSwordShield();
+    private final Equipement longSword = this.equipementFactory.createLongSword();
+    private final Equipement swordAndShield = this.equipementFactory.createSwordShield();
 
     /**
      * Method under test: Method that creates a Long Sword.
      */
     @Test
     void testAddItem() {
-        Hero hero = new HeroImpl("Test", null, new HeroSkill(), new HeroStat());
-        Inventory inventory = hero.getInventory();
+        final Hero hero = new HeroImpl("Test", null, new HeroSkill(), new HeroStat());
+        final Inventory inventory = hero.getInventory();
         inventory.addItem(longSword);
         inventory.addItem(swordAndShield);
         assertEquals(inventory.getAllItems(), List.of(this.longSword, this.swordAndShield));
@@ -38,8 +38,8 @@ class InventoryTest {
 
     @Test
     void testRemoveItem() {
-        Hero hero = new HeroImpl("Test", null, new HeroSkill(), new HeroStat());
-        Inventory inventory = hero.getInventory();
+        final Hero hero = new HeroImpl("Test", null, new HeroSkill(), new HeroStat());
+        final Inventory inventory = hero.getInventory();
         inventory.addItem(longSword);
         inventory.addItem(swordAndShield);
         inventory.removeItem(inventory.getAllItems().indexOf(this.longSword));
@@ -48,8 +48,8 @@ class InventoryTest {
 
     @Test
     void testEquip() {
-        Hero hero = new HeroImpl("Test", null, new HeroSkill(), new HeroStat());
-        Inventory inventory = hero.getInventory();
+        final Hero hero = new HeroImpl("Test", null, new HeroSkill(), new HeroStat());
+        final Inventory inventory = hero.getInventory();
         inventory.addItem(longSword);
         inventory.addItem(swordAndShield);
         inventory.equip((Equipement) inventory.getItem(0), hero);
