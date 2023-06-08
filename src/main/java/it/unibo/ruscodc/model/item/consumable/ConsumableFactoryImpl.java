@@ -68,11 +68,11 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
             new SingleTargetEffect() {
                 @Override
                 public void applyEffect(final Actor target) {
-                    target.modifyActualStat(
+                    target.modifyMaxStat(
                         StatName.STR,
                         1
                     );
-                    target.modifyMaxStat(
+                    target.modifyActualStat(
                         StatName.STR,
                         1
                     );
@@ -93,11 +93,11 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
             new SingleTargetEffect() {
                 @Override
                 public void applyEffect(final Actor target) {
-                    target.modifyActualStat(
+                    target.modifyMaxStat(
                         StatName.DEX,
                         1
                     );
-                    target.modifyMaxStat(
+                    target.modifyActualStat(
                         StatName.DEX,
                         1
                     );
@@ -118,11 +118,11 @@ public class ConsumableFactoryImpl implements ConsumableFactory {
             new SingleTargetEffect() {
                 @Override
                 public void applyEffect(final Actor target) {
-                    target.modifyActualStat(
+                    target.modifyMaxStat(
                         StatName.INT,
                         1
                     );
-                    target.modifyMaxStat(
+                    target.modifyActualStat(
                         StatName.INT,
                         1
                     );
