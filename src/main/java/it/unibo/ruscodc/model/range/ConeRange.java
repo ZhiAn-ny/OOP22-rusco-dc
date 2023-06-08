@@ -40,7 +40,7 @@ public class ConeRange extends DecoratedRange {
      * 
      */
     @Override
-    protected boolean centerToFrom() {
+    protected boolean centerIntoFrom() {
         return false;
     }
 

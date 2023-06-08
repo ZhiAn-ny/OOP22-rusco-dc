@@ -19,7 +19,6 @@ public abstract class DecoratedRange implements Range {
 
     private final Range basicRange;
 
-    //private Stream<Stream<Pair<Integer, Integer>>> shapeDelta;
     private final Set<Pair<Integer, Integer>> effectiveShape = new HashSet<>();
     private Pair<Integer, Integer> lastBy;
     //private Pair<Integer, Integer> lastTo;
@@ -36,19 +35,17 @@ public abstract class DecoratedRange implements Range {
         effectiveShape.clear();
         effectiveShape.addAll(this.uploadShapeDelta(origin, direction)
             .parallel()
-            .map(s -> Pairs.applyLineDelta(s, this.centerToFrom() ? origin : direction))
+            .map(s -> Pairs.applyLineDelta(s, this.centerIntoFrom() ? origin : direction))
             .flatMap(s -> s.takeWhile(this.filterToApply(where)))
             .collect(Collectors.toSet()));
     }
 
     private void checkIfCommute(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Room where) {
         //if (!to.equals(lastTo) || !by.equals(lastBy)) {
-        //System.out.println("ahahah");
         if (!by.equals(lastBy)) {
             this.commute(by, to, where);
         }
         lastBy = by;
-        //lastBy = by;
         //lastTo = to;
     }
 
@@ -63,12 +60,10 @@ public abstract class DecoratedRange implements Range {
             final Room where) {
         this.checkIfCommute(by, to, where);
         if (basicRange.getRange(by, toCheck, where).size() == 1) {
-            return effectiveShape.contains(toCheck); //okForLast = !okForLast;
+            return effectiveShape.contains(toCheck);
         }
         final boolean okForLast = basicRange.isInRange(by, to, toCheck, where);
         return effectiveShape.contains(toCheck) || okForLast;
-        //boolean tmp = effectiveShape.contains(toCheck) && okForLast;
-        //return tmp;
     }
 
     /**
@@ -137,7 +132,7 @@ public abstract class DecoratedRange implements Range {
         Pair<Integer, Integer> to);
 
     /**
-     * Let other class define when stop a single row.
+     * Let, eventually, other class define when stop a single row.
      * @param where the room, which contains info that define this stop.
      * @return this type of filter.
      */
@@ -146,10 +141,10 @@ public abstract class DecoratedRange implements Range {
     }
 
     /**
-     * Let other class define where Range start (if it start in "by" or in "to").
+     * Let, eventually, other class define where Range start (if it start in "by" or in "to").
      * @return true if this start into "by", false otherwise
      */
-    protected boolean centerToFrom() {
+    protected boolean centerIntoFrom() {
         return true;
     }
 }

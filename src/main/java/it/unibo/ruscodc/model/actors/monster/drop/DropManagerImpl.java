@@ -1,6 +1,7 @@
 package it.unibo.ruscodc.model.actors.monster.drop;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -16,14 +17,15 @@ public class DropManagerImpl implements DropManager {
     private static final Random DICE = new Random();
     private static final Predicate<Item> ONLY_E = i -> i.isWearable();
     private static final Predicate<Item> ONLY_C = i -> !(ONLY_E.test(i));
-    private final List<Item> extractedDrop = new ArrayList<>();
+    private final List<Item> extractedDrop;
 
     /**
      * Create this managing system.
      * @param extractedDrop the all list of item, on which perform some type of extraction
      */
     public DropManagerImpl(final List<Item> extractedDrop) {
-        this.extractedDrop.addAll(extractedDrop);
+        this.extractedDrop = Collections.unmodifiableList(extractedDrop);
+        //this.extractedDrop.addAll(extractedDrop);
     }
 
     /**

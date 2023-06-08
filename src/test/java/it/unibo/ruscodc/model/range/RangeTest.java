@@ -1,4 +1,4 @@
-package it.unibo.ruscodc;
+package it.unibo.ruscodc.model.range;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,11 +17,6 @@ import it.unibo.ruscodc.model.actors.monster.MonsterGenerator;
 import it.unibo.ruscodc.model.actors.monster.MonsterGeneratorImpl;
 import it.unibo.ruscodc.model.gamemap.RectangleRoomImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
-import it.unibo.ruscodc.model.range.CircleRange;
-import it.unibo.ruscodc.model.range.ConeRange;
-import it.unibo.ruscodc.model.range.GlobalRange;
-import it.unibo.ruscodc.model.range.Range;
-import it.unibo.ruscodc.model.range.SingleRange;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 

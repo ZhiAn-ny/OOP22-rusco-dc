@@ -1,4 +1,4 @@
-package it.unibo.ruscodc;
+package it.unibo.ruscodc.model.drop;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
