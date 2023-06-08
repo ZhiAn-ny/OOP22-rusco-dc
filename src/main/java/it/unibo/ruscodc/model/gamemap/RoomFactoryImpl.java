@@ -29,8 +29,8 @@ public class RoomFactoryImpl implements RoomFactory {
     private static final int MIN_ROOM_SIZE = 3;
     private static final int MAX_ROOM_SIZE = 15;
     private static final int MAX_DOORS_NUM = 4;
-    private static final int FIRST_LEVEL_RANGED = 30;
-    private static final int FIRST_LEVEL_MAGE = 50;
+    private static final int FIRST_LEVEL_RANGED = 5;
+    private static final int FIRST_LEVEL_MAGE = 15;
     private final MonsterGenerator monsterGen = new MonsterGeneratorImpl();
     private final DropFactory dropFactory = new DropFactoryImpl();
 
