@@ -8,6 +8,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
@@ -80,11 +82,12 @@ public class GameViewController implements Initializable {
     private Label infoTitle;
     @FXML
     private Label infoDescription;
-
+    @FXML
+    private CheckBox check;
     @FXML
     private StackPane mainPane;
-
-
+    @FXML
+    private Button quit;
     private NumberBinding bindings;
 
     /**
@@ -122,6 +125,16 @@ public class GameViewController implements Initializable {
                         System.out.println("Added item at (X,Y) = " + pos.getX() + " / " + pos.getY());
                     });
                 });
+    }
+
+    /**
+     * This function is used to enable or disable the return to main menu button,
+     * through the use of a checkbox.
+     */
+    private void manageButton() {
+        check.setSelected(true);
+        quit.setDisable(check.isSelected());
+        check.selectedProperty().addListener((observable, oldValue, newValue) -> quit.setDisable(newValue));
     }
 
     /**
@@ -180,6 +193,7 @@ public class GameViewController implements Initializable {
      */
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
+        manageButton();
         this.invPane.toBack();
         this.gameloop();
     }

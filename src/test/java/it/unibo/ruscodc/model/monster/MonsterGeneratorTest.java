@@ -21,10 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @TestInstance(Lifecycle.PER_CLASS)
 final class MonsterGeneratorTest {
-    
-    private final static int ID = 3;
-    private final static String GENERIC_PATH = "it/unibo/ruscodc/monster_res/";
-    
+
+    private static final int ID = 3;
+    private static final int MAGERAT_INT = 5;
+    private static final String GENERIC_PATH = "it/unibo/ruscodc/monster_res/";
+
     private static final Pair<Integer, Integer> CENTRE_POS = new Pair<>(3, 3);
     private final MonsterGenerator monsterGenerator = new MonsterGeneratorImpl();
     private final MonsterStatFactory statFactory = new MonsterStatFactoryImpl();
@@ -43,7 +44,7 @@ final class MonsterGeneratorTest {
         assertEquals(CENTRE_POS, meleeRat.getPos());
 
         final Stat toCheck = this.statFactory.ratStat();
-        for (StatName stat : StatName.values()) {
+        for (final StatName stat : StatName.values()) {
             assertEquals(toCheck.getStatActual(stat), meleeRat.getStatActual(stat));
             assertEquals(toCheck.getStatMax(stat), meleeRat.getStatMax(stat));
         }
@@ -69,7 +70,7 @@ final class MonsterGeneratorTest {
         assertEquals(CENTRE_POS, rangedRat.getPos());
 
         final Stat toCheck = this.statFactory.ratStat();
-        for (StatName stat : StatName.values()) {
+        for (final StatName stat : StatName.values()) {
             assertEquals(toCheck.getStatActual(stat), rangedRat.getStatActual(stat));
             assertEquals(toCheck.getStatMax(stat), rangedRat.getStatMax(stat));
         }
@@ -90,10 +91,10 @@ final class MonsterGeneratorTest {
         assertEquals(CENTRE_POS, mageRat.getPos());
 
         final Stat toCheck = this.statFactory.ratStat();
-        for (StatName stat : StatName.values()) {
+        for (final StatName stat : StatName.values()) {
             if (stat == StatName.INT) {
-                assertEquals(toCheck.getStatActual(stat) + 5, mageRat.getStatActual(stat));
-                assertEquals(toCheck.getStatMax(stat) + 5, mageRat.getStatActual(stat));
+                assertEquals(toCheck.getStatActual(stat) + MAGERAT_INT, mageRat.getStatActual(stat));
+                assertEquals(toCheck.getStatMax(stat) + MAGERAT_INT, mageRat.getStatActual(stat));
             } else {
                 assertEquals(toCheck.getStatActual(stat), mageRat.getStatActual(stat));
                 assertEquals(toCheck.getStatMax(stat), mageRat.getStatActual(stat));
@@ -121,7 +122,7 @@ final class MonsterGeneratorTest {
         assertEquals(CENTRE_POS, rogueOpossum.getPos());
 
         final Stat toCheck = this.statFactory.opossumStat();
-        for (StatName stat : StatName.values()) {
+        for (final StatName stat : StatName.values()) {
             assertEquals(toCheck.getStatActual(stat), rogueOpossum.getStatActual(stat));
             assertEquals(toCheck.getStatMax(stat), rogueOpossum.getStatActual(stat));
         }
@@ -143,27 +144,6 @@ final class MonsterGeneratorTest {
     }
 
     @Test
-    void testrangedOpossum() {
-        final Monster rangedOpossum = this.monsterGenerator.makeRangedOpossum(CENTRE_POS);
-        final Skill rangedOpossumSkill = rangedOpossum.getSkills();
-        assertEquals(ID, rangedOpossum.getID());
-        assertEquals("RangedOpossum", rangedOpossum.getName());
-        assertEquals(GENERIC_PATH + "RangedOpossum", rangedOpossum.getPath());
-        assertEquals(CENTRE_POS, rangedOpossum.getPos());
-
-        final Stat toCheck = this.statFactory.opossumStat();
-        for (StatName stat : StatName.values()) {
-            assertEquals(toCheck.getStatActual(stat), rangedOpossum.getStatActual(stat));
-            assertEquals(toCheck.getStatMax(stat), rangedOpossum.getStatActual(stat));
-        }
-
-        assertEquals(
-            this.monsterActionFactory.basicRangedAttack().toString(),
-            rangedOpossumSkill.getAction(GameControl.BASEATTACK).get().toString()
-        );
-    }
-
-    @Test
     void testRangedOpossum() {
         final Monster rangedOpossum = this.monsterGenerator.makeRangedOpossum(CENTRE_POS);
         final Skill rangedOpossumSkill = rangedOpossum.getSkills();
@@ -173,7 +153,7 @@ final class MonsterGeneratorTest {
         assertEquals(CENTRE_POS, rangedOpossum.getPos());
 
         final Stat toCheck = this.statFactory.opossumStat();
-        for (StatName stat : StatName.values()) {
+        for (final StatName stat : StatName.values()) {
             assertEquals(toCheck.getStatActual(stat), rangedOpossum.getStatActual(stat));
             assertEquals(toCheck.getStatMax(stat), rangedOpossum.getStatActual(stat));
         }
@@ -194,7 +174,7 @@ final class MonsterGeneratorTest {
         assertEquals(CENTRE_POS, meleeSeagull.getPos());
 
         final Stat toCheck = this.statFactory.seagullStat();
-        for (StatName stat : StatName.values()) {
+        for (final StatName stat : StatName.values()) {
             assertEquals(toCheck.getStatActual(stat), meleeSeagull.getStatActual(stat));
             assertEquals(toCheck.getStatMax(stat), meleeSeagull.getStatActual(stat));
         }
@@ -220,7 +200,7 @@ final class MonsterGeneratorTest {
         assertEquals(CENTRE_POS, rangedSeagull.getPos());
 
         final Stat toCheck = this.statFactory.seagullStat();
-        for (StatName stat : StatName.values()) {
+        for (final StatName stat : StatName.values()) {
             assertEquals(toCheck.getStatActual(stat), rangedSeagull.getStatActual(stat));
             assertEquals(toCheck.getStatMax(stat), rangedSeagull.getStatActual(stat));
         }
@@ -241,7 +221,7 @@ final class MonsterGeneratorTest {
         assertEquals(CENTRE_POS, bombCockroach.getPos());
 
         final Stat toCheck = this.statFactory.cockroachStat();
-        for (StatName stat : StatName.values()) {
+        for (final StatName stat : StatName.values()) {
             assertEquals(toCheck.getStatActual(stat), bombCockroach.getStatActual(stat));
             assertEquals(toCheck.getStatMax(stat), bombCockroach.getStatActual(stat));
         }

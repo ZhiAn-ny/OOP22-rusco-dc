@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -17,11 +17,19 @@
     <left>
         <VBox fx:id="infoBox" prefHeight="343.0" prefWidth="111.0" BorderPane.alignment="CENTER">
             <children>
-            <HBox prefHeight="33.0" prefWidth="111.0">
+            <VBox prefHeight="52.0" prefWidth="111.0">
                <children>
-                  <Button fx:id="esci" mnemonicParsing="false" onAction="#exit" text="Esci" />
+                  <Button fx:id="quit" mnemonicParsing="false" onAction="#exit" text="Esci" />
+                  <CheckBox fx:id="check" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" text="Abilita">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </CheckBox>
                </children>
-            </HBox>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </VBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                       <ImageView fitHeight="89.0" fitWidth="106.0" pickOnBounds="true" preserveRatio="true">
@@ -45,87 +53,141 @@
                 </HBox>
             <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
-                  <Label prefHeight="18.0" prefWidth="47.0" text="W" />
+                  <Label prefHeight="18.0" prefWidth="57.0" text="W" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="MOVE UP" />
                </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
             </HBox>
             <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="47.0" text="A" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="MOVE LEFT" />
                </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
             </HBox>
             <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="47.0" text="S" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="MOVE DOWN" />
                </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
             </HBox>
             <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="47.0" text="D" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="MOVE RIGHT" />
                </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
             </HBox>
             <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="47.0" text="C" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="CONFIRM" />
                </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
             </HBox>
             <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="47.0" text="I" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="INVENTORY" />
                </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
             </HBox>
             <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="47.0" text="F" />
                   <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="INTERACT" />
                </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
             </HBox>
             <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
-                  <Label prefHeight="18.0" prefWidth="73.0" text="ESC" />
-                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="CANCEL" />
+                  <Label prefHeight="18.0" prefWidth="82.0" text="ESC" />
+                  <Label alignment="CENTER" prefHeight="21.0" prefWidth="135.0" text="CANCEL">
+                     <HBox.margin>
+                        <Insets left="1.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets left="2.0" />
+                     </padding></Label>
                </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
             </HBox>
             <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                <children>
                   <Label prefHeight="18.0" prefWidth="65.0" text="BACK" />
-                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="80.0" text="DELETE" />
+                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="94.0" text="DELETE" />
                </children>
+               <VBox.margin>
+                  <Insets left="5.0" />
+               </VBox.margin>
             </HBox>
                 <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                     <children>
                         <Label text="1" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="BASE ATTACK" />
                     </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                     <children>
                         <Label text="2" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="ABILITY 1" />
                     </children>
+               <opaqueInsets>
+                  <Insets left="5.0" />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                     <children>
                         <Label text="3" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="ABILITY 2" />
                     </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                     <children>
                         <Label text="4" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="ABILITY 3" />
                     </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="21.0" prefWidth="155.0">
                     <children>
                         <Label text="5" />
                         <Label alignment="CENTER" prefHeight="26.0" prefWidth="131.0" text="ABILITY 4" />
                     </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
                 </HBox>
             </children>
         </VBox>

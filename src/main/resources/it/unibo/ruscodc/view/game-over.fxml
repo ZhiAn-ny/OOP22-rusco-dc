@@ -10,7 +10,7 @@
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Label text="GAME OVER" VBox.vgrow="NEVER">
+            <Label fx:id="titleOver" VBox.vgrow="NEVER">
                <font>
                   <Font size="24.0" />
                </font>

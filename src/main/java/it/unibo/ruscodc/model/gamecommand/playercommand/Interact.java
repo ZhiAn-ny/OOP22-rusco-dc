@@ -130,11 +130,18 @@ public class Interact extends NoIACommand {
             throw new IllegalStateException("GameCommand behind interactable must not be complex");
         }
 
-        super.reset();
-        justOpen = true;
-        final Optional<InfoPayload> res = obtained.execute();
+        final Optional<InfoPayload> res;
+        try {
+            res = obtained.execute();
+        } catch (ModelException e) {
+            super.reset();
+            throw e;
+        }
+
         if (res.isEmpty()) {
             this.getRoom().get(tmpCursor).get().empty();
+            super.reset();
+            justOpen = true;
         }
         return res;
     }

@@ -55,6 +55,11 @@ public interface GameView {
     void printGameOver();
 
     /**
+     * Print to the view the game win view.
+     */
+    void printGameWin();
+
+    /**
      * Open the inventory view.
      */
     void openInventory();

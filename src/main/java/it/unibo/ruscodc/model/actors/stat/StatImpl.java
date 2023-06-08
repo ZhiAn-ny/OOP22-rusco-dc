@@ -110,6 +110,6 @@ public class StatImpl implements Stat {
                 + "], "
             );
         }
-        return info.toString().substring(0, info.length() - 3);
+        return info.toString().substring(0, info.length() - 2);
     }
 }

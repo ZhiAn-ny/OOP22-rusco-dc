@@ -2,10 +2,8 @@ package it.unibo.ruscodc.model.actors.monster.drop;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -20,7 +18,6 @@ import it.unibo.ruscodc.model.item.consumable.ConsumableFactory;
 import it.unibo.ruscodc.model.item.consumable.ConsumableFactoryImpl;
 import it.unibo.ruscodc.model.item.equipement.EquipementFactory;
 import it.unibo.ruscodc.model.item.equipement.EquipementFactoryImpl;
-import it.unibo.ruscodc.utils.MyIterator;
 import it.unibo.ruscodc.utils.Pair;
 
 /**
@@ -35,8 +32,8 @@ public class DropFactoryImpl implements DropFactory {
     private static final int FLOOR_CYCLE = 5;
     private static final List<Double> STAT_COEFF = List.of(1.0, 1.0, 1.5, 1.0, 1.0, 1.0);
 
-    private static final Map<Integer, Supplier<Item>> TAB_E = new HashMap<>();
-    private static final Map<Integer, Supplier<Item>> TAB_C = new HashMap<>();
+    private static final List<Supplier<Item>> LIS_E = new ArrayList<>();
+    private static final List<Supplier<Item>> LIS_C = new ArrayList<>();
 
     private static boolean isInit;
 
@@ -49,19 +46,15 @@ public class DropFactoryImpl implements DropFactory {
         }
     }
 
-    private void fillTable(final Set<Method> itemsToAdd, final Object receiver, final Map<Integer, Supplier<Item>> toFill) {
-        final Iterator<Integer> myIt = Stream.iterate(0, i -> i + 1).iterator();
+    private void fillList(final Set<Method> itemsToAdd, final Object receiver, final List<Supplier<Item>> toFill) {
         itemsToAdd.forEach(
-            m -> toFill.put(
-                myIt.next(), 
+            m -> toFill.add(
                 () -> {
-                        try {
-                            return (Item) m.invoke(receiver);
-                        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                            e.printStackTrace();
-                            return null;
-                        }
-                    
+                    try {
+                        return (Item) m.invoke(receiver);
+                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                        return null;
+                    }
                 }
             )
         );
@@ -82,10 +75,8 @@ public class DropFactoryImpl implements DropFactory {
         equipMethods.removeAll(objMethods);
         consMethods.removeAll(objMethods);
 
-        consMethods.forEach(o -> System.out.println(o.toString()));
-
-        fillTable(equipMethods, new EquipementFactoryImpl(), TAB_E);
-        fillTable(consMethods, new ConsumableFactoryImpl(), TAB_C);
+        fillList(consMethods, new ConsumableFactoryImpl(), LIS_C);
+        fillList(equipMethods, new EquipementFactoryImpl(), LIS_E);
         isInit = true;
     }
 
@@ -110,8 +101,8 @@ public class DropFactoryImpl implements DropFactory {
         return finValue < 0 ? 0 : finValue;
     }
 
-    private List<Item> createDrop(final List<Pair<Map<Integer, Supplier<Item>>, Integer>> tables) {
-        return tables.stream()
+    private List<Item> createDrop(final List<Pair<List<Supplier<Item>>, Integer>> dropNeedList) {
+        return dropNeedList.stream()
             .flatMap(p -> Stream.iterate(0, i -> i < p.getY(), i -> i + 1)
                 .map(i -> p.getX().get(DICE.nextInt(p.getX().size())).get())
                 )
@@ -121,12 +112,12 @@ public class DropFactoryImpl implements DropFactory {
     private DropManager createMischellaneus(final int total) {
         final int totalEquipment = (int) (total * (2 - GOLDEN_RATIO));
         return new DropManagerImpl(createDrop(List.of(
-                new Pair<>(TAB_C, total - totalEquipment),
-                new Pair<>(TAB_E, totalEquipment))));
+                new Pair<>(LIS_C, total - totalEquipment),
+                new Pair<>(LIS_E, totalEquipment))));
     } 
 
     private DropManager createOnlyConsumable(final int total) {
-        return new DropManagerImpl(createDrop(List.of(new Pair<>(TAB_C, total))));
+        return new DropManagerImpl(createDrop(List.of(new Pair<>(LIS_C, total))));
     } 
 
     private DropManager creationManager(final int amountValue) {
@@ -135,9 +126,9 @@ public class DropFactoryImpl implements DropFactory {
             throw new IllegalStateException("amountValue cannot be negative!");
         }
         if (total % 2 == 0) {
-            return createMischellaneus(total);    
+            return createMischellaneus(total);
         } else {
-            return createOnlyConsumable(total);    
+            return createOnlyConsumable(total);
         }
     }
 

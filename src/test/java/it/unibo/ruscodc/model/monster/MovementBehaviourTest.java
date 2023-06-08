@@ -21,8 +21,14 @@ import it.unibo.ruscodc.model.actors.skill.SkillImpl;
 import it.unibo.ruscodc.model.gamemap.RectangleRoomImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.utils.Pair;
+import it.unibo.ruscodc.utils.exception.ModelException;
 
-public class MovementBehaviourTest {
+/**
+ * Test for the movement of different Monsters.
+ */
+class MovementBehaviourTest {
+
+    private static final int SIZE = 7;
     private static final Pair<Integer, Integer> CENTRE_POS = new Pair<>(3, 3);
     private static final Pair<Integer, Integer> UP_POS = new Pair<>(3, 1);
     private static final Pair<Integer, Integer> DOWN_POS = new Pair<>(3, 5);
@@ -34,8 +40,8 @@ public class MovementBehaviourTest {
 
     @Test
     void testAggressiveMoveUP() {
-        Room room = new RectangleRoomImpl(7, 7);
-        Monster monster = new MonsterImpl(
+        final Room room = new RectangleRoomImpl(SIZE, SIZE);
+        final Monster monster = new MonsterImpl(
             "",
             CENTRE_POS,
             new SkillImpl(),
@@ -45,11 +51,11 @@ public class MovementBehaviourTest {
 
         room.addMonster(monster);
 
-        Hero hero = new HeroImpl("", UP_POS, new HeroSkill(), new HeroStat());
-        
+        final Hero hero = new HeroImpl("", UP_POS, new HeroSkill(), new HeroStat());
+
         try {
             monster.behave(room, List.of(hero)).execute();
-        } catch (Exception e) {
+        } catch (final ModelException e) {
             fail("MoveUP Error", e);
         }
 
@@ -58,8 +64,8 @@ public class MovementBehaviourTest {
 
     @Test
     void testAggressiveMoveDOWN() {
-        Room room = new RectangleRoomImpl(7, 7);
-        Monster monster = new MonsterImpl(
+        final Room room = new RectangleRoomImpl(SIZE, SIZE);
+        final Monster monster = new MonsterImpl(
             "",
             CENTRE_POS,
             new SkillImpl(),
@@ -69,11 +75,11 @@ public class MovementBehaviourTest {
 
         room.addMonster(monster);
 
-        Hero hero = new HeroImpl("", DOWN_POS, new HeroSkill(), new HeroStat());
-        
+        final Hero hero = new HeroImpl("", DOWN_POS, new HeroSkill(), new HeroStat());
+
         try {
             monster.behave(room, List.of(hero)).execute();
-        } catch (Exception e) {
+        } catch (final ModelException e) {
             fail("MoveDOWN Error", e);
         }
 
@@ -82,8 +88,8 @@ public class MovementBehaviourTest {
 
     @Test
     void testAggressiveMoveLEFT() {
-        Room room = new RectangleRoomImpl(7, 7);
-        Monster monster = new MonsterImpl(
+        final Room room = new RectangleRoomImpl(SIZE, SIZE);
+        final Monster monster = new MonsterImpl(
             "",
             CENTRE_POS,
             new SkillImpl(),
@@ -93,11 +99,11 @@ public class MovementBehaviourTest {
 
         room.addMonster(monster);
 
-        Hero hero = new HeroImpl("", LEFT_POS, new HeroSkill(), new HeroStat());
-        
+        final Hero hero = new HeroImpl("", LEFT_POS, new HeroSkill(), new HeroStat());
+
         try {
             monster.behave(room, List.of(hero)).execute();
-        } catch (Exception e) {
+        } catch (final ModelException e) {
             fail("MoveLEFT Error", e);
         }
 
@@ -106,8 +112,8 @@ public class MovementBehaviourTest {
 
     @Test
     void testAggressiveMoveRIGHT() {
-        Room room = new RectangleRoomImpl(7, 7);
-        Monster monster = new MonsterImpl(
+        final Room room = new RectangleRoomImpl(SIZE, SIZE);
+        final Monster monster = new MonsterImpl(
             "",
             CENTRE_POS,
             new SkillImpl(),
@@ -117,11 +123,11 @@ public class MovementBehaviourTest {
 
         room.addMonster(monster);
 
-        Hero hero = new HeroImpl("", RIGHT_POS, new HeroSkill(), new HeroStat());
-        
+        final Hero hero = new HeroImpl("", RIGHT_POS, new HeroSkill(), new HeroStat());
+
         try {
             monster.behave(room, List.of(hero)).execute();
-        } catch (Exception e) {
+        } catch (final ModelException e) {
             fail("MoveRIGHT Error", e);
         }
 
@@ -130,8 +136,8 @@ public class MovementBehaviourTest {
 
     @Test
     void testRandomMove() {
-        Room room = new RectangleRoomImpl(7, 7);
-        Monster monster = new MonsterImpl(
+        final Room room = new RectangleRoomImpl(SIZE, SIZE);
+        final Monster monster = new MonsterImpl(
             "",
             CENTRE_POS,
             new SkillImpl(),
@@ -141,13 +147,13 @@ public class MovementBehaviourTest {
 
         room.addMonster(monster);
 
-        Hero hero = new HeroImpl("", UP_POS, new HeroSkill(), new HeroStat());
+        final Hero hero = new HeroImpl("", UP_POS, new HeroSkill(), new HeroStat());
 
-        Pair<Integer, Integer> oldPos = monster.getPos();
-        
+        final Pair<Integer, Integer> oldPos = monster.getPos();
+
         try {
             monster.behave(room, List.of(hero)).execute();
-        } catch (Exception e) {
+        } catch (final ModelException e) {
             fail("MoveRANDOM Error", e);
         }
 
@@ -156,8 +162,8 @@ public class MovementBehaviourTest {
 
     @Test
     void testShyMoveDOWN() {
-        Room room = new RectangleRoomImpl(7, 7);
-        Monster monster = new MonsterImpl(
+        final Room room = new RectangleRoomImpl(SIZE, SIZE);
+        final Monster monster = new MonsterImpl(
             "",
             CENTRE_POS,
             new SkillImpl(),
@@ -167,11 +173,11 @@ public class MovementBehaviourTest {
 
         room.addMonster(monster);
 
-        Hero hero = new HeroImpl("", UP_POS, new HeroSkill(), new HeroStat());
-        
+        final Hero hero = new HeroImpl("", UP_POS, new HeroSkill(), new HeroStat());
+
         try {
             monster.behave(room, List.of(hero)).execute();
-        } catch (Exception e) {
+        } catch (final ModelException e) {
             fail("MoveDOWN Error", e);
         }
 
@@ -180,8 +186,8 @@ public class MovementBehaviourTest {
 
     @Test
     void testShyMoveUP() {
-        Room room = new RectangleRoomImpl(7, 7);
-        Monster monster = new MonsterImpl(
+        final Room room = new RectangleRoomImpl(SIZE, SIZE);
+        final Monster monster = new MonsterImpl(
             "",
             CENTRE_POS,
             new SkillImpl(),
@@ -191,11 +197,11 @@ public class MovementBehaviourTest {
 
         room.addMonster(monster);
 
-        Hero hero = new HeroImpl("", DOWN_POS, new HeroSkill(), new HeroStat());
-        
+        final Hero hero = new HeroImpl("", DOWN_POS, new HeroSkill(), new HeroStat());
+
         try {
             monster.behave(room, List.of(hero)).execute();
-        } catch (Exception e) {
+        } catch (final ModelException e) {
             fail("MoveUP Error", e);
         }
 
@@ -204,8 +210,8 @@ public class MovementBehaviourTest {
 
     @Test
     void testShyMoveRIGHT() {
-        Room room = new RectangleRoomImpl(7, 7);
-        Monster monster = new MonsterImpl(
+        final Room room = new RectangleRoomImpl(SIZE, SIZE);
+        final Monster monster = new MonsterImpl(
             "",
             CENTRE_POS,
             new SkillImpl(),
@@ -215,11 +221,11 @@ public class MovementBehaviourTest {
 
         room.addMonster(monster);
 
-        Hero hero = new HeroImpl("", LEFT_POS, new HeroSkill(), new HeroStat());
-        
+        final Hero hero = new HeroImpl("", LEFT_POS, new HeroSkill(), new HeroStat());
+
         try {
             monster.behave(room, List.of(hero)).execute();
-        } catch (Exception e) {
+        } catch (final ModelException e) {
             fail("MoveRIGHT Error", e);
         }
 
@@ -228,8 +234,8 @@ public class MovementBehaviourTest {
 
     @Test
     void testShyMoveLEFT() {
-        Room room = new RectangleRoomImpl(7, 7);
-        Monster monster = new MonsterImpl(
+        final Room room = new RectangleRoomImpl(SIZE, SIZE);
+        final Monster monster = new MonsterImpl(
             "",
             CENTRE_POS,
             new SkillImpl(),
@@ -239,11 +245,11 @@ public class MovementBehaviourTest {
 
         room.addMonster(monster);
 
-        Hero hero = new HeroImpl("", RIGHT_POS, new HeroSkill(), new HeroStat());
-        
+        final Hero hero = new HeroImpl("", RIGHT_POS, new HeroSkill(), new HeroStat());
+
         try {
             monster.behave(room, List.of(hero)).execute();
-        } catch (Exception e) {
+        } catch (final ModelException e) {
             fail("MoveLEFT Error", e);
         }
 
