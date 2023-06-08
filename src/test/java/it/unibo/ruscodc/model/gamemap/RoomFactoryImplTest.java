@@ -168,7 +168,6 @@ class RoomFactoryImplTest {
                 maxNumItems = maxNumItems / minRoomSize / 2;
                 maxNumItems = maxNumItems <= 0 ? 2 : maxNumItems + 1;
 
-                System.out.println(maxNumItems);
                 assertTrue(maxNumItems > 0, FLOOR_WAS + floor);
                 assertTrue(maxNumItems < room.getArea(), FLOOR_WAS + floor);
             }
