@@ -5,8 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import it.unibo.ruscodc.model.actors.hero.Hero;
+import it.unibo.ruscodc.model.item.Item;
+import it.unibo.ruscodc.model.item.consumable.ConsumableFactoryImpl;
+import it.unibo.ruscodc.model.item.consumable.ConsumableFactory;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -26,6 +35,7 @@ import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveDownCommand;
 import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveLeftCommand;
 import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveRightCommand;
 import it.unibo.ruscodc.model.gamecommand.quickcommand.MoveUpCommand;
+import it.unibo.ruscodc.model.gamecommand.quickcommand.FillInventory;
 import it.unibo.ruscodc.model.gamemap.RectangleRoomImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.range.Range;
@@ -176,6 +186,42 @@ final class QuickCommandTest {
         final GameCommand toTest = new ChangeFloor();
         checkAlterContest(toTest);
         assertThrows(ChangeFloorException.class, () -> toTest.execute());
+    }
+
+    /**
+     * Test if the Hero's inventory actual fills.
+     * Credit Luca Bandiera.
+     */
+    @Test
+    void checkFillInveroty() {
+        final ConsumableFactory itemGen = new ConsumableFactoryImpl();
+        final int amount = 7;
+        final Set<Item> dropped = Stream.generate(() -> itemGen.createAPotion()).limit(amount).collect(Collectors.toSet());
+        final GameCommand fill1 = new FillInventory(dropped);
+        final Hero hero = (Hero) heroSupp.get();
+        setCommand(fill1, hero);
+        Optional<InfoPayload> res;
+        try {
+            res = fill1.execute();
+        } catch (ModelException e) {
+            fail("Typically this command doesn't throw ModelException");
+            res = Optional.empty();
+        }
+        assertEquals(Optional.empty(), res, "Items must be added to an empty inventory!");
+
+        while (!hero.getInventory().isFull()) {
+            hero.getInventory().addItem(itemGen.createAPotion());
+        }
+
+        final GameCommand fill2 = new FillInventory(dropped);
+        setCommand(fill2, hero);
+        try {
+            res = fill2.execute();
+        } catch (ModelException e) {
+            fail("Typically this command doesn't throw ModelException");
+            res = Optional.empty();
+        }
+        assertNotEquals(Optional.empty(), res, "Items should NOT be added to a full inventory");
     }
 
 }
