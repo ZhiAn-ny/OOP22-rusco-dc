@@ -20,7 +20,7 @@
             <VBox prefHeight="52.0" prefWidth="111.0">
                <children>
                   <Button fx:id="quit" mnemonicParsing="false" onAction="#exit" text="Esci" />
-                  <CheckBox fx:id="check" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" text="Abilita">
+                  <CheckBox fx:id="check" alignment="CENTER_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" text="Disabilita">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
