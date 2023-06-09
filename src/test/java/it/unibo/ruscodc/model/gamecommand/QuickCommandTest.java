@@ -80,7 +80,8 @@ final class QuickCommandTest {
     }
 
     /**
-     * On a quick command, you can call methods only from the GameCommand interface.
+     * Test if on a Quick command, you effectily can call methods only from the GameCommand interface.
+     * Credit: Pesaresi Jacopo.
      */
     @Test
     void checkQuick() {
@@ -91,7 +92,8 @@ final class QuickCommandTest {
     }
 
     /**
-     * On a Handlable command you cannot call a method of IA.
+     * Test if on a Handlable command you effectily cannot call a method of IA.
+     * Credit: Pesaresi Jacopo.
      */
     @Test
     void checkComplexHandable() {
@@ -102,7 +104,8 @@ final class QuickCommandTest {
     }
 
     /**
-     * On a IA command you cannot call a method of Handable.
+     * Test if on a IA command you effectily cannot call a method of Handable.
+     * Credit: Pesaresi Jacopo.
      */
     @Test
     void checkComplexIA() {
@@ -129,6 +132,7 @@ final class QuickCommandTest {
 
     /**
      * Test moving up.
+     * Credit: Pesaresi Jacopo.
      */
     @Test
     void checkMoveUp() {
@@ -137,6 +141,7 @@ final class QuickCommandTest {
 
     /**
      * Test moving down.
+     * Credit: Pesaresi Jacopo.
      */
     @Test
     void checkMoveDown() {
@@ -145,6 +150,7 @@ final class QuickCommandTest {
 
     /**
      * Test moving left.
+     * Credit: Pesaresi Jacopo.
      */
     @Test
     void checkMoveLeft() {
@@ -153,6 +159,7 @@ final class QuickCommandTest {
 
     /**
      * Test moving right.
+     * Credit: Pesaresi Jacopo.
      */
     @Test
     void checkMoveRight() {
@@ -169,6 +176,7 @@ final class QuickCommandTest {
     /**
      * Test if the executing of "ChangeRoom" command effectly advise the caller with a ModelExcelpion.
      * and check if that exception is an "ChangeRoomException".
+     * Credit: Pesaresi Jacopo.
      */
     @Test
     void checkChangeRoom() {
@@ -180,6 +188,7 @@ final class QuickCommandTest {
     /**
      * Test if the executing of "ChangeRoom" command effectly advise the caller with a ModelExcelpion.
      * and check if that exception is an "ChangeFloorException".
+     * Credit: Pesaresi Jacopo.
      */
     @Test
     void checkChangeFloor() {

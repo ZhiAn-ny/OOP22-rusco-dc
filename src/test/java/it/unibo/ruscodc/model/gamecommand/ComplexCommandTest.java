@@ -43,6 +43,9 @@ import it.unibo.ruscodc.utils.exception.Undo;
 import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.outputinfo.InfoPayloadImpl;
 
+/**
+ * Credits: Pesaresi Jacopo
+ */
 @TestInstance(Lifecycle.PER_CLASS)
 class ComplexCommandTest {
 
