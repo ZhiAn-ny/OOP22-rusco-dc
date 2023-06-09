@@ -121,7 +121,7 @@ public class PlayerAttack extends NoIACommand {
     @Override
     public List<Entity> getEntities() {
         if (isFirstTime) {
-            reset();
+            resetCursor();
         }
         final List<Entity> toPrint = new ArrayList<>();
         toPrint.add(getCursorAsEntity());
@@ -199,7 +199,7 @@ public class PlayerAttack extends NoIACommand {
                 deadMonsters.get(i).getPos(), 
                 new Drop(new HashSet<>(drops.get(i).generateRandomDrop()), deadMonsters.get(i).getPos())));
         isFirstTime = true;
-        super.reset();
+        reset();
         return Optional.empty();
     }
 
@@ -208,9 +208,9 @@ public class PlayerAttack extends NoIACommand {
      */
     @Override
     public String toString() {
-        return "\nCost : " + actionToPerform.getEffectAPcost() + " AP" 
-            + "\nRange: " + range.toString() 
-            + "\nSplash: " + splash.toString() 
+        return "\nCost : " + actionToPerform.getEffectAPcost() + " AP"
+            + "\nRange: " + range.toString()
+            + "\nSplash: " + splash.toString()
             + "\nEffect: " + actionToPerform.toString() + "\n\n";
     }
 

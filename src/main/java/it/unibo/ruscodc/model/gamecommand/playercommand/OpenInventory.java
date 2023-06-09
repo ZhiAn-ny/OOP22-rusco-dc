@@ -36,7 +36,7 @@ public class OpenInventory extends NoIACommand {
         return toConvert.getY() * COLS + toConvert.getX();
     }
 
-    private void resetCursor() {
+    private void resetCursorForOpenInventory() {
         if (this.cursorPos == null || byPtoI(this.cursorPos) >= this.inventory.slotOccupied()) {
             this.cursorPos = new Pair<>(0, 0);
         }
@@ -137,12 +137,12 @@ public class OpenInventory extends NoIACommand {
             case CONFIRM:
                 this.manageUse();
                 this.isReady = false;
-                this.resetCursor();
+                this.resetCursorForOpenInventory();
                 break;
 
             case DELETE:
                 inventory.removeItem(this.cursorPos.getY() * COLS + this.cursorPos.getX());
-                resetCursor();
+                resetCursorForOpenInventory();
                 break;
 
             case CANCEL: 
@@ -232,7 +232,7 @@ public class OpenInventory extends NoIACommand {
             //this.mustClose = false;
             //this.needAbort = false;
             this.advise = Optional.empty();
-            resetCursor();
+            resetCursorForOpenInventory();
             throw new Undo();
         }
         this.isReady = false;
@@ -249,7 +249,7 @@ public class OpenInventory extends NoIACommand {
             this.hero = (Hero) this.getActor();
             this.inventory = hero.getInventory();
             isInit = true;
-            resetCursor();
+            resetCursorForOpenInventory();
         }
         return isReady;
     }

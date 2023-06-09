@@ -24,7 +24,7 @@ public class DoNothing extends QuickActionAbs {
      */
     @Override
     public String toString() {
-        return "Stay immobile (wow, what a wonderful rubbish!)";
+        return "Stay still (Wow, what wonderful pieces of garbage!)";
     }
 
 }

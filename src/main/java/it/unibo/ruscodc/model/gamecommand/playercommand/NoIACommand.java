@@ -11,7 +11,7 @@ import it.unibo.ruscodc.utils.Pairs;
 /**
  * All command that
  * <ul>
- * <li> are not logically ready 
+ * <li> are not logically immidietaly ready
  * <li> must manage input player
  * </ul>
  * must extend this class, that define witch method cannot be callable for this type of command.
@@ -130,9 +130,16 @@ public abstract class NoIACommand extends ComplexActionAbs {
      * Reset the status of a command.
      */
     protected void reset() {
-        cursorPos = this.getActor().getPos();
+        cursorPos = null;
         undo = false;
         isReady = false;
+    }
+
+    /**
+     * Reset the status of a command.
+     */
+    protected void resetCursor() {
+        cursorPos = this.getActor().getPos();
     }
 
     /**

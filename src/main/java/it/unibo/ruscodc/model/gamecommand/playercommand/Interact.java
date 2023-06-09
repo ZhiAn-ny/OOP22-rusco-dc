@@ -71,13 +71,18 @@ public class Interact extends NoIACommand {
     @Override
     public List<Entity> getEntities() {
         if (justOpen) {
-            reset();
+            resetCursor();
             justOpen = false;
         }
         final List<Entity> tmp = new ArrayList<>(
             this.interactableRange.getRange(this.getActor().getPos(), super.getCursorPos(), this.getRoom()));
         tmp.add(getCursorAsEntity());
         return tmp;
+    }
+
+    private void resetInteract() {
+        reset();
+        justOpen = true;
     }
 
     /**
@@ -89,7 +94,7 @@ public class Interact extends NoIACommand {
 
         //cursorPos = null;
         if (super.mustAbortCommand()) {
-            justOpen = true;
+            resetInteract();
             throw new Undo();
         }
 
@@ -133,15 +138,14 @@ public class Interact extends NoIACommand {
         final Optional<InfoPayload> res;
         try {
             res = obtained.execute();
-        } catch (ModelException e) {
-            super.reset();
+        } catch (final ModelException e) {
+            resetInteract();
             throw e;
         }
 
         if (res.isEmpty()) {
             this.getRoom().get(tmpCursor).get().empty();
-            super.reset();
-            justOpen = true;
+            resetInteract();
         }
         return res;
     }

@@ -7,8 +7,8 @@ package it.unibo.ruscodc.utils.exception;
  *  <li>it should be legal</li>
  *  <li>start the management for next actor</li>
  *  </ol>
- * But maybe an action could be generate another action, or the command isn't legal
- * All classes that extend this class define all this situation
+ * But maybe an action could alter this basic game flow
+ * These exception are usefull to go back, or to init, a new cycle of turns
  */
 public class ModelException extends Exception {
     static final long serialVersionUID = 7002L;

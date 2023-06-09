@@ -132,7 +132,7 @@ public abstract class DecoratedRange implements Range {
         Pair<Integer, Integer> to);
 
     /**
-     * Let, eventually, other class define when stop a single row.
+     * Let, eventually, other class define when stop a single row of the set of rows that define the area.
      * @param where the room, which contains info that define this stop.
      * @return this type of filter.
      */

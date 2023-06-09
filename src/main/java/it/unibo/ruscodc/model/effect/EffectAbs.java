@@ -3,7 +3,7 @@ package it.unibo.ruscodc.model.effect;
 import it.unibo.ruscodc.model.actors.Actor;
 
 /**
- * Basic implementation of an Effect.
+ * Basic (half)implementation of an Effect.
  */
 public abstract class EffectAbs implements Effect {
 
@@ -26,7 +26,7 @@ public abstract class EffectAbs implements Effect {
     }
 
     /**
-     * 
+     * Let other classes define which effect is to apply.
      */
     @Override
     public abstract void applyEffect(Actor from, Actor to);

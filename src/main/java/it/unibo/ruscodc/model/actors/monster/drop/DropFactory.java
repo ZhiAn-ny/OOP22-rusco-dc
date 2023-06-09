@@ -30,7 +30,7 @@ public interface DropFactory {
     DropManager createGenericPoorDrop(Actor by);
 
     /**
-     * Create a DropManager usefull for the spawing of room.
+     * Create a DropManager usefull for the creation of room.
      * @param roomSize the dimensions of a room
      * @param floorDepth the depth of the floor where the room is contained
      * @return the computed DropManager

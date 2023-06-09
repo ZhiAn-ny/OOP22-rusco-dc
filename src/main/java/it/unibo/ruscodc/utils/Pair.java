@@ -3,7 +3,8 @@ package it.unibo.ruscodc.utils;
 import java.io.Serializable;
 
 /**
- * Class that wrap the concept of 2D tupla.
+ * Class that wrap the concept of "2D tupla".
+ * Taked by file gived into OOP exam exercitations.
  * @param <X> the first component
  * @param <Y> the second component
  */

@@ -34,7 +34,7 @@ public class GameModelImpl implements GameModel {
     private Floor floor;
     private final Hero hero;
     private final Pair<Integer, Integer> initialPosition = new Pair<>(3, 3);
-    private static final int FLOOR_TO_WIN = 1;
+    private static final int FLOOR_TO_WIN = 15;
 
     /**
      * Class constructor.
@@ -53,8 +53,7 @@ public class GameModelImpl implements GameModel {
     }
 
     /**
-     * list with the initiative of actor.
-     * @return the list of hero
+     * 
      */
     @Override
     public List<Actor> getActorByInitative() {

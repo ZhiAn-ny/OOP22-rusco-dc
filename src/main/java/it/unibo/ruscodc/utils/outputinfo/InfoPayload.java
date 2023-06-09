@@ -1,7 +1,7 @@
 package it.unibo.ruscodc.utils.outputinfo;
 
 /**
- * An utility class to prensent to the view a set of information that don't follow a matrix logic.
+ * An utility class to present to the view a set of information that don't follow a matrix logic.
  * For now, these informations can rappresent a simple info-page with title, description and one image
  * coded with their path.
  */

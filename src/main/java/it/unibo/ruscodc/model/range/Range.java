@@ -26,7 +26,7 @@ public interface Range {
      * @param by the position where Range start
      * @param to the position where Range could end
      * @param where the room that could modify the naturally shape of the wrapped Area
-     * @return an iterator of this things
+     * @return an set of these little sqare
      */
     Set<Entity> getRange(Pair<Integer, Integer> by, Pair<Integer, Integer> to, Room where);
 }

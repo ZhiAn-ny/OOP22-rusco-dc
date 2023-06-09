@@ -148,6 +148,9 @@ class ComplexCommandTest {
         final int b = other.get().getStatActual(StatName.HP);
         assertEquals(Math.abs(a - b), DAMAGE, "attack not take by enemy");
 
+        //reset command
+        setHandlableCommand(baseAttack, hero, room);
+
         assertTrue(baseAttack.modify(GameControl.MOVEUP), "This input is legal, it must upload the view");
         assertTrue(baseAttack.modify(GameControl.MOVEUP), "This input is legal, it must upload the view");
         Optional<InfoPayload> res2;

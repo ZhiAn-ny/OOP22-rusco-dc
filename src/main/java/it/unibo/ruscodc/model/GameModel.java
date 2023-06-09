@@ -33,8 +33,8 @@ public interface GameModel {
     List<Entity> getInfo(Entity toGet);
 
     /**
-     *
-     * @return a current room.
+     * Get the current room, where there are all entity drawed on view.
+     * @return the current room.
      */
     Room getCurrentRoom();
 
@@ -54,7 +54,6 @@ public interface GameModel {
      * @param monster the monster to eliminate
      */
     void eliminateMonster(Monster monster);
-
 
     /**
      * Help to get some info about hero.
