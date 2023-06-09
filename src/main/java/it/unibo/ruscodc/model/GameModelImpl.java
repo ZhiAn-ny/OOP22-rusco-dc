@@ -34,7 +34,7 @@ public class GameModelImpl implements GameModel {
     private Floor floor;
     private final Hero hero;
     private final Pair<Integer, Integer> initialPosition = new Pair<>(3, 3);
-    private static final int FLOOR_TO_WIN = 15;
+    private static final int VICTORY_LEVEL = 15;
 
     /**
      * Class constructor.
@@ -153,6 +153,6 @@ public class GameModelImpl implements GameModel {
      */
     @Override
     public boolean isGameWin() {
-        return nFloorsExplored > FLOOR_TO_WIN;
+        return nFloorsExplored > VICTORY_LEVEL;
     }
 }

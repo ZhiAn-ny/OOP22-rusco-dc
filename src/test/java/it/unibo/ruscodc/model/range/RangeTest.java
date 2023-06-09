@@ -129,7 +129,6 @@ final class RangeTest {
     void testConeRange2() { 
         final Range coneR = new ConeRange(BASIC_R_SIZE, basicR);
         cursorPos = Pairs.computeUpPair(Pairs.computeUpPair(heroPos));
-        //cursorPos = Pairs.computeLeftPair(Pairs.computeLeftPair(cursorPos));
         final long counted = enemyPos.get()
             .filter(ep -> coneR.isInRange(heroPos, cursorPos, ep, r)).count();
         assertEquals(2, counted, ERR_M);

@@ -1,6 +1,5 @@
 package it.unibo.ruscodc.model.drop;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -43,8 +42,8 @@ final class DropTest {
      * Help developer to see how work loot giving a monster that ideally is dead
      */
     @Test
-    void seeInternalStateForUman1() {
-        System.out.println(" ### ### seeInternalStateForUman1 ### ### "); //NOPMD: help developer during developing phase
+    void seeInternalStateForHuman1() {
+        System.out.println(" ### ### seeInternalStateForHuman1 ### ### "); //NOPMD: help developer during developing phase
         System.out.println(dm.generateAllDrop().size()); //NOPMD: help developer during developing phase
         dm.generateAllDrop().forEach(d -> System.out.println(d.getName())); //NOPMD: help developer during developing phase
     }
@@ -54,8 +53,8 @@ final class DropTest {
      * Help developer to see how work loot giving a monster that ideally is dead
      */
     @Test
-    void seeInternalStateForUman2() {
-        System.out.println(" ### ### seeInternalStateForUman2 ### ### "); //NOPMD: help developer during developing phase
+    void seeInternalStateForHuman2() {
+        System.out.println(" ### ### seeInternalStateForHuman2 ### ### "); //NOPMD: help developer during developing phase
         for (int i = 0; i < ATTEMPS; i++) {
             System.out.println(" ### GEN " + i + " ### "); //NOPMD: help developer during developing phase
             dm.generateRandomDrop().forEach(d -> System.out.println(d.getName())); //NOPMD: help developer during developing phase
@@ -67,8 +66,8 @@ final class DropTest {
      * Help developer to see how work loot giving a monster that ideally is dead
      */
     @Test
-    void seeInternalStateForUman3() {
-        System.out.println(" ### ### seeInternalStateForUman3 ### ### "); //NOPMD: help developer during developing phase
+    void seeInternalStateForHuman3() {
+        System.out.println(" ### ### seeInternalStateForHuman3 ### ### "); //NOPMD: help developer during developing phase
         System.out.println(dm.generateAllDrop().size()); //NOPMD: help developer during developing phase
         System.out.println(" ### ALL ### "); //NOPMD: help developer during developing phase
         dm.generateAllDrop().forEach(i -> System.out.println(i.getName())); //NOPMD: help developer during developing phase

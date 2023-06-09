@@ -11,6 +11,7 @@ import it.unibo.ruscodc.utils.Pair;
 
 /**
  * Implementation very similar to HeroImpl, but specific for testing ComplexCommands.
+ * Credits: Pesaresi Jacopo
  */
 public final class HeroImplTest extends HeroImpl {
 
