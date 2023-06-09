@@ -15,11 +15,9 @@ import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
 import it.unibo.ruscodc.view.FXMLMainView;
 import it.unibo.ruscodc.view.GameView;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 /**
  * Class GameControllerImpl.
@@ -29,26 +27,13 @@ import java.util.function.Supplier;
  */
 public class GameControllerImpl implements GameObserverController {
 
-    private static final Supplier<String> STANDARD_NAME = () -> {
-        final var t = ZonedDateTime.now();
-        return "Game_of_"
-                + t.getYear() + "_"
-                + t.getMonth() + "_"
-                + t.getDayOfMonth() + "___"
-                + t.getHour() + "_"
-                + t.getMinute() + "_"
-                + t.getSecond();
-    };
-
-    private String actualGameName;
-
     private final List<Actor> initiative = new ArrayList<>();
     private Optional<GameCommand> playerSituation = Optional.empty();
     private final GameView view;
     private GameModel model;
     private boolean automaticSave;
 
-    private boolean isPrintingInv; // = false;
+    private boolean isPrintingInv; 
 
     /**
      * Create the controller of the game.
@@ -78,12 +63,7 @@ public class GameControllerImpl implements GameObserverController {
     /** {@inheritDoc} */
     @Override
     public void initNewGame(final String filename) {
-        String tmp = filename;
         playerSituation = Optional.empty();
-        if (tmp.isEmpty()) {
-            tmp = STANDARD_NAME.get();
-        }
-        this.actualGameName = tmp;
         this.initiative.clear();
         this.model = new GameModelImpl();
         updateRuscoInfo();
@@ -92,20 +72,8 @@ public class GameControllerImpl implements GameObserverController {
 
     @Override
     public void loadGame(final String fileName) {
-        // try {
-        //     this.model = saveManager.loadGame(fileName);
-        //     this.actualGameName = fileName;
-        //     final InfoPayload err = new InfoPayloadImpl(
-        //             "Game loaded with successfull",
-        //             "Continue yout adventure!");
-        //     this.view.printInfo(err);
-        //     refresh();
-        // } catch (Exception e) {
-        //     final InfoPayload err = new InfoPayloadImpl(
-        //             "Error during loading of the file",
-        //             "Maybe you missed the correct file?");
-        //     this.view.printInfo(err);
-        // }
+        // NOT DONE IN THIS RELEASE
+        // THIS FUNCION WILL BE UPLOADED FURTHER
     }
 
     /** {@inheritDoc} */
@@ -117,27 +85,14 @@ public class GameControllerImpl implements GameObserverController {
     /** {@inheritDoc} */
     @Override
     public void save() {
-        // try {
-        //     this.saveManager.saveGame(actualGameName, model);
-        //     final InfoPayload err = new InfoPayloadImpl(
-        //             "Game saved with successfull",
-        //             "Continue yout adventure!");
-        //     this.view.printInfo(err);
-        // } catch (Exception e) {
-        //     final InfoPayload err = new InfoPayloadImpl(
-        //             "Error during saving of the file",
-        //             "Maybe your memory is full?");
-        //     e.printStackTrace();
-        //     this.view.printInfo(err);
-        // }
+        // NOT DONE IN THIS RELEASE
+        // THIS FUNCION WILL BE UPLOADED FURTHER
     }
 
     /** {@inheritDoc} */
     @Override
     public void changeAutomaticSave() {
         automaticSave = !automaticSave;
-        System.out.println("Automatic save: " + automaticSave);
-        System.out.println(this.actualGameName);
     }
 
     /**
@@ -190,14 +145,9 @@ public class GameControllerImpl implements GameObserverController {
 
     private boolean executeCommand(final GameCommand toExec) {
         final boolean ready = toExec.isReady();
-        // if (this.model.isGameOver()) {
-        //     view.printGameOver();
-        // }
 
-        System.out.println(" ### " + ready);
         if (ready) {
             try {
-                //Pair<Integer, Integer> oldActor = initiative.get(0).getPos();
                 final Optional<InfoPayload> tmp = toExec.execute();
 
                 if (tmp.isPresent()) {
@@ -211,7 +161,6 @@ public class GameControllerImpl implements GameObserverController {
                     flushView();
                 }
                 isPrintingInv = false;
-                //view.closeInventory();
 
             } catch (ChangeFloorException f) {
                 changeFloor();
@@ -246,7 +195,6 @@ public class GameControllerImpl implements GameObserverController {
         if (initiative.get(0) instanceof Hero) {
             final Hero tmpActor = (Hero) initiative.get(0);
             final GameCommand tmpCommand;
-            //Pair<Integer, Integer> cod = tmpActor.getPos();
 
             if (playerSituation.isPresent()) {
                 tmpCommand = playerSituation.get();
@@ -271,9 +219,6 @@ public class GameControllerImpl implements GameObserverController {
 
                 if (tmpCommand.isReady()) {
                     executeCommand(tmpCommand);
-                    //if (isPrintingInv) {
-                    //playerSituation = Optional.of(tmpCommand);
-                    //}
                 } else {
                     playerSituation = Optional.of(tmpCommand);
                     printCommand();
@@ -315,11 +260,7 @@ public class GameControllerImpl implements GameObserverController {
             tmpMonster = (Monster) initiative.get(0);
             if (tmpMonster.isAlive()) {
                 executeCommand(tmpMonster.behave(model.getCurrentRoom(), this.getHeros()));
-                System.out.println("A " + initiative.size());
-                //initiative.remove(0);
-                //System.out.println("B " + initiative.size());
                 flushView();
-                System.out.println("C " + initiative.size());
             } else {
                 initiative.remove(0);
                 this.model.eliminateMonster(tmpMonster);
