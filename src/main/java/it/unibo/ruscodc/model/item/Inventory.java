@@ -47,7 +47,7 @@ public interface Inventory {
     boolean isEmpty();
 
     /**
-     * @return if a Equipement Slot is occupied by something
+     * @return the number of Inventory slot occupied
      */
     int slotOccupied();
 
