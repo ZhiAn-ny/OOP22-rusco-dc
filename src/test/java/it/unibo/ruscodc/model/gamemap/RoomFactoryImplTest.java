@@ -43,14 +43,15 @@ class RoomFactoryImplTest {
      */
     @Test
     void testRandomRoomWithTraps() {
-        final Room room = this.roomFactory.randomRoomWithTraps();
+        final int tries = 100;
+        for (int i = 0; i < tries; i++) {
+            final Room room = this.roomFactory.randomRoomWithTraps();
 
-        assertFalse(room.getObjectsInRoom().isEmpty());
-        assertTrue(room.getMonsters().isEmpty());
-        assertTrue(room.getSize().getX() >= 3);
-        assertTrue(room.getSize().getY() >= 3);
-        for (int i = 0; i < Direction.values().length; i++) {
-            assertTrue(room.getConnectedRoom(Direction.values()[i]).isEmpty());
+            assertFalse(room.getObjectsInRoom().isEmpty());
+            assertTrue(room.getMonsters().isEmpty());
+            assertTrue(room.getSize().getX() >= 3);
+            assertTrue(room.getSize().getY() >= 3);
+            assertTrue(room.getConnectedRooms().isEmpty());
         }
     }
 
