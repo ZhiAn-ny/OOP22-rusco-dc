@@ -26,7 +26,7 @@ public class OpenInventory extends NoIACommand {
 
     private Hero hero;
     private Inventory inventory;
-    private Optional<InfoPayload> advise;
+    private Optional<InfoPayload> advise = Optional.empty();
     private Pair<Integer, Integer> cursorPos = new Pair<>(0, 0);
     private boolean isReady; // = false;
     private boolean exit; // = false;

@@ -42,7 +42,7 @@ import it.unibo.ruscodc.utils.exception.ModelException;
  * Test class for Commands.
  */
 @TestInstance(Lifecycle.PER_CLASS)
-final class CommandTest {
+final class QuickCommandTest {
 
     private static final int SIZE = 21;
 
@@ -97,7 +97,7 @@ final class CommandTest {
     @Test
     void checkComplexIA() {
         final Actor hero = heroSupp.get();
-        GameCommand toTest = new IAAttack(B_R, B_S, B_ATT);
+        final GameCommand toTest = new IAAttack(B_R, B_S, B_ATT);
         setCommand(toTest, hero);
         assertThrows(UnsupportedOperationException.class, () -> toTest.modify(GameControl.MOVEUP));
     }
@@ -178,5 +178,4 @@ final class CommandTest {
         assertThrows(ChangeFloorException.class, () -> toTest.execute());
     }
 
-    
 }
