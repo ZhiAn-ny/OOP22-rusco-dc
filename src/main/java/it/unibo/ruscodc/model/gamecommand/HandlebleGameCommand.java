@@ -7,7 +7,7 @@ import it.unibo.ruscodc.utils.GameControl;
 
 /**
  * Defines a set of method usefull to manage manually a specific situation
- * With this class the player can manage a specific situation. 
+ * With these the player can manage a specific situation.
  */
 public interface HandlebleGameCommand {
     /**

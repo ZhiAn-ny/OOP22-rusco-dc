@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model.outputinfo;
+package it.unibo.ruscodc.utils.outputinfo;
 
 /**
  * An utility class to prensent to the view a set of information that don't follow a matrix logic.

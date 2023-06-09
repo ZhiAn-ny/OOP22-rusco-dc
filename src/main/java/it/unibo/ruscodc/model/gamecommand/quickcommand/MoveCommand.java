@@ -8,10 +8,10 @@ import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.gamemap.Tile;
 import it.unibo.ruscodc.model.interactable.Interactable;
-import it.unibo.ruscodc.model.outputinfo.InfoPayload;
-import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayloadImpl;
 
 /**
  * Class that check the movement of a specific Actor in a specific Room.
@@ -19,8 +19,7 @@ import it.unibo.ruscodc.utils.exception.ModelException;
  */
 public abstract class MoveCommand extends QuickActionAbs {
 
-    private static final String ERR = "The position ";
-    private static final String ERR2 = " is already occupied or is out of the room";
+    private static final String ERR = "The position is already occupied or is out of the room";
 
     /**
      * Client must not create directly this object.
@@ -38,8 +37,7 @@ public abstract class MoveCommand extends QuickActionAbs {
         final Pair<Integer, Integer> newPos = this.computeNewPos();
         if (where.getMonsters().stream().map(a -> a.getPos()).anyMatch(p -> p.equals(newPos)) 
             || !where.isAccessible(newPos)) {
-            final String err = ERR + newPos.toString() + ERR2;
-            return Optional.of(new InfoPayloadImpl(getErrTitle(), err));
+            return Optional.of(new InfoPayloadImpl(getErrTitle(), ERR));
             //throw new UnreacheblePos(err);
         }
 
@@ -49,13 +47,12 @@ public abstract class MoveCommand extends QuickActionAbs {
         final Optional<Tile> arrivedPos = where.get(newPos);
         if (arrivedPos.isPresent()) {
             final SingleTargetEffect tmp = arrivedPos.get().getEffect();
-            //System.out.println(this.getActor().getStatActual(StatName.HP) + " <--");
             tmp.applyEffect(actActor);
         }
 
-        final Optional<Interactable> possiblePortal = arrivedPos.get().get();
-        if (possiblePortal.isPresent()) {
-            final GameCommand gc = possiblePortal.get().interact();
+        final Optional<Interactable> possibleInnerInteraction = arrivedPos.get().get();
+        if (possibleInnerInteraction.isPresent()) {
+            final GameCommand gc = possibleInnerInteraction.get().interact();
             gc.setActor(actActor);
             gc.setRoom(where);
             return gc.execute();

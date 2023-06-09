@@ -15,7 +15,7 @@ import it.unibo.ruscodc.model.gamemap.Room;
  * 
  * but these two information are unkonwed when the command-object is created.
  * So, to avoid DRY, i'll provide an basic implementation for all game command:
- * a class that implement two one-use setter, that set these two informations
+ * a class that implement two setter, that set these two informations
  */
 public abstract class BasicGameCommand implements GameCommand {
 
@@ -72,7 +72,7 @@ public abstract class BasicGameCommand implements GameCommand {
 
     /**
      * A message error useful for coders that advise the method is not invocable for this object.
-     * (for example, for all QuickCommand objects, method like "modify", method about HandableGameCommand,
+     * (for example, for all QuickCommand objects, method like "modify" (specific of HandableGameCommand interface),
      * is not invocable).
      * @return this message error 
      */

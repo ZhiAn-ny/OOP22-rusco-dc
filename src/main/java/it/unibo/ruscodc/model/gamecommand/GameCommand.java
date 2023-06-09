@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.gamemap.Room;
-import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.exception.ModelException;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
 
 /**
  * Interface for game's command. Defines method that all command must to implement

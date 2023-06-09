@@ -9,10 +9,10 @@ import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.item.Inventory;
 import it.unibo.ruscodc.model.item.InventoryImpl.Slot;
-import it.unibo.ruscodc.model.outputinfo.InfoPayload;
-import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayloadImpl;
 
 /**
  * Implementation of the interface Equipement.

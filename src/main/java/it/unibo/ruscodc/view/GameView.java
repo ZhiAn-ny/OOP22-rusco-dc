@@ -2,9 +2,9 @@ package it.unibo.ruscodc.view;
 
 import it.unibo.ruscodc.controller.GameObserverController;
 import it.unibo.ruscodc.model.Entity;
-import it.unibo.ruscodc.model.outputinfo.InfoPayload;
-import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.utils.Pair;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
+import it.unibo.ruscodc.utils.outputinfo.Portrait;
 
 import java.util.List;
 

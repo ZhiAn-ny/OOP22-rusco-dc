@@ -31,8 +31,6 @@ import it.unibo.ruscodc.model.gamecommand.iacommand.IAAttack;
 import it.unibo.ruscodc.model.gamecommand.playercommand.PlayerAttack;
 import it.unibo.ruscodc.model.gamemap.RectangleRoomImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
-import it.unibo.ruscodc.model.outputinfo.InfoPayload;
-import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.model.range.Range;
 import it.unibo.ruscodc.model.range.SingleRange;
 import it.unibo.ruscodc.model.range.SingleSplash;
@@ -42,6 +40,8 @@ import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.utils.exception.Undo;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayloadImpl;
 
 @TestInstance(Lifecycle.PER_CLASS)
 class ComplexCommandTest {

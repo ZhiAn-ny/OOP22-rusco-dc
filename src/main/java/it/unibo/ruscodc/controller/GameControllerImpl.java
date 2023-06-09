@@ -7,11 +7,11 @@ import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.hero.Hero;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
-import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.exception.ChangeFloorException;
 import it.unibo.ruscodc.utils.exception.ChangeRoomException;
 import it.unibo.ruscodc.utils.exception.ModelException;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
 import it.unibo.ruscodc.view.FXMLMainView;
 import it.unibo.ruscodc.view.GameView;
 

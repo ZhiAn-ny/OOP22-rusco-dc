@@ -9,8 +9,6 @@ import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamecommand.GameCommand;
 import it.unibo.ruscodc.model.gamemap.Tile;
 import it.unibo.ruscodc.model.interactable.Interactable;
-import it.unibo.ruscodc.model.outputinfo.InfoPayload;
-import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
 import it.unibo.ruscodc.model.range.Range;
 import it.unibo.ruscodc.model.range.SingleRange;
 import it.unibo.ruscodc.model.range.SquareInteraction;
@@ -18,6 +16,8 @@ import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.utils.exception.Undo;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayloadImpl;
 
 /**
  * Command that mange some type of interaction beetween player and things in a room.

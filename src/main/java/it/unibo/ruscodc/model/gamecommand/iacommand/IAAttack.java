@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.effect.Effect;
-import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.model.range.Range;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.exception.ModelException;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
 
 /**
  * Class that wrap an IA attack (so an attack that game can manage and use, for example, for mobs).

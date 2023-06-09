@@ -1,8 +1,8 @@
 package it.unibo.ruscodc.model.item.consumable;
 
 import it.unibo.ruscodc.model.effect.SingleTargetEffect;
-import it.unibo.ruscodc.model.outputinfo.InfoPayload;
-import it.unibo.ruscodc.model.outputinfo.InfoPayloadImpl;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayloadImpl;
 
 /**
  * Implementation of the Consumable interface.

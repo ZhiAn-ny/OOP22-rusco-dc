@@ -5,11 +5,11 @@ import java.util.Optional;
 import it.unibo.ruscodc.model.actors.stat.StatImpl.StatName;
 import it.unibo.ruscodc.model.effect.SingleTargetEffect;
 import it.unibo.ruscodc.model.item.consumable.Consumable;
-import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.exception.ModelException;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
 
 /**
- * Class that wrap other type of QuickAction action, tipically wrapped into Effect interface.
+ * Class that wrap the execution of simply effects.
  */
 public class SelfEffect extends QuickActionAbs {
 
@@ -18,7 +18,7 @@ public class SelfEffect extends QuickActionAbs {
 
     /**
      * Create this type of object.
-     * @param toUse the Effect that who invoke this command deside to activate on itself
+     * @param toUse the SingleTargetEffect that who invoke this command deside to activate on itself
      * @param costAP the eventually cost of this action
      */
     public SelfEffect(final SingleTargetEffect toUse, final int costAP) {

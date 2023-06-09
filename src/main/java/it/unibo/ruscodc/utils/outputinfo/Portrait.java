@@ -1,4 +1,4 @@
-package it.unibo.ruscodc.model.outputinfo;
+package it.unibo.ruscodc.utils.outputinfo;
 
 import it.unibo.ruscodc.model.Entity;
 

@@ -10,12 +10,12 @@ import it.unibo.ruscodc.model.item.Inventory;
 import it.unibo.ruscodc.model.item.Item;
 import it.unibo.ruscodc.model.item.consumable.Consumable;
 import it.unibo.ruscodc.model.item.equipement.Equipement;
-import it.unibo.ruscodc.model.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
 import it.unibo.ruscodc.utils.exception.ModelException;
 import it.unibo.ruscodc.utils.exception.Undo;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
 
 /**
  * Command that manage the interaction beetween player and the inventory of a hero.

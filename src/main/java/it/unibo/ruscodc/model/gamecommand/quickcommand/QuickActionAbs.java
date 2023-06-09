@@ -10,7 +10,7 @@ import it.unibo.ruscodc.utils.Pair;
 
 /**
  * This abstract class defines that all the other class that extend this class will wrap an
- * action that tipically can do without any type of control (neither by player or IA).
+ * action that tipically can execute without any type of other controls (neither by player or IA).
  * So logically the wrapped command can be executed
  */
 public abstract class QuickActionAbs extends BasicGameCommand  {

@@ -14,12 +14,12 @@ import it.unibo.ruscodc.model.gamemap.Floor;
 import it.unibo.ruscodc.model.gamemap.FloorImpl;
 import it.unibo.ruscodc.model.gamemap.Room;
 import it.unibo.ruscodc.model.interactable.Interactable;
-import it.unibo.ruscodc.model.outputinfo.Portrait;
-import it.unibo.ruscodc.model.outputinfo.PortraitImpl;
 import it.unibo.ruscodc.utils.Direction;
 import it.unibo.ruscodc.utils.GameControl;
 import it.unibo.ruscodc.utils.Pair;
 import it.unibo.ruscodc.utils.Pairs;
+import it.unibo.ruscodc.utils.outputinfo.Portrait;
+import it.unibo.ruscodc.utils.outputinfo.PortraitImpl;
 
 import java.util.ArrayList;
 import java.util.Comparator;

@@ -1,6 +1,6 @@
 package it.unibo.ruscodc.model.item;
 
-import it.unibo.ruscodc.model.outputinfo.InfoPayload;
+import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
 
 /**
  * Interface for the Items of the game.

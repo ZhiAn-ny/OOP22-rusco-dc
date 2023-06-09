@@ -1,8 +1,8 @@
 package it.unibo.ruscodc.view;
 
 import it.unibo.ruscodc.model.Entity;
-import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.utils.Pair;
+import it.unibo.ruscodc.utils.outputinfo.Portrait;
 import javafx.animation.AnimationTimer;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;

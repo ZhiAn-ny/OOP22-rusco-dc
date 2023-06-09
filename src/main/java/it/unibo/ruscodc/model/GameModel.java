@@ -3,8 +3,8 @@ package it.unibo.ruscodc.model;
 import it.unibo.ruscodc.model.actors.Actor;
 import it.unibo.ruscodc.model.actors.monster.Monster;
 import it.unibo.ruscodc.model.gamemap.Room;
-import it.unibo.ruscodc.model.outputinfo.Portrait;
 import it.unibo.ruscodc.utils.Pair;
+import it.unibo.ruscodc.utils.outputinfo.Portrait;
 
 import java.util.List;
 
