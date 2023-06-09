@@ -10,7 +10,7 @@ public abstract class ComplexActionAbs extends BasicGameCommand {
      */
     @Override
     public boolean isReady() {
-        return true;
+        return false;
     }
 
 }

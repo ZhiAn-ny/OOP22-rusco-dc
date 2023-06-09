@@ -20,8 +20,8 @@ public abstract class NoIACommand extends ComplexActionAbs {
 
     private static final String CURSOR_PATH = "it/unibo/ruscodc/range_res/cursor";
     private static final int CURSOR_DEPTH = 6;
-    private boolean isReady; // = false;
-    private boolean undo; // = false;
+    private boolean isReady;
+    private boolean undo;
     private Pair<Integer, Integer> cursorPos;
 
 
@@ -82,7 +82,6 @@ public abstract class NoIACommand extends ComplexActionAbs {
     }
 
     private boolean commonMoveCursor(final Pair<Integer, Integer> newPos) {
-        //System.out.println(newPos);
         if (this.getRoom().isInRoom(newPos)) {
             this.cursorPos = newPos;
             return true;

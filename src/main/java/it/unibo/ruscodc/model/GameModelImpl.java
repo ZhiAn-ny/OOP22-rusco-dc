@@ -48,10 +48,6 @@ public class GameModelImpl implements GameModel {
         this.hero = new HeroImpl("Rusco", this.initialPosition, skills, stats);
     }
 
-    private List<Actor> getParty() {
-        return List.of(hero);
-    }
-
     /**
      * 
      */
@@ -63,28 +59,6 @@ public class GameModelImpl implements GameModel {
         list.addAll(monsters);
         list.sort(Comparator.comparingInt(a -> a.getStatActual(StatName.DEX)));
         return list;
-    }
-
-    /**
-     * This method say if the tile is accessible.
-     * @return information of specific tile
-     */
-    @Override
-    public List<Entity> getTile() {
-        return this.floor.getCurrentRoom().getTilesAsEntity();
-    }
-
-    /**
-     *
-     * @param toGet
-     * @return a list with the info of the entity.
-     */
-    @Override
-    public List<Entity> getInfo(final Entity toGet) {
-        if (toGet instanceof Hero) {
-            return getParty().stream().map(a -> (Entity) a).toList();
-        }
-        return List.of();
     }
 
     /**

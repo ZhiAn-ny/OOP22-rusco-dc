@@ -20,19 +20,6 @@ public interface GameModel {
     List<Actor> getActorByInitative();
 
     /**
-     *
-     * @return the current tile.
-     */
-    List<Entity> getTile();
-
-    /**
-     *
-     * @param toGet for kown his info.
-     * @return the info of specific entity.
-     */
-    List<Entity> getInfo(Entity toGet);
-
-    /**
      * Get the current room, where there are all entity drawed on view.
      * @return the current room.
      */

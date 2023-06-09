@@ -1,7 +1,6 @@
 package it.unibo.ruscodc.model.gamecommand.playercommand;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -132,8 +131,6 @@ public class PlayerAttack extends NoIACommand {
             toPrint.addAll(this.getRange());
             isFirstTime = false;
         }
-        final int min = toPrint.stream().min(Comparator.comparingInt(e -> e.getID())).get().getID();
-        System.out.println("JP : " + min);
         return toPrint;
     }
 
@@ -174,8 +171,6 @@ public class PlayerAttack extends NoIACommand {
             return Optional.of(new InfoPayloadImpl(getErrTitle(), R_ERR));
         }
 
-        System.out.println("\n\n\n" + from.getStatActual(StatName.AP) + "\n\n\n");
-
         if (from.getStatActual(StatName.AP) < actionToPerform.getEffectAPcost()) {
             return Optional.of(new InfoPayloadImpl(getErrTitle(), AP_ERR));
         }
@@ -186,9 +181,7 @@ public class PlayerAttack extends NoIACommand {
             .filter(m -> splash.isInRange(tmp, from.getPos(), m.getPos(), this.getRoom()))
             .collect(Collectors.toSet());
 
-        targets.forEach(m -> System.out.println("LM: P " + m.getStatActual(StatName.HP)));
         targets.forEach(m -> actionToPerform.applyEffect(from, m));
-        targets.forEach(m -> System.out.println("LM: D " + m.getStatActual(StatName.HP)));
 
         final Random dice = new Random();
         final List<Actor> deadMonsters = targets.stream().filter(m -> !(m.isAlive())).collect(Collectors.toList());

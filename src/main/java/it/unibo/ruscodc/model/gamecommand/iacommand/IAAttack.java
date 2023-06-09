@@ -40,10 +40,15 @@ public class IAAttack extends NoPlayerCommand {
      * 
      */
     @Override
+    public boolean isReady() {
+        return true;
+    }
+
+    /**
+     * 
+     */
+    @Override
     public boolean isTargetInRange(final Actor target) {
-        //System.out.println("$$$ " + this.getActor().getName());
-        System.out.print(" @ " 
-            + this.range.isInRange(this.getActor().getPos(), target.getPos(), target.getPos(), this.getRoom()));
         return this.range.isInRange(this.getActor().getPos(), target.getPos(), target.getPos(), this.getRoom());
     }
 
@@ -85,13 +90,9 @@ public class IAAttack extends NoPlayerCommand {
         final Set<Actor> effectiveTargets = this.targets.stream()
             .filter(a -> splash.isInRange(cursor, from.getPos(), a.getPos(), this.getRoom()))
             .collect(Collectors.toSet());
-        System.out.println("##########################");
-        effectiveTargets.forEach(t -> System.out.println(t.getName() + " " + t.getPos()));
-        System.out.println("##########################");
+
         effectiveTargets.remove(from);
-        System.out.println(effectiveTargets);
         effectiveTargets.forEach(a -> actionToPerform.applyEffect(from, a));
-        //targets.forEach(m -> System.out.println("LM: D " + m.getStatActual(StatName.HP)));
         return Optional.empty();
     }
 

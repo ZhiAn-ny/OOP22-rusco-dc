@@ -21,7 +21,7 @@ public abstract class DecoratedRange implements Range {
 
     private final Set<Pair<Integer, Integer>> effectiveShape = new HashSet<>();
     private Pair<Integer, Integer> lastBy;
-    //private Pair<Integer, Integer> lastTo;
+    private Pair<Integer, Integer> lastTo;
 
     /**
      * Save the last decorated Range.
@@ -41,12 +41,12 @@ public abstract class DecoratedRange implements Range {
     }
 
     private void checkIfCommute(final Pair<Integer, Integer> by, final Pair<Integer, Integer> to, final Room where) {
-        //if (!to.equals(lastTo) || !by.equals(lastBy)) {
-        if (!by.equals(lastBy)) {
+        if (!to.equals(lastTo) || !by.equals(lastBy)) {
+        //if (!by.equals(lastBy)) {
             this.commute(by, to, where);
         }
         lastBy = by;
-        //lastTo = to;
+        lastTo = to;
     }
 
     /**

@@ -28,9 +28,9 @@ public class OpenInventory extends NoIACommand {
     private Inventory inventory;
     private Optional<InfoPayload> advise = Optional.empty();
     private Pair<Integer, Integer> cursorPos = new Pair<>(0, 0);
-    private boolean isReady; // = false;
-    private boolean exit; // = false;
-    private boolean isInit; // = false;
+    private boolean isReady;
+    private boolean exit;
+    private boolean isInit;
 
     private int byPtoI(final Pair<Integer, Integer> toConvert) {
         return toConvert.getY() * COLS + toConvert.getX();
@@ -154,7 +154,6 @@ public class OpenInventory extends NoIACommand {
             default:
                 mustUpdate = false;
         }
-        System.out.println("AM: " + cursorPos + " / " + this.inventory.slotOccupied());
         return mustUpdate;
     }
 
@@ -244,7 +243,6 @@ public class OpenInventory extends NoIACommand {
      */
     @Override
     public boolean isReady() {
-        System.out.println("oooo" + isInit);
         if (!isInit) {
             this.hero = (Hero) this.getActor();
             this.inventory = hero.getInventory();

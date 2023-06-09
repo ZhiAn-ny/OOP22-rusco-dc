@@ -118,13 +118,11 @@ public class Interact extends NoIACommand {
 
         final Optional<Tile> selected = this.getRoom().get(tmpCursor);
         if (selected.isEmpty()) {
-            //super.reset();
             return Optional.of(new InfoPayloadImpl(T_ERR, ERR_NOT_EX));
         }
 
         final Optional<Interactable> interac = selected.get().get();
         if (interac.isEmpty()) {
-            //super.reset();
             return Optional.of(new InfoPayloadImpl(T_ERR, NOTHING_TO_INT));
         }
 

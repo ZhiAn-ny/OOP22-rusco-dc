@@ -44,7 +44,7 @@ import it.unibo.ruscodc.utils.outputinfo.InfoPayload;
 import it.unibo.ruscodc.utils.outputinfo.InfoPayloadImpl;
 
 /**
- * Credits: Pesaresi Jacopo
+ * Credits: Pesaresi Jacopo.
  */
 @TestInstance(Lifecycle.PER_CLASS)
 class ComplexCommandTest {
