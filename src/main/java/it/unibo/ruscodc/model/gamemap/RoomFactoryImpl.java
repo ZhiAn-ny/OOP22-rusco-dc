@@ -54,6 +54,15 @@ public class RoomFactoryImpl implements RoomFactory {
                 final Tile newTile = tf.createRandomFloorTile(tile.getPos().getX(), tile.getPos().getY());
                 base.replaceTile(tile.getPos(), newTile);
             });
+        if (base.getObjectsInRoom().isEmpty()) {
+            base.getTilesAsEntity().stream()
+                    .filter(tile -> tile instanceof FloorTileImpl)
+                    .findAny()
+                    .ifPresent(tile -> base.replaceTile(
+                            tile.getPos(),
+                            tf.createRandomFloorTrap(tile.getPos().getX(), tile.getPos().getY())
+                    ));
+        }
 
         return base;
     }
