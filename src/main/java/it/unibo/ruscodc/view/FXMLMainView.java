@@ -38,7 +38,6 @@ public class FXMLMainView extends Application implements GameView {
     private static final String ICONPATH = "file:src/main/resources/it/unibo/ruscodc/view/racoon.png";
     private static final String TITLE = "Rusco DC";
     private static final double ASPECT_RATIO = 3 / 4.;
-    //private static final double MIN_WIDTH_SCALE = 0.4;
     private static final double MIN_WIDTH = 800;
     private static final double MIN_HEIGHT = 600;
     private GameObserverController controller;
@@ -177,8 +176,6 @@ public class FXMLMainView extends Application implements GameView {
         this.gameView = (GameViewController) fxmlLoader.getController();
         this.gameView.init(this);
         this.handleUserInputs(scene);
-        //this.gameView.updateEntities(this.printedEntity);
-        //this.gameView.update();
         this.gameView.clearInfoPalyodToScreen();
         return scene;
     }
@@ -211,7 +208,6 @@ public class FXMLMainView extends Application implements GameView {
                 gameView.clearInfoPalyodToScreen();
                 isPrintingInfo = false;
             } else {
-                System.out.println(key.getText() + " " + this.getInput(key));
                 this.controller.computeInput(this.getInput(key));
             }
         });

@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -22,8 +21,6 @@ public class GameOverController implements Initializable {
     private static final String WIN = "GAME WIN";
     private static final int TITLE_SIZE = 30;
 
-    @FXML
-    private Button menu;
 
     @FXML
     private Label titleOver;

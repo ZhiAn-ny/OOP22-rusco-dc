@@ -3,7 +3,6 @@ package it.unibo.ruscodc.view;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -18,8 +17,6 @@ import java.util.ResourceBundle;
 public class MainMenuController implements Initializable {
 
     private FXMLMainView mainView;
-    @FXML
-    private Button nuovaPartita;
 
     private static final int SPACE = 20;
 

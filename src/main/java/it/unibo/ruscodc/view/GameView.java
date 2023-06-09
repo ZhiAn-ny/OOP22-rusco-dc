@@ -31,7 +31,7 @@ public interface GameView {
     void printInfo(InfoPayload toPrint);
 
     /**
-     *
+     * Upload view with the info of a hero information.
      * @param infos
      */
     void uploadPortrait(Portrait infos);

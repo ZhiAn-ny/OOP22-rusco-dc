@@ -85,13 +85,11 @@ public class GameViewController implements Initializable {
     @FXML
     private CheckBox check;
     @FXML
-    private StackPane mainPane;
-    @FXML
     private Button quit;
     private NumberBinding bindings;
 
     /**
-     * Common implementation of the first two fuction below.
+     * Common implementation of the first two function below.
      * @param toUpload where print the info
      * @param infos info to render
      * @param lastRendering where start clean rendered info
@@ -104,7 +102,6 @@ public class GameViewController implements Initializable {
             return;
         }
         toUpload.getChildren().clear();
-        System.out.print("\n\n\n cols:" + toUpload.getColumnCount() + " / rows: " + toUpload.getRowCount() + "\n\n");
 
         isToUpdate = false;
 
@@ -113,16 +110,13 @@ public class GameViewController implements Initializable {
         infos.entrySet()
                 .stream()
                 .sorted(Comparator.comparingInt(level -> level.getKey()))
-                .peek(ll -> System.out.println(ll.getKey()))
                 .forEach(level -> {
                     level.getValue().forEach(e -> {
                         final ImageView image = e.getRes();
                         image.fitWidthProperty().bind(bindings);
                         image.setPreserveRatio(true);
                         final Pair<Integer, Integer> pos = e.getOnScreenPosition();
-                        //System.out.println(pos.getX() + " / " + pos.getY());
                         toUpload.add(new Pane(image), pos.getX(), pos.getY());
-                        System.out.println("Added item at (X,Y) = " + pos.getX() + " / " + pos.getY());
                     });
                 });
     }
@@ -160,8 +154,8 @@ public class GameViewController implements Initializable {
     }
 
     /**
-     * Help define the effective size of the grid, in funcion of the dimension of the schreen.
-     * @return the "binding" funcion.
+     * Help define the effective size of the grid, in function of the dimension of the screen.
+     * @return the "binding" function.
      */
     private NumberBinding getBindingFunction() {
         final int maxDimension = Math.max(this.cols, this.rows);
