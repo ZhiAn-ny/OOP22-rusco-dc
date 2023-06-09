@@ -25,7 +25,6 @@ public class DropManagerImpl implements DropManager {
      */
     public DropManagerImpl(final List<Item> extractedDrop) {
         this.extractedDrop = Collections.unmodifiableList(extractedDrop);
-        //this.extractedDrop.addAll(extractedDrop);
     }
 
     /**
@@ -39,7 +38,6 @@ public class DropManagerImpl implements DropManager {
     private List<Item> randomPicks(final List<Item> box) {
         final int dropSize = box.size();
         final int amountToDrop = (int) Math.round(DICE.nextDouble() * dropSize);
-        //System.out.println(amountToDrop);
         return Stream.generate(() -> DICE.nextInt(dropSize))
             .limit(amountToDrop)
             .map(index -> extractedDrop.get(index))

@@ -25,7 +25,7 @@ import it.unibo.ruscodc.utils.Pair;
  */
 public class DropFactoryImpl implements DropFactory {
 
-    private static final Random DICE = new Random(); //123456789 - if I need a seed I'll use this number
+    private static final Random DICE = new Random();
     private static final double RICH_COEFF = 1.5;
     private static final double POOR_COEFF = 0.5;
     private static final double GOLDEN_RATIO = (Math.sqrt(5) + 1) / 2;
